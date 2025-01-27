@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dkyhs6sd6eroy"]
+
+[ext_resource type="Shader" path="res://addons/Ursula/Shaders/Lava.gdshader" id="1_vihi5"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_vihi5")
+shader_parameter/water_color = Color(0.72, 0, 0.0600001, 1)
+shader_parameter/force = 0.2
+shader_parameter/speed = 0.3
+shader_parameter/metalness = 0.0
+shader_parameter/specular = 0.5
+shader_parameter/roughness = 0.2
+shader_parameter/alpha = 1.0
