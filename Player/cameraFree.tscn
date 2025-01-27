@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://uu0lfgdeox06"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/CameraController.cs" id="1_gri1u"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/CreateItems.cs" id="2_xia70"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_17uma"]
+height = 1.11758
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ateuq"]
+
+[node name="Camera3DFree" type="Camera3D" node_paths=PackedStringArray("_camera")]
+cull_mask = 524287
+script = ExtResource("1_gri1u")
+_camera = NodePath(".")
+
+[node name="RayCast3D" type="RayCast3D" parent="." node_paths=PackedStringArray("_camera")]
+target_position = Vector3(0, 0, -10)
+script = ExtResource("2_xia70")
+_camera = NodePath("..")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+visible = false
+collision_layer = 8912899
+collision_mask = 8912899
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+visible = false
+shape = SubResource("CapsuleShape3D_17uma")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+visible = false
+collision_layer = 8912899
+collision_mask = 8912899
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+visible = false
+shape = SubResource("CapsuleShape3D_ateuq")
