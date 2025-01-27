@@ -1,0 +1,176 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwi8q4jwd05pc"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/ContextMenu.cs" id="1_7kyhn"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lb5ll"]
+line_spacing = -5.0
+font_size = 14
+font_color = Color(0, 0, 0, 1)
+
+[node name="ContextMenu" type="Control"]
+process_priority = -100
+process_physics_priority = -100
+auto_translate_mode = 2
+z_index = -1
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_force_pass_scroll_events = false
+script = ExtResource("1_7kyhn")
+
+[node name="GMLActions" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -105.5
+offset_top = -37.0
+offset_right = 105.5
+offset_bottom = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Load" type="Button" parent="GMLActions"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -94.5
+offset_top = 4.0
+offset_right = 97.5
+offset_bottom = 35.0
+grow_horizontal = 2
+text = "Загрузить алгоритм"
+
+[node name="Reload" type="Button" parent="GMLActions"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -95.5
+offset_top = 38.0
+offset_right = 97.5
+offset_bottom = 69.0
+grow_horizontal = 2
+text = "Перезапуск алгоритма"
+
+[node name="ModelActions" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -105.5
+offset_top = 41.14
+offset_right = 105.5
+offset_bottom = 82.14
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SetModel" type="Button" parent="ModelActions"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -94.5
+offset_top = 4.0
+offset_right = 97.5
+offset_bottom = 35.0
+grow_horizontal = 2
+text = "Установить 3д модель"
+
+[node name="SoundActions" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -105.5
+offset_top = 86.14
+offset_right = 105.5
+offset_bottom = 127.14
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoadSound" type="Button" parent="SoundActions"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -94.5
+offset_top = 4.0
+offset_right = 97.5
+offset_bottom = 35.0
+grow_horizontal = 2
+text = "Загрузить звук"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+auto_translate_mode = 1
+title = "Open a File"
+initial_position = 1
+size = Vector2i(563, 380)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="Control" type="Control" parent="FileDialog"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -273.5
+offset_top = -182.0
+offset_right = 273.5
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AccessCheckButton" type="CheckButton" parent="FileDialog/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -264.0
+offset_top = 34.78
+offset_bottom = 65.78
+grow_horizontal = 0
+size_flags_vertical = 8
+button_pressed = true
+text = "Проект/Файловая система"
+alignment = 2
+
+[node name="MessageLabel" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -840.0
+offset_top = -412.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Текст
+1"
+label_settings = SubResource("LabelSettings_lb5ll")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[connection signal="pressed" from="GMLActions/Load" to="." method="LoadAlgorithm"]
+[connection signal="pressed" from="GMLActions/Reload" to="." method="RestartAlgorithm"]
+[connection signal="pressed" from="ModelActions/SetModel" to="." method="SetModel"]
+[connection signal="pressed" from="SoundActions/LoadSound" to="." method="SetModel"]
