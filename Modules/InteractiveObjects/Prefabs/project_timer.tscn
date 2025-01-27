@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dn1jem1nnefln"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/ProjectTimer.cs" id="1_av68q"]
+
+[node name="ProjectTimer" type="Node"]
+script = ExtResource("1_av68q")
