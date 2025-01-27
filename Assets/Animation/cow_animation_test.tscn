@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxfkmgkd68lyf"]
+
+[ext_resource type="PackedScene" uid="uid://dis42p6uqtpey" path="res://addons/Ursula/Assets/Animation/cow_animation_test.fbx" id="1_3bx63"]
+
+[node name="cow_animation_test" instance=ExtResource("1_3bx63")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/1/rotation = Quaternion(0.998916, 0.00123211, -0.00122906, 0.0465219)
+bones/2/rotation = Quaternion(0.000336873, 0.516425, 0.856331, -0.00170698)
+bones/3/rotation = Quaternion(-0.000376962, 0.816799, 0.57692, -0.00169875)
+bones/4/rotation = Quaternion(0.0465188, 0.00122971, 0.00123219, 0.998916)
+bones/5/rotation = Quaternion(-0.000833237, 0.476794, 0.878998, -0.00551637)
+bones/6/rotation = Quaternion(-0.000518246, 0.999995, 0.00299903, 2.22812e-05)
+bones/7/rotation = Quaternion(-0.000287074, 0.785478, 0.618887, -0.0017158)
+bones/8/rotation = Quaternion(0.000331784, 0.518976, 0.854787, -0.00170798)
+
+[node name="AnimationPlayer" parent="." index="1"]
+autoplay = "Armature|cow_eating"
