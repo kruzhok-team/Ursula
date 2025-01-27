@@ -1,0 +1,31 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://n5amgnjxr8ti"]
+
+[ext_resource type="Shader" path="res://addons/Ursula/Shaders/TerrainBlend.gdshader" id="1_dfjjk"]
+[ext_resource type="Texture2D" uid="uid://dci21pwbltqr" path="res://addons/Ursula/Assets/Textures/Terrain/Grass3.png" id="2_uw5p0"]
+[ext_resource type="Texture2D" uid="uid://bel13s3yttj4y" path="res://addons/Ursula/Assets/Textures/Terrain/Snow.png" id="2_x5584"]
+[ext_resource type="Texture2D" uid="uid://blj1wpjqyyvbu" path="res://addons/Ursula/Assets/Textures/Terrain/5 (2).png" id="3_owwxt"]
+[ext_resource type="Texture2D" uid="uid://cxsweia7q41l1" path="res://addons/Ursula/Assets/Textures/Terrain/Lava.png" id="4_v5apq"]
+[ext_resource type="Texture2D" uid="uid://dqlcduqx2osq" path="res://addons/Ursula/Assets/Textures/Terrain/Stone2.png" id="6_e8u8i"]
+[ext_resource type="Texture2D" uid="uid://dul1mriupka8w" path="res://addons/Ursula/Assets/Textures/Terrain/Sand.png" id="6_hk7ev"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_dfjjk")
+shader_parameter/heightSnow = 25.0
+shader_parameter/heightRocks = 16.552
+shader_parameter/heightGrassMax = 12.0
+shader_parameter/heightGrassMin = 8.97001
+shader_parameter/heightGroundMax = 5.0
+shader_parameter/heightGroundMin = 6.95601
+shader_parameter/heightSand = 2.0
+shader_parameter/heightLava = -30.0
+shader_parameter/tiling = 1.0
+shader_parameter/light_color = Vector4(100, 100, 100, 100)
+shader_parameter/light_direction = Vector3(0, -1, 0)
+shader_parameter/ambient_strength = null
+shader_parameter/_SnowTex = ExtResource("2_x5584")
+shader_parameter/_RocksTex = ExtResource("6_e8u8i")
+shader_parameter/_GrassTex = ExtResource("2_uw5p0")
+shader_parameter/_GroundTex = ExtResource("3_owwxt")
+shader_parameter/_SandTex = ExtResource("6_hk7ev")
+shader_parameter/_LavaTex = ExtResource("4_v5apq")
