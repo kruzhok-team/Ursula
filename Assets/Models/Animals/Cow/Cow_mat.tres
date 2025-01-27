@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dpdk03otgmwvu"]
+
+[ext_resource type="Texture2D" uid="uid://dnxb2v1s8ylkd" path="res://addons/Ursula/Assets/Models/Animals/Cow/tex/cow texture.png" id="1_14xih"]
+
+[resource]
+albedo_texture = ExtResource("1_14xih")
