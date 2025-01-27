@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://duxo3xtm5io1k"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObjectMove.cs" id="1_rccif"]
+
+[node name="InteractiveObjectMove" type="Node3D"]
+script = ExtResource("1_rccif")
