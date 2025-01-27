@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://fu7wl56n0ecn"]
+
+[ext_resource type="Shader" path="res://addons/Ursula/Shaders/Triplanar.gdshader" id="1_ew5pt"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ew5pt")
+shader_parameter/center_slope = 0.05
+shader_parameter/bottom_slope = 0.1
+shader_parameter/use_world_normal = true
+shader_parameter/uv_top_blend_sharpness = 1.0
+shader_parameter/uv_top_scale = Vector3(1, 1, 1)
+shader_parameter/uv_top_offset = Vector3(0, 0, 0)
+shader_parameter/uv_center_blend_sharpness = 1.0
+shader_parameter/uv_center_scale = Vector3(1, 1, 1)
+shader_parameter/uv_center_offset = Vector3(0, 0, 0)
+shader_parameter/uv_bottom_blend_sharpness = 1.0
+shader_parameter/uv_bottom_scale = Vector3(1, 1, 1)
+shader_parameter/uv_bottom_offset = Vector3(0, 0, 0)
