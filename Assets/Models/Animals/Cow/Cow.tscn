@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://btg8h88rp7fyt"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/MoveScript.cs" id="1_ngxbb"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_re8n5"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="4_7kfs6"]
+[ext_resource type="PackedScene" uid="uid://cqv2622g5153r" path="res://addons/Ursula/Assets/Models/Animals/Cow/cow_anim.tscn" id="7_lrx7v"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ymlvs"]
+radius = 0.47427
+height = 2.00477
+
+[node name="Cow" type="CharacterBody3D" node_paths=PackedStringArray("raycastForward")]
+collision_layer = 3
+slide_on_ceiling = false
+wall_min_slide_angle = 1.39626
+floor_max_angle = 1.39626
+floor_snap_length = 1.0
+platform_floor_layers = 4286578687
+platform_wall_layers = 8388608
+script = ExtResource("1_ngxbb")
+raycastForward = NodePath("RayCast3D")
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("3_re8n5")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+simplify_path = true
+avoidance_enabled = true
+height = 1.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0103147, -0.999947, 0, 0.999947, 0.0103147, -0.00439453, 0.765369, 0.168538)
+shape = SubResource("CapsuleShape3D_ymlvs")
+
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("4_7kfs6")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, 2)
+
+[node name="AnimationObject" parent="." instance=ExtResource("7_lrx7v")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+IdleAnimationName = "cow_standing"
+WalkAnimationName = "cow_walk"
+RunAnimationName = "cow_run"
+JumpAnimationName = "cow_jump"
+EatingAnimationName = "cow_eating"
