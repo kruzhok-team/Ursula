@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1huqsvq5ebhh"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObjectCounter.cs" id="1_j488u"]
+
+[node name="InteractiveObjectCounter" type="Node"]
+script = ExtResource("1_j488u")
