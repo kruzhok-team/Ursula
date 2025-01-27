@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cwhi82msh22nm"]
+
+[ext_resource type="Shader" path="res://addons/Ursula/Shaders/Water.gdshader" id="1_upf23"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_upf23")
+shader_parameter/water_color = Color(0.204576, 0.475446, 1, 1)
+shader_parameter/force = 0.1
+shader_parameter/speed = 0.0
+shader_parameter/metalness = 0.665
+shader_parameter/specular = 0.12
+shader_parameter/roughness = 0.625
+shader_parameter/alpha = 1.0
