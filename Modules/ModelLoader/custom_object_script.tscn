@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://das4po2d0b7wq"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Modules/ModelLoader/CustomObject.cs" id="1_7bswf"]
+
+[node name="CustomObjectScript" type="Node3D"]
+script = ExtResource("1_7bswf")
