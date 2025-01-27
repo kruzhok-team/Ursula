@@ -1,0 +1,2187 @@
+[gd_scene load_steps=41 format=3 uid="uid://dgc042g3ej4rj"]
+
+[ext_resource type="PackedScene" uid="uid://dn1jem1nnefln" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/project_timer.tscn" id="1_wxxnd"]
+[ext_resource type="PackedScene" uid="uid://bhcs2lux4ox5b" path="res://addons/Ursula/Modules/ModelLoader/model_loader.tscn" id="2_ayndh"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/HUD.cs" id="3_lm8x0"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ControlPopupMenu.cs" id="4_8kw1n"]
+[ext_resource type="Texture2D" uid="uid://c7lgipg45d4fq" path="res://addons/Ursula/Assets/Textures/UI/Home.png" id="5_i1qgd"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ContexPopupMenu.cs" id="6_1h5ru"]
+[ext_resource type="Texture2D" uid="uid://dca8xo7fghh2k" path="res://addons/Ursula/Assets/Textures/UI/Arrow.png" id="7_t1j1l"]
+[ext_resource type="Texture2D" uid="uid://cofay0dwbshxr" path="res://addons/Ursula/Assets/Textures/UI/Arrow2.png" id="8_4saec"]
+[ext_resource type="Texture2D" uid="uid://d4nx743hju6dr" path="res://addons/Ursula/Assets/Textures/UI/Mount1.png" id="9_0u5tf"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ControlTabPanel.cs" id="10_6oiyr"]
+[ext_resource type="Texture2D" uid="uid://dci21pwbltqr" path="res://addons/Ursula/Assets/Textures/Terrain/Grass3.png" id="11_bblrs"]
+[ext_resource type="Texture2D" uid="uid://b53nygmwrvxg1" path="res://addons/Ursula/Assets/Textures/UI/Water1.png" id="12_nolav"]
+[ext_resource type="Texture2D" uid="uid://crlcp65gxl7ca" path="res://addons/Ursula/Assets/Textures/UI/Trees1.png" id="13_2jvmc"]
+[ext_resource type="Texture2D" uid="uid://dco1lw7h2g6fe" path="res://addons/Ursula/Assets/Textures/UI/pickaxe.png" id="14_3q1ca"]
+[ext_resource type="PackedScene" uid="uid://bwi8q4jwd05pc" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/context_menu.tscn" id="15_fjimb"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/LogScript.cs" id="16_i08yk"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/MessageBox.cs" id="17_n51xi"]
+[ext_resource type="PackedScene" uid="uid://bwtht1arglbrl" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/alg_control.tscn" id="18_uus1o"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ControlGamesProject.cs" id="19_xgi4p"]
+[ext_resource type="PackedScene" uid="uid://bf4yqi8xraxte" path="res://addons/Ursula/Assets/Prefabs/UI/ImportGameItem.tscn" id="20_aufgm"]
+[ext_resource type="Texture2D" uid="uid://b0wov4nd1e1eo" path="res://addons/Ursula/BackgroundB.png" id="21_ejwl8"]
+[ext_resource type="PackedScene" uid="uid://d4krypfxpyycs" path="res://addons/Ursula/Modules/ModelsCatalog/ObjectsCatalog.tscn" id="22_3pdji"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/VoxLib.cs" id="23_56bgx"]
+[ext_resource type="Resource" uid="uid://dl6jsq7htq75q" path="res://addons/Ursula/Assets/MapAssets.tres" id="24_iibtg"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/CreateTerrain.cs" id="25_jfqi2"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/CreateWater.cs" id="26_xdp10"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/MapManager.cs" id="27_5b8gm"]
+[ext_resource type="PackedScene" uid="uid://uu0lfgdeox06" path="res://addons/Ursula/Player/cameraFree.tscn" id="28_hoa3c"]
+[ext_resource type="PackedScene" uid="uid://c0t0gdmber7kl" path="res://addons/Ursula/Player/Player.tscn" id="29_wh4fr"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameManager.cs" id="30_lv1wd"]
+[ext_resource type="PackedScene" uid="uid://c1y47k01wo4w7" path="res://addons/Ursula/Environment.tscn" id="31_xhvja"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_elju3"]
+line_spacing = -3.0
+font_size = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_cseqy"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gln1k"]
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_cm8h7"]
+line_spacing = -5.0
+font_size = 14
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_3bpv4"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fxdwa"]
+texture = ExtResource("21_ejwl8")
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_go8kp"]
+agent_radius = 0.3
+agent_max_climb = 1.0
+agent_max_slope = 85.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_o2f02"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eumda"]
+
+[node name="Ursula" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProjectTimer" parent="." instance=ExtResource("1_wxxnd")]
+
+[node name="ModelLoader" parent="." instance=ExtResource("2_ayndh")]
+
+[node name="Controls" type="Control" parent="." node_paths=PackedStringArray("_labelFile", "_cross", "_labelCoordinates", "SettingsGO", "SliderMouseSence", "optionButtonShadow", "labelLengthOfDay", "SliderLengthOfDay", "ControlProjectGO", "ControlGamesProjectGO", "CheckButtonAlgoritm", "SliderPlatoSize", "SliderPlatoOffsetX", "SliderPlatoOffsetZ")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_lm8x0")
+_labelFile = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/LabelFile")
+_cross = NodePath("Cross")
+_labelCoordinates = NodePath("LabelCoordinate")
+SettingsGO = NodePath("ControlSettings")
+SliderMouseSence = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/HSliderMouseSence")
+optionButtonShadow = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/OptionButtonShadow")
+labelLengthOfDay = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/Labellengthofday")
+SliderLengthOfDay = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderlengthofday")
+ControlProjectGO = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonOpenControlProject/ControlProject")
+ControlGamesProjectGO = NodePath("../ControlGamesProject")
+CheckButtonAlgoritm = [NodePath("ControlGame/Panel/HBoxContainer/Algoritms/CheckButton"), NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/Algoritms/CheckButton")]
+SliderPlatoSize = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPlatoSize")
+SliderPlatoOffsetX = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPlatoOffsetX")
+SliderPlatoOffsetZ = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPlatoOffsetY")
+
+[node name="ControlBuild" type="Control" parent="Controls"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild"]
+physics_interpolation_mode = 1
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = -1.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="ControlPopupMenu" type="Control" parent="Controls/ControlBuild/Panel" node_paths=PackedStringArray("contexPopupMenu")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_8kw1n")
+contexPopupMenu = [NodePath("HBoxContainer/ButtonObject"), NodePath("HBoxContainer/ButtonSettings"), NodePath("HBoxContainer/ButtonFile"), NodePath("HBoxContainer/ButtonEnvironment")]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 740.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="ButtonHome" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+focus_mode = 1
+
+[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonHome"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -16.0
+offset_right = 37.0
+offset_bottom = 16.0
+grow_vertical = 2
+texture = ExtResource("5_i1qgd")
+expand_mode = 1
+
+[node name="ButtonFile" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+focus_mode = 1
+text = "Файл"
+script = ExtResource("6_1h5ru")
+PanelMenu = NodePath("Panel")
+arrow1 = NodePath("Arrow1")
+arrow2 = NodePath("Arrow2")
+
+[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = -10.5
+offset_right = 22.0
+offset_bottom = 10.5
+grow_vertical = 2
+expand_mode = 1
+flip_h = true
+
+[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("7_t1j1l")
+expand_mode = 1
+
+[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("8_4saec")
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile"]
+visible = false
+layout_mode = 1
+offset_top = 41.0
+offset_right = 314.0
+offset_bottom = 313.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel"]
+layout_mode = 0
+offset_right = 311.0
+offset_bottom = 324.0
+
+[node name="LabelFile" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Файл"
+clip_text = true
+
+[node name="ButtonCreateNewGame" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+visible = false
+layout_mode = 2
+focus_mode = 1
+text = "Создать новую игру"
+alignment = 0
+
+[node name="ButtonOpenProjectFolder" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = "Открыть папки проекта"
+alignment = 0
+
+[node name="ButtonSaveMap" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+focus_mode = 1
+text = "Сохранить игру"
+alignment = 0
+
+[node name="ButtonLoadMap" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+focus_mode = 1
+text = "Загрузить игру"
+alignment = 0
+
+[node name="ButtonOpenGameImage" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = "Загрузить обложку игры"
+alignment = 0
+
+[node name="ButtonExportProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = "Экспорт игры"
+alignment = 0
+
+[node name="ButtonImportProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = "Импорт игры"
+alignment = 0
+
+[node name="ButtonGameProjects" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = "Открыть игры"
+alignment = 0
+
+[node name="ButtonEnvironment" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+focus_mode = 1
+text = "Генерация окружения"
+script = ExtResource("6_1h5ru")
+PanelMenu = NodePath("PanelTab")
+arrow1 = NodePath("Arrow1")
+arrow2 = NodePath("Arrow2")
+
+[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment"]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -10.5
+offset_right = 21.0
+offset_bottom = 10.5
+grow_vertical = 2
+texture = ExtResource("9_0u5tf")
+expand_mode = 1
+
+[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("7_t1j1l")
+expand_mode = 1
+
+[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("8_4saec")
+expand_mode = 1
+
+[node name="PanelTab" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment" node_paths=PackedStringArray("panels")]
+visible = false
+layout_mode = 0
+offset_top = 40.0
+offset_right = 368.0
+offset_bottom = 82.0
+script = ExtResource("10_6oiyr")
+panels = [NodePath("ButtonLandscape"), NodePath("ButtonWater"), NodePath("ButtonPlants")]
+
+[node name="ButtonLandscape" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 1
+offset_top = 1.0
+offset_right = 120.0
+offset_bottom = 41.0
+focus_mode = 1
+text = "Ландшафт"
+script = ExtResource("6_1h5ru")
+PanelMenu = NodePath("Panel")
+arrow1 = NodePath("Arrow1")
+arrow2 = NodePath("Arrow2")
+
+[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -10.5
+offset_right = 21.0
+offset_bottom = 10.5
+grow_vertical = 2
+texture = ExtResource("9_0u5tf")
+expand_mode = 1
+
+[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("7_t1j1l")
+expand_mode = 1
+
+[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("8_4saec")
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape"]
+visible = false
+layout_mode = 0
+offset_left = 1.0
+offset_top = 39.0
+offset_right = 271.0
+offset_bottom = 529.0
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_right = 268.0
+offset_bottom = 23.0
+text = "Высота гор"
+
+[node name="HSliderPower" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 18.0
+offset_right = 268.0
+offset_bottom = 47.0
+focus_mode = 1
+max_value = 20.0
+value = 4.0
+
+[node name="Label2" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 42.0
+offset_right = 268.0
+offset_bottom = 65.0
+text = "Толщина гор"
+
+[node name="HSliderScale" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 62.0
+offset_right = 268.0
+offset_bottom = 91.0
+focus_mode = 1
+max_value = 5.0
+step = 0.1
+value = 3.0
+
+[node name="Labellengthofday" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 91.0
+offset_right = 259.0
+offset_bottom = 119.0
+text = "Продолжительность суток: 120с"
+horizontal_alignment = 1
+
+[node name="HSliderlengthofday" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 114.0
+offset_right = 267.0
+offset_bottom = 144.0
+focus_mode = 1
+min_value = 30.0
+max_value = 3600.0
+step = 10.0
+value = 480.0
+
+[node name="LabelGrassTex" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 145.0
+offset_right = 259.0
+offset_bottom = 173.0
+text = "Текстура поверхности"
+
+[node name="HSliderGrassTex" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 170.0
+offset_right = 267.0
+offset_bottom = 200.0
+focus_mode = 1
+max_value = 6.0
+
+[node name="ReplaseTextureRect" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+clip_contents = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 1
+offset_left = 90.0
+offset_top = 200.0
+offset_right = 174.0
+offset_bottom = 284.0
+texture = ExtResource("11_bblrs")
+expand_mode = 1
+
+[node name="LabelPlatoSize" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 293.0
+offset_right = 259.0
+offset_bottom = 321.0
+text = "Размер плато"
+
+[node name="HSliderPlatoSize" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 318.0
+offset_right = 267.0
+offset_bottom = 348.0
+focus_mode = 1
+
+[node name="LabelPlatoOffsetX" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 344.0
+offset_right = 259.0
+offset_bottom = 372.0
+text = "Смещение плато по оси X"
+
+[node name="HSliderPlatoOffsetX" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 364.0
+offset_right = 267.0
+offset_bottom = 394.0
+focus_mode = 1
+max_value = 256.0
+value = 128.0
+
+[node name="LabelPlatoOffsetY" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 390.0
+offset_right = 259.0
+offset_bottom = 418.0
+text = "Смещение плато по оси Y"
+
+[node name="HSliderPlatoOffsetY" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+offset_top = 412.0
+offset_right = 267.0
+offset_bottom = 442.0
+focus_mode = 1
+max_value = 256.0
+value = 128.0
+
+[node name="ButtonGenerateTerrain" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -105.5
+offset_top = -44.0
+offset_right = 105.5
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 1
+keep_pressed_outside = true
+text = "Генерировать ландшафт"
+
+[node name="ButtonWater" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 1
+offset_left = 123.0
+offset_top = 1.0
+offset_right = 243.0
+offset_bottom = 41.0
+focus_mode = 1
+text = "Вода"
+script = ExtResource("6_1h5ru")
+PanelMenu = NodePath("Panel")
+arrow1 = NodePath("Arrow1")
+arrow2 = NodePath("Arrow2")
+
+[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = -10.5
+offset_right = 22.0
+offset_bottom = 10.5
+grow_vertical = 2
+texture = ExtResource("12_nolav")
+expand_mode = 1
+
+[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("7_t1j1l")
+expand_mode = 1
+
+[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("8_4saec")
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater"]
+visible = false
+layout_mode = 0
+offset_top = 39.0
+offset_right = 268.0
+offset_bottom = 204.0
+
+[node name="Label3" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+layout_mode = 1
+offset_right = 268.0
+offset_bottom = 23.0
+text = "Уровень воды"
+
+[node name="HSliderWaterOffset" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+layout_mode = 1
+offset_top = 23.0
+offset_right = 268.0
+offset_bottom = 52.0
+focus_mode = 1
+max_value = 1.0
+step = 0.01
+
+[node name="Label4" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+layout_mode = 1
+offset_top = 45.0
+offset_right = 92.0
+offset_bottom = 68.0
+text = "Тип воды"
+
+[node name="TypeWaterOption" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+layout_mode = 1
+offset_top = 66.0
+offset_right = 210.0
+offset_bottom = 97.0
+focus_mode = 1
+selected = 0
+item_count = 4
+popup/item_0/text = "Вода"
+popup/item_0/id = 1
+popup/item_1/text = "Лава"
+popup/item_1/id = 2
+popup/item_2/text = "Лёд"
+popup/item_2/id = 3
+popup/item_3/text = "Болото"
+popup/item_3/id = 4
+
+[node name="Label10" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+layout_mode = 1
+offset_top = 100.0
+offset_right = 129.0
+offset_bottom = 123.0
+text = "Анимированная вода"
+
+[node name="CheckButtonWaterStatic" type="CheckButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+layout_mode = 1
+offset_left = 175.0
+offset_top = 100.0
+offset_right = 229.0
+offset_bottom = 124.0
+focus_mode = 1
+
+[node name="ButtonGenerateWater" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+layout_mode = 1
+offset_left = 29.0
+offset_top = 126.0
+offset_right = 240.0
+offset_bottom = 157.0
+focus_mode = 1
+text = "Генерировать воду"
+
+[node name="ButtonPlants" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 1
+offset_left = 246.0
+offset_top = 1.0
+offset_right = 366.0
+offset_bottom = 41.0
+focus_mode = 1
+text = "Флора"
+script = ExtResource("6_1h5ru")
+PanelMenu = NodePath("Panel")
+arrow1 = NodePath("Arrow1")
+arrow2 = NodePath("Arrow2")
+
+[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = -10.5
+offset_right = 22.0
+offset_bottom = 10.5
+grow_vertical = 2
+texture = ExtResource("13_2jvmc")
+expand_mode = 1
+
+[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("7_t1j1l")
+expand_mode = 1
+
+[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("8_4saec")
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants"]
+visible = false
+layout_mode = 1
+offset_top = 39.0
+offset_right = 268.0
+offset_bottom = 333.0
+
+[node name="Label5" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+layout_mode = 1
+offset_right = 268.0
+offset_bottom = 23.0
+text = "Плотность травы"
+
+[node name="HSliderGrassDensity" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+layout_mode = 1
+offset_top = 18.0
+offset_right = 268.0
+offset_bottom = 47.0
+focus_mode = 1
+max_value = 1.0
+step = 0.01
+
+[node name="Label7" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+layout_mode = 1
+offset_top = 39.0
+offset_right = 268.0
+offset_bottom = 62.0
+text = "Плотность растений"
+
+[node name="HSliderPlantsDensity2" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+layout_mode = 1
+offset_top = 56.0
+offset_right = 268.0
+offset_bottom = 85.0
+focus_mode = 1
+max_value = 1.0
+step = 0.01
+
+[node name="Label6" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+layout_mode = 1
+offset_top = 80.0
+offset_right = 268.0
+offset_bottom = 103.0
+text = "Плотность деревьев"
+
+[node name="HSliderTreesDensity" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+layout_mode = 1
+offset_top = 97.0
+offset_right = 268.0
+offset_bottom = 126.0
+focus_mode = 1
+max_value = 1.0
+step = 0.01
+
+[node name="Label9" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+layout_mode = 1
+offset_top = 122.0
+offset_right = 268.0
+offset_bottom = 145.0
+text = "Загружаемая растительность"
+
+[node name="ButtonOpenGrass" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+layout_mode = 1
+offset_left = 13.0
+offset_top = 149.0
+offset_right = 123.0
+offset_bottom = 174.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 12
+text = "+ трава"
+
+[node name="ButtonOpenTrees" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+layout_mode = 1
+offset_left = 144.0
+offset_top = 149.0
+offset_right = 254.0
+offset_bottom = 174.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 12
+text = "+ дерево"
+
+[node name="Label8" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 250.0
+offset_top = 414.0
+offset_right = 518.0
+offset_bottom = 437.0
+grow_horizontal = 0
+text = "Текстура поверхности"
+
+[node name="IdItemOptionCustom" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+layout_mode = 1
+offset_top = 178.0
+offset_right = 265.0
+offset_bottom = 217.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 12
+alignment = 2
+autowrap_mode = 3
+clip_text = true
+
+[node name="CheckBoxUsedOnlyCustomItem" type="CheckBox" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+layout_mode = 1
+offset_top = 223.0
+offset_right = 258.0
+offset_bottom = 252.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 10
+text = "Использовать только загруженные растения"
+
+[node name="ButtonGeneratePlants" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+layout_mode = 1
+offset_left = 29.0
+offset_top = 251.0
+offset_right = 240.0
+offset_bottom = 282.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 13
+text = "Генерировать растительность"
+
+[node name="ButtonObject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+focus_mode = 1
+text = "Объекты"
+script = ExtResource("6_1h5ru")
+PanelMenu = NodePath("Panel")
+arrow1 = NodePath("Arrow1")
+arrow2 = NodePath("Arrow2")
+
+[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = -10.5
+offset_right = 22.0
+offset_bottom = 10.5
+grow_vertical = 2
+texture = ExtResource("14_3q1ca")
+expand_mode = 1
+flip_h = true
+
+[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("7_t1j1l")
+expand_mode = 1
+
+[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("8_4saec")
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject"]
+visible = false
+layout_mode = 1
+offset_top = 39.0
+offset_right = 268.0
+offset_bottom = 119.0
+
+[node name="Label7" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel"]
+layout_mode = 1
+offset_right = 268.0
+offset_bottom = 23.0
+text = "Выбор объекта"
+
+[node name="IdItemOption" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel"]
+layout_mode = 1
+offset_top = 27.0
+offset_right = 265.0
+offset_bottom = 58.0
+focus_mode = 1
+alignment = 2
+autowrap_mode = 3
+clip_text = true
+
+[node name="ButtonSettings" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+focus_mode = 1
+text = "Настройки"
+script = ExtResource("6_1h5ru")
+PanelMenu = NodePath("Panel")
+arrow1 = NodePath("Arrow1")
+arrow2 = NodePath("Arrow2")
+
+[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = -10.5
+offset_right = 22.0
+offset_bottom = 10.5
+grow_vertical = 2
+expand_mode = 1
+flip_h = true
+
+[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings"]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("7_t1j1l")
+expand_mode = 1
+
+[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -9.0
+offset_right = -1.0
+offset_bottom = 8.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("8_4saec")
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings"]
+visible = false
+layout_mode = 1
+offset_top = 39.0
+offset_right = 393.0
+offset_bottom = 234.0
+
+[node name="Label2" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -102.5
+offset_right = 102.5
+offset_bottom = 28.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 22
+text = "Настройки"
+horizontal_alignment = 1
+
+[node name="OptionButtonShadow" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -98.5
+offset_top = 60.0
+offset_right = 98.5
+offset_bottom = 95.0
+grow_horizontal = 2
+focus_mode = 1
+selected = 0
+item_count = 2
+popup/item_0/text = "Тени отключены"
+popup/item_1/text = "Тени включены"
+popup/item_1/id = 1
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -102.5
+offset_top = 104.0
+offset_right = 102.5
+offset_bottom = 132.0
+grow_horizontal = 2
+text = "Чувствительность мыши"
+horizontal_alignment = 1
+
+[node name="HSliderMouseSence" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -116.0
+offset_top = 126.0
+offset_right = 116.0
+offset_bottom = 156.0
+grow_horizontal = 2
+focus_mode = 1
+max_value = 1.0
+step = 0.01
+
+[node name="Algoritms" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="CheckButton" type="CheckButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/Algoritms"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 13
+text = "Алгоритмы"
+alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -61.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="ButtonOpenControlProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2"]
+visible = false
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+focus_mode = 1
+text = "Проект"
+
+[node name="ControlProject" type="Control" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonOpenControlProject"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -397.0
+offset_top = 42.0
+offset_bottom = 291.0
+grow_horizontal = 0
+
+[node name="ButtonReload" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2"]
+visible = false
+layout_mode = 2
+focus_mode = 1
+text = "Рестарт"
+
+[node name="ButtonTest" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 1
+theme_override_font_sizes/font_size = 12
+text = "Запуск"
+
+[node name="HSliderGrassTexID" type="HSlider" parent="Controls/ControlBuild/Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -267.0
+offset_top = 472.0
+offset_right = 1.0
+offset_bottom = 501.0
+grow_horizontal = 0
+focus_mode = 1
+max_value = 7.0
+
+[node name="ButtonSetTexure" type="Button" parent="Controls/ControlBuild/Panel"]
+visible = false
+layout_mode = 0
+offset_left = 140.0
+offset_top = 498.0
+offset_right = 257.0
+offset_bottom = 529.0
+focus_mode = 1
+text = "Применить"
+
+[node name="CheckBoxCreateItem" type="CheckBox" parent="Controls/ControlBuild/Panel"]
+visible = false
+layout_mode = 0
+offset_left = 32.0
+offset_top = 489.0
+offset_right = 245.0
+offset_bottom = 520.0
+focus_mode = 1
+button_pressed = true
+text = "Размещение объектов"
+
+[node name="CheckBoxDeleteItem" type="CheckBox" parent="Controls/ControlBuild/Panel"]
+visible = false
+layout_mode = 0
+offset_left = 32.0
+offset_top = 519.0
+offset_right = 245.0
+offset_bottom = 550.0
+focus_mode = 1
+text = "Удаление объектов"
+
+[node name="ItemList" type="ItemList" parent="Controls/ControlBuild/Panel"]
+visible = false
+layout_mode = 0
+offset_left = 31.0
+offset_top = 496.0
+offset_right = 242.0
+offset_bottom = 558.0
+focus_mode = 1
+item_count = 2
+item_0/text = "Размещение объектов"
+item_1/text = "Удаление объектов"
+
+[node name="Cross" type="Panel" parent="Controls/ControlBuild"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonSettings" type="Button" parent="Controls/ControlBuild"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -133.0
+offset_right = -2.0
+offset_bottom = 33.0
+grow_horizontal = 0
+focus_mode = 1
+text = "Настройки"
+
+[node name="InfoHold" type="Label" parent="Controls/ControlBuild"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -164.0
+offset_top = 38.0
+offset_bottom = 177.0
+grow_horizontal = 0
+text = "ЛКМ: поставить, ПКМ: удалить
+ESC: блок мыши
+CTRL: контексное меню графов
+ALT: показ координат
+SHIFT: бег
+R: вращать
++, -, N - скалирование
+~: скрыть/показать лог"
+label_settings = SubResource("LabelSettings_elju3")
+
+[node name="ControlGame" type="Control" parent="Controls"]
+visible = false
+anchors_preset = 0
+offset_right = 1154.0
+offset_bottom = 648.0
+
+[node name="Panel" type="Panel" parent="Controls/ControlGame"]
+layout_mode = 1
+offset_right = 412.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls/ControlGame/Panel"]
+layout_mode = 1
+offset_right = 740.0
+offset_bottom = 40.0
+
+[node name="ButtonHome" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+focus_mode = 1
+
+[node name="Icon" type="TextureRect" parent="Controls/ControlGame/Panel/HBoxContainer/ButtonHome"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -16.0
+offset_right = 37.0
+offset_bottom = 16.0
+grow_vertical = 2
+texture = ExtResource("5_i1qgd")
+expand_mode = 1
+
+[node name="ButtonExit" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+focus_mode = 1
+text = "Редактор"
+
+[node name="ButtonOpenGameMenu" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+focus_mode = 1
+text = "Игры"
+
+[node name="ButtonReload" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+focus_mode = 1
+text = "Рестарт"
+
+[node name="Algoritms" type="Panel" parent="Controls/ControlGame/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="CheckButton" type="CheckButton" parent="Controls/ControlGame/Panel/HBoxContainer/Algoritms"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 13
+text = "Алгоритмы"
+alignment = 2
+
+[node name="ControlSettings" type="Control" parent="Controls"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -214.0
+offset_top = -136.5
+offset_right = 214.0
+offset_bottom = 136.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Controls/ControlSettings"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -205.0
+offset_right = 188.0
+offset_bottom = 269.0
+grow_horizontal = 2
+
+[node name="Label2" type="Label" parent="Controls/ControlSettings/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -102.5
+offset_right = 102.5
+offset_bottom = 28.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 22
+text = "Настройки"
+horizontal_alignment = 1
+
+[node name="Labellengthofday" type="Label" parent="Controls/ControlSettings/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.5
+offset_top = -95.5
+offset_right = 130.5
+offset_bottom = -67.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Продолжительность суток: 120с"
+horizontal_alignment = 1
+
+[node name="HSliderlengthofday" type="HSlider" parent="Controls/ControlSettings/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -114.5
+offset_top = -70.5
+offset_right = 117.5
+offset_bottom = -40.5
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+min_value = 30.0
+max_value = 3600.0
+step = 10.0
+value = 480.0
+
+[node name="ButtonExit" type="Button" parent="Controls/ControlSettings/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -68.5
+offset_top = 93.5
+offset_right = 62.5
+offset_bottom = 126.5
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+text = "Закрыть"
+
+[node name="HSliderMouseSence" type="HSlider" parent="Controls/ControlSettings/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -116.0
+offset_top = 45.0
+offset_right = 116.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+max_value = 1.0
+step = 0.01
+
+[node name="Label" type="Label" parent="Controls/ControlSettings/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.5
+offset_top = 13.0
+offset_right = 102.5
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Чувствительность мыши"
+horizontal_alignment = 1
+
+[node name="OptionButtonShadow" type="OptionButton" parent="Controls/ControlSettings/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -97.5
+offset_top = -31.5
+offset_right = 99.5
+offset_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+selected = 0
+item_count = 2
+popup/item_0/text = "Тени отключены"
+popup/item_1/text = "Тени включены"
+popup/item_1/id = 1
+
+[node name="ContextMenu" parent="Controls" instance=ExtResource("15_fjimb")]
+layout_mode = 1
+
+[node name="LabelCoordinate" type="Label" parent="Controls"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -2.0
+offset_right = 180.0
+offset_bottom = 49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Координаты: 0, 0, 0"
+label_settings = SubResource("LabelSettings_cseqy")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelMouseLock" type="Label" parent="Controls"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_right = 180.0
+offset_bottom = 51.0
+grow_horizontal = 2
+text = "ESC: блок мыши. Мышь: разлокирована"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cross" type="Panel" parent="Controls"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gln1k")
+
+[node name="ControlLog" type="Control" parent="Controls" node_paths=PackedStringArray("LogControl", "fileDialog", "messageLabel", "filterText", "optionFilterButton", "FilterMenuButton")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("16_i08yk")
+LogControl = NodePath("Control")
+fileDialog = NodePath("../../SaveLogDialog")
+messageLabel = NodePath("Control/MessageLabel")
+filterText = NodePath("Control/TextEdit")
+optionFilterButton = NodePath("Control/OptionFilterButton")
+FilterMenuButton = NodePath("Control/MenuButton")
+
+[node name="Control" type="Control" parent="Controls/ControlLog"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -375.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="MessageLabel" type="Label" parent="Controls/ControlLog/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -840.0
+offset_top = -412.0
+offset_right = -2.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Текст
+1"
+label_settings = SubResource("LabelSettings_cm8h7")
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="ClearLog" type="Button" parent="Controls/ControlLog/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -87.0
+offset_top = -36.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 1
+text = "Очистить"
+
+[node name="SaveLog" type="Button" parent="Controls/ControlLog/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -184.0
+offset_top = -36.0
+offset_right = -89.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 1
+text = "Сохранить"
+
+[node name="MenuBar" type="MenuBar" parent="Controls/ControlLog/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -427.0
+offset_top = -31.0
+offset_right = -187.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 1
+
+[node name="OptionFilterButton" type="OptionButton" parent="Controls/ControlLog/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -616.0
+offset_top = -35.0
+offset_right = -430.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 1
+toggle_mode = false
+selected = 0
+item_count = 4
+popup/item_0/text = "Нет фильтра"
+popup/item_1/text = "ИгрокОбнаружен"
+popup/item_1/id = 1
+popup/item_2/text = "ОбъектОбнаружен"
+popup/item_2/id = 2
+popup/item_3/text = "ЗвукОбнаружен"
+popup/item_3/id = 3
+
+[node name="TextEditBg" type="Button" parent="Controls/ControlLog/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -428.0
+offset_top = -37.0
+offset_right = -186.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 1
+
+[node name="TextEdit" type="TextEdit" parent="Controls/ControlLog/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -427.0
+offset_top = -36.0
+offset_right = -187.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 1
+
+[node name="Label" type="Label" parent="Controls/ControlLog/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -641.0
+offset_top = -34.0
+offset_right = -573.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Фильтр"
+
+[node name="MenuButton" type="MenuButton" parent="Controls/ControlLog/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -578.0
+offset_top = -34.0
+offset_right = -429.0
+offset_bottom = -3.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 1
+button_group = SubResource("ButtonGroup_3bpv4")
+text = "Выбор фильтра"
+flat = false
+switch_on_hover = true
+item_count = 36
+popup/item_0/text = "Нет фильтров"
+popup/item_0/checkable = 1
+popup/item_0/checked = true
+popup/item_1/text = "ИгрокОбнаружен"
+popup/item_1/checkable = 1
+popup/item_1/id = 1
+popup/item_2/text = "ОбъектОбнаружен"
+popup/item_2/checkable = 1
+popup/item_2/id = 2
+popup/item_3/text = "ЗвукОбнаружен"
+popup/item_3/checkable = 1
+popup/item_3/id = 3
+popup/item_4/text = "ЦельПотеряна"
+popup/item_4/checkable = 1
+popup/item_4/id = 4
+popup/item_5/text = "ВзаимодействиеИгрока"
+popup/item_5/checkable = 1
+popup/item_5/id = 5
+popup/item_6/text = "ВзаимодействиеИгрокаСОбъектом"
+popup/item_6/checkable = 1
+popup/item_6/id = 6
+popup/item_7/text = "ОбъектовНеОбнаружено"
+popup/item_7/checkable = 1
+popup/item_7/id = 7
+popup/item_8/text = "ЗастреваниеПриДвижении"
+popup/item_8/checkable = 1
+popup/item_8/id = 8
+popup/item_9/text = "ПеремещениеВыполнено"
+popup/item_9/checkable = 1
+popup/item_9/id = 9
+popup/item_10/text = "СтолкновениеСПрепятствием"
+popup/item_10/checkable = 1
+popup/item_10/id = 10
+popup/item_11/text = "СменаТипаПоверхности"
+popup/item_11/checkable = 1
+popup/item_11/id = 11
+popup/item_12/text = "ТаймерВыполнен"
+popup/item_12/checkable = 1
+popup/item_12/id = 12
+popup/item_13/text = "Тик"
+popup/item_13/checkable = 1
+popup/item_13/id = 13
+popup/item_14/text = "Тик1Секунда"
+popup/item_14/checkable = 1
+popup/item_14/id = 14
+popup/item_15/text = "Счётчик1"
+popup/item_15/checkable = 1
+popup/item_15/id = 15
+popup/item_16/text = "Счётчик2"
+popup/item_16/checkable = 1
+popup/item_16/id = 16
+popup/item_17/text = "ПоискИгрокаВРадиусе"
+popup/item_17/checkable = 1
+popup/item_17/id = 17
+popup/item_18/text = "ПоискОбъектаВРадиусеПоИмени"
+popup/item_18/checkable = 1
+popup/item_18/id = 18
+popup/item_19/text = "ПоискОбъектаПоЗвуку"
+popup/item_19/checkable = 1
+popup/item_19/id = 19
+popup/item_20/text = "ОстановкаПоиска"
+popup/item_20/checkable = 1
+popup/item_20/id = 20
+popup/item_21/text = "ДвигатьсяСлучайно"
+popup/item_21/checkable = 1
+popup/item_21/id = 21
+popup/item_22/text = "ДвигатьсяКОбъекту"
+popup/item_22/checkable = 1
+popup/item_22/id = 22
+popup/item_23/text = "ДвигатьсяОтОбъекта"
+popup/item_23/checkable = 1
+popup/item_23/id = 23
+popup/item_24/text = "ДвигатьсяПоКоординатам"
+popup/item_24/checkable = 1
+popup/item_24/id = 24
+popup/item_25/text = "ЗадатьКоординаты"
+popup/item_25/checkable = 1
+popup/item_25/id = 25
+popup/item_26/text = "СбросКоординат"
+popup/item_26/checkable = 1
+popup/item_26/id = 26
+popup/item_27/text = "Стоп"
+popup/item_27/checkable = 1
+popup/item_27/id = 27
+popup/item_28/text = "ЗадатьИмяОбъекта"
+popup/item_28/checkable = 1
+popup/item_28/id = 28
+popup/item_29/text = "УстановитьРадиусСлышимости"
+popup/item_29/checkable = 1
+popup/item_29/id = 29
+popup/item_30/text = "ВоспроизвестиЗвук"
+popup/item_30/checkable = 1
+popup/item_30/id = 30
+popup/item_31/text = "ВоспроизвестиСлучайныйЗвук"
+popup/item_31/checkable = 1
+popup/item_31/id = 31
+popup/item_32/text = "Пауза"
+popup/item_32/checkable = 1
+popup/item_32/id = 32
+popup/item_33/text = "ТаймерЗапуск"
+popup/item_33/checkable = 1
+popup/item_33/id = 33
+popup/item_34/text = "ТаймерСтоп"
+popup/item_34/checkable = 1
+popup/item_34/id = 34
+popup/item_35/text = "ТаймерСброс"
+popup/item_35/checkable = 1
+popup/item_35/id = 35
+
+[node name="MessageBox" type="Panel" parent="Controls" node_paths=PackedStringArray("label")]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -301.0
+offset_top = 33.0
+offset_right = 304.0
+offset_bottom = 118.0
+grow_horizontal = 2
+script = ExtResource("17_n51xi")
+label = NodePath("Label")
+
+[node name="Label" type="Label" parent="Controls/MessageBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Сообщение"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+clip_text = true
+
+[node name="AlgControl" parent="." instance=ExtResource("18_uus1o")]
+visible = false
+offset_left = 275.0
+offset_top = 44.0
+offset_right = 543.0
+offset_bottom = 87.0
+
+[node name="ControlGamesProject" type="Control" parent="." node_paths=PackedStringArray("container")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("19_xgi4p")
+importGameItemPrefab = ExtResource("20_aufgm")
+container = NodePath("Panel/ScrollContainer/HBoxContainer")
+
+[node name="Panel" type="Panel" parent="ControlGamesProject"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_fxdwa")
+
+[node name="Label2" type="Label" parent="ControlGamesProject/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -102.5
+offset_right = 102.5
+offset_bottom = 28.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 22
+text = "Игры"
+horizontal_alignment = 1
+
+[node name="ButtonExit" type="Button" parent="ControlGamesProject/Panel"]
+layout_mode = 1
+offset_right = 131.0
+offset_bottom = 33.0
+focus_mode = 1
+text = "Редактор игр"
+
+[node name="ButtonImportGame" type="Button" parent="ControlGamesProject/Panel"]
+layout_mode = 1
+offset_left = 136.0
+offset_right = 267.0
+offset_bottom = 33.0
+focus_mode = 1
+text = "Загрузить игру"
+
+[node name="HScrollBar" type="HScrollBar" parent="ControlGamesProject/Panel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ControlGamesProject/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 86.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlGamesProject/Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+alignment = 1
+
+[node name="ControlGamePrefab" parent="ControlGamesProject/Panel/ScrollContainer/HBoxContainer" instance=ExtResource("20_aufgm")]
+layout_mode = 2
+
+[node name="ControlGamePrefab2" parent="ControlGamesProject/Panel/ScrollContainer/HBoxContainer" instance=ExtResource("20_aufgm")]
+layout_mode = 2
+
+[node name="ObjectsCatalog" parent="." instance=ExtResource("22_3pdji")]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.0
+grow_vertical = 1
+
+[node name="VoxLib" type="Node3D" parent="." node_paths=PackedStringArray("CGP")]
+script = ExtResource("23_56bgx")
+_mapAssets = ExtResource("24_iibtg")
+CGP = NodePath("../ControlGamesProject")
+
+[node name="WorldTerrain" type="Node3D" parent="."]
+script = ExtResource("25_jfqi2")
+
+[node name="WorldWater" type="Node3D" parent="."]
+script = ExtResource("26_xdp10")
+
+[node name="MapManager" type="Node3D" parent="." node_paths=PackedStringArray("buildControl", "gameControl", "IdItemOption", "IdItemOptionCustom", "CheckBoxCreateItem", "CheckBoxDeleteItem", "CreateMode", "navigationRegion3D", "fileDialog", "fileDialogLoad", "TypeWaterOption", "checkButtonWaterStatic", "sliderGrassTexID", "ReplaceTexture", "CheckBoxUsedOnlyCustomItem", "replaceTexUI")]
+script = ExtResource("27_5b8gm")
+buildControl = NodePath("../Controls/ControlBuild")
+gameControl = NodePath("../Controls/ControlGame")
+CameraFreeGO = ExtResource("28_hoa3c")
+PlayerGO = ExtResource("29_wh4fr")
+IdItemOption = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel/IdItemOption")
+IdItemOptionCustom = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/IdItemOptionCustom")
+CheckBoxCreateItem = NodePath("../Controls/ControlBuild/Panel/CheckBoxCreateItem")
+CheckBoxDeleteItem = NodePath("../Controls/ControlBuild/Panel/CheckBoxDeleteItem")
+CreateMode = NodePath("../Controls/ControlBuild/Panel/ItemList")
+navigationRegion3D = NodePath("../NavigationRegion3D")
+fileDialog = NodePath("../SaveFileDialog")
+fileDialogLoad = NodePath("../LoadFileDialog")
+TypeWaterOption = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/TypeWaterOption")
+checkButtonWaterStatic = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/CheckButtonWaterStatic")
+sliderGrassTexID = NodePath("../Controls/ControlBuild/Panel/HSliderGrassTexID")
+ReplaceTexture = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ReplaseTextureRect")
+CheckBoxUsedOnlyCustomItem = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/CheckBoxUsedOnlyCustomItem")
+replaceTexUI = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ReplaseTextureRect")
+
+[node name="GameManager" type="Node3D" parent="."]
+script = ExtResource("30_lv1wd")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_go8kp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+mesh = SubResource("PlaneMesh_o2f02")
+
+[node name="SaveFileDialog" type="FileDialog" parent="."]
+initial_position = 3
+size = Vector2i(563, 380)
+current_screen = 0
+access = 2
+
+[node name="Control" type="Control" parent="SaveFileDialog"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -273.5
+offset_top = -182.0
+offset_right = 273.5
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AccessCheckButton" type="CheckButton" parent="SaveFileDialog/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -264.0
+offset_top = 34.78
+offset_bottom = 65.78
+grow_horizontal = 0
+size_flags_vertical = 8
+button_pressed = true
+text = "Проект/Файловая система"
+alignment = 2
+
+[node name="SaveLogDialog" type="FileDialog" parent="."]
+auto_translate_mode = 1
+initial_position = 3
+size = Vector2i(563, 380)
+current_screen = 0
+access = 2
+
+[node name="Control" type="Control" parent="SaveLogDialog"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -273.5
+offset_top = -182.0
+offset_right = 273.5
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AccessCheckButton" type="CheckButton" parent="SaveLogDialog/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -264.0
+offset_top = 34.78
+offset_bottom = 65.78
+grow_horizontal = 0
+size_flags_vertical = 8
+button_pressed = true
+text = "Проект/Файловая система"
+alignment = 2
+
+[node name="LoadFileDialog" type="FileDialog" parent="."]
+auto_translate_mode = 1
+title = "Open a File"
+initial_position = 3
+size = Vector2i(563, 380)
+current_screen = 0
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="Control" type="Control" parent="LoadFileDialog"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -273.5
+offset_top = -182.0
+offset_right = 273.5
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AccessCheckButton" type="CheckButton" parent="LoadFileDialog/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -264.0
+offset_top = 34.78
+offset_bottom = 65.78
+grow_horizontal = 0
+size_flags_vertical = 8
+button_pressed = true
+text = "Проект/Файловая система"
+alignment = 2
+
+[node name="Bounds" type="Node" parent="."]
+
+[node name="Bound1" type="StaticBody3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, 0, -5)
+collision_layer = 2156396545
+collision_mask = 2156396544
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds/Bound1"]
+transform = Transform3D(256, 0, 0, 0, 256, 0, 0, 0, 10, 0, 0, 0)
+shape = SubResource("BoxShape3D_eumda")
+
+[node name="Bound2" type="StaticBody3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 128)
+collision_layer = 2156396545
+collision_mask = 2156396544
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds/Bound2"]
+transform = Transform3D(10, 0, 0, 0, 256, 0, 0, 0, 256, 0, 0, 0)
+shape = SubResource("BoxShape3D_eumda")
+
+[node name="Bound3" type="StaticBody3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 261, 0, 128)
+collision_layer = 2156396545
+collision_mask = 2156396544
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds/Bound3"]
+transform = Transform3D(10, 0, 0, 0, 256, 0, 0, 0, 256, 0, 0, 0)
+shape = SubResource("BoxShape3D_eumda")
+
+[node name="Bound4" type="StaticBody3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, 0, 261)
+collision_layer = 2156396545
+collision_mask = 2156396544
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds/Bound4"]
+transform = Transform3D(256, 0, 0, 0, 256, 0, 0, 0, 10, 0, 0, 0)
+shape = SubResource("BoxShape3D_eumda")
+
+[node name="BoundTop" type="StaticBody3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, 128, 128)
+collision_layer = 2156396545
+collision_mask = 2156396544
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds/BoundTop"]
+transform = Transform3D(261, 0, 0, 0, 10, 0, 0, 0, 261, 0, 0, 0)
+shape = SubResource("BoxShape3D_eumda")
+
+[node name="BoundDown" type="StaticBody3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, -128, 128)
+collision_layer = 2156396545
+collision_mask = 2156396544
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds/BoundDown"]
+transform = Transform3D(261, 0, 0, 0, 10, 0, 0, 0, 261, 0, 0, 0)
+shape = SubResource("BoxShape3D_eumda")
+
+[node name="Environment" parent="." instance=ExtResource("31_xhvja")]
+
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonHome" to="Controls" method="OnOpenControlGameProject"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" method="OnClick"]
+[connection signal="pressed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenProjectFolder" to="MapManager" method="OpenProjectFolderWithExplorer"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonSaveMap" to="MapManager" method="SaveMap"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonLoadMap" to="MapManager" method="LoadMap"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenGameImage" to="Controls" method="OnOpenGameImage"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonExportProject" to="Controls" method="OnExportProject"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonImportProject" to="Controls" method="OnImportProject"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonGameProjects" to="Controls" method="OnOpenControlGameProject"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment" method="OnClick"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [0]]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPower" to="MapManager" method="ChangePower"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderScale" to="MapManager" method="ChangeScale"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderlengthofday" to="Controls" method="SaveLengthOfDay"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderGrassTex" to="MapManager" method="SetGrassTexture"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ButtonGenerateTerrain" to="MapManager" method="GenerateNewWorld"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [1]]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/HSliderWaterOffset" to="MapManager" method="ChangeWaterOffset"]
+[connection signal="item_selected" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/TypeWaterOption" to="MapManager" method="ChangeWaterType"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/ButtonGenerateWater" to="MapManager" method="CreateWater"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [2]]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderGrassDensity" to="MapManager" method="ChangeGrassDensity"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderPlantsDensity2" to="MapManager" method="ChangePlantsDensity"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderTreesDensity" to="MapManager" method="ChangeTreesDensity"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonOpenGrass" to="ModelLoader" method="OpenModelGrass"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonOpenTrees" to="ModelLoader" method="OpenModelTrees"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/IdItemOptionCustom" to="MapManager" method="SetUsedCustomItemBuild"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonGeneratePlants" to="MapManager" method="GenerateNewPlants"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" method="OnClick"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel/IdItemOption" to="MapManager" method="SetUsedStandartItemBuild"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" method="OnClick"]
+[connection signal="item_selected" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/OptionButtonShadow" to="Controls" method="SetShadowEnabled"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/HSliderMouseSence" to="Controls" method="SetSensitivity"]
+[connection signal="toggled" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/Algoritms/CheckButton" to="Controls" method="OnAlgoritmStartStopChange"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonOpenControlProject" to="Controls" method="OnOpenControlProject"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonReload" to="MapManager" method="OnReloadMap"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonTest" to="MapManager" method="PlayTest"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ButtonSetTexure" to="MapManager" method="SetGrassTexture"]
+[connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxCreateItem" to="MapManager" method="SetCreateItem"]
+[connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxDeleteItem" to="MapManager" method="SetDeleteItem"]
+[connection signal="button_down" from="Controls/ControlBuild/ButtonSettings" to="Controls" method="OnOpenSettings"]
+[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonHome" to="Controls" method="OnOpenControlGameProject"]
+[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonExit" to="MapManager" method="PlayTest"]
+[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonOpenGameMenu" to="Controls" method="OnOpenControlGameProject"]
+[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonReload" to="MapManager" method="OnReloadMap"]
+[connection signal="toggled" from="Controls/ControlGame/Panel/HBoxContainer/Algoritms/CheckButton" to="Controls" method="OnAlgoritmStartStopChange"]
+[connection signal="value_changed" from="Controls/ControlSettings/Panel/HSliderlengthofday" to="Controls" method="SaveLengthOfDay"]
+[connection signal="button_down" from="Controls/ControlSettings/Panel/ButtonExit" to="Controls" method="OnCloseSettings"]
+[connection signal="value_changed" from="Controls/ControlSettings/Panel/HSliderMouseSence" to="Controls" method="SetSensitivity"]
+[connection signal="item_selected" from="Controls/ControlSettings/Panel/OptionButtonShadow" to="Controls" method="SetShadowEnabled"]
+[connection signal="button_down" from="Controls/ControlLog/Control/ClearLog" to="Controls/ControlLog" method="ClearLog"]
+[connection signal="button_down" from="Controls/ControlLog/Control/SaveLog" to="Controls/ControlLog" method="SaveLog"]
+[connection signal="focus_entered" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="LogEntered"]
+[connection signal="focus_exited" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="LogExited"]
+[connection signal="mouse_entered" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="LogEntered"]
+[connection signal="mouse_exited" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="LogExited"]
+[connection signal="text_changed" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="SetFilterText"]
+[connection signal="button_down" from="ControlGamesProject/Panel/ButtonExit" to="Controls" method="OnCloseControlGameProject"]
+[connection signal="button_down" from="ControlGamesProject/Panel/ButtonImportGame" to="Controls" method="OnImportProject"]
