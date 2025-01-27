@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0t0gdmber7kl"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Player/PlayerScript.cs" id="1_lc8l3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_628d6"]
+radius = 0.355855
+height = 1.53976
+
+[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("rayCast", "_camera")]
+slide_on_ceiling = false
+wall_min_slide_angle = 1.39626
+floor_constant_speed = true
+floor_block_on_wall = false
+floor_max_angle = 1.39626
+floor_snap_length = 1.0
+platform_floor_layers = 4286578687
+platform_wall_layers = 8388608
+script = ExtResource("1_lc8l3")
+rayCast = NodePath("RayCast3D")
+_camera = NodePath("Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1468, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.785485, 0)
+shape = SubResource("CapsuleShape3D_628d6")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+visible = false
+target_position = Vector3(0, 0, -2)
