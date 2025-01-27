@@ -1,0 +1,128 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4krypfxpyycs"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Modules/ModelsCatalog/ObjectsCatalog.cs" id="1_bi263"]
+[ext_resource type="Texture2D" uid="uid://eo45vsj5rtgg" path="res://addons/Ursula/Assets/Textures/UI/Close.png" id="2_ked3h"]
+
+[node name="ObjectsCatalog" type="Control" node_paths=PackedStringArray("panelLoadObject")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bi263")
+panelLoadObject = NodePath("ControlLoadObject")
+
+[node name="ControlLoadObject" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="ControlLoadObject"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -244.5
+offset_right = 244.5
+offset_bottom = 644.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 27.0
+offset_right = 275.0
+offset_bottom = 33.0
+text = "Загрузить объект"
+
+[node name="ButtonClose" type="Button" parent="ControlLoadObject/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.5
+offset_top = 1.0
+offset_right = -0.5
+offset_bottom = 33.0
+grow_horizontal = 0
+focus_mode = 1
+flat = true
+icon_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="ControlLoadObject/Panel/ButtonClose"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -14.0
+offset_right = 14.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ked3h")
+expand_mode = 1
+
+[node name="LabelNameModel" type="Label" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 43.0
+offset_right = 278.0
+offset_bottom = 70.0
+text = "Название модели"
+
+[node name="TextEdit" type="TextEdit" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 68.0
+offset_right = 472.0
+offset_bottom = 97.0
+
+[node name="Label3DModel" type="Label" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 28.5
+offset_top = 102.0
+offset_right = 276.5
+offset_bottom = 129.0
+text = "3D модель"
+
+[node name="TextEditPath3DModel" type="TextEdit" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 128.0
+offset_right = 360.0
+offset_bottom = 157.0
+placeholder_text = "Путь к 3D файлу... (.glb)"
+editable = false
+
+[node name="ButtonOpen3DModel" type="Button" parent="ControlLoadObject/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -124.0
+offset_top = 126.0
+offset_right = -18.0
+offset_bottom = 158.0
+grow_horizontal = 0
+focus_mode = 1
+text = "Обзор"
+icon_alignment = 1
+
+[node name="LabelTypeObject" type="Label" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 29.5
+offset_top = 171.0
+offset_right = 277.5
+offset_bottom = 198.0
+text = "Тип объекта:"
+
+[connection signal="button_down" from="ControlLoadObject/Panel/ButtonClose" to="." method="OnClosePanelLoadObject"]
+[connection signal="button_down" from="ControlLoadObject/Panel/ButtonOpen3DModel" to="." method="OnClosePanelLoadObject"]
