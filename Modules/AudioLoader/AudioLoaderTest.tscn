@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4ajafq2cs3cc"]
+
+[ext_resource type="PackedScene" uid="uid://61cqop0oiqc1" path="res://addons/Ursula/Modules/AudioLoader/audio_loader.tscn" id="1_7wtgx"]
+
+[node name="AudioLoaderTest" type="Node3D"]
+
+[node name="AudioLoader" parent="." instance=ExtResource("1_7wtgx")]
