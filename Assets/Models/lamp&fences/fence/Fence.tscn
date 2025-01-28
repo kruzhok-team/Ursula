@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7s6xc83dqi25"]
+
+[ext_resource type="PackedScene" uid="uid://b2s8infasi5n" path="res://addons/Ursula/Assets/Models/lamp&fences/fence/fence.fbx" id="1_qks6m"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_3vff8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ubgk6"]
+size = Vector3(10.6846, 0.988037, 1)
+
+[node name="Root Scene" instance=ExtResource("1_qks6m")]
+script = ExtResource("2_3vff8")
+
+[node name="RootNode" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.635981, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.157715, 0.495728, 0)
+shape = SubResource("BoxShape3D_ubgk6")

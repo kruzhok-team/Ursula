@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://cr0jsa51a7jwe"]
+
+[ext_resource type="PackedScene" uid="uid://dl211wp88k255" path="res://addons/Ursula/Assets/Models/lamp&fences/fence_corner/Fence_corner1.FBX" id="1_wlfnt"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_exm1k"]
+[ext_resource type="Material" uid="uid://bamgyg2vgbnni" path="res://addons/Ursula/Assets/Models/lamp&fences/fence/fence1_mat.tres" id="2_ibwex"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_38803"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bmyjy"]
+size = Vector3(1, 1.49272, 1)
+
+[node name="Root Scene" instance=ExtResource("1_wlfnt")]
+
+[node name="ItemPropsScript" type="Node3D" parent="." index="0"]
+script = ExtResource("2_exm1k")
+
+[node name="InteractiveObject" type="Node" parent="." index="1"]
+script = ExtResource("3_38803")
+
+[node name="fence_corner" parent="RootNode" index="0"]
+surface_material_override/0 = ExtResource("2_ibwex")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="3"]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.751671, 0)
+shape = SubResource("BoxShape3D_bmyjy")

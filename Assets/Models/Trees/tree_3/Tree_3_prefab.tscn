@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://21vkny2pw5or"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="1_1f4sy"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="2_y1e8p"]
+[ext_resource type="PackedScene" uid="uid://d0c1h4c6dejfx" path="res://addons/Ursula/Assets/Models/Trees/tree_3/tree_green_1.tscn" id="4_ochat"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_mxqyb"]
+height = 4.18002
+radius = 0.672478
+
+[node name="Tree3Prefab" type="Node3D"]
+
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("1_1f4sy")
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("2_y1e8p")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50521, 0)
+shape = SubResource("CylinderShape3D_mxqyb")
+
+[node name="tree_green_1" parent="." instance=ExtResource("4_ochat")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.741396, 0)

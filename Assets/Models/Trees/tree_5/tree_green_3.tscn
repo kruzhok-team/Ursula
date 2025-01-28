@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl2e8hlgxi413"]
+
+[ext_resource type="PackedScene" uid="uid://00883k360m1j" path="res://addons/Ursula/Assets/Models/Trees/tree_5/tree_green_3.fbx" id="1_6g0ir"]
+[ext_resource type="Material" uid="uid://b37xbec5cqm2p" path="res://addons/Ursula/Assets/Models/Trees/tree_1/Tree_1_mat.tres" id="2_fcyru"]
+
+[node name="tree_green_3" instance=ExtResource("1_6g0ir")]
+
+[node name="tree_green_3" parent="." index="0"]
+material_override = ExtResource("2_fcyru")

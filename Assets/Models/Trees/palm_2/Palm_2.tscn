@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://mt8efaq6wfgv"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="1_wjbfl"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_dgtak"]
+[ext_resource type="PackedScene" uid="uid://cli4v3kh48y4i" path="res://addons/Ursula/Assets/Models/Trees/palm_2/palm_ver_2.tscn" id="3_kgxeg"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1tegb"]
+height = 2.41905
+
+[node name="Palm2Prefab" type="Node3D"]
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("1_wjbfl")
+
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("2_dgtak")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50521, 0)
+shape = SubResource("CylinderShape3D_1tegb")
+
+[node name="palm_ver2" parent="." instance=ExtResource("3_kgxeg")]
+transform = Transform3D(1, 0, 0, 0, 1.37901, 0, 0, 0, 1, 0, -0.922692, 0)

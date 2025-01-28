@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://doex3ah31gyau"]
+
+[ext_resource type="Texture2D" uid="uid://v8a2nvbbc4et" path="res://addons/Ursula/Assets/Models/Props/vytyazhka/vytyazhka_tex.png" id="1_c0xwg"]
+
+[resource]
+albedo_texture = ExtResource("1_c0xwg")

@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbqwts6l0vjwn"]
+
+[ext_resource type="PackedScene" uid="uid://dlbfjtk8yrgxp" path="res://addons/Ursula/Assets/Models/Props/table_labs/table_labs.fbx" id="1_xo3jp"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_m057r"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_fp2fy"]
+[ext_resource type="Material" uid="uid://dcicrvhtdiscx" path="res://addons/Ursula/Assets/Models/Props/table_labs/table_labs_mat.tres" id="4_nk3dy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4j8d2"]
+size = Vector3(1, 0.952454, 1)
+
+[node name="table_labs" instance=ExtResource("1_xo3jp")]
+
+[node name="ItemPropsScript" type="Node3D" parent="." index="0"]
+script = ExtResource("2_m057r")
+
+[node name="InteractiveObject" type="Node" parent="." index="1"]
+script = ExtResource("3_fp2fy")
+
+[node name="RootNode" parent="." index="2"]
+transform = Transform3D(2, 0, 0, 0, 2.12453, 0, 0, 0, 2, 0, -0.0638695, 0)
+
+[node name="table_labs_001" parent="RootNode" index="0"]
+material_override = ExtResource("4_nk3dy")
+
+[node name="table_labs" parent="RootNode" index="1"]
+material_override = ExtResource("4_nk3dy")
+
+[node name="table_labs_002" parent="RootNode" index="2"]
+material_override = ExtResource("4_nk3dy")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="3"]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.488495, 0)
+shape = SubResource("BoxShape3D_4j8d2")

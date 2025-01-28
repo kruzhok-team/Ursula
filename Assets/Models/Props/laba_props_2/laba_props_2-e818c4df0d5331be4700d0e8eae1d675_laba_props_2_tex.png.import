@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://d22ljwbgcb1hn"
+path.s3tc="res://.godot/imported/laba_props_2-e818c4df0d5331be4700d0e8eae1d675_laba_props_2_tex.png-837a1fffaed395812e68b46eea7dbecd.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "8f38c15e65a688775f5dac5397d48840"
+}
+
+[deps]
+
+source_file="res://addons/Ursula/Assets/Models/Props/laba_props_2/laba_props_2-e818c4df0d5331be4700d0e8eae1d675_laba_props_2_tex.png"
+dest_files=["res://.godot/imported/laba_props_2-e818c4df0d5331be4700d0e8eae1d675_laba_props_2_tex.png-837a1fffaed395812e68b46eea7dbecd.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

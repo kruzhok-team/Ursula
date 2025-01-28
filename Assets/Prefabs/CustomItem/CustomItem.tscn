@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://bx22jh3q31hks"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="1_td44l"]
+[ext_resource type="Material" uid="uid://dvaxv16e4y8ll" path="res://addons/Ursula/Assets/Prefabs/CustomObject/CustomObject_mat.tres" id="2_2dy8s"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="2_il3s1"]
+[ext_resource type="PackedScene" uid="uid://das4po2d0b7wq" path="res://addons/Ursula/Modules/ModelLoader/custom_object_script.tscn" id="2_sd66u"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/ModelLoader/CustomItem.cs" id="3_3akoa"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xprp2"]
+size = Vector3(1, 1.71719, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ksavi"]
+size = Vector3(1.31097, 1.62933, 1.53798)
+
+[node name="CustomItem" type="Node3D"]
+
+[node name="CustomItemScript" parent="." instance=ExtResource("2_sd66u")]
+script = ExtResource("3_3akoa")
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("2_il3s1")
+
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("1_td44l")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.638129, 0)
+visible = false
+height = 2.0994
+material = ExtResource("2_2dy8s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.836089, 0)
+shape = SubResource("BoxShape3D_xprp2")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925097, 0)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0101013, 0.0205984, 0.0450207)
+shape = SubResource("BoxShape3D_ksavi")

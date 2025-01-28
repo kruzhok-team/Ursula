@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://bc2bks7gmpx11"]
+
+[ext_resource type="PackedScene" uid="uid://d4gn4tgaik6vr" path="res://addons/Ursula/Assets/Models/lamp&fences/lamp_5/lamp_5.fbx" id="1_vur6p"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="2_0x4sh"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_mw7lg"]
+[ext_resource type="Texture2D" uid="uid://dmbecj3utf2wx" path="res://addons/Ursula/Assets/Models/lamp&fences/lamp_5/lamp_5_tex.png" id="3_5s7kn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0f18k"]
+albedo_texture = ExtResource("3_5s7kn")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pr66k"]
+albedo_texture = ExtResource("3_5s7kn")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_aneeq"]
+size = Vector3(1.26031, 1.72285, 0.163635)
+
+[node name="Lamp5" instance=ExtResource("1_vur6p")]
+
+[node name="ItemPropsScript" type="Node3D" parent="." index="0"]
+script = ExtResource("2_mw7lg")
+
+[node name="InteractiveObject" type="Node" parent="." index="1"]
+script = ExtResource("2_0x4sh")
+
+[node name="RootNode" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.210544, 0)
+
+[node name="lamp_5_002" parent="RootNode/lamp_5" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_0f18k")
+
+[node name="lamp_5_001" parent="RootNode/lamp_5" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_pr66k")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="3"]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00479126, 0.838723, 0.000335693)
+shape = SubResource("BoxShape3D_aneeq")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="StaticBody3D" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.311401, 0)
+radius = 0.5
+height = 2.0

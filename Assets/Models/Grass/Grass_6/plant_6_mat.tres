@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://hyx3tffuql0g"]
+
+[ext_resource type="Texture2D" uid="uid://0d5220hh713v" path="res://addons/Ursula/Assets/Models/Grass/Grass_6/plant_6_texture.png" id="1_5g7g8"]
+
+[resource]
+albedo_texture = ExtResource("1_5g7g8")

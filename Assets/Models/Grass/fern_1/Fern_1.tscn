@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://kaannlnev1vh"]
+
+[ext_resource type="PackedScene" uid="uid://hp7x64rgflvm" path="res://addons/Ursula/Assets/Models/Grass/fern_1/fern_1.fbx" id="1_l8677"]
+[ext_resource type="Material" uid="uid://cn65rnfsushu1" path="res://addons/Ursula/Assets/Models/Grass/fern_1/fern_1_mat.tres" id="2_edq5i"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_vb11y"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_nwl4g"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_3onet"]
+height = 0.750382
+
+[node name="Root Scene" instance=ExtResource("1_l8677")]
+
+[node name="ItemPropsScript" type="Node3D" parent="." index="0"]
+script = ExtResource("2_vb11y")
+
+[node name="InteractiveObject" type="Node" parent="." index="1"]
+script = ExtResource("3_nwl4g")
+
+[node name="RootNode" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, -0.400802, 0)
+
+[node name="fern_1" parent="RootNode" index="0"]
+surface_material_override/0 = ExtResource("2_edq5i")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="3"]
+collision_layer = 524288
+collision_mask = 524288
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.374952, 0)
+shape = SubResource("CylinderShape3D_3onet")

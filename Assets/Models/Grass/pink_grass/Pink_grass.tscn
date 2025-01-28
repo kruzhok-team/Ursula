@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://ls0pa3vpe71w"]
+
+[ext_resource type="PackedScene" uid="uid://itl6x6dce3qi" path="res://addons/Ursula/Assets/Models/Grass/pink_grass/pink_grass.fbx" id="1_ldtcv"]
+[ext_resource type="Material" uid="uid://dbg8rp7jvgcck" path="res://addons/Ursula/Assets/Models/Grass/pink_grass/pink_grass_mat.tres" id="2_31a5p"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_nyixi"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_qff23"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wteg8"]
+height = 0.750382
+
+[node name="Root Scene" instance=ExtResource("1_ldtcv")]
+
+[node name="ItemPropsScript" type="Node3D" parent="." index="0"]
+script = ExtResource("2_nyixi")
+
+[node name="InteractiveObject" type="Node" parent="." index="1"]
+script = ExtResource("3_qff23")
+
+[node name="RootNode" parent="." index="2"]
+transform = Transform3D(2, 0, 0, 0, 3.125, 0, 0, 0, 2, 0, 0.156166, 0)
+
+[node name="pink_grass" parent="RootNode" index="0"]
+surface_material_override/0 = ExtResource("2_31a5p")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="3"]
+collision_layer = 524288
+collision_mask = 524288
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.374952, 0)
+shape = SubResource("CylinderShape3D_wteg8")

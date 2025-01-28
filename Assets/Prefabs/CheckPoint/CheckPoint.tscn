@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://c48g8ppowlfn4"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="1_td44l"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="2_il3s1"]
+[ext_resource type="Material" uid="uid://cp1dtkuup32kk" path="res://addons/Ursula/Assets/Prefabs/CheckPoint/CheckPoint_mat.tres" id="3_s8133"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xprp2"]
+size = Vector3(1, 2.09402, 1)
+
+[node name="CheckPoint" type="Node3D"]
+script = ExtResource("1_td44l")
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("2_il3s1")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02431, 0)
+shape = SubResource("BoxShape3D_xprp2")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="StaticBody3D/CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0356303, 0)
+material = ExtResource("3_s8133")
+
+[node name="CheckPointScript" type="Node3D" parent="."]

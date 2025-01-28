@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://buswuey2j5cvm"]
+
+[ext_resource type="Texture2D" uid="uid://hvj80qeuqbr0" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_connect_cross/tunnel_connect_cross_tex.png" id="1_n3w53"]
+
+[resource]
+albedo_texture = ExtResource("1_n3w53")

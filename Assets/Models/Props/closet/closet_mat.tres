@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cduvvq7q7wy1d"]
+
+[ext_resource type="Texture2D" uid="uid://bd7t0x1ph8g4t" path="res://addons/Ursula/Assets/Models/Props/closet/closet_tex.png" id="1_cniev"]
+
+[resource]
+albedo_texture = ExtResource("1_cniev")

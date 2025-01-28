@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://d3dnbbe45vmc8"
+path.s3tc="res://.godot/imported/fence_monolith1-41acedbf279451ebbd9e4ab37181ed1a_fence_monolith_tex.png-d4ff4b8c7846e812c6557d4f1b799350.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "b34acbe8a9c144568e1c5389238f54da"
+}
+
+[deps]
+
+source_file="res://addons/Ursula/Assets/Models/lamp&fences/fence_monolith/fence_monolith1-41acedbf279451ebbd9e4ab37181ed1a_fence_monolith_tex.png"
+dest_files=["res://.godot/imported/fence_monolith1-41acedbf279451ebbd9e4ab37181ed1a_fence_monolith_tex.png-d4ff4b8c7846e812c6557d4f1b799350.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

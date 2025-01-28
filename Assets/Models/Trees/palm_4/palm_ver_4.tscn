@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b86glkk1rjvtu"]
+
+[ext_resource type="PackedScene" uid="uid://dxsljxktvmcq" path="res://addons/Ursula/Assets/Models/Trees/palm_4/palm_ver4.fbx" id="1_7r8bv"]
+[ext_resource type="Material" uid="uid://6e781xi6uobf" path="res://addons/Ursula/Assets/Models/Trees/palm_4/palm_4_mat.tres" id="2_m407v"]
+
+[node name="palm_ver4" instance=ExtResource("1_7r8bv")]
+
+[node name="palm_ver4" parent="." index="0"]
+material_override = ExtResource("2_m407v")
