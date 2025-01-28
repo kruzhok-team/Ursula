@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+  <data key="gFormat">Cyberiada-GraphML-1.0</data>
+  <key attr.name="name" attr.type="string" for="node" id="dName"></key>
+  <key attr.name="data" attr.type="string" for="node" id="dData"></key>
+  <key attr.name="data" attr.type="string" for="edge" id="dData"></key>
+  <key attr.name="initial" attr.type="string" for="node" id="dInitial"></key>
+  <key for="edge" id="dGeometry"></key>
+  <key for="node" id="dGeometry"></key>
+  <key for="edge" id="dColor"></key>
+  <key for="node" id="dNote"></key>
+  <key for="node" id="dColor"></key>
+  <graph id="g">
+    <data key="dStateMachine"></data>
+    <node id="coreMeta">
+      <data key="dNote">formal</data>
+      <data key="dName">CGML_META</data>
+      <data key="dData">platform/ BearlogaDefend-Autoborder
+
+standardVersion/ 1.0
+
+name/ Автобортник
+
+author/ Матросов В.М.
+
+contact/ matrosov@mail.ru
+
+description/ Пример описания схемы, 
+который может быть многострочным, потому что так удобнее
+
+target/ Autoborder
+
+lapkiVisual/ true
+
+platformVersion/ 1.0
+
+</data>
+    </node>
+    <node id="n3">
+      <data key="dName">Скан</data>
+      <data key="dData">entry/
+Сенсор.ПоискВрагаПоДистанции(мин)
+
+exit/
+Сенсор.ОстановкаПоиска()
+
+</data>
+      <data key="dGeometry">
+        <rect x="-1666.1885700000007" y="544.4475589999997" width="468" height="145"></rect>
+      </data>
+      <data key="dColor">#FFFFFF</data>
+    </node>
+    <node id="init">
+      <data key="dVertex">initial</data>
+      <data key="dGeometry">
+        <rect x="-1516.4985699999997" y="418.677559" width="-1" height="-1"></rect>
+      </data>
+    </node>
+    <edge id="init-n3" source="init" target="n3"></edge>
+  </graph>
+</graphml>
