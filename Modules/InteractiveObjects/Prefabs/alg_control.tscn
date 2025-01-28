@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwtht1arglbrl"]
+
+[ext_resource type="PackedScene" uid="uid://c0yp75ifwk86s" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/interactive_objects_manager.tscn" id="1_vgwqr"]
+
+[node name="AlgControl" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 268.0
+offset_bottom = 43.0
+
+[node name="ButtonAlgStop" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 126.0
+offset_top = 3.0
+offset_right = 245.0
+offset_bottom = 30.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 12
+text = "Ост. алгоритмы
+"
+
+[node name="ButtonAlgStart" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = 123.0
+offset_bottom = 30.0
+focus_mode = 1
+theme_override_font_sizes/font_size = 12
+text = "Зап. алгоритмы
+"
+
+[node name="InteractiveObjectsManager" parent="." instance=ExtResource("1_vgwqr")]
+
+[connection signal="button_down" from="ButtonAlgStop" to="InteractiveObjectsManager" method="StopAllObjects"]
+[connection signal="button_down" from="ButtonAlgStart" to="InteractiveObjectsManager" method="RunAllObjects"]
