@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+  <data key="gFormat">Cyberiada-GraphML-1.0</data>
+  <key attr.name="name" attr.type="string" for="node" id="dName"></key>
+  <key attr.name="data" attr.type="string" for="node" id="dData"></key>
+  <key attr.name="data" attr.type="string" for="edge" id="dData"></key>
+  <key attr.name="initial" attr.type="string" for="node" id="dInitial"></key>
+  <key for="edge" id="dGeometry"></key>
+  <key for="node" id="dGeometry"></key>
+  <key for="edge" id="dColor"></key>
+  <key for="node" id="dNote"></key>
+  <key for="node" id="dColor"></key>
+  <graph id="g">
+    <data key="dStateMachine"></data>
+    <node id="coreMeta">
+      <data key="dNote">formal</data>
+      <data key="dName">CGML_META</data>
+      <data key="dData">platform/ InteractiveObjectSystem
+
+standardVersion/ 1.0
+
+platformVersion/ 1.0
+
+lapkiVisual/ true
+
+</data>
+    </node>
+    <node id="kbiwiusmfasmodlubfjw">
+      <data key="dName">Состояние</data>
+      <data key="dData">entry/
+МодульОбнаружения.ПоискИгрокаВРадиусе(10)
+
+exit/
+МодульОбнаружения.ОстановкаПоиска()
+
+</data>
+      <data key="dGeometry">
+        <rect x="124" y="238.8125" width="450" height="145"></rect>
+      </data>
+    </node>
+    <node id="jcahpwndgiiejwsxicde">
+      <data key="dName">Состояние</data>
+      <data key="dData">entry/
+МодульДвижения.ДвигатьсяКОбъекту()
+
+</data>
+      <data key="dGeometry">
+        <rect x="584" y="450.8125" width="450" height="100"></rect>
+      </data>
+    </node>
+    <node id="iaxfkskthwqhbblaitgj">
+      <data key="dVertex">initial</data>
+      <data key="dGeometry">
+        <point x="306" y="92.8125"></point>
+      </data>
+    </node>
+    <edge id="btkqgocpozaftsmtpobq" source="iaxfkskthwqhbblaitgj" target="kbiwiusmfasmodlubfjw"></edge>
+    <edge id="jueshtyspttdbucxkifo" source="kbiwiusmfasmodlubfjw" target="jcahpwndgiiejwsxicde">
+      <data key="dData">МодульОбнаружения.ИгрокОбнаружен/
+
+</data>
+      <data key="dLabelGeometry">
+        <point x="269" y="466.8125"></point>
+      </data>
+    </edge>
+  </graph>
+</graphml>
