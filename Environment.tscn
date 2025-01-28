@@ -1,0 +1,78 @@
+[gd_scene load_steps=9 format=3 uid="uid://c1y47k01wo4w7"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/DayNightCycle.cs" id="1_ut2wg"]
+[ext_resource type="Texture2D" uid="uid://b2h3g1waqkvdp" path="res://addons/Ursula/Assets/Textures/Skybox/skybox_night_sky_2.png" id="2_okbeu"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_37jg0"]
+sky_cover = ExtResource("2_okbeu")
+sky_cover_modulate = Color(0.252028, 0.252028, 0.252028, 1)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_44i48"]
+panorama = ExtResource("2_okbeu")
+energy_multiplier = 3.0
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ggseu"]
+ground_bottom_color = Color(0.647059, 0.654902, 0.670588, 1)
+ground_curve = 0.121258
+
+[sub_resource type="Sky" id="Sky_vfgte"]
+sky_material = SubResource("ProceduralSkyMaterial_ggseu")
+
+[sub_resource type="Environment" id="Environment_v6kl2"]
+background_mode = 2
+sky = SubResource("Sky_vfgte")
+tonemap_mode = 2
+glow_enabled = true
+fog_light_energy = 0.54
+fog_sun_scatter = 0.15
+fog_sky_affect = 0.089
+fog_height_density = 1.0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+volumetric_fog_emission_energy = 0.0
+volumetric_fog_gi_inject = 0.0
+volumetric_fog_anisotropy = 0.0
+volumetric_fog_length = 512.0
+volumetric_fog_sky_affect = 0.623
+volumetric_fog_temporal_reprojection_enabled = false
+volumetric_fog_temporal_reprojection_amount = 0.99
+
+[sub_resource type="FogMaterial" id="FogMaterial_dy77f"]
+density = 0.0588
+emission = Color(0.299547, 0.299547, 0.299547, 1)
+height_falloff = 1e-05
+
+[node name="Environment" type="Node3D" node_paths=PackedStringArray("Sun", "World")]
+script = ExtResource("1_ut2wg")
+Sun = NodePath("DirectionalLight3D")
+World = NodePath("WorldEnvironment")
+proceduralSkyMaterial = SubResource("ProceduralSkyMaterial_37jg0")
+proceduralColorDay = Color(0.196078, 0.196078, 0.196078, 1)
+proceduralColorNyght = Color(1, 1, 1, 1)
+NightPanorama = SubResource("PanoramaSkyMaterial_44i48")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_v6kl2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+
+[node name="FogVolume" type="FogVolume" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, -17.5531, -241.533)
+size = Vector3(512, 128, 512)
+material = SubResource("FogMaterial_dy77f")
+
+[node name="FogVolume2" type="FogVolume" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, -17.5531, 493.686)
+size = Vector3(512, 128, 512)
+material = SubResource("FogMaterial_dy77f")
+
+[node name="FogVolume3" type="FogVolume" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -247.121, -17.5531, 128)
+size = Vector3(512, 128, 512)
+material = SubResource("FogMaterial_dy77f")
+
+[node name="FogVolume4" type="FogVolume" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 496.669, -17.5531, 128)
+size = Vector3(512, 128, 512)
+material = SubResource("FogMaterial_dy77f")
