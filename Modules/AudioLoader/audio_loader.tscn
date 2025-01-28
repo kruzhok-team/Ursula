@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://61cqop0oiqc1"]
+
+[ext_resource type="Script" path="res://AudioLoader/AudioLoader.cs" id="1_8yp5o"]
+
+[node name="AudioLoader" type="Node"]
+script = ExtResource("1_8yp5o")
+
+[node name="FileDialog_OpenAudio" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 2
+size = Vector2i(700, 400)
+visible = true
+ok_button_text = "Открыть"
+dialog_close_on_escape = false
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.wav ; WAV аудио", "*.mp3 ; MP3 аудио", "*.ogg ; OGG аудио")
