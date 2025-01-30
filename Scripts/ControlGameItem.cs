@@ -10,21 +10,27 @@ public partial class ControlGameItem : Control
     [Export]
     public TextureRect textureGame;
 
-    string pathProjectDir;
+    public string pathProjectDir { get; private set; }
+    public string gameName { get; private set; }
+
+    public event Action<string> selectedEvent;
 
     public void Invalidate(string pathProjectDir)
     {
         this.pathProjectDir = pathProjectDir;
+        this.gameName = Path.GetFileNameWithoutExtension(pathProjectDir);
 
-        string name = Path.GetFileNameWithoutExtension(pathProjectDir);
-
-        nameGame.Text = name;
+        nameGame.Text = gameName;
 
         string gameImagePath = null;
-        if (File.Exists(pathProjectDir + "/" + MapManager.GAMEIMAGE + ".jpg")) gameImagePath = pathProjectDir + "/" + MapManager.GAMEIMAGE + ".jpg";
-        if (File.Exists(pathProjectDir + "/" + MapManager.GAMEIMAGE + ".JPG")) gameImagePath = pathProjectDir + "/" + MapManager.GAMEIMAGE + ".JPG";
-        if (File.Exists(pathProjectDir + "/" + MapManager.GAMEIMAGE + ".png")) gameImagePath = pathProjectDir + "/" + MapManager.GAMEIMAGE + ".png";
-        if (File.Exists(pathProjectDir + "/" + MapManager.GAMEIMAGE + ".PNG")) gameImagePath = pathProjectDir + "/" + MapManager.GAMEIMAGE + ".PNG";
+        if (File.Exists(pathProjectDir + "/" + MapManager.GAMEIMAGE + ".jpg"))
+            gameImagePath = pathProjectDir + "/" + MapManager.GAMEIMAGE + ".jpg";
+        if (File.Exists(pathProjectDir + "/" + MapManager.GAMEIMAGE + ".JPG"))
+            gameImagePath = pathProjectDir + "/" + MapManager.GAMEIMAGE + ".JPG";
+        if (File.Exists(pathProjectDir + "/" + MapManager.GAMEIMAGE + ".png"))
+            gameImagePath = pathProjectDir + "/" + MapManager.GAMEIMAGE + ".png";
+        if (File.Exists(pathProjectDir + "/" + MapManager.GAMEIMAGE + ".PNG"))
+            gameImagePath = pathProjectDir + "/" + MapManager.GAMEIMAGE + ".PNG";
 
         if (gameImagePath != null)
         {
@@ -45,19 +51,7 @@ public partial class ControlGameItem : Control
 
     public void OnPlayGame()
     {
-        PlayGame();
-    }
-
-    public async void PlayGame()
-    {
-        string importName = Path.GetFileNameWithoutExtension(pathProjectDir) + ".txt";
-        string[] pathMaps = Directory.GetFiles(pathProjectDir, "*.txt");
-        string pathMap = pathMaps[0]; // pathProjectDir + "/" + importName;
-        VoxLib.mapManager.LoadMapFromFile(pathMap);
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-        await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
-        VoxLib.mapManager.PlayGame();
-        VoxLib.hud.OnCloseControlGameProject();
-        VoxLib.hud.OnCloseControlProject();       
+        var handler = selectedEvent;
+        selectedEvent?.Invoke(gameName);
     }
 }
