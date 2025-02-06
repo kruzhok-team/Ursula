@@ -29,4 +29,9 @@ public partial class ControlTabPanel : Panel
         HideAll();
         if (panels != null && current < panels.Length) panels[current].Show();
     }
+	
+	private void MethodNew()
+	{
+		
+	}
 }
