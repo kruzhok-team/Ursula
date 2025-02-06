@@ -235,8 +235,8 @@ public partial class MapManager : Node3D
 		if (itemsGO == null)
 		{
 			itemsGO = new Node3D();
-            itemsGO.Name = "ItemsGO";
-            this.AddChild(itemsGO);
+			itemsGO.Name = "ItemsGO";
+			this.AddChild(itemsGO);
 		}
 	}
 
@@ -721,26 +721,30 @@ public partial class MapManager : Node3D
 		isCreateItem = !isCreateItem;
 	}
 
-	public override void _Process(double delta)
-	{
-		base._Process(delta);
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
 
-		buildControl.Visible = playMode == PlayMode.buildingMode;
-		gameControl.Visible = playMode != PlayMode.buildingMode;
+        buildControl.Visible = playMode == PlayMode.buildingMode;
+        gameControl.Visible = playMode == PlayMode.testMode;
 
-		if (playMode == PlayMode.buildingMode) 
-		{
-			buildControl.Show();
-			gameControl.Hide();
-		}
-		else
-		{
-			buildControl.Hide();
-			gameControl.Show();
-		}
+        if (playMode == PlayMode.buildingMode)
+        {
+            buildControl.Show();
+            gameControl.Hide();
+        }
+        else
+        {
+            buildControl.Hide();
+
+            if (playMode == PlayMode.testMode)
+                gameControl.Show();
+            else
+                gameControl.Hide();
+        }
     }
 
-	public void Building(Node collider, Vector3 position)
+    public void Building(Node collider, Vector3 position)
 	{
         if (LogScript.isLogEntered) return;
 
@@ -1357,7 +1361,7 @@ public partial class MapManager : Node3D
         if (string.IsNullOrEmpty(pathMap))
         {
             //GD.Print("Нет сохраненного проекта для импорта.");
-            VoxLib.ShowMessage("Нет сохраненной игры для импорта. Сохраните игру в файл или загрузите из файла.");
+            VoxLib.ShowMessage("Нет сохраненного проекта для импорта.");
             return;
         }
 
@@ -1543,10 +1547,9 @@ public partial class MapManager : Node3D
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         ZipFile.CreateFromDirectory(pathImportProject, zipFile);
 
-        VoxLib.ShowMessage($"Проект {Path.GetFileName(pathMap)} упакован в архив {zipFile}");
+        VoxLib.ShowMessage($"Проект {Path.GetFileNameWithoutExtension(pathMap)} упакован в архив {zipFile}");
 
-        string dirImport = Path.GetDirectoryName(fileName);
-        OpenInExplorer(dirImport);
+        OpenInExplorer(pathImport);
 
 
     }
