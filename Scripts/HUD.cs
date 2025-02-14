@@ -1,7 +1,8 @@
 ﻿using Godot;
-using System;
+using Ursula.Core.DI;
+using Ursula.Environment.Settings;
 
-public partial class HUD : Control
+public partial class HUD : Control, IInjectable
 {
     [Export]
     public Label _labelFile;
@@ -17,11 +18,9 @@ public partial class HUD : Control
 
     [Export]
     public Slider SliderMouseSence;
-    public float sensitivity = 0.5f;
 
     [Export]
     public OptionButton optionButtonShadow;
-    int shadowEnabled = 0;
 
     [Export]
     public Label labelLengthOfDay;
@@ -47,17 +46,33 @@ public partial class HUD : Control
     [Export]
     public Slider SliderPlatoOffsetZ;
 
+    [Inject]
+    private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
+
+    private float _defaultSensitivity = 0.5f;
+
+    public float sensitivity
+    {
+        get 
+        {
+            if (!TryGetSettingsModel(out var settingsModel))
+                return _defaultSensitivity;
+            return settingsModel.Sensitivity;
+        }
+    }
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
+
     public override void _Ready()
     {
         base._Ready();
-        VoxLib.hud = this;
-        sensitivity = LoadSensitivity();
-        SliderMouseSence.Value = sensitivity;
-        SettingsGO.Visible = false;
 
-        shadowEnabled = LoadShadowEnabled();
-        optionButtonShadow.Selected = shadowEnabled;
-        SetShadow();
+        ApplySettingsFromConfig();
+
+        VoxLib.hud = this;
+        SettingsGO.Visible = false;
     }
 
     Vector3 coord;
@@ -113,27 +128,8 @@ public partial class HUD : Control
 
     public void SetSensitivity(float sence)
     {
-        sensitivity = sence;
-        SaveSensitivity();
-    }
-
-    private void SaveSensitivity()
-    {
-        ConfigFile config = new ConfigFile();
-        config.Load(VoxLib.SETTINGPATH);
-        config.SetValue("Settings", "MouseSence", sensitivity);
-        config.Save(VoxLib.SETTINGPATH);
-    }
-
-    private float LoadSensitivity()
-    {
-        ConfigFile config = new ConfigFile();
-        Error err = config.Load(VoxLib.SETTINGPATH);
-        if (err == Error.Ok)
-        {
-            return (float)config.GetValue("Settings", "MouseSence", 0.5f);
-        }
-        return 0.5f;
+        if (TryGetSettingsModel(out var settingsModel))
+            settingsModel.SetSensitivity(sence).Save();
     }
 
     public void SaveLengthOfDay(float value)
@@ -151,16 +147,20 @@ public partial class HUD : Control
 
     public void SetShadowEnabled(int value)
     {
-        shadowEnabled = value;
-        SaveShadowEnabled();
+        if (TryGetSettingsModel(out var settingsModel))
+            settingsModel.SetShadowEnabled(value).Save();
         SetShadow();
     }
 
     private void SetShadow()
     {
+        if (!TryGetSettingsModel(out var settingsModel))
+            return;
+
         var scene = GetTree().CurrentScene;
         var directionalLight = FindDirectionalLight(scene);
-        directionalLight.ShadowEnabled = shadowEnabled > 0;
+
+        directionalLight.ShadowEnabled = settingsModel.ShadowEnabled > 0;
     }
 
     private DirectionalLight3D FindDirectionalLight(Node node)
@@ -176,25 +176,6 @@ public partial class HUD : Control
         }
 
         return null;
-    }
-
-    private void SaveShadowEnabled()
-    {
-        ConfigFile config = new ConfigFile();
-        config.Load(VoxLib.SETTINGPATH);
-        config.SetValue("Settings", "ShadowEnabled", shadowEnabled);
-        config.Save(VoxLib.SETTINGPATH);
-    }
-
-    private int LoadShadowEnabled()
-    {
-        ConfigFile config = new ConfigFile();
-        Error err = config.Load(VoxLib.SETTINGPATH);
-        if (err == Error.Ok)
-        {
-            return (int)config.GetValue("Settings", "ShadowEnabled", 0);
-        }
-        return 0;
     }
 
     public static void ItemProcessing(Node collider, Vector3 raycastPos, out ItemPropsScript itemPropS, out Node parent)
@@ -288,5 +269,32 @@ public partial class HUD : Control
     public void SetNameMap(string nameMap)
     {
         _labelFile.Text = "Игра: " + nameMap;
+    }
+
+    private async void ApplySettingsFromConfig()
+    {
+        var model = _settingsModelProvider != null ? await _settingsModelProvider.GetAsync() : null;
+
+        if (model == null)
+        {
+            GD.PrintErr($"{typeof(HUD).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
+            return;
+        }
+
+        SliderMouseSence.Value = model.Sensitivity;
+        optionButtonShadow.Selected = model.ShadowEnabled;
+        SetShadow();
+    }
+
+    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist=false)
+    {
+        model = null;
+
+        if (!(_settingsModelProvider?.TryGet(out model) ?? false))
+        {
+            if (errorIfNotExist)
+                GD.PrintErr($"{typeof(HUD).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
+        }
+        return model != null;
     }
 }
