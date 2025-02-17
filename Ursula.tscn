@@ -1,6 +1,7 @@
-[gd_scene load_steps=43 format=3 uid="uid://dgc042g3ej4rj"]
+[gd_scene load_steps=44 format=3 uid="uid://dgc042g3ej4rj"]
 
 [ext_resource type="PackedScene" uid="uid://dn1jem1nnefln" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/project_timer.tscn" id="1_wxxnd"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/Core/Initialization/UrsulaEntryPoint.cs" id="1_xjqfu"]
 [ext_resource type="PackedScene" uid="uid://bhcs2lux4ox5b" path="res://addons/Ursula/Modules/ModelLoader/model_loader.tscn" id="2_ayndh"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/HUD.cs" id="3_lm8x0"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ControlPopupMenu.cs" id="4_8kw1n"]
@@ -77,6 +78,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_xjqfu")
 
 [node name="ProjectTimer" parent="." instance=ExtResource("1_wxxnd")]
 

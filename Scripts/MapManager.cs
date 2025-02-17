@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
+using Ursula.Core.DI;
+using Ursula.Environment.Settings;
 
 
 
@@ -20,7 +22,7 @@ public enum PlayMode
 }
 
 //[Tool]
-public partial class MapManager : Node3D
+public partial class MapManager : Node3D, IInjectable
 {
 	public const int CUSTOM_ITEM_INDEX_OFFSET = 1000;
     public const string PATHCATALOG = "/Models/Catalog/";
@@ -114,6 +116,13 @@ public partial class MapManager : Node3D
 	public PlayMode playMode = PlayMode.buildingMode;
 	Node3D playerBuild;
     Node3D playerTest;
+
+    [Inject]
+    private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
 
     public Node3D currentPlayerGO
 	{
@@ -841,7 +850,7 @@ public partial class MapManager : Node3D
         if (currentFile.Contains(".zip")) currentFile = Path.GetFileNameWithoutExtension(currentFile) + ".txt";
 
         fileDialog.CurrentFile = currentFile;
-        lastDirectory = LoadLastDirectory();
+        lastDirectory = LoadLastDirectory;
 
         CheckButton checkButton = fileDialog.FindChild("AccessCheckButton", true, false) as CheckButton;
         if (checkButton != null)
@@ -1036,7 +1045,7 @@ public partial class MapManager : Node3D
 
         fileDialogLoad.Filters = new string[] { "*.txt ; txt" };
 
-        lastDirectory = LoadLastDirectory();
+        lastDirectory = LoadLastDirectory;
 
         CheckButton checkButton = fileDialogLoad.FindChild("AccessCheckButton", true, false) as CheckButton;
         if (checkButton != null)
@@ -1075,22 +1084,19 @@ public partial class MapManager : Node3D
     // Сохранение пути в файл конфигурации
     public void SaveLastDirectory(string path)
     {
-        ConfigFile config = new ConfigFile();
-        config.Load(settingsPath);
-        config.SetValue("FileDialogMap", "last_directory_map", path);
-        config.Save(settingsPath);
+        if (TryGetSettingsModel(out var settingsModel))
+            settingsModel.SetLastMapDirectory(path).Save();
     }
 
     // Загрузка пути из файла конфигурации
-    public string LoadLastDirectory()
+    public string LoadLastDirectory
     {
-        ConfigFile config = new ConfigFile();
-        Error err = config.Load(settingsPath);
-        if (err == Error.Ok)
+        get
         {
-            return (string)config.GetValue("FileDialogMap", "last_directory_map", "");
+            if (!TryGetSettingsModel(out var settingsModel))
+                return "";
+            return settingsModel.LastMapDirectory;
         }
-        return "";
     }
 
     public async void MoveToRandomSetup()
@@ -1716,5 +1722,17 @@ public partial class MapManager : Node3D
         string[] img = Directory.GetFiles(folderPath, "*.jpg").Concat(Directory.GetFiles(folderPath, "*.png")).ToArray();
         var imgFiles = new List<string>(img);
         return imgFiles;
+    }
+
+    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist = false)
+    {
+        model = null;
+
+        if (!(_settingsModelProvider?.TryGet(out model) ?? false))
+        {
+            if (errorIfNotExist)
+                GD.PrintErr($"{typeof(MapManager).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
+        }
+        return model != null;
     }
 }

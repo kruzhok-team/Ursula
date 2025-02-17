@@ -234,7 +234,7 @@ public partial class LogScript : Node
 
         fileDialog.CurrentFile = currentFile;
 
-        VoxLib.mapManager.lastDirectory = VoxLib.mapManager.LoadLastDirectory();
+        VoxLib.mapManager.lastDirectory = VoxLib.mapManager.LoadLastDirectory;
 
         if (!string.IsNullOrEmpty(VoxLib.mapManager.lastDirectory))
         {
