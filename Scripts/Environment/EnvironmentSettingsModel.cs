@@ -1,0 +1,27 @@
+﻿using Ursula.Core.Model;
+
+namespace Ursula.Environment.Settings
+{
+    //TODO: Create separate model classes for the following code, organized by feature logic.
+    public class EnvironmentSettingsModel : ConfigFileModel
+    {
+        public EnvironmentSettingsModel() : base(VoxLib.SETTINGPATH)
+        {
+        }
+
+        public int ShadowEnabled => (int)(GetConfigFile()?.GetValue("Settings", "ShadowEnabled", 0) ?? 0);
+        public float Sensitivity => (float)(GetConfigFile()?.GetValue("Settings", "MouseSence", 0) ?? 0);
+
+        public EnvironmentSettingsModel SetShadowEnabled(int value)
+        {
+            GetConfigFile()?.SetValue("Settings", "ShadowEnabled", value);
+            return this;
+        }
+
+        public EnvironmentSettingsModel SetSensitivity(float value)
+        {
+            GetConfigFile()?.SetValue("Settings", "MouseSence", value);
+            return this;
+        }
+    }
+}
