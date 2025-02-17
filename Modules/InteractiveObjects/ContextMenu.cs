@@ -7,6 +7,8 @@ public partial class ContextMenu : Control
     Panel contextPanel;
     Panel modelActionsPanel;
     Button setModelButton;
+    Panel GMLActionsPanel;
+    Label GMLActionsLabel;
 
     Button button1;
     Button button2;
@@ -35,6 +37,8 @@ public partial class ContextMenu : Control
 
         button1 = GetNode("GMLActions/Load") as Button;
         button2 = GetNode("GMLActions/Reload") as Button;
+        GMLActionsPanel = GetNode("GMLActions/Panel") as Panel;
+        GMLActionsLabel = GetNode("GMLActions/GMLActionsLabel") as Label;
 
         fileDialog = GetNode("FileDialog") as FileDialog;
         messageLabel = GetNode("MessageLabel") as Label;
@@ -43,6 +47,7 @@ public partial class ContextMenu : Control
         modelActionsPanel.Visible = false;
         messageLabel.Visible = false;
         messageLabel.Text = "";
+        GMLActionsLabel.Text = "";
     }
 
     public static void ShowMessageS(string message)
@@ -75,6 +80,9 @@ public partial class ContextMenu : Control
         VoxLib.mapManager.SetCameraCursorShow(true);
 
         isOpened = true;
+
+        GMLActionsLabel.Text = interactiveObject.xmlPath;
+        GMLActionsPanel.Visible = GMLActionsLabel.Text.Length > 0;
     }
 
     public override void _Ready()

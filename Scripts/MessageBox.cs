@@ -18,13 +18,21 @@ public partial class MessageBox : Control
         label.Text = message;
 
         this.Visible = true;
+
+        HideMessage(5f);
     }
 
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.Pressed)
         {
-            this.Visible = false;
+            HideMessage(0);
         }
+    }
+
+    public async void HideMessage(float delay)
+    {
+        await ToSignal(GetTree().CreateTimer(delay), "timeout");
+        this.Visible = false;
     }
 }

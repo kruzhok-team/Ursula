@@ -24,17 +24,25 @@ public partial class InteractiveObject : Node
 
     public GMLAlgorithm gml;
 
+
+
     public override void _Ready()
 	{
         InteractiveObjectsManager.Register(this);
 
-        detector = LinkOrLoadPrefabComponent<InteractiveObjectDetector>("InteractiveObjectDetector", $"{workFolderPath}/Prefabs/interactive_object_detector.tscn");
-        audio = LinkOrLoadPrefabComponent<InteractiveObjectAudio>("InteractiveObjectAudio", $"{workFolderPath}/Prefabs/interactive_object_audio.tscn");
-        move = LinkOrLoadPrefabComponent<InteractiveObjectMove>("InteractiveObjectMove", $"{workFolderPath}/Prefabs/interactive_object_move.tscn");
-        timer = LinkOrLoadPrefabComponent<InteractiveObjectTimer>("InteractiveObjectTimer", $"{workFolderPath}/Prefabs/interactive_object_timer.tscn");
+        //detector = LinkOrLoadPrefabComponent<InteractiveObjectDetector>("InteractiveObjectDetector", $"{workFolderPath}/Prefabs/interactive_object_detector.tscn");
+        //audio = LinkOrLoadPrefabComponent<InteractiveObjectAudio>("InteractiveObjectAudio", $"{workFolderPath}/Prefabs/interactive_object_audio.tscn");
+        //move = LinkOrLoadPrefabComponent<InteractiveObjectMove>("InteractiveObjectMove", $"{workFolderPath}/Prefabs/interactive_object_move.tscn");
+        //timer = LinkOrLoadPrefabComponent<InteractiveObjectTimer>("InteractiveObjectTimer", $"{workFolderPath}/Prefabs/interactive_object_timer.tscn");
+        //counter1 = LinkOrLoadPrefabComponent<InteractiveObjectCounter>("InteractiveObjectCounter1", $"{workFolderPath}/Prefabs/interactive_object_counter.tscn");
+        //counter2 = LinkOrLoadPrefabComponent<InteractiveObjectCounter>("InteractiveObjectCounter2", $"{workFolderPath}/Prefabs/interactive_object_counter.tscn");
 
-        counter1 = LinkOrLoadPrefabComponent<InteractiveObjectCounter>("InteractiveObjectCounter1", $"{workFolderPath}/Prefabs/interactive_object_counter.tscn");
-        counter2 = LinkOrLoadPrefabComponent<InteractiveObjectCounter>("InteractiveObjectCounter2", $"{workFolderPath}/Prefabs/interactive_object_counter.tscn");
+        detector = LinkComponent<InteractiveObjectDetector>("InteractiveObjectDetector", VoxLib.mapAssets.InteractiveObjectDetectorPrefab);
+        audio = LinkComponent<InteractiveObjectAudio>("InteractiveObjectAudio", VoxLib.mapAssets.InteractiveObjectAudioPrefab);
+        move = LinkComponent<InteractiveObjectMove>("InteractiveObjectMove", VoxLib.mapAssets.InteractiveObjectMovePrefab);
+        timer = LinkComponent<InteractiveObjectTimer>("InteractiveObjectTimer", VoxLib.mapAssets.InteractiveObjectTimerPrefab);
+        counter1 = LinkComponent<InteractiveObjectCounter>("InteractiveObjectCounter1", VoxLib.mapAssets.InteractiveObjectCounterPrefab);
+        counter2 = LinkComponent<InteractiveObjectCounter>("InteractiveObjectCounter2", VoxLib.mapAssets.InteractiveObjectCounterPrefab);
 
         ReloadAlgorithm();
         //StartAlgorithm();
@@ -136,6 +144,29 @@ public partial class InteractiveObject : Node
             GD.PrintErr($"Префаб по пути {prefabPath} не соответствует типу {typeof(T)}");
             return null;
         }
+
+        newNode.Name = nodeName;
+
+        parentNode.CallDeferred("add_child", newNode);
+
+        return newNode;
+    }
+
+    private T LinkComponent<T>(string nodeName, PackedScene prefab) where T : Node
+    {
+        Node parentNode = GetParent();
+
+        if (parentNode.HasNode(nodeName))
+        {
+            Node foundNode = parentNode.GetNode(nodeName);
+            if (foundNode is T targetNode)
+            {
+                return targetNode;
+            }
+        }
+
+        T newNode = prefab.Instantiate<T>();
+        if (newNode == null) return null;
 
         newNode.Name = nodeName;
 

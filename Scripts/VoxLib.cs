@@ -33,13 +33,8 @@ public partial class VoxLib : Node
 	public override void _Ready()
 	{
 		base._Ready();
-		if (instance == null && _mapAssets != null)
-		{
-			instance ??= this;
-			mapAssets = _mapAssets;
-		}
-
-		GD.Print("mapAssets=" + mapAssets);
+        instance ??= this;
+        mapAssets ??= _mapAssets;
 
         string[] gpuModel = OS.GetVideoAdapterDriverInfo();
 		string drvInfo = "";
@@ -55,8 +50,6 @@ public partial class VoxLib : Node
             GD.Print("Error loading test texture: " + e.Message);
 			ShowMessage($"Проверьте или обновите драйвера видео карты {drvInfo}. Ошибка загрузки тестовой текстуры.");
         }
-
-		//RenderingServer.
     }
 
 	 public static void RemoveAllChildren(Node parent)

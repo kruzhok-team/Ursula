@@ -121,6 +121,12 @@ public partial class HUD : Control, IInjectable
         VoxLib.instance.CGP.Instantiate();
     }
 
+    public void HideAllControls()
+    {
+        OnCloseControlProject();
+        OnCloseControlGameProject();
+    }
+
     public void OnCloseControlGameProject()
     {
         ControlGamesProjectGO.Visible = false;
@@ -266,9 +272,20 @@ public partial class HUD : Control, IInjectable
         VoxLib.mapManager.OpenGameImage();
     }
 
+    public void OnOpenGameVideo()
+    {
+        VoxLib.mapManager.OpenGameVideo();
+    }
+
     public void SetNameMap(string nameMap)
     {
         _labelFile.Text = "Игра: " + nameMap;
+    }
+
+    public void OnOpenPanelLoadObject()
+    {
+        ControlPopupMenu.instance._HideAllMenu();
+        ObjectsCatalog.instance.OnOpenPanelLoadObject();
     }
 
     private async void ApplySettingsFromConfig()
@@ -286,7 +303,7 @@ public partial class HUD : Control, IInjectable
         SetShadow();
     }
 
-    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist=false)
+    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist = false)
     {
         model = null;
 
@@ -297,4 +314,5 @@ public partial class HUD : Control, IInjectable
         }
         return model != null;
     }
+
 }

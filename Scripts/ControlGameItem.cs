@@ -10,10 +10,14 @@ public partial class ControlGameItem : Control
     [Export]
     public TextureRect textureGame;
 
+    [Export]
+    public Button buttonTestMode;
+
     public string pathProjectDir { get; private set; }
     public string gameName { get; private set; }
 
     public event Action<string> selectedEvent;
+
 
     public void Invalidate(string pathProjectDir)
     {
@@ -22,36 +26,28 @@ public partial class ControlGameItem : Control
 
         nameGame.Text = gameName;
 
-        string gameImagePath = null;
-        if (File.Exists(pathProjectDir + "/" + MapManager.GAMEIMAGE + ".jpg"))
-            gameImagePath = pathProjectDir + "/" + MapManager.GAMEIMAGE + ".jpg";
-        if (File.Exists(pathProjectDir + "/" + MapManager.GAMEIMAGE + ".JPG"))
-            gameImagePath = pathProjectDir + "/" + MapManager.GAMEIMAGE + ".JPG";
-        if (File.Exists(pathProjectDir + "/" + MapManager.GAMEIMAGE + ".png"))
-            gameImagePath = pathProjectDir + "/" + MapManager.GAMEIMAGE + ".png";
-        if (File.Exists(pathProjectDir + "/" + MapManager.GAMEIMAGE + ".PNG"))
-            gameImagePath = pathProjectDir + "/" + MapManager.GAMEIMAGE + ".PNG";
+        Texture2D texture = VoxLib.mapManager.GetGameImage(pathProjectDir);
+        textureGame.Texture = texture;
 
-        if (gameImagePath != null)
-        {
-            Image img = new Image();
-            var err = img.Load(gameImagePath);
+#if !TOOLS
+        buttonTestMode.Visible = false;
+#endif
 
-            if (err != Error.Ok)
-            {
-                GD.Print("Failed to load image from path: " + gameImagePath);
-            }
-            else
-            {
-                ImageTexture texture = ImageTexture.CreateFromImage(img);
-                textureGame.Texture = texture;
-            }
-        }
+
     }
 
     public void OnPlayGame()
     {
+        //VoxLib.mapManager.playMode = PlayMode.playGameMode;
         var handler = selectedEvent;
-        selectedEvent?.Invoke(gameName);
+        //selectedEvent?.Invoke(gameName);
+        selectedEvent?.Invoke(pathProjectDir);
+    }
+
+    private void OnPlayTest()
+    {
+        VoxLib.mapManager.playMode = PlayMode.testMode;
+        var handler = selectedEvent;
+        selectedEvent?.Invoke(pathProjectDir);
     }
 }

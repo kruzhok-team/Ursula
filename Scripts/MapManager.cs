@@ -23,13 +23,15 @@ public enum PlayMode
 public partial class MapManager : Node3D
 {
 	public const int CUSTOM_ITEM_INDEX_OFFSET = 1000;
-	public const string PATHCUSTOMGRASS = "/Models/Grass/";
+    public const string PATHCATALOG = "/Models/Catalog/";
+    public const string PATHCUSTOMGRASS = "/Models/Grass/";
     public const string PATHCUSTOMTREES = "/Models/Trees/";
 
     public const string PATHAUDIO = "Audio";
     public const string PATHXML = "Graphs";
     public const string PATHMODEL = "Models";
     public const string GAMEIMAGE = "GameImage";
+    public const string GAMEVIDEO = "GameVideo";
 
     [Export]
 	public Control buildControl;
@@ -129,7 +131,12 @@ public partial class MapManager : Node3D
     {
         get
         {
+#if TOOLS
             return ProjectSettings.GlobalizePath(GetProjectFolderPath()) + "/ImportProject";
+#else
+            string executablePath = OS.GetExecutablePath();
+            return System.IO.Path.GetDirectoryName(executablePath) +"/ImportProject";          
+#endif
         }
     }
 
@@ -147,6 +154,7 @@ public partial class MapManager : Node3D
 
     string pathMap = null;
     string gameImagePath = null;
+    string gameVideoPath = null;
 
     public override void _Ready()
 	{
@@ -169,9 +177,10 @@ public partial class MapManager : Node3D
 		CreateDir(path + "/Graphs/");
         CreateDir(path + PATHCUSTOMGRASS);
         CreateDir(path + PATHCUSTOMTREES);
+        CreateDir(path + PATHCATALOG);
     }
 
-	private void CreateDir(string path)
+	public static void CreateDir(string path)
 	{
         var dir = DirAccess.Open(path);
 
@@ -443,6 +452,7 @@ public partial class MapManager : Node3D
 
         await ToSignal(GetTree().CreateTimer(5.0f), "timeout");
         VoxLib.hud.RunAllObjects();
+
     }
 
     public Camera3D GetPlayerCamera()
@@ -1009,6 +1019,10 @@ public partial class MapManager : Node3D
             mapData.Add("gameImagePath", gameImagePath);
         else gameImagePath = null;
 
+        if (!string.IsNullOrEmpty(gameVideoPath))
+            mapData.Add("gameVideoPath", gameVideoPath);
+        else gameVideoPath = null;
+
         return mapData;
 	}
 
@@ -1087,6 +1101,8 @@ public partial class MapManager : Node3D
     public async void LoadMapFromFile(string fileName)
     {
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        //LoadingUI.instance.ShowLoading();
 
         lastDirectory = fileDialogLoad.CurrentDir;
         SaveLastDirectory(lastDirectory);
@@ -1247,7 +1263,12 @@ public partial class MapManager : Node3D
         if (mapData.ContainsKey("gameImagePath"))
             gameImagePath = mapData["gameImagePath"];
 
+        if (mapData.ContainsKey("gameVideoPath"))
+            gameVideoPath = mapData["gameVideoPath"];
+
         VoxLib.hud?.SetNameMap(Path.GetFileName(pathMap));
+
+        //LoadingUI.instance.HideLoading();
 
         return;
     }
@@ -1518,12 +1539,25 @@ public partial class MapManager : Node3D
 
             string imageName = Path.GetFileName(gameImagePath);
             
-
             string ext = Path.GetExtension(gameImagePath);
             string gameImagePathImport = pathImportProject + "/" + GAMEIMAGE + ext;
             mapData.Add("gameImagePath", GAMEIMAGE + ext);
 
             File.Copy(gameImagePath, gameImagePathImport, true);
+        }
+
+        if (mapData.ContainsKey("gameVideoPath"))
+        {
+            string gameVideoPath = mapData["gameVideoPath"];
+            mapData.Remove("gameVideoPath");
+
+            string imageName = Path.GetFileName(gameVideoPath);
+
+            string ext = Path.GetExtension(gameVideoPath);
+            string gameVideoPathImport = pathImportProject + "/" + GAMEVIDEO + ext;
+            mapData.Add("gameVideoPath", GAMEVIDEO + ext);
+
+            File.Copy(gameVideoPath, gameVideoPathImport, true);
         }
 
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
@@ -1586,6 +1620,38 @@ public partial class MapManager : Node3D
         fileDialogLoad.Show();
     }
 
+    public void OpenGameVideo()
+    {
+        DisconnectAll();
+
+        if (string.IsNullOrEmpty(pathMap))
+        {
+            VoxLib.ShowMessage("Нет открытого проекта игры.");
+            return;
+        }
+
+        fileDialogLoad.Filters = new string[] { "*.ogv ; ogv" };
+        fileDialogLoad.CurrentDir = "";
+        fileDialogLoad.CurrentFile = "";
+
+        CheckButton checkButton = fileDialogLoad.FindChild("AccessCheckButton", true, false) as CheckButton;
+        if (checkButton != null)
+        {
+            checkButton.Connect("toggled", new Callable(this, nameof(OnCheckButtonToggled)));
+        }
+        else
+        {
+            GD.Print("CheckButton не найден среди дочерних узлов.");
+        }
+
+        if (!fileDialogLoad.IsConnected("file_selected", new Callable(this, nameof(SaveGameVideo))))
+        {
+            fileDialogLoad.Connect("file_selected", new Callable(this, nameof(SaveGameVideo)));
+        }
+
+        fileDialogLoad.Show();
+    }
+
     private void DisconnectAll()
     {
         if (fileDialogLoad.IsConnected("file_selected", new Callable(this, nameof(SaveMapToFile)))) fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(SaveMapToFile)));
@@ -1601,11 +1667,15 @@ public partial class MapManager : Node3D
     {
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
-        //Dictionary<string, string> mapData = SaveWorld();
-        //if (mapData.ContainsKey("gameImagePath")) mapData.Remove("gameImagePath");
-        //mapData.Add("gameImagePath", fileName);
-
         gameImagePath = fileName;
+        SaveMapToFile(pathMap);
+    }
+
+    private async void SaveGameVideo(string fileName)
+    {
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        gameVideoPath = fileName;
         SaveMapToFile(pathMap);
     }
 
@@ -1616,5 +1686,35 @@ public partial class MapManager : Node3D
             bool isDialogsOpen = fileDialog.Visible || fileDialogLoad.Visible;
             return isDialogsOpen;
         }
+    }
+
+    public Texture2D GetGameImage(string folderPath)
+    {
+        List<string> images = FindImageFiles(folderPath);
+        if (images.Count > 0)
+        {
+            string pathTex = images[0];
+            Image img = new Image();
+            var err = img.Load(pathTex);
+
+            if (err != Error.Ok)
+            {
+                GD.Print("Failed to load image from path: " + gameImagePath);
+            }
+            else
+            {
+                ImageTexture texture = ImageTexture.CreateFromImage(img);
+                return texture;
+            }
+        }
+
+        return null;
+    }
+
+    private List<string> FindImageFiles(string folderPath)
+    {
+        string[] img = Directory.GetFiles(folderPath, "*.jpg").Concat(Directory.GetFiles(folderPath, "*.png")).ToArray();
+        var imgFiles = new List<string>(img);
+        return imgFiles;
     }
 }

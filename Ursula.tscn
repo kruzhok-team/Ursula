@@ -1,6 +1,5 @@
-[gd_scene load_steps=42 format=3 uid="uid://dgc042g3ej4rj"]
+[gd_scene load_steps=43 format=3 uid="uid://dgc042g3ej4rj"]
 
-[ext_resource type="Script" path="res://addons/Ursula/Scripts/Core/Initialization/UrsulaEntryPoint.cs" id="1_jaltr"]
 [ext_resource type="PackedScene" uid="uid://dn1jem1nnefln" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/project_timer.tscn" id="1_wxxnd"]
 [ext_resource type="PackedScene" uid="uid://bhcs2lux4ox5b" path="res://addons/Ursula/Modules/ModelLoader/model_loader.tscn" id="2_ayndh"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/HUD.cs" id="3_lm8x0"]
@@ -23,8 +22,10 @@
 [ext_resource type="PackedScene" uid="uid://bf4yqi8xraxte" path="res://addons/Ursula/Assets/Prefabs/UI/ImportGameItem.tscn" id="20_aufgm"]
 [ext_resource type="Texture2D" uid="uid://b0wov4nd1e1eo" path="res://addons/Ursula/BackgroundB.png" id="21_ejwl8"]
 [ext_resource type="PackedScene" uid="uid://d4krypfxpyycs" path="res://addons/Ursula/Modules/ModelsCatalog/ObjectsCatalog.tscn" id="22_3pdji"]
+[ext_resource type="PackedScene" uid="uid://b18gu5dlxifi5" path="res://addons/Ursula/Assets/Prefabs/UI/VideoPlayer.tscn" id="22_6diaf"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/VoxLib.cs" id="23_56bgx"]
 [ext_resource type="Resource" uid="uid://dl6jsq7htq75q" path="res://addons/Ursula/Assets/MapAssets.tres" id="24_iibtg"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/LoadingUI.cs" id="24_w700t"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/CreateTerrain.cs" id="25_jfqi2"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/CreateWater.cs" id="26_xdp10"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/MapManager.cs" id="27_5b8gm"]
@@ -76,7 +77,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_jaltr")
 
 [node name="ProjectTimer" parent="." instance=ExtResource("1_wxxnd")]
 
@@ -251,20 +251,26 @@ alignment = 0
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 focus_mode = 1
-text = "Сохранить игру"
+text = "Сохранить карту"
 alignment = 0
 
 [node name="ButtonLoadMap" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 focus_mode = 1
-text = "Загрузить игру"
+text = "Загрузить карту"
 alignment = 0
 
 [node name="ButtonOpenGameImage" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
 layout_mode = 2
 focus_mode = 1
 text = "Загрузить обложку игры"
+alignment = 0
+
+[node name="ButtonOpenGameVideo" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = "Загрузить видео игры"
 alignment = 0
 
 [node name="ButtonExportProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
@@ -931,8 +937,8 @@ expand_mode = 1
 visible = false
 layout_mode = 1
 offset_top = 39.0
-offset_right = 268.0
-offset_bottom = 119.0
+offset_right = 368.0
+offset_bottom = 282.0
 
 [node name="Label7" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel"]
 layout_mode = 1
@@ -949,6 +955,14 @@ focus_mode = 1
 alignment = 2
 autowrap_mode = 3
 clip_text = true
+
+[node name="ButtonAddNewObject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel"]
+layout_mode = 0
+offset_left = 274.0
+offset_top = 15.0
+offset_right = 361.0
+offset_bottom = 70.0
+text = "Добавить"
 
 [node name="ButtonSettings" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
 custom_minimum_size = Vector2(120, 0)
@@ -1905,13 +1919,52 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="ObjectsCatalog" parent="." instance=ExtResource("22_3pdji")]
-visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.0
 grow_vertical = 1
+
+[node name="VideoPlayer" parent="." instance=ExtResource("22_6diaf")]
+visible = false
+layout_mode = 1
+
+[node name="Loading" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("24_w700t")
+loadingTexture = ExtResource("21_ejwl8")
+
+[node name="TextureRect" type="TextureRect" parent="Loading"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("21_ejwl8")
+
+[node name="Label2" type="Label" parent="Loading"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -102.0
+offset_top = -36.0
+offset_right = 103.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 22
+text = "Загрузка..."
+horizontal_alignment = 1
 
 [node name="VoxLib" type="Node3D" parent="." node_paths=PackedStringArray("CGP")]
 script = ExtResource("23_56bgx")
@@ -2134,6 +2187,7 @@ shape = SubResource("BoxShape3D_eumda")
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonSaveMap" to="MapManager" method="SaveMap"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonLoadMap" to="MapManager" method="LoadMap"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenGameImage" to="Controls" method="OnOpenGameImage"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenGameVideo" to="Controls" method="OnOpenGameVideo"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonExportProject" to="Controls" method="OnExportProject"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonImportProject" to="Controls" method="OnImportProject"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonGameProjects" to="Controls" method="OnOpenControlGameProject"]
@@ -2158,6 +2212,7 @@ shape = SubResource("BoxShape3D_eumda")
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonGeneratePlants" to="MapManager" method="GenerateNewPlants"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" method="OnClick"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel/IdItemOption" to="MapManager" method="SetUsedStandartItemBuild"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel/ButtonAddNewObject" to="Controls" method="OnOpenPanelLoadObject"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" method="OnClick"]
 [connection signal="item_selected" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/OptionButtonShadow" to="Controls" method="SetShadowEnabled"]
 [connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/HSliderMouseSence" to="Controls" method="SetSensitivity"]
