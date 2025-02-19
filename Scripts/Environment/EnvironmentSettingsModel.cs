@@ -39,17 +39,5 @@ namespace Ursula.Environment.Settings
             GetConfigFile()?.SetValue("Settings", "LastDirectory", value);
             return this;
         }
-
-        public static bool TryGetSettingsModel(ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider, out EnvironmentSettingsModel model, bool errorIfNotExist = false)
-        {
-            model = null;
-
-            if (!(_settingsModelProvider?.TryGet(out model) ?? false))
-            {
-                if (errorIfNotExist)
-                    GD.PrintErr($"{typeof(MapManager).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
-            }
-            return model != null;
-        }
     }
 }

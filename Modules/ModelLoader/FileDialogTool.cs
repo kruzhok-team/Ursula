@@ -102,7 +102,7 @@ public partial class FileDialogTool : Node, IInjectable
 
     private void SaveLastDirectory(string path)
     {
-        if (EnvironmentSettingsModel.TryGetSettingsModel(_settingsModelProvider, out var settingsModel))
+        if (TryGetSettingsModel(out var settingsModel))
             settingsModel.SetLastDirectory(path).Save();
     }
 
@@ -110,7 +110,7 @@ public partial class FileDialogTool : Node, IInjectable
     {
         get
         {
-            if (!EnvironmentSettingsModel.TryGetSettingsModel(_settingsModelProvider, out var settingsModel))
+            if (!TryGetSettingsModel(out var settingsModel))
                 return "";
             return settingsModel.LastDirectory;
         }
@@ -142,5 +142,17 @@ public partial class FileDialogTool : Node, IInjectable
         }
 
         string[] files = dir.GetFiles();
+    }
+
+    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist = false)
+    {
+        model = null;
+
+        if (!(_settingsModelProvider?.TryGet(out model) ?? false))
+        {
+            if (errorIfNotExist)
+                GD.PrintErr($"{typeof(FileDialogTool).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
+        }
+        return model != null;
     }
 }

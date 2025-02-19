@@ -168,7 +168,7 @@ public partial class ContextMenu : Control, IInjectable
     // Сохранение пути в файл конфигурации
     private void SaveLastDirectory(string path)
     {
-        if (EnvironmentSettingsModel.TryGetSettingsModel(_settingsModelProvider, out var settingsModel))
+        if (TryGetSettingsModel(out var settingsModel))
             settingsModel.SetLastDirectory(path).Save();
     }
 
@@ -177,7 +177,7 @@ public partial class ContextMenu : Control, IInjectable
     {
         get
         {
-            if (!EnvironmentSettingsModel.TryGetSettingsModel(_settingsModelProvider, out var settingsModel))
+            if (!TryGetSettingsModel(out var settingsModel))
                 return "";
             return settingsModel.LastDirectory;
         }
@@ -232,4 +232,15 @@ public partial class ContextMenu : Control, IInjectable
         //}
     }
 
+    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist = false)
+    {
+        model = null;
+
+        if (!(_settingsModelProvider?.TryGet(out model) ?? false))
+        {
+            if (errorIfNotExist)
+                GD.PrintErr($"{typeof(ContextMenu).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
+        }
+        return model != null;
+    }
 }
