@@ -1084,7 +1084,7 @@ public partial class MapManager : Node3D, IInjectable
     // Сохранение пути в файл конфигурации
     public void SaveLastDirectory(string path)
     {
-        if (TryGetSettingsModel(out var settingsModel))
+        if (EnvironmentSettingsModel.TryGetSettingsModel(_settingsModelProvider, out var settingsModel))
             settingsModel.SetLastMapDirectory(path).Save();
     }
 
@@ -1093,7 +1093,7 @@ public partial class MapManager : Node3D, IInjectable
     {
         get
         {
-            if (!TryGetSettingsModel(out var settingsModel))
+            if (!EnvironmentSettingsModel.TryGetSettingsModel(_settingsModelProvider, out var settingsModel))
                 return "";
             return settingsModel.LastMapDirectory;
         }
@@ -1724,15 +1724,4 @@ public partial class MapManager : Node3D, IInjectable
         return imgFiles;
     }
 
-    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist = false)
-    {
-        model = null;
-
-        if (!(_settingsModelProvider?.TryGet(out model) ?? false))
-        {
-            if (errorIfNotExist)
-                GD.PrintErr($"{typeof(MapManager).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
-        }
-        return model != null;
-    }
 }

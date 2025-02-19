@@ -1,7 +1,9 @@
 ﻿using Godot;
 using System;
+using Ursula.Core.DI;
+using Ursula.Environment.Settings;
 
-public partial class FileDialogTool : Node
+public partial class FileDialogTool : Node, IInjectable
 {
     FileDialog _fileDialog;
 
@@ -27,6 +29,13 @@ public partial class FileDialogTool : Node
     private string settingsPath = "user://settings.cfg";
 
     Action<string> _onFileSelected;
+
+    [Inject]
+    private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
 
     private void OnCheckButtonToggled(bool buttonPressed)
     {
@@ -57,7 +66,7 @@ public partial class FileDialogTool : Node
 
         _fileDialog.Access = access;
 
-        lastDirectory = LoadLastDirectory();
+        lastDirectory = LoadLastDirectory;
 
         if (!string.IsNullOrEmpty(lastDirectory))
         {
@@ -93,21 +102,18 @@ public partial class FileDialogTool : Node
 
     private void SaveLastDirectory(string path)
     {
-        ConfigFile config = new ConfigFile();
-        config.Load(settingsPath);
-        config.SetValue("FileDialog", "last_directory", path);
-        config.Save(settingsPath);
+        if (EnvironmentSettingsModel.TryGetSettingsModel(_settingsModelProvider, out var settingsModel))
+            settingsModel.SetLastDirectory(path).Save();
     }
 
-    private string LoadLastDirectory()
+    private string LoadLastDirectory
     {
-        ConfigFile config = new ConfigFile();
-        Error err = config.Load(settingsPath);
-        if (err == Error.Ok)
+        get
         {
-            return (string)config.GetValue("FileDialog", "last_directory", "");
+            if (!EnvironmentSettingsModel.TryGetSettingsModel(_settingsModelProvider, out var settingsModel))
+                return "";
+            return settingsModel.LastDirectory;
         }
-        return "";
     }
 
     public void DirContents(string path)

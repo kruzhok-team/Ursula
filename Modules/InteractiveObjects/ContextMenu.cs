@@ -1,8 +1,10 @@
 ﻿using Godot;
 using System;
 using System.Threading.Tasks;
+using Ursula.Core.DI;
+using Ursula.Environment.Settings;
 
-public partial class ContextMenu : Control
+public partial class ContextMenu : Control, IInjectable
 {
     Panel contextPanel;
     Panel modelActionsPanel;
@@ -24,6 +26,16 @@ public partial class ContextMenu : Control
     public bool isVisibleLog = true;
 
     FileDialogTool dialogTool;
+
+    private string lastDirectory = "";
+    private string settingsPath = "user://settings.cfg";
+
+    [Inject]
+    private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
 
     private void Init()
     {
@@ -52,8 +64,6 @@ public partial class ContextMenu : Control
 
     public static void ShowMessageS(string message)
     {
-        //instance.ShowMessage(message);
-
         var print = $"[{DateTime.Now.ToString("HH:mm:ss.fff")}] > " + message;
         VoxLib.log.ShowMessage(print);
         GD.Print(print);
@@ -72,7 +82,6 @@ public partial class ContextMenu : Control
 
     public void OpenPanel(InteractiveObject target)
     {
-        //interactiveObject = _target?.FindChild("InteractiveObject") as InteractiveObject;
         interactiveObject = target;
 
         contextPanel.Visible = true;
@@ -88,7 +97,6 @@ public partial class ContextMenu : Control
     public override void _Ready()
     {
         Init();
-
         Close();
     }
 
@@ -130,7 +138,7 @@ public partial class ContextMenu : Control
     {
         fileDialog.Filters = new string[] { "*.graphml ; Graphml" };
 
-        lastDirectory = LoadLastDirectory();
+        lastDirectory = LoadLastDirectory;
 
         if (!string.IsNullOrEmpty(lastDirectory))
         {
@@ -145,8 +153,6 @@ public partial class ContextMenu : Control
         fileDialog.Show();
     }
 
-    private string lastDirectory = "";
-    private string settingsPath = "user://settings.cfg";
     public void FileProcess(string path)
     {
         interactiveObject.LoadAlgorithm(path);
@@ -162,22 +168,19 @@ public partial class ContextMenu : Control
     // Сохранение пути в файл конфигурации
     private void SaveLastDirectory(string path)
     {
-        ConfigFile config = new ConfigFile();
-        config.Load(settingsPath);
-        config.SetValue("FileDialog", "last_directory", path);
-        config.Save(settingsPath);
+        if (EnvironmentSettingsModel.TryGetSettingsModel(_settingsModelProvider, out var settingsModel))
+            settingsModel.SetLastDirectory(path).Save();
     }
 
     // Загрузка пути из файла конфигурации
-    private string LoadLastDirectory()
+    private string LoadLastDirectory
     {
-        ConfigFile config = new ConfigFile();
-        Error err = config.Load(settingsPath);
-        if (err == Error.Ok)
+        get
         {
-            return (string)config.GetValue("FileDialog", "last_directory", "");
+            if (!EnvironmentSettingsModel.TryGetSettingsModel(_settingsModelProvider, out var settingsModel))
+                return "";
+            return settingsModel.LastDirectory;
         }
-        return "";
     }
 
 
@@ -229,9 +232,4 @@ public partial class ContextMenu : Control
         //}
     }
 
-    public void LoadSound()
-    {
-        //Close();
-        //customObject?.LoadNewModel();
-    }
 }
