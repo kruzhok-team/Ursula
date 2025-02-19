@@ -1,6 +1,6 @@
 ﻿using Fractural.Tasks;
 
-namespace UrsulaGoPlatformer3d.addons.Ursula.Scripts.GameObjects.Model
+namespace Ursula.GameObjects.Model
 {
     // Common asset library interface
     public interface IGameObjectLibraryManager : IGameObjectAssetManager 
@@ -11,9 +11,5 @@ namespace UrsulaGoPlatformer3d.addons.Ursula.Scripts.GameObjects.Model
         IGameObjectAssetProvider EmbeddedCollection { get; }
 
         bool IsItemExcluded(string itemName);
-        void SetItem(IGameObjectAsset asset);
-        bool RestoreItem(string itemName);
-        GDTask Load();
-        void Save();
     }
 }

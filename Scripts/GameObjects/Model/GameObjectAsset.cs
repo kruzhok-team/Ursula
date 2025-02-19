@@ -1,4 +1,4 @@
-﻿namespace UrsulaGoPlatformer3d.addons.Ursula.Scripts.GameObjects.Model
+﻿namespace Ursula.GameObjects.Model
 {
     public class GameObjectAsset : IGameObjectAsset
     {

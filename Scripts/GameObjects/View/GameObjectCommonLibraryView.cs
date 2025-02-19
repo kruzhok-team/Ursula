@@ -1,9 +1,9 @@
 ﻿using Fractural.Tasks;
 using Godot;
 using Ursula.Core.DI;
-using UrsulaGoPlatformer3d.addons.Ursula.Scripts.GameObjects.Model;
+using Ursula.GameObjects.Model;
 
-namespace Ursula.GameObjects
+namespace Ursula.GameObjects.View
 {
     public partial class GameObjectCommonLibraryView : Node, IInjectable
     {

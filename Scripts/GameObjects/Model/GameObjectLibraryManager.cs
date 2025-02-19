@@ -2,13 +2,15 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Ursula.Core.DI;
-using Ursula.GameObjects;
 
-namespace UrsulaGoPlatformer3d.addons.Ursula.Scripts.GameObjects.Model
+namespace Ursula.GameObjects.Model
 {
+
     public class GameObjectLibraryManager : IGameObjectLibraryManager
     {
+        public const string LibId = "CommonGameObjectLibrary";
         public const string JsonDataPath = "";
 
         [Inject]
@@ -16,81 +18,101 @@ namespace UrsulaGoPlatformer3d.addons.Ursula.Scripts.GameObjects.Model
         [Inject]
         private ISingletonProvider<GameObjectAssetsEmbeddedSource> _embeddedLibraryProvider;
 
-        private GameObjectAssetJsonCollection _commonCollection;
+        private GameObjectAssetsUserSource _userLib;
+        private GameObjectAssetsEmbeddedSource _embeddedLib;
+        private Dictionary<string, CommonGameObjectLibraryItem> _commonAssetMap;
         private HashSet<string> _exclusions;
 
         public GameObjectLibraryManager(string folderPath) 
         {
-            _commonCollection = new(Id + ".Data", JsonDataPath);
         }
 
-        public static string Id => "CommonGameObjectLibrary";
-        public bool IsDataLoaded => _commonCollection?.IsDataLoaded ?? false;
+        public bool IsDataLoaded { get; private set; } = false;
 
-        public int ItemCount => _commonCollection.ItemCount;
+        public string Id => LibId;
+        public int ItemCount => _commonAssetMap?.Count ?? 0;
 
-        public bool IsItemExcluded(string itemName)
+        public IGameObjectAssetProvider UserCollection => _userLib;
+        public IGameObjectAssetProvider EmbeddedCollection => _embeddedLib;
+
+        public bool IsItemExcluded(string itemId)
         {
             if (!CheckLoaded())
                 return false;
-            return _exclusions.Contains(itemName);
+            return _exclusions.Contains(itemId);
         }
 
         public IReadOnlyCollection<IGameObjectAsset> GetAll()
         {
-            return _commonCollection.GetAll();
+            if (!CheckLoaded())
+                return null;
+
+            var result = new List<IGameObjectAsset>();
+
+
+
+            return result;
         }
 
-        public IReadOnlyCollection<IGameObjectAsset> GetFiltered(IEnumerable<string> excludeNames)
+        public bool ContainsItem(string itemId)
         {
-            return _commonCollection.GetFiltered(excludeNames);
+            if (!CheckLoaded())
+                return false;
+
+            return _commonAssetMap.ContainsKey(itemId);
         }
 
-        public bool ContainsItem(string itemName)
-        {
-            return _commonCollection.ContainsItem(itemName);
-        }
-
-        public void ExcludeItem(string itemName)
-        {
-            if (!_commonCollection.ContainsItem(itemName))
-            {
-                //TODO: Log an error in case where try to exclude not exist item
-                return;
-            }
-
-            _commonCollection.RemoveItem(itemName);
-            _exclusions.Add(itemName);
-        }
-
-        public void RemoveItem(string itemName)
-        {
-            _commonCollection.RemoveItem(itemName);
-        }
-
-        public async GDTask RemoveItem(IGameObjectAsset asset)
+        public void RemoveItem(string itemId)
         {
             if (!CheckLoaded())
                 return;
-
-            if (asset == null)
+            if (string.IsNullOrEmpty(itemId))
+                return;
+            if (!_commonAssetMap.ContainsKey(itemId))
                 return;
 
-            if (asset.Info.ProviderId == GameObjectAssetsEmbeddedSource.Id)
-            {
-                _exclusions.Add(asset.Info.Name);
-                _commonCollection.RemoveItem(asset);
-            }
-            else if (asset.Info.ProviderId == GameObjectAssetsUserSource.Id)
-            {
-                var userLib = await _userLibraryProvider.GetAsync();
-                _commonCollection.RemoveItem(asset);
-            }
+            if (!TryGetItemProvider(itemId, out var provider))
+                return;
+            if (provider == _userLib)
+                _userLib.RemoveItem(itemId);
+            else if (provider == _embeddedLib)
+                _exclusions.Remove(itemId);
+
+            _commonAssetMap.Remove(itemId);
         }
 
-        public bool RestoreItem(string itemName) => throw new System.NotImplementedException();
-        public void SetItem(string name, GameObjectAssetSources sources) => throw new System.NotImplementedException();
-        public bool TryGetItem(string name, out IGameObjectAsset asset) => throw new System.NotImplementedException();
+        public void RemoveItem(IGameObjectAsset asset)
+        {
+            if (asset == null)
+                return;
+            RemoveItem(asset.Info.Id);
+        }
+
+        public void SetItem(string name, GameObjectAssetSources sources)
+        {
+            if (!CheckLoaded())
+                return;
+            if (string.IsNullOrEmpty(name) || sources == null)
+                return;
+            _userLib.SetItem(name, sources);
+
+            var entry = new CommonGameObjectLibraryItem(name, _userLib.Id);
+            _commonAssetMap[entry.Id] = entry;
+        }
+
+        public bool TryGetItem(string itemId, out IGameObjectAsset asset)
+        {
+            asset = null;
+
+            if (!CheckLoaded())
+                return false;
+            if (!_commonAssetMap.ContainsKey(itemId))
+                return false;
+
+            if (!TryGetItemProvider(itemId, out var provider))
+                return false;            
+            return provider.TryGetItem(itemId, out asset);
+        }
 
         public async GDTask Load()
         {
@@ -100,14 +122,78 @@ namespace UrsulaGoPlatformer3d.addons.Ursula.Scripts.GameObjects.Model
                 return;
             }
 
-            _commonCollection.Load();
-            LoadExclusions();
-            await SyncEmbeddedAssets();
+            _userLib = await _userLibraryProvider.GetAsync();
+            _embeddedLib = await _embeddedLibraryProvider.GetAsync();
+
+            if (_embeddedLib == null || _userLib == null)
+            {
+                GD.PrintErr("Not all game object liraries installed in DI!");
+                return;
+            }
+
+            if (!_userLib.IsDataLoaded)
+                await _userLib.Load();
+            if (!_embeddedLib.IsDataLoaded)
+                await _embeddedLib.Load();
+
+            _commonAssetMap = LoadCommonAssetsInfo();
+            _exclusions = LoadExclusions();
+            IsDataLoaded = true;
+
+            SyncEmbeddedAssets();
         }
 
-        private void LoadExclusions()
-        { 
+        public async GDTask Save()
+        {
+            if (!CheckLoaded())
+                return;
+
+            await SaveCommonAssetsInfo();
+            await SaveExclusions();
+        }
+
+        private bool TryGetItemProvider(string itemId, out IGameObjectAssetManager provider)
+        {
+            provider = null;
+
+            if (!string.IsNullOrEmpty(itemId))
+            {
+                if (itemId.Contains(GameObjectAssetsUserSource.LibId))
+                    provider = _userLib;
+                else if (itemId.Contains(GameObjectAssetsEmbeddedSource.LibId))
+                    provider = _userLib;
+            }
+
+            if (provider == null)
+            {
+                //TODO: Log en error here
+                return false;
+            }
+            return true;
+        }
+
+        private Dictionary<string, CommonGameObjectLibraryItem> LoadCommonAssetsInfo()
+        {
+            //var commonList = LoadCommonAssetList(JsonDataPath);
+            //return commonList != null ? commonList.ToDictionary(i => i.Id, j => j) : null;
+
+            throw new NotImplementedException();
+        }
+
+        private async GDTask SaveCommonAssetsInfo()
+        {
+            throw new NotImplementedException();
+        }
+
+        private HashSet<string> LoadExclusions()
+        {
             //TODO: Implement exclussions list loading here
+            throw new NotImplementedException();
+        }
+
+        private async GDTask SaveExclusions()
+        {
+            throw new NotImplementedException();
         }
 
         private async GDTask SyncEmbeddedAssets()
@@ -115,26 +201,18 @@ namespace UrsulaGoPlatformer3d.addons.Ursula.Scripts.GameObjects.Model
             if (!CheckLoaded())
                 return;
 
-            var embeddedLib = await _embeddedLibraryProvider.GetAsync();
+            var countBefore = _commonAssetMap.Count;
 
-            if (embeddedLib == null)
+            foreach (var asset in _embeddedLib.GetAll())
             {
-                GD.PrintErr("Not all game object liraries installed in DI!");
-                return;
-            }
-
-            if (!embeddedLib.IsDataLoaded)
-                embeddedLib.Load();
-            if (!_commonCollection.IsDataLoaded)
-                _commonCollection.Load();
-
-            foreach (var asset in embeddedLib.GetAll())
-            {
-                if (!_commonCollection.ContainsItem(asset.Info.Name))
+                if (!_commonAssetMap.ContainsKey(asset.Info.Id))
                 {
-                    _commonCollection.SetItem(asset.Info.Name, asset);
+                    _commonAssetMap[asset.Info.Id] = asset.Info.AsCommonItem();
                 }
             }
+
+            if (countBefore != _commonAssetMap.Count)
+                await SaveCommonAssetsInfo();
         }
 
         private bool CheckLoaded()

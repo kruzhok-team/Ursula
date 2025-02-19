@@ -1,23 +1,23 @@
-﻿using System;
+﻿using Fractural.Tasks;
+using System;
 using System.Collections.Generic;
-using UrsulaGoPlatformer3d.addons.Ursula.Scripts.GameObjects.Model;
 
-namespace Ursula.GameObjects
+namespace Ursula.GameObjects.Model
 {
 
     // Json asset collection partial implementation
     public class GameObjectAssetJsonCollection : IGameObjectAssetManager
     {
         private string _jsonFilePath;
-        private Dictionary<string, IGameObjectAsset> _cachedAssets;
-        private Dictionary<string, GameObjectAssetSources> _sources;
+        private Dictionary<string, IGameObjectAsset> _cachedAssetMap;
+        private Dictionary<string, GameObjectAssetInfo> _infoMap;
 
         public GameObjectAssetJsonCollection(string id, string jsonFilePath)
         {
             Id = id;
             _jsonFilePath = jsonFilePath;
-            _cachedAssets = new ();
-            _sources = new ();
+            _cachedAssetMap = new ();
+            _infoMap = new ();
         }
 
         public string Id { get; private set; } = string.Empty;
@@ -29,7 +29,7 @@ namespace Ursula.GameObjects
             {
                 if (!CheckLoaded())
                     return 0;
-                return _sources.Count;
+                return _infoMap.Count;
             }
         }
 
@@ -38,26 +38,26 @@ namespace Ursula.GameObjects
             if (!CheckLoaded())
                 return null;
 
-            foreach (var sourceName in _sources.Keys)
+            foreach (var sourceName in _infoMap.Keys)
             {
                 TryGetItem(sourceName, out _);
             }
 
-            return _cachedAssets.Values;
+            return _cachedAssetMap.Values;
         }
 
-        public bool ContainsItem(string name)
+        public bool ContainsItem(string itemId)
         {
             if (!CheckLoaded())
                 return false;
 
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(itemId))
                 return false;
 
-            return _cachedAssets.ContainsKey(name);
+            return _cachedAssetMap.ContainsKey(itemId);
         }
 
-        public bool TryGetItem(string name, out IGameObjectAsset asset)
+        public bool TryGetItem(string itemId, out IGameObjectAsset asset)
         {
             if (!CheckLoaded())
             {
@@ -65,12 +65,12 @@ namespace Ursula.GameObjects
                 return false;
             }
 
-            if (_cachedAssets.ContainsKey(name))
+            if (_cachedAssetMap.ContainsKey(itemId))
             {
-                asset = _cachedAssets[name];
+                asset = _cachedAssetMap[itemId];
                 return true;
             }
-            return TryBuildAsset(name, out asset);
+            return TryBuildAsset(itemId, out asset);
         }
 
         public void SetItem(string name, GameObjectAssetSources sources)
@@ -83,7 +83,8 @@ namespace Ursula.GameObjects
                 return;
             }
 
-            _sources.Add(name, sources);
+            var info = new GameObjectAssetInfo(name, Id, sources);
+            _infoMap[info.Id] = info;
         }
 
         public void RemoveItem(IGameObjectAsset asset)
@@ -94,23 +95,23 @@ namespace Ursula.GameObjects
             if (asset == null)
                 return;
 
-            RemoveItem(asset.Info.Name);
+            RemoveItem(asset.Info.Id);
         }
 
-        public void RemoveItem(string name)
+        public void RemoveItem(string itemId)
         {
             if (!CheckLoaded())
                 return;
 
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(itemId))
                 return;
 
-            if (_cachedAssets.ContainsKey(name))
-                _cachedAssets.Remove(name);
-            _sources.Remove(name);
+            if (_cachedAssetMap.ContainsKey(itemId))
+                _cachedAssetMap.Remove(itemId);
+            _infoMap.Remove(itemId);
         }
 
-        public void Load()
+        public async GDTask Load()
         {
             if (IsDataLoaded)
             {
@@ -123,12 +124,12 @@ namespace Ursula.GameObjects
             throw new NotImplementedException();
         }
 
-        public void Save()
+        public async GDTask Save()
         {
             if (!CheckLoaded())
                 return;
 
-            // TODO: Implement _sources serialization to a json file by _jsonFilePath
+            // TODO: Implement sources serialization to a json file by _jsonFilePath
             throw new NotImplementedException();
         }
 
@@ -144,28 +145,21 @@ namespace Ursula.GameObjects
 
         private bool TryBuildAsset(string name, out IGameObjectAsset asset)
         {
-            if (!_sources.TryGetValue(name, out var assetSources))
+            if (!_infoMap.TryGetValue(name, out var assetInfo))
             { 
                 //TODO: Some error or warning log
                 asset = null;
                 return false;
             }
 
-            asset = BuildAssetImplementation(name, assetSources);
+            asset = BuildAssetImplementation(assetInfo);
             return true;
         }
 
-        private IGameObjectAsset BuildAssetImplementation(string name, GameObjectAssetSources sources) 
+        private IGameObjectAsset BuildAssetImplementation(GameObjectAssetInfo assetInfo) 
         {
             //TODO: asset building implementation
             throw new NotImplementedException();
-        }
-
-        public IReadOnlyCollection<IGameObjectAsset> GetFiltered(IEnumerable<string> excludeNames)
-        {
-            if (!CheckLoaded())
-                return null;
-            return null; //TODO: Implement data filtering by asset names here
         }
     }
 }
