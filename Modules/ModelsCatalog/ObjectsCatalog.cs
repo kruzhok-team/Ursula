@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using Ursula.Core.DI;
+using Ursula.GameObjects.Model;
+using Ursula.GameObjects.View;
 
 public interface IObjectLibrary
 {
@@ -75,6 +78,8 @@ public partial class ObjectsCatalog : Node
     {
         CatalogPath = ProjectSettings.GlobalizePath(VoxLib.mapManager.GetProjectFolderPath() + MapManager.PATHCATALOG + "Catalog.json");
         objectLibrary.LoadLibrary(CatalogPath);
+
+
     }
 
     public void AddModel(ObjectData model)

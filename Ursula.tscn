@@ -1,10 +1,11 @@
-[gd_scene load_steps=44 format=3 uid="uid://dgc042g3ej4rj"]
+[gd_scene load_steps=47 format=3 uid="uid://dgc042g3ej4rj"]
 
 [ext_resource type="PackedScene" uid="uid://dn1jem1nnefln" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/project_timer.tscn" id="1_wxxnd"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Core/Initialization/UrsulaEntryPoint.cs" id="1_xjqfu"]
 [ext_resource type="PackedScene" uid="uid://bhcs2lux4ox5b" path="res://addons/Ursula/Modules/ModelLoader/model_loader.tscn" id="2_ayndh"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/HUD.cs" id="3_lm8x0"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ControlPopupMenu.cs" id="4_8kw1n"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/HUDViewModel.cs" id="5_h5c4d"]
 [ext_resource type="Texture2D" uid="uid://c7lgipg45d4fq" path="res://addons/Ursula/Assets/Textures/UI/Home.png" id="5_i1qgd"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ContexPopupMenu.cs" id="6_1h5ru"]
 [ext_resource type="Texture2D" uid="uid://dca8xo7fghh2k" path="res://addons/Ursula/Assets/Textures/UI/Arrow.png" id="7_t1j1l"]
@@ -34,6 +35,8 @@
 [ext_resource type="PackedScene" uid="uid://c0t0gdmber7kl" path="res://addons/Ursula/Player/Player.tscn" id="29_wh4fr"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameManager.cs" id="30_lv1wd"]
 [ext_resource type="PackedScene" uid="uid://c1y47k01wo4w7" path="res://addons/Ursula/Environment.tscn" id="31_xhvja"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCommonLibraryView.cs" id="35_ai4aq"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCollectionView.cs" id="37_0m72d"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_elju3"]
 line_spacing = -3.0
@@ -84,7 +87,7 @@ script = ExtResource("1_xjqfu")
 
 [node name="ModelLoader" parent="." instance=ExtResource("2_ayndh")]
 
-[node name="Controls" type="Control" parent="." node_paths=PackedStringArray("_labelFile", "_cross", "_labelCoordinates", "SettingsGO", "SliderMouseSence", "optionButtonShadow", "labelLengthOfDay", "SliderLengthOfDay", "ControlProjectGO", "ControlGamesProjectGO", "CheckButtonAlgoritm", "SliderPlatoSize", "SliderPlatoOffsetX", "SliderPlatoOffsetZ")]
+[node name="Controls" type="Control" parent="." node_paths=PackedStringArray("_labelFile", "_cross", "_labelCoordinates", "SettingsGO", "SliderMouseSence", "optionButtonShadow", "labelLengthOfDay", "SliderLengthOfDay", "ControlProjectGO", "ControlGamesProjectGO", "CheckButtonAlgoritm", "SliderPlatoSize", "SliderPlatoOffsetX", "SliderPlatoOffsetZ", "ButtonShowLibrary")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -106,6 +109,10 @@ CheckButtonAlgoritm = [NodePath("ControlGame/Panel/HBoxContainer/Algoritms/Check
 SliderPlatoSize = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPlatoSize")
 SliderPlatoOffsetX = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPlatoOffsetX")
 SliderPlatoOffsetZ = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPlatoOffsetY")
+ButtonShowLibrary = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel/ButtonShowLibrary")
+
+[node name="HUDViewModel" type="Node" parent="Controls"]
+script = ExtResource("5_h5c4d")
 
 [node name="ControlBuild" type="Control" parent="Controls"]
 layout_mode = 1
@@ -965,6 +972,14 @@ offset_top = 15.0
 offset_right = 361.0
 offset_bottom = 70.0
 text = "Добавить"
+
+[node name="ButtonShowLibrary" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel"]
+layout_mode = 0
+offset_left = 274.0
+offset_top = 76.0
+offset_right = 361.0
+offset_bottom = 131.0
+text = "Коллекция"
 
 [node name="ButtonSettings" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
 custom_minimum_size = Vector2(120, 0)
@@ -2182,6 +2197,17 @@ transform = Transform3D(261, 0, 0, 0, 10, 0, 0, 0, 261, 0, 0, 0)
 shape = SubResource("BoxShape3D_eumda")
 
 [node name="Environment" parent="." instance=ExtResource("31_xhvja")]
+
+[node name="GameObjectCollection" type="Node" parent="."]
+
+[node name="Node" type="Node" parent="GameObjectCollection"]
+
+[node name="GameObjectCollectionView" type="Node" parent="GameObjectCollection"]
+script = ExtResource("37_0m72d")
+
+[node name="GameObjectCommonLibraryView" type="Node" parent="GameObjectCollection" node_paths=PackedStringArray("_collectionView")]
+script = ExtResource("35_ai4aq")
+_collectionView = NodePath("../GameObjectCollectionView")
 
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonHome" to="Controls" method="OnOpenControlGameProject"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" method="OnClick"]

@@ -1,10 +1,13 @@
-﻿using Godot;
+﻿using Fractural.Tasks;
+using Godot;
 using System;
 using System.Drawing;
+using Ursula.Core.DI;
+using Ursula.GameObjects.View;
 using static Godot.TextServer;
 
 
-public partial class PlayerScript : CharacterBody3D
+public partial class PlayerScript : CharacterBody3D, IInjectable
 {
     public static PlayerScript instance;
 
@@ -34,6 +37,13 @@ public partial class PlayerScript : CharacterBody3D
 
     private float timer = 0f;
     private const float INTERVAL = 10.2f;
+
+    [Inject]
+    private ISingletonProvider<HUDViewModel> _hudManager;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
 
     public override void _Ready()
     {
@@ -124,7 +134,7 @@ public partial class PlayerScript : CharacterBody3D
 
 
 
-    public override void _Process(double delta)
+    public override async void _Process(double delta)
     {
         isNeedUse = false;
 
@@ -138,7 +148,8 @@ public partial class PlayerScript : CharacterBody3D
 
                 if (isVivibleInfo)
                 {
-                    VoxLib.hud.SetInfo(HUD.GetCordsInfo(collider, pos, ips, parent));
+                    //VoxLib.hud.SetInfo(HUD.GetCordsInfo(collider, pos, ips, parent));
+                    await SetHudInfo(HUD.GetCordsInfo(collider, pos, ips, parent));
                 }
 
                 if (ips != null && !isVivibleInfo)
@@ -146,7 +157,8 @@ public partial class PlayerScript : CharacterBody3D
                     isNeedUse = true;
 
                     string info = $"Нажмите Е для взаимодействия";
-                    VoxLib.hud.SetInfo(info);
+                    //VoxLib.hud.SetInfo(info);
+                    await SetHudInfo(info);
 
                     if (isUsed)
                     {
@@ -160,6 +172,12 @@ public partial class PlayerScript : CharacterBody3D
                 VoxLib.hud._labelCoordinates.Visible = false;
             }
         }
+    }
+
+    private async GDTask SetHudInfo(string info)
+    {
+        var model = _hudManager != null ? await _hudManager.GetAsync() : null;
+        model?.SetInfo(info);
     }
 
     float waterLevel = -1;

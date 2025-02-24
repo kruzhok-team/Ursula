@@ -1,6 +1,9 @@
 ﻿using Fractural.Tasks;
+using Godot;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 
 namespace Ursula.GameObjects.Model
 {
@@ -119,9 +122,12 @@ namespace Ursula.GameObjects.Model
                 return;
             }
 
-            IsDataLoaded = true;    
+            IsDataLoaded = true;
             // TODO: Implement _sources deserialization from a json file by _jsonFilePath
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+
+            string json = File.ReadAllText(_jsonFilePath);
+            _cachedAssetMap = JsonSerializer.Deserialize<Dictionary<string, IGameObjectAsset>>(json);
         }
 
         public async GDTask Save()
@@ -130,7 +136,13 @@ namespace Ursula.GameObjects.Model
                 return;
 
             // TODO: Implement sources serialization to a json file by _jsonFilePath
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+
+            string json = JsonSerializer.Serialize(_cachedAssetMap, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+            File.WriteAllText(_jsonFilePath, json);
         }
 
         private bool CheckLoaded()

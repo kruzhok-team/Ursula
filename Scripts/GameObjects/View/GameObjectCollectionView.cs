@@ -7,8 +7,10 @@ namespace Ursula.GameObjects.View
     // Component to draw any game object library content
     public partial class GameObjectCollectionView : Node
     {
-        public void Draw(IGameObjectAssetProvider assets)
-        { 
+        public void Draw(IReadOnlyCollection<IGameObjectAsset> assets) //(IGameObjectAssetProvider assets)
+        {
+            List<IGameObjectAsset> result = new List<IGameObjectAsset>(assets);
+
         }
     }
 }

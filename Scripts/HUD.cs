@@ -1,6 +1,11 @@
-﻿using Godot;
+﻿using Fractural.Tasks;
+using Godot;
 using Ursula.Core.DI;
 using Ursula.Environment.Settings;
+using Ursula.GameObjects.Model;
+using Ursula.GameObjects.View;
+using System.Threading.Tasks;
+
 
 public partial class HUD : Control, IInjectable
 {
@@ -46,23 +51,31 @@ public partial class HUD : Control, IInjectable
     [Export]
     public Slider SliderPlatoOffsetZ;
 
+    [Export]
+    public Button ButtonShowLibrary;
+
     [Inject]
     private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
 
+    [Inject]
+    private ISingletonProvider<HUDViewModel> _hudModelProvider;
+
     private float _defaultSensitivity = 0.5f;
+
+    private Vector3 coord;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
 
     public float sensitivity
     {
-        get 
+        get
         {
             if (!TryGetSettingsModel(out var settingsModel))
                 return _defaultSensitivity;
             return settingsModel.Sensitivity;
         }
-    }
-
-    void IInjectable.OnDependenciesInjected()
-    {
     }
 
     public override void _Ready()
@@ -73,9 +86,16 @@ public partial class HUD : Control, IInjectable
 
         VoxLib.hud = this;
         SettingsGO.Visible = false;
+
+        ButtonShowLibrary.ButtonDown += OnShowGameObjectCommonLibraryView;
     }
 
-    Vector3 coord;
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        ButtonShowLibrary.ButtonDown -= OnShowGameObjectCommonLibraryView;
+    }
+
     public void SetCoordinate(Vector3 coord)
     {
         if (this.coord != coord)
@@ -85,10 +105,15 @@ public partial class HUD : Control, IInjectable
         }
     }
 
-    public void SetInfo(string info)
+    public void _SetInfo(string info)
     {
         if (_labelCoordinates.Text != info)
             _labelCoordinates.Text = info;
+    }
+
+    public void SetInfo(string info)
+    {
+        _SetInfo(info);
     }
 
     public void OnOpenSettings()
@@ -155,33 +180,12 @@ public partial class HUD : Control, IInjectable
     {
         if (TryGetSettingsModel(out var settingsModel))
             settingsModel.SetShadowEnabled(value).Save();
-        SetShadow();
     }
-
-    private void SetShadow()
+    public async void OnShowGameObjectCommonLibraryView()
     {
-        if (!TryGetSettingsModel(out var settingsModel))
-            return;
-
-        var scene = GetTree().CurrentScene;
-        var directionalLight = FindDirectionalLight(scene);
-
-        directionalLight.ShadowEnabled = settingsModel.ShadowEnabled > 0;
-    }
-
-    private DirectionalLight3D FindDirectionalLight(Node node)
-    {
-        if (node is DirectionalLight3D directionalLight)
-            return directionalLight;
-
-        foreach (Node child in node.GetChildren())
-        {
-            var light = FindDirectionalLight(child);
-            if (light != null)
-                return light;
-        }
-
-        return null;
+        ControlPopupMenu.instance._HideAllMenu();
+        var model = _hudModelProvider != null ? await _hudModelProvider.GetAsync() : null;
+        model?.OnButtonShowLibrary_EventHandler();
     }
 
     public static void ItemProcessing(Node collider, Vector3 raycastPos, out ItemPropsScript itemPropS, out Node parent)
@@ -204,7 +208,7 @@ public partial class HUD : Control, IInjectable
                 parent = ips.GetParent();
             }
         }
-    }    
+    }
 
     public static string GetCordsInfo(Node collider, Vector3 raycastPos, ItemPropsScript itemPropS, Node parent)
     {
@@ -288,6 +292,7 @@ public partial class HUD : Control, IInjectable
         ObjectsCatalog.instance.OnOpenPanelLoadObject();
     }
 
+
     private async void ApplySettingsFromConfig()
     {
         var model = _settingsModelProvider != null ? await _settingsModelProvider.GetAsync() : null;
@@ -300,7 +305,6 @@ public partial class HUD : Control, IInjectable
 
         SliderMouseSence.Value = model.Sensitivity;
         optionButtonShadow.Selected = model.ShadowEnabled;
-        SetShadow();
     }
 
     private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist = false)

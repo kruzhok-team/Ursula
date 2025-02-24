@@ -238,6 +238,33 @@ public partial class MapManager : Node3D, IInjectable
 			tempRotation++;
 			if (tempRotation > 3) tempRotation = 0;
         }
+
+        if (Input.IsKeyPressed(Key.Shift) && Input.IsKeyPressed(Key.Q) && @event.IsPressed())
+        {
+            AdaptItemsToLandscape();
+        }
+    }
+
+    public void AdaptItemsToLandscape()
+    {
+        for (int i = 0; i < gameItems.Count; i++)
+        {
+            ItemPropsScript ips = gameItems[i];
+            float heightLandscape = CreateTerrain.instance.mapHeight[ips.x, ips.z];
+
+            ChangeWorldBytesItem(ips.x, ips.y, ips.z, (byte)0, (byte)0);
+            if (VoxLib.mapManager.voxTypes != null) VoxLib.mapManager.voxTypes[ips.x, ips.y, ips.z] = 0;
+            if (VoxLib.mapManager.voxData != null) VoxLib.mapManager.voxData[ips.x, ips.y, ips.z] = 0;
+            if (VoxLib.mapManager._voxGrid != null) VoxLib.mapManager._voxGrid.Set(ips.x, ips.y, ips.z, 0);
+
+            float y = heightLandscape + CreateTerrain.instance.positionOffset.Y;
+
+            Node3D parent = ips.GetParent() as Node3D;
+            parent.Position = new Vector3(ips.x, y, ips.z);
+
+            ChangeWorldBytesItem(ips.x, Mathf.RoundToInt(y), ips.z, itemToVox(ips.type), (byte)(ips.rotation + ips.state * 6));
+            ips.positionY = y;
+        }
     }
 
     protected void Init(int _sizeX, int _sizeY, int _sizeZ, bool needCreateTex = false)

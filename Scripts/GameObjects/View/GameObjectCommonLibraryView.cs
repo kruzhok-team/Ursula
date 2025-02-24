@@ -1,6 +1,8 @@
 ﻿using Fractural.Tasks;
 using Godot;
+using System;
 using Ursula.Core.DI;
+using Ursula.Environment.Settings;
 using Ursula.GameObjects.Model;
 
 namespace Ursula.GameObjects.View
@@ -10,7 +12,41 @@ namespace Ursula.GameObjects.View
         [Export]
         private GameObjectCollectionView _collectionView;
         [Inject]
-        private ISingletonProvider<IGameObjectLibraryManager> _commonLibraryProvider;
+        private ISingletonProvider<GameObjectLibraryManager> _commonLibraryProvider;
+        [Inject]
+        private ISingletonProvider<HUDViewModel> _hudModelProvider;
+
+        private GameObjectLibraryManager _commonLibrary;
+        private HUDViewModel _hudModel;
+
+        void IInjectable.OnDependenciesInjected()
+        {
+        }
+
+        public override void _Ready()
+        {
+            base._Ready();
+
+            //_ = Load();
+            _ = SubscribeEvent();
+        }
+
+        private async GDTask Load()
+        {
+            _commonLibrary = await _commonLibraryProvider.GetAsync();
+            await _commonLibrary.Load();
+        }
+
+        private async GDTask SubscribeEvent()
+        {
+            _hudModel = await _hudModelProvider.GetAsync();
+            _hudModel.ButtonShowLibraryEvent += HUDViewModel_ButtonShowLibraryEventHandler;
+        }
+
+        public async void OnShow()
+        {
+            await Show();
+        }
 
         public async GDTask Show()
         {
@@ -23,10 +59,11 @@ namespace Ursula.GameObjects.View
             _collectionView?.Draw(commonLib.GetAll());
         }
 
-        // Sync embedded assets in case when new objects added
 
-        void IInjectable.OnDependenciesInjected() 
-        { 
+
+        private void HUDViewModel_ButtonShowLibraryEventHandler(object sender, EventArgs e)
+        {
+            OnShow();
         }
     }
 }

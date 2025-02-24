@@ -3,6 +3,8 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using Ursula.Core.DI;
 using Ursula.Environment.Settings;
+using Ursula.GameObjects.View;
+using Ursula.GameObjects.Model;
 
 namespace Ursula.Core.Initialization
 {
@@ -25,11 +27,23 @@ namespace Ursula.Core.Initialization
 
             if (sceneTree != null)
                 sceneTree.NodeAdded += SceneTree_NodeAddedEventHandler;
+
+        }
+
+        public override void _Ready()
+        {
+            base._Ready();
         }
 
         private void InstallModel(ServiceCollection services)
         {
             InstallSingleton<EnvironmentSettingsModel>(services);
+            InstallSingleton<GameObjectCommonLibraryView>(services);
+            InstallSingleton<GameObjectLibraryManager>(services);
+            InstallSingleton<GameObjectAssetsUserSource>(services);
+            InstallSingleton<GameObjectAssetsEmbeddedSource>(services);
+            InstallSingleton<GameObjectAssetJsonCollection>(services);
+            InstallSingleton<HUDViewModel>(services);
         }
 
         private void InstallSingleton<T>(ServiceCollection services) where T : class 

@@ -8,7 +8,7 @@ using Ursula.Core.DI;
 namespace Ursula.GameObjects.Model
 {
 
-    public class GameObjectLibraryManager : IGameObjectLibraryManager
+    public class GameObjectLibraryManager : IGameObjectLibraryManager, IInjectable
     {
         public const string LibId = "CommonGameObjectLibrary";
         public const string JsonDataPath = "";
@@ -23,9 +23,13 @@ namespace Ursula.GameObjects.Model
         private Dictionary<string, CommonGameObjectLibraryItem> _commonAssetMap;
         private HashSet<string> _exclusions;
 
-        public GameObjectLibraryManager(string folderPath) 
+        void IInjectable.OnDependenciesInjected()
         {
         }
+
+        //public GameObjectLibraryManager(string folderPath)
+        //{
+        //}
 
         public bool IsDataLoaded { get; private set; } = false;
 
@@ -49,7 +53,7 @@ namespace Ursula.GameObjects.Model
 
             var result = new List<IGameObjectAsset>();
 
-
+            _userLib.GetAll();
 
             return result;
         }
@@ -161,7 +165,7 @@ namespace Ursula.GameObjects.Model
                 if (itemId.Contains(GameObjectAssetsUserSource.LibId))
                     provider = _userLib;
                 else if (itemId.Contains(GameObjectAssetsEmbeddedSource.LibId))
-                    provider = _userLib;
+                    provider = _embeddedLib;
             }
 
             if (provider == null)
