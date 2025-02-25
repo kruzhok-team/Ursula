@@ -27,7 +27,7 @@ namespace Ursula.GameObjects.View
         {
             base._Ready();
 
-            //_ = Load();
+            _ = Load();
             _ = SubscribeEvent();
         }
 
@@ -40,7 +40,7 @@ namespace Ursula.GameObjects.View
         private async GDTask SubscribeEvent()
         {
             _hudModel = await _hudModelProvider.GetAsync();
-            _hudModel.ButtonShowLibraryEvent += HUDViewModel_ButtonShowLibraryEventHandler;
+            _hudModel.GameObjectLibraryVisible_EventHandler += HUDViewModel_ShowLibraryEventHandler;
         }
 
         public async void OnShow()
@@ -61,7 +61,7 @@ namespace Ursula.GameObjects.View
 
 
 
-        private void HUDViewModel_ButtonShowLibraryEventHandler(object sender, EventArgs e)
+        private void HUDViewModel_ShowLibraryEventHandler(object sender, EventArgs e)
         {
             OnShow();
         }

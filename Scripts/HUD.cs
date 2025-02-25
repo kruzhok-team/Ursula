@@ -5,6 +5,7 @@ using Ursula.Environment.Settings;
 using Ursula.GameObjects.Model;
 using Ursula.GameObjects.View;
 using System.Threading.Tasks;
+using System;
 
 
 public partial class HUD : Control, IInjectable
@@ -54,11 +55,17 @@ public partial class HUD : Control, IInjectable
     [Export]
     public Button ButtonShowLibrary;
 
+    [Export]
+    public Button ButtonAddUserSource;
+
     [Inject]
     private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
 
     [Inject]
     private ISingletonProvider<HUDViewModel> _hudModelProvider;
+
+    [Inject]
+    private ISingletonProvider<GameObjectAddUserSourceModel> _gameObjectAddUserSourceViewProvider;
 
     private float _defaultSensitivity = 0.5f;
 
@@ -87,13 +94,15 @@ public partial class HUD : Control, IInjectable
         VoxLib.hud = this;
         SettingsGO.Visible = false;
 
-        ButtonShowLibrary.ButtonDown += OnShowGameObjectCommonLibraryView;
+        ButtonShowLibrary.ButtonDown += ShowCommonLibraryButton_DownEventHandler;
+        ButtonAddUserSource.ButtonDown += ShowAddUserSourceUiButton_DownEventHandler;
     }
 
     public override void _ExitTree()
     {
         base._ExitTree();
-        ButtonShowLibrary.ButtonDown -= OnShowGameObjectCommonLibraryView;
+        ButtonShowLibrary.ButtonDown -= ShowCommonLibraryButton_DownEventHandler;
+        ButtonAddUserSource.ButtonDown -= ShowAddUserSourceUiButton_DownEventHandler;
     }
 
     public void SetCoordinate(Vector3 coord)
@@ -181,11 +190,19 @@ public partial class HUD : Control, IInjectable
         if (TryGetSettingsModel(out var settingsModel))
             settingsModel.SetShadowEnabled(value).Save();
     }
-    public async void OnShowGameObjectCommonLibraryView()
+
+    public async void ShowCommonLibraryButton_DownEventHandler()
     {
         ControlPopupMenu.instance._HideAllMenu();
-        var model = _hudModelProvider != null ? await _hudModelProvider.GetAsync() : null;
-        model?.OnButtonShowLibrary_EventHandler();
+        var viewModel = _hudModelProvider != null ? await _hudModelProvider.GetAsync() : null;
+        viewModel?.SetGameObjectLibraryVisible(true);
+    }
+
+    public async void ShowAddUserSourceUiButton_DownEventHandler()
+    {
+        ControlPopupMenu.instance._HideAllMenu();
+        var model = _gameObjectAddUserSourceViewProvider != null ? await _gameObjectAddUserSourceViewProvider.GetAsync() : null;
+        model?.SetGameObjectAddUserSourceVisible(true);
     }
 
     public static void ItemProcessing(Node collider, Vector3 raycastPos, out ItemPropsScript itemPropS, out Node parent)

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using Ursula.Core.DI;
 
 namespace Ursula.GameObjects.Model
 {
@@ -125,6 +126,13 @@ namespace Ursula.GameObjects.Model
             IsDataLoaded = true;
             // TODO: Implement _sources deserialization from a json file by _jsonFilePath
             //throw new NotImplementedException();
+
+            if (!File.Exists(_jsonFilePath))
+            {
+                GD.Print($"Object file not found {_jsonFilePath}. Creating a new list.");
+                _cachedAssetMap = new Dictionary<string, IGameObjectAsset>();
+                return;
+            }
 
             string json = File.ReadAllText(_jsonFilePath);
             _cachedAssetMap = JsonSerializer.Deserialize<Dictionary<string, IGameObjectAsset>>(json);

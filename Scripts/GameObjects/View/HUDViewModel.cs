@@ -16,8 +16,13 @@ namespace Ursula.GameObjects.View
         [Inject]
         private ISingletonProvider<GameObjectCommonLibraryView> _gameObjectCommonLibraryView;
 
+        //[Inject]
+        //private ISingletonProvider<GameObjectAddUserSourceModel> _gameObjectAddUserSourceModel;
 
-        public event EventHandler ButtonShowLibraryEvent;
+        public bool IsGameObjectLibraryVisible { get; private set; } = false;
+        public bool IsGameObjectAddUserSourceVisible { get; private set; } = false;   
+
+        public event EventHandler GameObjectLibraryVisible_EventHandler;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -36,9 +41,10 @@ namespace Ursula.GameObjects.View
             
         }
 
-        public HUDViewModel OnButtonShowLibrary_EventHandler()
+        public HUDViewModel SetGameObjectLibraryVisible(bool value)
         {
-            InvokeButtonShowLibraryEvent();
+            IsGameObjectLibraryVisible = value;
+            InvokeGameObjectLibraryVisibleEvent();
             return this;
         }
 
@@ -48,10 +54,11 @@ namespace Ursula.GameObjects.View
             model?.Show();
         }
 
-        private void InvokeButtonShowLibraryEvent()
+        private void InvokeGameObjectLibraryVisibleEvent()
         {
-            var handler = ButtonShowLibraryEvent;
+            var handler = GameObjectLibraryVisible_EventHandler;
             handler?.Invoke(this, EventArgs.Empty);
         }
+
     }
 }

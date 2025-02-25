@@ -11,6 +11,7 @@ font_color = Color(0, 0, 0, 1)
 process_priority = -100
 process_physics_priority = -100
 auto_translate_mode = 2
+visible = false
 z_index = -1
 z_as_relative = false
 layout_mode = 3

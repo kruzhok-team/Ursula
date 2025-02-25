@@ -42,8 +42,11 @@ namespace Ursula.Core.Initialization
             InstallSingleton<GameObjectLibraryManager>(services);
             InstallSingleton<GameObjectAssetsUserSource>(services);
             InstallSingleton<GameObjectAssetsEmbeddedSource>(services);
-            InstallSingleton<GameObjectAssetJsonCollection>(services);
             InstallSingleton<HUDViewModel>(services);
+            InstallSingleton<GameObjectAddUserSourceModel>(services);
+            InstallSingleton<GameObjectAddUserSourceView>(services);
+            InstallSingleton<GameObjectAddUserSourceUI>(services);
+            
         }
 
         private void InstallSingleton<T>(ServiceCollection services) where T : class 

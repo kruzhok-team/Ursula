@@ -11,11 +11,8 @@ namespace Ursula.GameObjects.Model
     public class GameObjectLibraryManager : IGameObjectLibraryManager, IInjectable
     {
         public const string LibId = "CommonGameObjectLibrary";
-        public const string JsonDataPath = "";
 
-        [Inject]
         private ISingletonProvider<GameObjectAssetsUserSource> _userLibraryProvider;
-        [Inject]
         private ISingletonProvider<GameObjectAssetsEmbeddedSource> _embeddedLibraryProvider;
 
         private GameObjectAssetsUserSource _userLib;
@@ -27,9 +24,13 @@ namespace Ursula.GameObjects.Model
         {
         }
 
-        //public GameObjectLibraryManager(string folderPath)
-        //{
-        //}
+        public GameObjectLibraryManager(
+            ISingletonProvider<GameObjectAssetsUserSource> userLibraryProvider, 
+            ISingletonProvider<GameObjectAssetsEmbeddedSource> embeddedLibraryProvider)
+        {
+            _userLibraryProvider = userLibraryProvider;
+            _embeddedLibraryProvider = embeddedLibraryProvider;
+        }
 
         public bool IsDataLoaded { get; private set; } = false;
 
@@ -181,7 +182,11 @@ namespace Ursula.GameObjects.Model
             //var commonList = LoadCommonAssetList(JsonDataPath);
             //return commonList != null ? commonList.ToDictionary(i => i.Id, j => j) : null;
 
-            throw new NotImplementedException();
+            //_userLib.Load
+
+            //throw new NotImplementedException();
+
+            return new Dictionary<string, CommonGameObjectLibraryItem>();
         }
 
         private async GDTask SaveCommonAssetsInfo()
@@ -192,7 +197,8 @@ namespace Ursula.GameObjects.Model
         private HashSet<string> LoadExclusions()
         {
             //TODO: Implement exclussions list loading here
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return new HashSet<string>();
         }
 
         private async GDTask SaveExclusions()
