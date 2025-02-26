@@ -1,5 +1,8 @@
-﻿namespace Ursula.GameObjects.Model
+﻿using System;
+
+namespace Ursula.GameObjects.Model
 {
+    [Serializable]
     public class GameObjectAssetInfo
     {
         public GameObjectAssetInfo(string name, string providerId, GameObjectAssetSources sources)

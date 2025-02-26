@@ -53,7 +53,7 @@ namespace Ursula.GameObjects.View
         }
     }
 
-    public partial class GameObjectAddUserSourceModel : IInjectable
+    public partial class GameObjectAddGameObjectAssetModel : IInjectable
     {
         public bool IsGameObjectAddUserSourceVisible { get; private set; } = false;
 
@@ -79,7 +79,7 @@ namespace Ursula.GameObjects.View
         {
         }
 
-        public GameObjectAddUserSourceModel SetAddUserSourceToCollection(string modelName, GameObjectAssetSources _gameObjectAssetSources)
+        public GameObjectAddGameObjectAssetModel SetAddUserSourceToCollection(string modelName, GameObjectAssetSources _gameObjectAssetSources)
         {
             this.modelName = modelName;
             this._gameObjectAssetSources = _gameObjectAssetSources;
@@ -87,7 +87,7 @@ namespace Ursula.GameObjects.View
             return this;
         }
 
-        public GameObjectAddUserSourceModel SetGameObjectAddUserSourceVisible(bool value)
+        public GameObjectAddGameObjectAssetModel SetGameObjectAddUserSourceVisible(bool value)
         {
             IsGameObjectAddUserSourceVisible = value;
             EventArgs eventArgs = new EventArgs();
@@ -95,39 +95,39 @@ namespace Ursula.GameObjects.View
             return this;
         }
 
-        public GameObjectAddUserSourceModel SetModelPath(string value)
+        public GameObjectAddGameObjectAssetModel SetModelPath(string value)
         {
             if (_gameObjectUserSourceData.ModelPath == value) return this;
             _gameObjectUserSourceData.SetModelPath(value);
             return this;
         }
 
-        public GameObjectAddUserSourceModel SetDestPath(string value)
+        public GameObjectAddGameObjectAssetModel SetDestPath(string value)
         {
             if (_gameObjectUserSourceData.DestPath == value) return this;
             _gameObjectUserSourceData.SetDestPath(value);
             return this;
         }
 
-        public GameObjectAddUserSourceModel AddSoundResources(string value)
+        public GameObjectAddGameObjectAssetModel AddSoundResources(string value)
         {
             _gameObjectUserSourceData.AddSoundResources(value);
             return this;
         }
 
-        public GameObjectAddUserSourceModel RemoveSoundResources(string value)
+        public GameObjectAddGameObjectAssetModel RemoveSoundResources(string value)
         {
             _gameObjectUserSourceData.RemoveSoundResources(value);
             return this;
         }
 
-        public GameObjectAddUserSourceModel AddAnimationResources(string value)
+        public GameObjectAddGameObjectAssetModel AddAnimationResources(string value)
         {
             _gameObjectUserSourceData.AddAnimationsResources(value);
             return this;
         }
 
-        public GameObjectAddUserSourceModel RemoveAnimationResources(string value)
+        public GameObjectAddGameObjectAssetModel RemoveAnimationResources(string value)
         {
             _gameObjectUserSourceData.RemoveAnimationsResources(value);
             return this;

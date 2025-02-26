@@ -127,15 +127,21 @@ namespace Ursula.GameObjects.Model
             // TODO: Implement _sources deserialization from a json file by _jsonFilePath
             //throw new NotImplementedException();
 
-            if (!File.Exists(_jsonFilePath))
+            if (!File.Exists(ProjectSettings.GlobalizePath(_jsonFilePath)))
             {
                 GD.Print($"Object file not found {_jsonFilePath}. Creating a new list.");
                 _infoMap = new Dictionary<string, GameObjectAssetInfo>();
                 return;
             }
 
-            string json = File.ReadAllText(_jsonFilePath);
-            _infoMap = JsonSerializer.Deserialize<Dictionary<string, GameObjectAssetInfo>>(json);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                IncludeFields = true
+            };
+
+            string json = File.ReadAllText(ProjectSettings.GlobalizePath(_jsonFilePath));
+            _infoMap = JsonSerializer.Deserialize<Dictionary<string, GameObjectAssetInfo>>(json, options);
         }
 
         public async GDTask Save()
@@ -146,10 +152,13 @@ namespace Ursula.GameObjects.Model
             // TODO: Implement sources serialization to a json file by _jsonFilePath
             //throw new NotImplementedException();
 
-            string json = JsonSerializer.Serialize(_infoMap, new JsonSerializerOptions
+            var options = new JsonSerializerOptions
             {
-                WriteIndented = true
-            });
+                PropertyNameCaseInsensitive = true,
+                IncludeFields = true
+            };
+
+            string json = JsonSerializer.Serialize(_infoMap, options);
             File.WriteAllText(ProjectSettings.GlobalizePath(_jsonFilePath), json);
         }
 

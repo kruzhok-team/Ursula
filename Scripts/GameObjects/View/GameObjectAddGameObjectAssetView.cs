@@ -6,22 +6,22 @@ using Ursula.GameObjects.Model;
 
 namespace Ursula.GameObjects.View
 {
-    public partial class GameObjectAddUserSourceView : Node, IInjectable
+    public partial class GameObjectAddGameObjectAssetView : Node, IInjectable
     {
-        [Export] GameObjectAddUserSourceUI gameObjectAddUserSourceUI;
+        [Export] GameObjectAddGameObjectAssetUI gameObjectAddUserSourceUI;
 
         [Inject]
         private ISingletonProvider<GameObjectLibraryManager> _commonLibraryProvider;
 
         [Inject]
-        private ISingletonProvider<GameObjectAddUserSourceModel> _addUserSourceProvider;
+        private ISingletonProvider<GameObjectAddGameObjectAssetModel> _addUserSourceProvider;
 
         public bool IsGameObjectAddUserSourceVisible { get; private set; } = false;
 
         public event EventHandler GameGameObjectAddUserSourceVisible_EventHandler;
 
         private GameObjectLibraryManager _commonLibrary;
-        private GameObjectAddUserSourceModel _addUserSourceModel;
+        private GameObjectAddGameObjectAssetModel _addUserSourceModel;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -38,7 +38,7 @@ namespace Ursula.GameObjects.View
         {
             _addUserSourceModel = await _addUserSourceProvider.GetAsync();
             _addUserSourceModel.GameGameObjectAddUserSourceVisible_EventHandler += GameObjectAddUserSourceModel_ShowAddUserSourceEventHandler;
-            _addUserSourceModel.GameObjectAddUserSourceToCollection_EventHandler += AddUserSourceModel_GameObjectAddUserSourceToCollection_EventHandler;
+            _addUserSourceModel.GameObjectAddUserSourceToCollection_EventHandler += AddGameObjectAssetModel_GameObjectAddUserSourceToCollection_EventHandler;
         }
 
         private void GameObjectAddUserSourceModel_ShowAddUserSourceEventHandler(object sender, EventArgs e)
@@ -51,7 +51,7 @@ namespace Ursula.GameObjects.View
             gameObjectAddUserSourceUI.OnShow(value);
         }
 
-        private async void AddUserSourceModel_GameObjectAddUserSourceToCollection_EventHandler(object sender, EventArgs e)
+        private async void AddGameObjectAssetModel_GameObjectAddUserSourceToCollection_EventHandler(object sender, EventArgs e)
         {
             _commonLibrary = await _commonLibraryProvider.GetAsync();
             _addUserSourceModel = await _addUserSourceProvider.GetAsync();
@@ -60,7 +60,7 @@ namespace Ursula.GameObjects.View
             await _commonLibrary.Save();
         }
 
-        private async void SetAndSaveItem()
+        private async void CopyGameObjectAsset()
         {
 
         }

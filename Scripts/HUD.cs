@@ -65,7 +65,7 @@ public partial class HUD : Control, IInjectable
     private ISingletonProvider<HUDViewModel> _hudModelProvider;
 
     [Inject]
-    private ISingletonProvider<GameObjectAddUserSourceModel> _gameObjectAddUserSourceViewProvider;
+    private ISingletonProvider<GameObjectAddGameObjectAssetModel> _gameObjectAddUserSourceViewProvider;
 
     private float _defaultSensitivity = 0.5f;
 

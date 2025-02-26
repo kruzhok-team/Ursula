@@ -10,7 +10,7 @@ using Ursula.GameObjects.View;
 
 namespace Ursula.GameObjects.View
 {
-    public partial class GameObjectAddUserSourceUI : Control, IInjectable
+    public partial class GameObjectAddGameObjectAssetUI : Control, IInjectable
     {
         [Export]
         Label LabelTittle;
@@ -61,12 +61,12 @@ namespace Ursula.GameObjects.View
         public Button ButtonClose;
 
         [Inject]
-        private ISingletonProvider<GameObjectAddUserSourceModel> _addUserSourceProvider;
+        private ISingletonProvider<GameObjectAddGameObjectAssetModel> _addUserSourceProvider;
 
         [Inject]
         private ISingletonProvider<FileDialogTool> _fileDialogToolProvider;
 
-        private GameObjectAddUserSourceModel _gameObjectAddUserSource;
+        private GameObjectAddGameObjectAssetModel _gameObjectAddUserSource;
         private FileDialogTool dialogTool;
 
         public string[] typeModel = { "Деревья", "Трава", "Камни", "Строения", "Животные", "Предметы", "Освещение" };

@@ -1,5 +1,8 @@
-﻿namespace Ursula.GameObjects.Model
+﻿using System;
+
+namespace Ursula.GameObjects.Model
 {
+    [Serializable]
     public class GameObjectAssetSources
     {
         public readonly string PreviewImageFilePath;
