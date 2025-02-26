@@ -3,8 +3,11 @@ using System;
 using Ursula.Core.DI;
 using Ursula.Environment.Settings;
 
-public partial class FileDialogTool : Node, IInjectable
+public partial class FileDialogTool : Node
 {
+    [Inject]
+    private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
+
     FileDialog _fileDialog;
 
     public FileDialogTool(FileDialog fileDialog)
@@ -29,13 +32,6 @@ public partial class FileDialogTool : Node, IInjectable
     private string settingsPath = "user://settings.cfg";
 
     Action<string> _onFileSelected;
-
-    [Inject]
-    private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
-
-    void IInjectable.OnDependenciesInjected()
-    {
-    }
 
     private void OnCheckButtonToggled(bool buttonPressed)
     {

@@ -130,12 +130,12 @@ namespace Ursula.GameObjects.Model
             if (!File.Exists(_jsonFilePath))
             {
                 GD.Print($"Object file not found {_jsonFilePath}. Creating a new list.");
-                _cachedAssetMap = new Dictionary<string, IGameObjectAsset>();
+                _infoMap = new Dictionary<string, GameObjectAssetInfo>();
                 return;
             }
 
             string json = File.ReadAllText(_jsonFilePath);
-            _cachedAssetMap = JsonSerializer.Deserialize<Dictionary<string, IGameObjectAsset>>(json);
+            _infoMap = JsonSerializer.Deserialize<Dictionary<string, GameObjectAssetInfo>>(json);
         }
 
         public async GDTask Save()
@@ -146,11 +146,11 @@ namespace Ursula.GameObjects.Model
             // TODO: Implement sources serialization to a json file by _jsonFilePath
             //throw new NotImplementedException();
 
-            string json = JsonSerializer.Serialize(_cachedAssetMap, new JsonSerializerOptions
+            string json = JsonSerializer.Serialize(_infoMap, new JsonSerializerOptions
             {
                 WriteIndented = true
             });
-            File.WriteAllText(_jsonFilePath, json);
+            File.WriteAllText(ProjectSettings.GlobalizePath(_jsonFilePath), json);
         }
 
         private bool CheckLoaded()
@@ -180,6 +180,7 @@ namespace Ursula.GameObjects.Model
         {
             //TODO: asset building implementation
             throw new NotImplementedException();
+
         }
     }
 }

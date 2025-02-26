@@ -6,7 +6,8 @@ namespace Ursula.GameObjects.Model
     public class GameObjectAssetsEmbeddedSource : GameObjectAssetJsonCollection, IInjectable
     {
         public const string LibId = "EmbeddedGameObjectAssets";
-        public const string JsonDataPath = "user://Project/Models/EmbeddedCatalog/EmbeddedSource.json";
+        public const string CollectionPath = "user://Project/Models/EmbeddedCollection/";
+        public const string JsonDataPath = CollectionPath + "EmbeddedSource.json";
 
         private List<string> _excludedObjectNames;
 

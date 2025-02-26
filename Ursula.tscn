@@ -38,7 +38,7 @@
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCommonLibraryView.cs" id="35_ai4aq"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAddUserSourceView.cs" id="35_avsay"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/UI/GameObjectAddUserSourceUI.cs" id="35_w5hvm"]
-[ext_resource type="PackedScene" uid="uid://dpwcf74rci8i6" path="res://addons/Ursula/Modules/ModelsCatalog/ItemLibraryObjectDataPrefab.tscn" id="36_jw1t7"]
+[ext_resource type="PackedScene" uid="uid://dpwcf74rci8i6" path="res://addons/Ursula/Prefabs/GameObjects/ItemLibraryObjectDataPrefab.tscn" id="36_jw1t7"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCollectionView.cs" id="37_0m72d"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_elju3"]
@@ -2207,7 +2207,7 @@ shape = SubResource("BoxShape3D_eumda")
 script = ExtResource("35_avsay")
 gameObjectAddUserSourceUI = NodePath("GameObjectAddUserSourceUI")
 
-[node name="GameObjectAddUserSourceUI" type="Control" parent="GameObjectCollection/GameObjectAddUserSourceView" node_paths=PackedStringArray("ButtonAddUserSource", "ButtonClose")]
+[node name="GameObjectAddUserSourceUI" type="Control" parent="GameObjectCollection/GameObjectAddUserSourceView" node_paths=PackedStringArray("LabelTittle", "ButtonOpen3DModel", "TextEditModelName", "TextEditPath3DModel", "OptionButtonTypeObject", "ButtonOpenPathSound", "TextEditPathSound", "VBoxContainerSound", "ButtonOpenPathAnimation", "TextEditPathAnimation", "VBoxContainerAnimation", "ButtonSaveEditModel", "ButtonRemoveModel", "ButtonAddUserSource", "ButtonClose")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -2216,6 +2216,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("35_w5hvm")
+LabelTittle = NodePath("Panel/Label")
+ButtonOpen3DModel = NodePath("Panel/ButtonOpen3DModel")
+TextEditModelName = NodePath("Panel/TextEditModelName")
+TextEditPath3DModel = NodePath("Panel/TextEditPath3DModel")
+OptionButtonTypeObject = NodePath("Panel/OptionButtonTypeObject")
+ButtonOpenPathSound = NodePath("Panel/ButtonOpenPathSound")
+TextEditPathSound = NodePath("Panel/TextEditPathSound")
+VBoxContainerSound = NodePath("Panel/ScrollContainerSound/VBoxContainerSound")
+ItemLibraryObjectPrefab = ExtResource("36_jw1t7")
+ButtonOpenPathAnimation = NodePath("Panel/ButtonOpenPathAnimation")
+TextEditPathAnimation = NodePath("Panel/TextEditPathAnimation")
+VBoxContainerAnimation = NodePath("Panel/ScrollContainerAnimation/VBoxContainerAnimation")
+ButtonSaveEditModel = NodePath("Panel/ButtonSaveEditModel")
+ButtonRemoveModel = NodePath("Panel/ButtonRemoveModel")
 ButtonAddUserSource = NodePath("Panel/ButtonLoadModel")
 ButtonClose = NodePath("Panel/ButtonClose")
 

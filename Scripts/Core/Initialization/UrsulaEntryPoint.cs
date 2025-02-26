@@ -46,6 +46,7 @@ namespace Ursula.Core.Initialization
             InstallSingleton<GameObjectAddUserSourceModel>(services);
             InstallSingleton<GameObjectAddUserSourceView>(services);
             InstallSingleton<GameObjectAddUserSourceUI>(services);
+
             
         }
 

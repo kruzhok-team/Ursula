@@ -191,7 +191,7 @@ namespace Ursula.GameObjects.Model
 
         private async GDTask SaveCommonAssetsInfo()
         {
-            throw new NotImplementedException();
+            await _userLib.Save();
         }
 
         private HashSet<string> LoadExclusions()
@@ -203,7 +203,9 @@ namespace Ursula.GameObjects.Model
 
         private async GDTask SaveExclusions()
         {
-            throw new NotImplementedException();
+
+            //throw new NotImplementedException();
+
         }
 
         private async GDTask SyncEmbeddedAssets()

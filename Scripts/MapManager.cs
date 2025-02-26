@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Xml.Linq;
 using Ursula.Core.DI;
 using Ursula.Environment.Settings;
+using Ursula.GameObjects.Model;
 
 
 
@@ -187,6 +188,8 @@ public partial class MapManager : Node3D, IInjectable
         CreateDir(path + PATHCUSTOMGRASS);
         CreateDir(path + PATHCUSTOMTREES);
         CreateDir(path + PATHCATALOG);
+        CreateDir(GameObjectAssetsUserSource.CollectionPath);
+        CreateDir(GameObjectAssetsEmbeddedSource.CollectionPath);
     }
 
 	public static void CreateDir(string path)
