@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ursula.GameObjects.Model
 {
@@ -8,12 +9,16 @@ namespace Ursula.GameObjects.Model
         public readonly string PreviewImageFilePath;
         public readonly string TextureFilePath;
         public readonly string Model3dFilePath;
+        public readonly List<string> Audios;
+        public readonly List<string> Animations;
 
-        public GameObjectAssetSources(string previewImageFilePath, string textureFilePath, string model3dFilePath)
+        public GameObjectAssetSources(string previewImageFilePath, string textureFilePath, string model3dFilePath, List<string> audios, List<string> animations)
         {
             PreviewImageFilePath = previewImageFilePath;
             TextureFilePath = textureFilePath;
             Model3dFilePath = model3dFilePath;
+            Audios = audios;
+            Animations = animations;
         }
         // ...
     }

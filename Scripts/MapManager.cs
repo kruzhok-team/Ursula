@@ -31,6 +31,7 @@ public partial class MapManager : Node3D, IInjectable
     public const string PATHCUSTOMTREES = "/Models/Trees/";
 
     public const string PATHAUDIO = "Audio";
+    public const string PATHANIMATION = "Animation";
     public const string PATHXML = "Graphs";
     public const string PATHMODEL = "Models";
     public const string GAMEIMAGE = "GameImage";

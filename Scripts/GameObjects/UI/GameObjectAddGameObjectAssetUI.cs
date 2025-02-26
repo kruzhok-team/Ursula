@@ -91,7 +91,7 @@ namespace Ursula.GameObjects.View
         public override void _Ready()
         {
             base._Ready();
-            ButtonAddUserSource.ButtonDown += AddUserSourceButton_DownEventHandler;
+            ButtonAddUserSource.ButtonDown += AddGameObjectAssetButton_DownEventHandler;
             ButtonClose.ButtonDown += ButtonClose_DownEventHandler;
             ButtonOpen3DModel.ButtonDown += ButtonOpen3DModel_DownEventHandler;
             ButtonOpenPathSound.ButtonDown += ButtonOpenPathSound_DownEventHandler;
@@ -114,7 +114,7 @@ namespace Ursula.GameObjects.View
         public override void _ExitTree()
         {
             base._ExitTree();
-            ButtonAddUserSource.ButtonDown -= AddUserSourceButton_DownEventHandler;
+            ButtonAddUserSource.ButtonDown -= AddGameObjectAssetButton_DownEventHandler;
             ButtonClose.ButtonDown -= ButtonClose_DownEventHandler;
             ButtonOpen3DModel.ButtonDown -= ButtonOpen3DModel_DownEventHandler;
             ButtonOpenPathSound.ButtonDown -= ButtonOpenPathSound_DownEventHandler;
@@ -148,22 +148,22 @@ namespace Ursula.GameObjects.View
             VoxLib.RemoveAllChildren(VBoxContainerAnimation);
         }
 
-        async void AddUserSourceButton_DownEventHandler()
+        async void AddGameObjectAssetButton_DownEventHandler()
         {
             ControlPopupMenu.instance._HideAllMenu();
             var model = _addUserSourceProvider != null ? await _addUserSourceProvider.GetAsync() : null;
 
-            GameObjectAssetSources gameObjectAsset = new GameObjectAssetSources("", "", destPath);
+            GameObjectAssetSources gameObjectAsset = new GameObjectAssetSources("", "", modelPath, audiosTo, animationsTo);
 
             model.SetDestPath(destPath);
 
-            model?.SetAddUserSourceToCollection(TextEditModelName.Text, gameObjectAsset);
+            model?.SetAddGameObjectAssetToCollection(TextEditModelName.Text, gameObjectAsset);
         }
 
         async void ButtonClose_DownEventHandler()
         {
             var viewModel = _addUserSourceProvider != null ? await _addUserSourceProvider.GetAsync() : null;
-            viewModel?.SetGameObjectAddUserSourceVisible(false);
+            viewModel?.SetGameObjectAddGameObjectAssetVisible(false);
         }
 
         void ButtonOpen3DModel_DownEventHandler()

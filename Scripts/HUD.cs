@@ -202,7 +202,7 @@ public partial class HUD : Control, IInjectable
     {
         ControlPopupMenu.instance._HideAllMenu();
         var model = _gameObjectAddUserSourceViewProvider != null ? await _gameObjectAddUserSourceViewProvider.GetAsync() : null;
-        model?.SetGameObjectAddUserSourceVisible(true);
+        model?.SetGameObjectAddGameObjectAssetVisible(true);
     }
 
     public static void ItemProcessing(Node collider, Vector3 raycastPos, out ItemPropsScript itemPropS, out Node parent)

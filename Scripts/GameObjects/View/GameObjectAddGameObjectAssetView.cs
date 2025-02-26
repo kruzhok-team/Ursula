@@ -21,7 +21,7 @@ namespace Ursula.GameObjects.View
         public event EventHandler GameGameObjectAddUserSourceVisible_EventHandler;
 
         private GameObjectLibraryManager _commonLibrary;
-        private GameObjectAddGameObjectAssetModel _addUserSourceModel;
+        private GameObjectAddGameObjectAssetModel _addGameObjectAssetModel;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -36,14 +36,14 @@ namespace Ursula.GameObjects.View
 
         private async GDTask SubscribeEvent()
         {
-            _addUserSourceModel = await _addUserSourceProvider.GetAsync();
-            _addUserSourceModel.GameGameObjectAddUserSourceVisible_EventHandler += GameObjectAddUserSourceModel_ShowAddUserSourceEventHandler;
-            _addUserSourceModel.GameObjectAddUserSourceToCollection_EventHandler += AddGameObjectAssetModel_GameObjectAddUserSourceToCollection_EventHandler;
+            _addGameObjectAssetModel = await _addUserSourceProvider.GetAsync();
+            _addGameObjectAssetModel.GameGameObjectAddUserSourceVisible_EventHandler += GameObjectAddUserSourceModel_ShowAddUserSourceEventHandler;
+            _addGameObjectAssetModel.GameObjectAddUserSourceToCollection_EventHandler += AddGameObjectAssetModel_GameObjectAddUserSourceToCollection_EventHandler;
         }
 
         private void GameObjectAddUserSourceModel_ShowAddUserSourceEventHandler(object sender, EventArgs e)
         {
-            OnShow(_addUserSourceModel.IsGameObjectAddUserSourceVisible);
+            OnShow(_addGameObjectAssetModel.IsGameObjectAddUserSourceVisible);
         }
 
         private void OnShow(bool value)
@@ -54,15 +54,11 @@ namespace Ursula.GameObjects.View
         private async void AddGameObjectAssetModel_GameObjectAddUserSourceToCollection_EventHandler(object sender, EventArgs e)
         {
             _commonLibrary = await _commonLibraryProvider.GetAsync();
-            _addUserSourceModel = await _addUserSourceProvider.GetAsync();
+            _addGameObjectAssetModel = await _addUserSourceProvider.GetAsync();
 
-            _commonLibrary.SetItem(_addUserSourceModel.modelName, _addUserSourceModel._gameObjectAssetSources);
+            _commonLibrary.SetItem(_addGameObjectAssetModel.modelName, _addGameObjectAssetModel._gameObjectAssetSourcesTo);
             await _commonLibrary.Save();
         }
 
-        private async void CopyGameObjectAsset()
-        {
-
-        }
     }
 }

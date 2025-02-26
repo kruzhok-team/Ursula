@@ -2,6 +2,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Ursula.Core.DI;
 using Ursula.Core.Model;
 using Ursula.Environment.Settings;
@@ -13,13 +14,18 @@ namespace Ursula.GameObjects.View
     {
         public GameObjectUserSourceData()
         {
+            AudiosFrom = new List<string>();
+            AnimationsFrom = new List<string>();
         }
 
         public string ModelPath { get; private set; }
         public string DestPath { get; private set; }
 
-        List<string> audios = new List<string>();
-        List<string> animations = new List<string>();
+        public List<string> AudiosFrom { get; private set; }
+        public List<string> AnimationsFrom { get; private set; }
+
+        public List<string> AudiosTo { get; set; }
+        public List<string> AnimationsTo { get; set; }
 
         public GameObjectUserSourceData SetModelPath(string value)
         {
@@ -33,22 +39,22 @@ namespace Ursula.GameObjects.View
         }
         public GameObjectUserSourceData AddSoundResources(string value)
         {
-            audios.Add(value);
+            AudiosFrom.Add(value);
             return this;
         }
         public GameObjectUserSourceData RemoveSoundResources(string value)
         {
-            audios.Remove(value);
+            AudiosFrom.Remove(value);
             return this;
         }
         public GameObjectUserSourceData AddAnimationsResources(string value)
         {
-            animations.Add(value);
+            AnimationsFrom.Add(value);
             return this;
         }
         public GameObjectUserSourceData RemoveAnimationsResources(string value)
         {
-            animations.Remove(value);
+            AnimationsFrom.Remove(value);
             return this;
         }
     }
@@ -61,7 +67,8 @@ namespace Ursula.GameObjects.View
         public string ModelPath => _gameObjectUserSourceData.ModelPath;
         public string DestPath => _gameObjectUserSourceData.DestPath;
 
-        public GameObjectAssetSources _gameObjectAssetSources { get; private set; }
+        public GameObjectAssetSources _gameObjectAssetSourcesFrom { get; private set; }
+        public GameObjectAssetSources _gameObjectAssetSourcesTo { get; private set; }
 
         public event EventHandler GameGameObjectAddUserSourceVisible_EventHandler;
         public event EventHandler GameObjectAddUserSourceToCollection_EventHandler;
@@ -69,25 +76,33 @@ namespace Ursula.GameObjects.View
         private GameObjectLibraryManager _commonLibrary;
         private GameObjectUserSourceData _gameObjectUserSourceData = new GameObjectUserSourceData();
 
-
-        //public GameObjectAddUserSourceModel()
-        //{
-        //    _gameObjectUserSourceData = new GameObjectUserSourceData();
-        //}
-
         void IInjectable.OnDependenciesInjected()
         {
         }
 
-        public GameObjectAddGameObjectAssetModel SetAddUserSourceToCollection(string modelName, GameObjectAssetSources _gameObjectAssetSources)
+        public GameObjectAddGameObjectAssetModel SetAddGameObjectAssetToCollection(string modelName, GameObjectAssetSources _gameObjectAssetSources)
         {
             this.modelName = modelName;
-            this._gameObjectAssetSources = _gameObjectAssetSources;
-            InvokeGameObjectAddUserSourceToCollectionEvent();
+
+            this._gameObjectAssetSourcesFrom = _gameObjectAssetSources;
+
+            CopyGameObjectAsset();
+
+            this._gameObjectAssetSourcesTo = new GameObjectAssetSources(
+                _gameObjectAssetSources.PreviewImageFilePath, 
+                _gameObjectAssetSources.TextureFilePath,
+                DestPath + Path.GetFileName(_gameObjectUserSourceData.ModelPath),
+                _gameObjectUserSourceData.AudiosTo,
+                _gameObjectUserSourceData.AnimationsTo
+
+                );
+
+            InvokeGameObjectAddGameObjectAssetToCollectionEvent();
+
             return this;
         }
 
-        public GameObjectAddGameObjectAssetModel SetGameObjectAddUserSourceVisible(bool value)
+        public GameObjectAddGameObjectAssetModel SetGameObjectAddGameObjectAssetVisible(bool value)
         {
             IsGameObjectAddUserSourceVisible = value;
             EventArgs eventArgs = new EventArgs();
@@ -133,10 +148,36 @@ namespace Ursula.GameObjects.View
             return this;
         }
 
+        private void CopyGameObjectAsset()
+        {
+            MapManager.CreateDir(DestPath);
+            ModelLoader.CopyModel(ModelPath, DestPath);
+
+            _gameObjectUserSourceData.AudiosTo = new List<string>();
+            string pathAudio = DestPath;
+            MapManager.CreateDir(pathAudio);
+            for (int i = 0; i < _gameObjectUserSourceData.AudiosFrom.Count; i++)
+            {
+                string pathFrom = _gameObjectUserSourceData.AudiosFrom[i];
+                string pathTo = $"{pathAudio}{Path.GetFileName(_gameObjectUserSourceData.AudiosFrom[i])}";
+                File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);
+                _gameObjectUserSourceData.AudiosTo.Add(pathTo);
+            }
+
+            _gameObjectUserSourceData.AnimationsTo = new List<string>();
+            string pathAnimations = DestPath;
+            MapManager.CreateDir(pathAnimations);
+            for (int i = 0; i < _gameObjectUserSourceData.AnimationsFrom.Count; i++)
+            {
+                string pathFrom = _gameObjectUserSourceData.AnimationsFrom[i];
+                string pathTo = $"{pathAnimations}{Path.GetFileName(_gameObjectUserSourceData.AnimationsFrom[i])}";
+                File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);
+                _gameObjectUserSourceData.AnimationsTo.Add(pathTo);
+            }
+        }
 
 
-
-        private void InvokeGameObjectAddUserSourceToCollectionEvent()
+        private void InvokeGameObjectAddGameObjectAssetToCollectionEvent()
         {
             var handler = GameObjectAddUserSourceToCollection_EventHandler;
             handler?.Invoke(this, EventArgs.Empty);
@@ -147,6 +188,7 @@ namespace Ursula.GameObjects.View
             var handler = GameGameObjectAddUserSourceVisible_EventHandler;
             handler?.Invoke(this, eventArgs);
         }
+
 
     }
 }
