@@ -37,6 +37,11 @@ namespace Ursula.GameObjects.Model
             }
         }
 
+        public IReadOnlyCollection<GameObjectAssetInfo> GetAllInfo()
+        {
+            return _infoMap.Values;
+        }
+
         public IReadOnlyCollection<IGameObjectAsset> GetAll()
         {
             if (!CheckLoaded())
@@ -188,7 +193,12 @@ namespace Ursula.GameObjects.Model
         private IGameObjectAsset BuildAssetImplementation(GameObjectAssetInfo assetInfo) 
         {
             //TODO: asset building implementation
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+
+            //object model3D = ModelLoader.LoadModelByPath();
+
+            GameObjectAsset asset = new GameObjectAsset(assetInfo, null, null);
+            return asset;
 
         }
     }

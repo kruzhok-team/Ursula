@@ -10,7 +10,7 @@ using Ursula.GameObjects.View;
 
 namespace Ursula.GameObjects.View
 {
-    public partial class GameObjectAddGameObjectAssetUI : Control, IInjectable
+    public partial class GameObjectAddGameObjectAssetUiView : Control, IInjectable
     {
         [Export]
         Label LabelTittle;
@@ -61,12 +61,9 @@ namespace Ursula.GameObjects.View
         public Button ButtonClose;
 
         [Inject]
-        private ISingletonProvider<GameObjectAddGameObjectAssetModel> _addUserSourceProvider;
+        private ISingletonProvider<GameObjectAddGameObjectAssetModel> _addGameObjectAssetProvider;
 
-        [Inject]
-        private ISingletonProvider<FileDialogTool> _fileDialogToolProvider;
-
-        private GameObjectAddGameObjectAssetModel _gameObjectAddUserSource;
+        private GameObjectAddGameObjectAssetModel _addGameObjectAssetModel;
         private FileDialogTool dialogTool;
 
         public string[] typeModel = { "Деревья", "Трава", "Камни", "Строения", "Животные", "Предметы", "Освещение" };
@@ -107,8 +104,9 @@ namespace Ursula.GameObjects.View
 
         private async GDTask SubscribeEvent()
         {
-            _gameObjectAddUserSource = await _addUserSourceProvider.GetAsync();
-            dialogTool = new FileDialogTool(GetNode("FileDialog") as FileDialog); // await _fileDialogToolProvider.GetAsync();
+            _addGameObjectAssetModel = await _addGameObjectAssetProvider.GetAsync();
+            dialogTool = new FileDialogTool(GetNode("FileDialog") as FileDialog);
+            _addGameObjectAssetModel.GameObjectAddAssetToCollection_EventHandler += AddGameObjectAssetModel_GameObjectAddAssetToCollection_EventHandler;
         }
 
         public override void _ExitTree()
@@ -151,9 +149,9 @@ namespace Ursula.GameObjects.View
         async void AddGameObjectAssetButton_DownEventHandler()
         {
             ControlPopupMenu.instance._HideAllMenu();
-            var model = _addUserSourceProvider != null ? await _addUserSourceProvider.GetAsync() : null;
+            var model = _addGameObjectAssetProvider != null ? await _addGameObjectAssetProvider.GetAsync() : null;
 
-            GameObjectAssetSources gameObjectAsset = new GameObjectAssetSources("", "", modelPath, audiosTo, animationsTo);
+            GameObjectAssetSources gameObjectAsset = new GameObjectAssetSources("", "", modelPath, typeModel[OptionButtonTypeObject.Selected], audiosTo, animationsTo);
 
             model.SetDestPath(destPath);
 
@@ -162,7 +160,7 @@ namespace Ursula.GameObjects.View
 
         async void ButtonClose_DownEventHandler()
         {
-            var viewModel = _addUserSourceProvider != null ? await _addUserSourceProvider.GetAsync() : null;
+            var viewModel = _addGameObjectAssetProvider != null ? await _addGameObjectAssetProvider.GetAsync() : null;
             viewModel?.SetGameObjectAddGameObjectAssetVisible(false);
         }
 
@@ -176,7 +174,7 @@ namespace Ursula.GameObjects.View
                     TextEditPath3DModel.Text = path;
                     destPath = GameObjectAssetsUserSource.CollectionPath + Path.GetFileNameWithoutExtension(path) + "/";
 
-                    var viewModel = _addUserSourceProvider != null ? await _addUserSourceProvider.GetAsync() : null;
+                    var viewModel = _addGameObjectAssetProvider != null ? await _addGameObjectAssetProvider.GetAsync() : null;
                     viewModel?.SetModelPath(path);
                     viewModel?.SetDestPath(destPath);
                 }
@@ -197,7 +195,7 @@ namespace Ursula.GameObjects.View
                     TextEditPathSound.Text = path;
                     soundResources.Add(Path.GetFileName(path), path);
                     RedrawSoundResourses();
-                    _gameObjectAddUserSource?.AddSoundResources(path);
+                    _addGameObjectAssetModel?.AddSoundResources(path);
                 }
                 else
                     GD.PrintErr($"Ошибка открытия звука {path} в {destPath}");
@@ -215,7 +213,7 @@ namespace Ursula.GameObjects.View
                     TextEditPathAnimation.Text = path;
                     animationResources.Add(Path.GetFileName(path), path);
                     RedrawAnimationsResourses();
-                    _gameObjectAddUserSource?.AddAnimationResources(path);
+                    _addGameObjectAssetModel?.AddAnimationResources(path);
                 }
                 else
                     GD.PrintErr($"Ошибка  открытия анимации {path} в {destPath}");
@@ -249,7 +247,7 @@ namespace Ursula.GameObjects.View
         {
             soundResources.Remove(path);
             RedrawSoundResourses();
-            _gameObjectAddUserSource?.RemoveSoundResources(path);
+            _addGameObjectAssetModel?.RemoveSoundResources(path);
         }
 
         void RedrawAnimationsResourses()
@@ -278,7 +276,13 @@ namespace Ursula.GameObjects.View
         {
             animationResources.Remove(path);
             RedrawAnimationsResourses();
-            _gameObjectAddUserSource?.RemoveAnimationResources(path);
+            _addGameObjectAssetModel?.RemoveAnimationResources(path);
+        }
+
+
+        private void AddGameObjectAssetModel_GameObjectAddAssetToCollection_EventHandler(object sender, EventArgs e)
+        {
+            ClearData();
         }
     }
 }

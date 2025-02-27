@@ -47,6 +47,11 @@ namespace Ursula.GameObjects.Model
             return _exclusions.Contains(itemId);
         }
 
+        public IReadOnlyCollection<GameObjectAssetInfo> GetAllInfo()
+        {
+            return _userLib.GetAllInfo();
+        }
+
         public IReadOnlyCollection<IGameObjectAsset> GetAll()
         {
             if (!CheckLoaded())

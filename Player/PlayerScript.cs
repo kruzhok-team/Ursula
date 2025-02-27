@@ -85,6 +85,12 @@ public partial class PlayerScript : CharacterBody3D, IInjectable
 
     public override void _Input(InputEvent @event)
     {
+        if (Input.IsKeyPressed(Key.Ctrl) && Input.IsKeyPressed(Key.X) && @event.IsPressed())
+        {
+            VoxLib.mapManager.playMode = PlayMode.testMode;
+            VoxLib.mapManager.PlayTest();
+        }
+
         if (Input.IsKeyPressed(Key.Escape) && @event.IsPressed())
         {
             //if (CameraController.instance == this)

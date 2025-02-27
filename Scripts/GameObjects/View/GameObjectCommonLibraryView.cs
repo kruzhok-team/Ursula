@@ -56,7 +56,7 @@ namespace Ursula.GameObjects.View
         private async GDTask DrawCommonCollection()
         {
             var commonLib = await _commonLibraryProvider.GetAsync();
-            _collectionView?.Draw(commonLib.GetAll());
+            _collectionView?.Draw(commonLib.GetAllInfo());
         }
 
 

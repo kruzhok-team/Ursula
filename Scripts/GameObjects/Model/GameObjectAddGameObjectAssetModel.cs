@@ -70,8 +70,8 @@ namespace Ursula.GameObjects.View
         public GameObjectAssetSources _gameObjectAssetSourcesFrom { get; private set; }
         public GameObjectAssetSources _gameObjectAssetSourcesTo { get; private set; }
 
-        public event EventHandler GameGameObjectAddUserSourceVisible_EventHandler;
-        public event EventHandler GameObjectAddUserSourceToCollection_EventHandler;
+        public event EventHandler GameGameObjectAddGameObjectAssetVisible_EventHandler;
+        public event EventHandler GameObjectAddAssetToCollection_EventHandler;
 
         private GameObjectLibraryManager _commonLibrary;
         private GameObjectUserSourceData _gameObjectUserSourceData = new GameObjectUserSourceData();
@@ -92,6 +92,7 @@ namespace Ursula.GameObjects.View
                 _gameObjectAssetSources.PreviewImageFilePath, 
                 _gameObjectAssetSources.TextureFilePath,
                 DestPath + Path.GetFileName(_gameObjectUserSourceData.ModelPath),
+                _gameObjectAssetSources.ModelType,
                 _gameObjectUserSourceData.AudiosTo,
                 _gameObjectUserSourceData.AnimationsTo
 
@@ -179,13 +180,13 @@ namespace Ursula.GameObjects.View
 
         private void InvokeGameObjectAddGameObjectAssetToCollectionEvent()
         {
-            var handler = GameObjectAddUserSourceToCollection_EventHandler;
+            var handler = GameObjectAddAssetToCollection_EventHandler;
             handler?.Invoke(this, EventArgs.Empty);
         }
 
         private void InvokeGameObjectAddUserSourceVisibleEvent(EventArgs eventArgs)
         {
-            var handler = GameGameObjectAddUserSourceVisible_EventHandler;
+            var handler = GameGameObjectAddGameObjectAssetVisible_EventHandler;
             handler?.Invoke(this, eventArgs);
         }
 
