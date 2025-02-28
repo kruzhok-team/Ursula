@@ -1,5 +1,6 @@
 ﻿using Godot;
 using System;
+using System.IO;
 using Ursula.GameObjects.Model;
 
 namespace Ursula.GameObjects.View
@@ -10,13 +11,43 @@ namespace Ursula.GameObjects.View
         private Label LabelNameAsset;
 
         [Export]
-        Button ButtonClickAsset;
+        private Button ButtonClickAsset;
 
         [Export]
         TextureRect PreviewImageRect;
 
+        public Action<string> clickItemEvent = null;
+
         GameObjectAssetInfo _gameObjectAssetInfo;
 
+        //
+        public override void _Ready()
+        {
+            ButtonClickAsset.ButtonDown += OnItemClickEvent;
+        }
 
+        public override void _ExitTree()
+        {
+            base._ExitTree();
+            ButtonClickAsset.ButtonDown -= OnItemClickEvent;
+        }
+
+        public void Invalidate(GameObjectAssetInfo asset)
+        {
+            _gameObjectAssetInfo = asset;
+            LabelNameAsset.Text = asset.Name;
+
+            PreviewImageRect.Visible = !string.IsNullOrEmpty(asset.Sources.PreviewImageFilePath);
+
+
+        }
+
+
+        //
+        private void OnItemClickEvent()
+        {
+            string id = _gameObjectAssetInfo != null ? _gameObjectAssetInfo.Id : null;
+            clickItemEvent?.Invoke(id);
+        }
     }
 }

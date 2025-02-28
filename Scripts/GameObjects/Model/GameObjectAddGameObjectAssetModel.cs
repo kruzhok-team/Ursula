@@ -93,6 +93,7 @@ namespace Ursula.GameObjects.View
                 _gameObjectAssetSources.TextureFilePath,
                 DestPath + Path.GetFileName(_gameObjectUserSourceData.ModelPath),
                 _gameObjectAssetSources.ModelType,
+                _gameObjectAssetSources.ColliderType,
                 _gameObjectUserSourceData.AudiosTo,
                 _gameObjectUserSourceData.AnimationsTo
 

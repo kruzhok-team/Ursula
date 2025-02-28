@@ -10,15 +10,17 @@ namespace Ursula.GameObjects.Model
         public readonly string TextureFilePath;
         public readonly string Model3dFilePath;
         public readonly string ModelType;
+        public readonly int ColliderType;
         public readonly List<string> Audios;
         public readonly List<string> Animations;
 
-        public GameObjectAssetSources(string previewImageFilePath, string textureFilePath, string model3dFilePath, string modelType, List<string> audios, List<string> animations)
+        public GameObjectAssetSources(string previewImageFilePath, string textureFilePath, string model3dFilePath, string modelType, int colliderType, List<string> audios, List<string> animations)
         {
             PreviewImageFilePath = previewImageFilePath;
             TextureFilePath = textureFilePath;
             Model3dFilePath = model3dFilePath;
             ModelType = modelType;
+            ColliderType = colliderType;
             Audios = audios;
             Animations = animations;
         }

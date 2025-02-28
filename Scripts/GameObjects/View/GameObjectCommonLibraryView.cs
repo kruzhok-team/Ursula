@@ -15,9 +15,12 @@ namespace Ursula.GameObjects.View
         private ISingletonProvider<GameObjectLibraryManager> _commonLibraryProvider;
         [Inject]
         private ISingletonProvider<HUDViewModel> _hudModelProvider;
+        [Inject]
+        private ISingletonProvider<GameObjectCollectionModel> _gameObjectCollectionModelProvider;      
 
         private GameObjectLibraryManager _commonLibrary;
         private HUDViewModel _hudModel;
+        private GameObjectCollectionModel _gameObjectCollectionModel;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -41,6 +44,9 @@ namespace Ursula.GameObjects.View
         {
             _hudModel = await _hudModelProvider.GetAsync();
             _hudModel.GameObjectLibraryVisible_EventHandler += HUDViewModel_ShowLibraryEventHandler;
+
+            _gameObjectCollectionModel = await _gameObjectCollectionModelProvider.GetAsync();
+            _gameObjectCollectionModel.GameObjectCollectionVisibleChangeEvent += _gameObjectCollectionModel_GameObjectCollectionVisibleChangeEventHandler;
         }
 
         public async void OnShow()
@@ -59,11 +65,18 @@ namespace Ursula.GameObjects.View
             _collectionView?.Draw(commonLib.GetAllInfo());
         }
 
-
-
         private void HUDViewModel_ShowLibraryEventHandler(object sender, EventArgs e)
         {
             OnShow();
+        }
+
+        private void _gameObjectCollectionModel_GameObjectCollectionVisibleChangeEventHandler(object sender, EventArgs e)
+        {
+            bool isVisible = _gameObjectCollectionModel.IsCollectionVisible;
+            if (isVisible)
+            {
+                OnShow();
+            }
         }
     }
 }

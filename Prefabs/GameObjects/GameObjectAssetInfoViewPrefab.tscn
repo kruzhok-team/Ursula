@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccpqmgm2c1jtt"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAssetInfoView.cs" id="1_0agk0"]
+[ext_resource type="Texture2D" uid="uid://c07i448r3l1c0" path="res://addons/Ursula/Assets/Textures/UI/NewGame.png" id="2_1d433"]
+
+[node name="GameObjectAssetInfoViewPrefab" type="Control" node_paths=PackedStringArray("LabelNameAsset", "ButtonClickAsset", "PreviewImageRect")]
+custom_minimum_size = Vector2(120, 140)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_0agk0")
+LabelNameAsset = NodePath("Label")
+ButtonClickAsset = NodePath("Button")
+PreviewImageRect = NodePath("Icon")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Загрузить"
+horizontal_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -12.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_1d433")
+expand_mode = 1

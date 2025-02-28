@@ -28,6 +28,9 @@ namespace Ursula.GameObjects.View
         OptionButton OptionButtonTypeObject;
 
         [Export]
+        OptionButton OptionButtonTypeCollider;
+
+        [Export]
         Button ButtonOpenPathSound;
 
         [Export]
@@ -151,7 +154,7 @@ namespace Ursula.GameObjects.View
             ControlPopupMenu.instance._HideAllMenu();
             var model = _addGameObjectAssetProvider != null ? await _addGameObjectAssetProvider.GetAsync() : null;
 
-            GameObjectAssetSources gameObjectAsset = new GameObjectAssetSources("", "", modelPath, typeModel[OptionButtonTypeObject.Selected], audiosTo, animationsTo);
+            GameObjectAssetSources gameObjectAsset = new GameObjectAssetSources("", "", modelPath, typeModel[OptionButtonTypeObject.Selected], OptionButtonTypeCollider.Selected, audiosTo, animationsTo);
 
             model.SetDestPath(destPath);
 
