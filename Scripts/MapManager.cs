@@ -11,6 +11,8 @@ using System.Xml.Linq;
 using Ursula.Core.DI;
 using Ursula.Environment.Settings;
 using Ursula.GameObjects.Model;
+using Ursula.MapManagers.Controller;
+using Ursula.MapManagers.Model;
 
 
 
@@ -83,7 +85,6 @@ public partial class MapManager : Node3D, IInjectable
     [Export]
     public CheckButton checkButtonWaterStatic;
 
-
     [Export]
 	public HSlider sliderGrassTexID;
 	[Export]
@@ -94,14 +95,12 @@ public partial class MapManager : Node3D, IInjectable
     public int[] grassItemsID = new int[] { 10, 11, 12, 13, 14, 15, 16, 17, 18 };
 	public int[] treesItemsID = new int[] { 0, 1, 3, 5, 6, 7, 8 };
     public int[] plantsItemsID = new int[] { 39, 40, 41, 42, 43 };
-
     public int[] ShowItemsID = new int[] { 0, 1, 3, 5, 6, 7, 8, 10, 13, 17, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43 };
+
+    public PlayMode playMode = PlayMode.buildingMode;
 
     // Params
     public int sizeX = 256, sizeY = 256, sizeZ = 256;
-	int skybox = 0;
-
-	bool initialized = false;
 
 	public QuadData phys;
 
@@ -110,17 +109,24 @@ public partial class MapManager : Node3D, IInjectable
 	public VoxTypesGrid voxTypes;
 	public VoxDataGrid voxData;
 
-
-
-	bool needSaveMap = false;
-	bool usedCustomItemBuild = false;
-
-	public PlayMode playMode = PlayMode.buildingMode;
-	Node3D playerBuild;
-    Node3D playerTest;
-
     [Inject]
     private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
+
+    [Inject]
+    private ISingletonProvider<MapManagerController> _mapManagerControllerProvider;
+
+    [Inject]
+    private ISingletonProvider<MapManagerModel> _mapManagerModelProvider;
+
+    bool needSaveMap = false;
+	bool usedCustomItemBuild = false;
+
+    int skybox = 0;
+
+    bool initialized = false;
+
+    Node3D playerBuild;
+    Node3D playerTest;
 
     void IInjectable.OnDependenciesInjected()
     {
@@ -829,13 +835,9 @@ public partial class MapManager : Node3D, IInjectable
 
 			InitCustomItem(item, numItem);
 		}
-
-		//else
-		//{
-		//	DeleteItem(collider);
-		//}
-
 	}
+
+    
 
     public void DeleteItem(Node item)
 	{

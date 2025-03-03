@@ -2,7 +2,6 @@
 using Godot;
 using System;
 using Ursula.Core.DI;
-using Ursula.Environment.Settings;
 using Ursula.GameObjects.Model;
 
 namespace Ursula.GameObjects.View

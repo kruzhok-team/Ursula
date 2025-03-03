@@ -52,14 +52,14 @@ namespace Ursula.GameObjects.View
             }
         }
 
-        async void ClickItem_SelectEventHandler(string itemId)
+        async void ClickItem_SelectEventHandler(GameObjectAssetInfo asset)
         {
             ControlPopupMenu.instance._HideAllMenu();
             var model = _gameObjectCollectionModelProvider != null ? await _gameObjectCollectionModelProvider.GetAsync() : null;
-            model?.SetGameObjectAssetSelected(itemId);
+            model?.SetGameObjectAssetSelected(asset);
         }
 
-        async void ClickItem_AddAssetEventHandler(string itemId)
+        async void ClickItem_AddAssetEventHandler(GameObjectAssetInfo asset)
         {
             ControlPopupMenu.instance._HideAllMenu();
             var model = _gameObjectAddGameObjectAssetProvider != null ? await _gameObjectAddGameObjectAssetProvider.GetAsync() : null;

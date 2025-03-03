@@ -7,10 +7,10 @@ namespace Ursula.GameObjects.Model
     public partial class GameObjectCollectionModel : IInjectable
     {
         public bool IsCollectionVisible => isCollectionVisible;
-        public string ItemIdSelected => itemIdSelected;
+        public GameObjectAssetInfo AssetSelected => assetSelected;
 
         private bool isCollectionVisible { get; set; }
-        private string itemIdSelected { get; set; }
+        private GameObjectAssetInfo assetSelected { get; set; }
 
         public event EventHandler GameObjectCollectionVisibleChangeEvent;
         public event EventHandler GameObjectAssetSelectedEvent;
@@ -26,9 +26,9 @@ namespace Ursula.GameObjects.Model
             return this;
         }
 
-        public GameObjectCollectionModel SetGameObjectAssetSelected(string itemId)
+        public GameObjectCollectionModel SetGameObjectAssetSelected(GameObjectAssetInfo asset)
         {
-            itemIdSelected = itemId;
+            assetSelected = asset;
             InvokeGameObjectAssetSelectedEvent();
             return this;
         }

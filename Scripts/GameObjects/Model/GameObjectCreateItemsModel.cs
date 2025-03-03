@@ -1,0 +1,51 @@
+using Godot;
+using System;
+using Ursula.Core.DI;
+
+namespace Ursula.GameObjects.Model
+{
+    public partial class GameObjectCreateItemsModel : IInjectable
+    {
+        public Node Collider => colliderNode;
+        public Vector3 PositionNode => positionNode;
+        public float ScaleNode => scaleNode;
+
+        private Node colliderNode { get; set; }
+        private Vector3 positionNode { get; set; }
+        private float scaleNode { get; set; }
+
+        public event EventHandler GameObjectCreateItem_EventHandler;
+        public event EventHandler GameObjectDeleteItem_EventHandler;
+
+        void IInjectable.OnDependenciesInjected()
+        {
+        }
+
+        public GameObjectCreateItemsModel SetGameObjectCreateItem(Node colliderNode, Vector3 positionNode, float scaleNode)
+        {
+            this.colliderNode = colliderNode;
+            this.positionNode = positionNode;
+            InvokeGameObjectCreateItemEvent();
+            return this;
+        }
+
+        public GameObjectCreateItemsModel SetGameObjectDeleteItem(Node colliderNode)
+        {
+            this.colliderNode = colliderNode;
+            InvokeGameObjectDeleteItemEvent();
+            return this;
+        }
+
+        private void InvokeGameObjectCreateItemEvent()
+        {
+            var handler = GameObjectCreateItem_EventHandler;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void InvokeGameObjectDeleteItemEvent()
+        {
+            var handler = GameObjectDeleteItem_EventHandler;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
+    }
+}

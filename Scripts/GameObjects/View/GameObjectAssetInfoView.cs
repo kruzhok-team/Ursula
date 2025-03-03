@@ -16,7 +16,7 @@ namespace Ursula.GameObjects.View
         [Export]
         TextureRect PreviewImageRect;
 
-        public Action<string> clickItemEvent = null;
+        public Action<GameObjectAssetInfo> clickItemEvent = null;
 
         GameObjectAssetInfo _gameObjectAssetInfo;
 
@@ -47,7 +47,7 @@ namespace Ursula.GameObjects.View
         private void OnItemClickEvent()
         {
             string id = _gameObjectAssetInfo != null ? _gameObjectAssetInfo.Id : null;
-            clickItemEvent?.Invoke(id);
+            clickItemEvent?.Invoke(_gameObjectAssetInfo);
         }
     }
 }
