@@ -92,11 +92,12 @@ namespace Ursula.GameObjects.View
                 _gameObjectAssetSources.PreviewImageFilePath, 
                 _gameObjectAssetSources.TextureFilePath,
                 DestPath + Path.GetFileName(_gameObjectUserSourceData.ModelPath),
-                _gameObjectAssetSources.ModelType,
-                _gameObjectAssetSources.ColliderType,
+                _gameObjectAssetSources.GameObjectGroup,
+                _gameObjectAssetSources.GameObjectClass,
+                _gameObjectAssetSources.GameObjectSample,
                 _gameObjectUserSourceData.AudiosTo,
-                _gameObjectUserSourceData.AnimationsTo
-
+                _gameObjectUserSourceData.AnimationsTo,
+                _gameObjectAssetSources.GraphXmlPath
                 );
 
             InvokeGameObjectAddGameObjectAssetToCollectionEvent();

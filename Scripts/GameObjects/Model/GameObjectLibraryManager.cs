@@ -2,8 +2,12 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using Ursula.Core.DI;
+using Ursula.MapManagers.Model;
+using VoxLibExample;
 
 namespace Ursula.GameObjects.Model
 {
@@ -49,7 +53,10 @@ namespace Ursula.GameObjects.Model
 
         public IReadOnlyCollection<GameObjectAssetInfo> GetAllInfo()
         {
-            return _userLib.GetAllInfo();
+            var mergedList = new List<GameObjectAssetInfo>(_userLib.GetAllInfo());
+            mergedList.AddRange(_embeddedLib.GetAllInfo());
+
+            return mergedList;
         }
 
         public IReadOnlyCollection<IGameObjectAsset> GetAll()
@@ -83,6 +90,7 @@ namespace Ursula.GameObjects.Model
 
             if (!TryGetItemProvider(itemId, out var provider))
                 return;
+
             if (provider == _userLib)
                 _userLib.RemoveItem(itemId);
             else if (provider == _embeddedLib)
@@ -98,13 +106,17 @@ namespace Ursula.GameObjects.Model
             RemoveItem(asset.Info.Id);
         }
 
-        public void SetItem(string name, GameObjectAssetSources sources)
+        public void SetItem(string name, GameObjectAssetSources sources, string libId)
         {
             if (!CheckLoaded())
                 return;
             if (string.IsNullOrEmpty(name) || sources == null)
                 return;
-            _userLib.SetItem(name, sources);
+
+            if (libId == GameObjectAssetsUserSource.LibId)
+                _userLib.SetItem(name, sources, libId);
+            else if (libId == GameObjectAssetsEmbeddedSource.LibId)
+                _embeddedLib.SetItem(name, sources, libId);
 
             var entry = new CommonGameObjectLibraryItem(name, _userLib.Id);
             _commonAssetMap[entry.Id] = entry;
@@ -116,8 +128,8 @@ namespace Ursula.GameObjects.Model
 
             if (!CheckLoaded())
                 return false;
-            if (!_commonAssetMap.ContainsKey(itemId))
-                return false;
+            //if (!_commonAssetMap.ContainsKey(itemId))
+            //    return false;
 
             if (!TryGetItemProvider(itemId, out var provider))
                 return false;            
@@ -137,7 +149,7 @@ namespace Ursula.GameObjects.Model
 
             if (_embeddedLib == null || _userLib == null)
             {
-                GD.PrintErr("Not all game object liraries installed in DI!");
+                GD.PrintErr("Not all game object libraries installed in DI!");
                 return;
             }
 
@@ -150,7 +162,9 @@ namespace Ursula.GameObjects.Model
             _exclusions = LoadExclusions();
             IsDataLoaded = true;
 
-            SyncEmbeddedAssets();
+            await CheckEmbeddedAssets();
+
+            _ = SyncEmbeddedAssets();
         }
 
         public async GDTask Save()
@@ -187,11 +201,12 @@ namespace Ursula.GameObjects.Model
             //var commonList = LoadCommonAssetList(JsonDataPath);
             //return commonList != null ? commonList.ToDictionary(i => i.Id, j => j) : null;
 
-            //_userLib.Load
-
             //throw new NotImplementedException();
+            // _userLib.GetAllInfo();
+            //return new Dictionary<string, CommonGameObjectLibraryItem>();
 
-            return new Dictionary<string, CommonGameObjectLibraryItem>();
+            Dictionary<string, CommonGameObjectLibraryItem> commonList = new Dictionary<string, CommonGameObjectLibraryItem>();
+            return commonList;
         }
 
         private async GDTask SaveCommonAssetsInfo()
@@ -211,6 +226,37 @@ namespace Ursula.GameObjects.Model
 
             //throw new NotImplementedException();
 
+        }
+
+        private async GDTask CheckEmbeddedAssets()
+        {
+            if (!File.Exists(ProjectSettings.GlobalizePath(GameObjectAssetsEmbeddedSource.JsonDataPath)))
+            {
+                var mapAssets = ResourceLoader.Load<MapAssets>(MapManagerData.MapManagerAssetPath);
+
+                for (int i = 0; i < mapAssets.gameItemsGO.Length; i++)
+                {
+                    string modelName = Path.GetFileNameWithoutExtension( mapAssets.gameItemsGO[i].ResourcePath );
+                    string gameObjectGroup = i < mapAssets.inventarGameObjectGroups.Length ? mapAssets.inventarGameObjectGroups[i] : "";
+                    string gameObjectSample = gameObjectGroup;
+                    GameObjectAssetSources sources = new GameObjectAssetSources
+                        (
+                            i.ToString(),
+                            null,
+                            i.ToString(),
+                            gameObjectGroup,
+                            0,
+                            gameObjectSample,
+                            null,
+                            null,
+                            ""
+                        );
+
+                    SetItem(modelName, sources, GameObjectAssetsEmbeddedSource.LibId);
+                }
+
+                await _embeddedLib.Save();
+            }
         }
 
         private async GDTask SyncEmbeddedAssets()
@@ -241,5 +287,6 @@ namespace Ursula.GameObjects.Model
             }
             return true;
         }
+
     }
 }

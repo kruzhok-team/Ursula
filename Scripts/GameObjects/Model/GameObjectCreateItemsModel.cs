@@ -9,10 +9,12 @@ namespace Ursula.GameObjects.Model
         public Node Collider => colliderNode;
         public Vector3 PositionNode => positionNode;
         public float ScaleNode => scaleNode;
+        public byte RotationNode => rotationNode;
 
         private Node colliderNode { get; set; }
         private Vector3 positionNode { get; set; }
         private float scaleNode { get; set; }
+        private byte rotationNode { get; set; }
 
         public event EventHandler GameObjectCreateItem_EventHandler;
         public event EventHandler GameObjectDeleteItem_EventHandler;
@@ -21,10 +23,12 @@ namespace Ursula.GameObjects.Model
         {
         }
 
-        public GameObjectCreateItemsModel SetGameObjectCreateItem(Node colliderNode, Vector3 positionNode, float scaleNode)
+        public GameObjectCreateItemsModel SetGameObjectCreateItem(Node colliderNode, Vector3 positionNode, float scaleNode, byte rotationNode)
         {
             this.colliderNode = colliderNode;
             this.positionNode = positionNode;
+            this.scaleNode = scaleNode;
+            this.rotationNode = rotationNode;
             InvokeGameObjectCreateItemEvent();
             return this;
         }

@@ -175,7 +175,7 @@ public partial class MapManager : Node3D, IInjectable
 
     public override void _Ready()
 	{
-		if (VoxLib.mapManager != null) VoxLib.mapManager.Free();
+		//if (VoxLib.mapManager != null) VoxLib.mapManager.Free();
 		VoxLib.mapManager = this;
 
         GenerateProjectFolder();
@@ -308,7 +308,7 @@ public partial class MapManager : Node3D, IInjectable
         StartCoroutineCreateTerrain(true);
 	}
 
-	public Node CreateGameItem(int numItem, byte rotation, float scale, float x, float y, float z, int state, int id,
+    public Node CreateGameItem(int numItem, byte rotation, float scale, float x, float y, float z, int state, int id,
 		bool isSnapGrid = false)
 	{
 		int _x = Mathf.RoundToInt(x);
@@ -724,6 +724,8 @@ public partial class MapManager : Node3D, IInjectable
 	{
 		get
 		{
+            if (VoxLib.createTerrain == null) return 0;
+
 			float lvl = (VoxLib.createTerrain.MaxHeightTerrain - (VoxLib.createTerrain.MaxHeightTerrain * VoxLib.mapManager.waterOffset)) / 2;
 			return lvl + VoxLib.createTerrain.positionOffset.Y;
 		}

@@ -7,6 +7,7 @@ using System.IO;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 using Ursula.GameObjects.View;
+using VoxLibExample;
 
 namespace Ursula.GameObjects.View
 {
@@ -25,10 +26,13 @@ namespace Ursula.GameObjects.View
         TextEdit TextEditPath3DModel;
 
         [Export]
-        OptionButton OptionButtonTypeObject;
+        OptionButton OptionButtonGroupObject;
 
         [Export]
-        OptionButton OptionButtonTypeCollider;
+        OptionButton OptionButtonClassObject;
+
+        [Export]
+        TextEdit TextEditSampleObject;
 
         [Export]
         Button ButtonOpenPathSound;
@@ -63,19 +67,24 @@ namespace Ursula.GameObjects.View
         [Export]
         public Button ButtonClose;
 
+        [Export]
+        TextEdit TextEditGraphXmlPath;
+
+        [Export]
+        Button ButtonOpenGraphXmlPath;
+
         [Inject]
         private ISingletonProvider<GameObjectAddGameObjectAssetModel> _addGameObjectAssetProvider;
 
         private GameObjectAddGameObjectAssetModel _addGameObjectAssetModel;
         private FileDialogTool dialogTool;
 
-        public string[] typeModel = { "Деревья", "Трава", "Камни", "Строения", "Животные", "Предметы", "Освещение" };
-
         public event EventHandler ButtonAddUserSourceDown_EventHandler;
         public event EventHandler ButtonCloseDown_EventHandler;
 
         private string modelPath;
         private string destPath;
+        private string graphXmlPath;
 
         List<string> audiosTo = new List<string>();
         List<string> animationsTo = new List<string>();
@@ -96,10 +105,12 @@ namespace Ursula.GameObjects.View
             ButtonOpen3DModel.ButtonDown += ButtonOpen3DModel_DownEventHandler;
             ButtonOpenPathSound.ButtonDown += ButtonOpenPathSound_DownEventHandler;
             ButtonOpenPathAnimation.ButtonDown += ButtonOpenPathAnimation_DownEventHandler;
+            ButtonOpenGraphXmlPath.ButtonDown += ButtonOpenGraphXmlPath_DownEventHandler;
 
-            for (int i = 0; i < typeModel.Length; i++)
+            string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
+            for (int i = 0; i < gameObjectGroups.Length; i++)
             {
-                OptionButtonTypeObject.AddItem(typeModel[i]);
+                OptionButtonGroupObject.AddItem(gameObjectGroups[i]);
             }
 
             _ = SubscribeEvent();
@@ -120,6 +131,7 @@ namespace Ursula.GameObjects.View
             ButtonOpen3DModel.ButtonDown -= ButtonOpen3DModel_DownEventHandler;
             ButtonOpenPathSound.ButtonDown -= ButtonOpenPathSound_DownEventHandler;
             ButtonOpenPathAnimation.ButtonDown -= ButtonOpenPathAnimation_DownEventHandler;
+            ButtonOpenGraphXmlPath.ButtonDown -= ButtonOpenGraphXmlPath_DownEventHandler;
         }
 
         public void OnShow(bool value)
@@ -139,11 +151,13 @@ namespace Ursula.GameObjects.View
 
             modelPath = "";
             destPath = "";
+            graphXmlPath = "";
 
             TextEditModelName.Text = "";
             TextEditPath3DModel.Text = "";
             TextEditPathAnimation.Text = "";
             TextEditPathSound.Text = "";
+            TextEditGraphXmlPath.Text = "";
 
             VoxLib.RemoveAllChildren(VBoxContainerSound);
             VoxLib.RemoveAllChildren(VBoxContainerAnimation);
@@ -154,7 +168,21 @@ namespace Ursula.GameObjects.View
             ControlPopupMenu.instance._HideAllMenu();
             var model = _addGameObjectAssetProvider != null ? await _addGameObjectAssetProvider.GetAsync() : null;
 
-            GameObjectAssetSources gameObjectAsset = new GameObjectAssetSources("", "", modelPath, typeModel[OptionButtonTypeObject.Selected], OptionButtonTypeCollider.Selected, audiosTo, animationsTo);
+            string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
+            string gameObjectGroup = gameObjectGroups[OptionButtonGroupObject.Selected];
+            string gameObjectSample = TextEditSampleObject.Text;
+
+            GameObjectAssetSources gameObjectAsset = new GameObjectAssetSources(
+                "", 
+                "", 
+                modelPath, 
+                gameObjectGroup, 
+                OptionButtonClassObject.Selected,
+                gameObjectSample,
+                audiosTo, 
+                animationsTo,
+                graphXmlPath
+                );
 
             model.SetDestPath(destPath);
 
@@ -201,7 +229,7 @@ namespace Ursula.GameObjects.View
                     _addGameObjectAssetModel?.AddSoundResources(path);
                 }
                 else
-                    GD.PrintErr($"Ошибка открытия звука {path} в {destPath}");
+                    GD.PrintErr($"Ошибка открытия звука {path}");
             }
 , FileDialog.AccessEnum.Filesystem);
         }
@@ -219,7 +247,22 @@ namespace Ursula.GameObjects.View
                     _addGameObjectAssetModel?.AddAnimationResources(path);
                 }
                 else
-                    GD.PrintErr($"Ошибка  открытия анимации {path} в {destPath}");
+                    GD.PrintErr($"Ошибка  открытия анимации {path}");
+            }
+, FileDialog.AccessEnum.Filesystem);
+        }
+
+        private void ButtonOpenGraphXmlPath_DownEventHandler()
+        {
+            dialogTool.Open(new string[] { "*.graphml ; Граф graphml" }, (path) =>
+            {
+                if (!string.IsNullOrEmpty(path))
+                {                   
+                    graphXmlPath = path;
+                    TextEditGraphXmlPath.Text = path;
+                }
+                else
+                    GD.PrintErr($"Ошибка  открытия графа {path}");
             }
 , FileDialog.AccessEnum.Filesystem);
         }

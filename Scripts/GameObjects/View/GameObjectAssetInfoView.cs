@@ -39,7 +39,15 @@ namespace Ursula.GameObjects.View
 
             PreviewImageRect.Visible = !string.IsNullOrEmpty(asset.Sources.PreviewImageFilePath);
 
-
+            if (asset.ProviderId == GameObjectAssetsEmbeddedSource.LibId)
+            {
+                int idEmbeddedAsset = -1;
+                int.TryParse(asset.Sources.PreviewImageFilePath, out idEmbeddedAsset);
+                if (idEmbeddedAsset >= 0 && idEmbeddedAsset < VoxLib.mapAssets.inventarItemTex.Length)
+                {
+                    PreviewImageRect.Texture = (Texture2D)VoxLib.mapAssets.inventarItemTex[idEmbeddedAsset];
+                }
+            }
         }
 
 

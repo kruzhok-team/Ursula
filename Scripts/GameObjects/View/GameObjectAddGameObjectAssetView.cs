@@ -56,7 +56,7 @@ namespace Ursula.GameObjects.View
             _commonLibrary = await _commonLibraryProvider.GetAsync();
             _AddGameObjectAssetModel = await _AddGameObjectAssetProvider.GetAsync();
 
-            _commonLibrary.SetItem(_AddGameObjectAssetModel.modelName, _AddGameObjectAssetModel._gameObjectAssetSourcesTo);
+            _commonLibrary.SetItem(_AddGameObjectAssetModel.modelName, _AddGameObjectAssetModel._gameObjectAssetSourcesTo, GameObjectAssetsUserSource.LibId);
             await _commonLibrary.Save();
         }
 

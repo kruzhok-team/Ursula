@@ -15,12 +15,13 @@ public partial class ItemPropsScript : ItemBase
 
 	public float positionY;
 
-    //[System.NonSerialized]
     public byte rotation;
 
-    float _scale = 1;
+	public string itemId;
 
-	public InteractiveObject IO;
+    public InteractiveObject IO;
+
+    float _scale = 1;
 
     public float scale
 	{

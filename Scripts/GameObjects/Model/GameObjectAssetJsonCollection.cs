@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using Ursula.Core.DI;
+using static Godot.RenderingDevice;
 
 namespace Ursula.GameObjects.Model
 {
@@ -82,7 +83,7 @@ namespace Ursula.GameObjects.Model
             return TryBuildAsset(itemId, out asset);
         }
 
-        public void SetItem(string name, GameObjectAssetSources sources)
+        public void SetItem(string name, GameObjectAssetSources sources, string libId)
         {
             if (!CheckLoaded())
                 return;
@@ -136,6 +137,7 @@ namespace Ursula.GameObjects.Model
             {
                 GD.Print($"Object file not found {_jsonFilePath}. Creating a new list.");
                 _infoMap = new Dictionary<string, GameObjectAssetInfo>();
+
                 return;
             }
 
@@ -195,9 +197,10 @@ namespace Ursula.GameObjects.Model
             //TODO: asset building implementation
             //throw new NotImplementedException();
 
-            //object model3D = ModelLoader.LoadModelByPath();
+            object model3D = ModelLoader.LoadModelByPath(assetInfo.Sources.Model3dFilePath);
 
-            GameObjectAsset asset = new GameObjectAsset(assetInfo, null, null);
+            GameObjectAsset asset = new GameObjectAsset(assetInfo, null, model3D);
+
             return asset;
 
         }

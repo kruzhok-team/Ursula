@@ -18,9 +18,6 @@ public partial class VoxLib : Node
     public static GameManager GM;
 
     [Export]
-	public MapAssets _mapAssets;
-
-    [Export]
     public ControlGamesProject CGP;
 
     public static CreateTerrain createTerrain;
@@ -34,7 +31,6 @@ public partial class VoxLib : Node
 	{
 		base._Ready();
         instance ??= this;
-        mapAssets ??= _mapAssets;
 
         string[] gpuModel = OS.GetVideoAdapterDriverInfo();
 		string drvInfo = "";

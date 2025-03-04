@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://dgc042g3ej4rj"]
+[gd_scene load_steps=54 format=3 uid="uid://dgc042g3ej4rj"]
 
 [ext_resource type="PackedScene" uid="uid://dn1jem1nnefln" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/project_timer.tscn" id="1_wxxnd"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Core/Initialization/UrsulaEntryPoint.cs" id="1_xjqfu"]
@@ -26,7 +26,6 @@
 [ext_resource type="PackedScene" uid="uid://d4krypfxpyycs" path="res://addons/Ursula/Modules/ModelsCatalog/ObjectsCatalog.tscn" id="22_3pdji"]
 [ext_resource type="PackedScene" uid="uid://b18gu5dlxifi5" path="res://addons/Ursula/Assets/Prefabs/UI/VideoPlayer.tscn" id="22_6diaf"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/VoxLib.cs" id="23_56bgx"]
-[ext_resource type="Resource" uid="uid://dl6jsq7htq75q" path="res://addons/Ursula/Assets/MapAssets.tres" id="24_iibtg"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/LoadingUI.cs" id="24_w700t"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/CreateTerrain.cs" id="25_jfqi2"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/CreateWater.cs" id="26_xdp10"]
@@ -35,11 +34,14 @@
 [ext_resource type="PackedScene" uid="uid://c0t0gdmber7kl" path="res://addons/Ursula/Player/Player.tscn" id="29_wh4fr"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameManager.cs" id="30_lv1wd"]
 [ext_resource type="PackedScene" uid="uid://c1y47k01wo4w7" path="res://addons/Ursula/Environment.tscn" id="31_xhvja"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/MapManagerView.cs" id="34_jfh7j"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/MapManagerController.cs" id="34_n8jam"]
 [ext_resource type="Texture2D" uid="uid://eo45vsj5rtgg" path="res://addons/Ursula/Assets/Textures/UI/Close.png" id="35_8ivmt"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCommonLibraryView.cs" id="35_ai4aq"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAddGameObjectAssetView.cs" id="35_avsay"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAddGameObjectAssetUiView.cs" id="35_w5hvm"]
 [ext_resource type="PackedScene" uid="uid://dpwcf74rci8i6" path="res://addons/Ursula/Prefabs/GameObjects/ItemLibraryObjectDataPrefab.tscn" id="36_jw1t7"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/MapManagerItemSetter.cs" id="36_r168r"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCollectionView.cs" id="37_0m72d"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/GameObjectCollectionController.cs" id="42_rqra7"]
 
@@ -975,7 +977,7 @@ anchor_bottom = 1.0
 offset_left = -359.0
 offset_top = 42.0
 offset_right = 668.0
-offset_bottom = 607.0
+offset_bottom = 569.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -1028,7 +1030,7 @@ grow_vertical = 2
 custom_minimum_size = Vector2(120, 120)
 layout_direction = 2
 layout_mode = 2
-columns = 10
+columns = 9
 
 [node name="GameObjectAssetInfoViewPrefab" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelLibraryView/ScrollContainer/GridContainer" instance=ExtResource("16_1eb3b")]
 layout_mode = 2
@@ -2019,7 +2021,6 @@ horizontal_alignment = 1
 
 [node name="VoxLib" type="Node3D" parent="." node_paths=PackedStringArray("CGP")]
 script = ExtResource("23_56bgx")
-_mapAssets = ExtResource("24_iibtg")
 CGP = NodePath("../ControlGamesProject")
 
 [node name="WorldTerrain" type="Node3D" parent="."]
@@ -2028,26 +2029,40 @@ script = ExtResource("25_jfqi2")
 [node name="WorldWater" type="Node3D" parent="."]
 script = ExtResource("26_xdp10")
 
-[node name="MapManager" type="Node3D" parent="." node_paths=PackedStringArray("buildControl", "gameControl", "IdItemOption", "IdItemOptionCustom", "CheckBoxCreateItem", "CheckBoxDeleteItem", "CreateMode", "navigationRegion3D", "fileDialog", "fileDialogLoad", "TypeWaterOption", "checkButtonWaterStatic", "sliderGrassTexID", "ReplaceTexture", "CheckBoxUsedOnlyCustomItem", "replaceTexUI")]
+[node name="MapManagers" type="Node" parent="."]
+
+[node name="MapManagerItemSetter" type="Node" parent="MapManagers"]
+script = ExtResource("36_r168r")
+
+[node name="MapManager" type="Node3D" parent="MapManagers" node_paths=PackedStringArray("buildControl", "gameControl", "IdItemOption", "IdItemOptionCustom", "CheckBoxCreateItem", "CheckBoxDeleteItem", "CreateMode", "navigationRegion3D", "fileDialog", "fileDialogLoad", "TypeWaterOption", "checkButtonWaterStatic", "sliderGrassTexID", "ReplaceTexture", "CheckBoxUsedOnlyCustomItem", "replaceTexUI")]
 script = ExtResource("27_5b8gm")
-buildControl = NodePath("../Controls/ControlBuild")
-gameControl = NodePath("../Controls/ControlGame")
+buildControl = NodePath("../../Controls/ControlBuild")
+gameControl = NodePath("../../Controls/ControlGame")
 CameraFreeGO = ExtResource("28_hoa3c")
 PlayerGO = ExtResource("29_wh4fr")
-IdItemOption = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelLibraryView/IdItemOption")
-IdItemOptionCustom = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/IdItemOptionCustom")
-CheckBoxCreateItem = NodePath("../Controls/ControlBuild/Panel/CheckBoxCreateItem")
-CheckBoxDeleteItem = NodePath("../Controls/ControlBuild/Panel/CheckBoxDeleteItem")
-CreateMode = NodePath("../Controls/ControlBuild/Panel/ItemList")
-navigationRegion3D = NodePath("../NavigationRegion3D")
-fileDialog = NodePath("../SaveFileDialog")
-fileDialogLoad = NodePath("../LoadFileDialog")
-TypeWaterOption = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/TypeWaterOption")
-checkButtonWaterStatic = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/CheckButtonWaterStatic")
-sliderGrassTexID = NodePath("../Controls/ControlBuild/Panel/HSliderGrassTexID")
-ReplaceTexture = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ReplaseTextureRect")
-CheckBoxUsedOnlyCustomItem = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/CheckBoxUsedOnlyCustomItem")
-replaceTexUI = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ReplaseTextureRect")
+IdItemOption = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelLibraryView/IdItemOption")
+IdItemOptionCustom = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/IdItemOptionCustom")
+CheckBoxCreateItem = NodePath("../../Controls/ControlBuild/Panel/CheckBoxCreateItem")
+CheckBoxDeleteItem = NodePath("../../Controls/ControlBuild/Panel/CheckBoxDeleteItem")
+CreateMode = NodePath("../../Controls/ControlBuild/Panel/ItemList")
+navigationRegion3D = NodePath("../../NavigationRegion3D")
+fileDialog = NodePath("../../SaveFileDialog")
+fileDialogLoad = NodePath("../../LoadFileDialog")
+TypeWaterOption = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/TypeWaterOption")
+checkButtonWaterStatic = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/CheckButtonWaterStatic")
+sliderGrassTexID = NodePath("../../Controls/ControlBuild/Panel/HSliderGrassTexID")
+ReplaceTexture = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ReplaseTextureRect")
+CheckBoxUsedOnlyCustomItem = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/CheckBoxUsedOnlyCustomItem")
+replaceTexUI = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ReplaseTextureRect")
+
+[node name="MapManagerView" type="Node" parent="MapManagers" node_paths=PackedStringArray("buildControl", "gameControl")]
+script = ExtResource("34_jfh7j")
+buildControl = NodePath("../../Controls/ControlBuild")
+gameControl = NodePath("../../Controls/ControlGame")
+
+[node name="MapManagerController" type="Node" parent="MapManagers" node_paths=PackedStringArray("_mapManagerView")]
+script = ExtResource("34_n8jam")
+_mapManagerView = NodePath("../MapManagerView")
 
 [node name="GameManager" type="Node3D" parent="."]
 script = ExtResource("30_lv1wd")
@@ -2238,7 +2253,7 @@ shape = SubResource("BoxShape3D_eumda")
 script = ExtResource("35_avsay")
 gameObjectAddUserSourceUI = NodePath("GameObjectAddGameObjectAssetUiView")
 
-[node name="GameObjectAddGameObjectAssetUiView" type="Control" parent="GameObjectCollection/GameObjectAddGameObjectAssetView" node_paths=PackedStringArray("LabelTittle", "ButtonOpen3DModel", "TextEditModelName", "TextEditPath3DModel", "OptionButtonTypeObject", "OptionButtonTypeCollider", "ButtonOpenPathSound", "TextEditPathSound", "VBoxContainerSound", "ButtonOpenPathAnimation", "TextEditPathAnimation", "VBoxContainerAnimation", "ButtonSaveEditModel", "ButtonRemoveModel", "ButtonAddUserSource", "ButtonClose")]
+[node name="GameObjectAddGameObjectAssetUiView" type="Control" parent="GameObjectCollection/GameObjectAddGameObjectAssetView" node_paths=PackedStringArray("LabelTittle", "ButtonOpen3DModel", "TextEditModelName", "TextEditPath3DModel", "OptionButtonGroupObject", "OptionButtonClassObject", "TextEditSampleObject", "ButtonOpenPathSound", "TextEditPathSound", "VBoxContainerSound", "ButtonOpenPathAnimation", "TextEditPathAnimation", "VBoxContainerAnimation", "ButtonSaveEditModel", "ButtonRemoveModel", "ButtonAddUserSource", "ButtonClose", "TextEditGraphXmlPath", "ButtonOpenGraphXmlPath")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -2251,8 +2266,9 @@ LabelTittle = NodePath("Panel/Label")
 ButtonOpen3DModel = NodePath("Panel/ButtonOpen3DModel")
 TextEditModelName = NodePath("Panel/TextEditModelName")
 TextEditPath3DModel = NodePath("Panel/TextEditPath3DModel")
-OptionButtonTypeObject = NodePath("Panel/OptionButtonTypeObject")
-OptionButtonTypeCollider = NodePath("Panel/OptionButtonTypeCollider")
+OptionButtonGroupObject = NodePath("Panel/OptionButtonGroupObject")
+OptionButtonClassObject = NodePath("Panel/OptionButtonClassObject")
+TextEditSampleObject = NodePath("Panel/TextEditSampleObject")
 ButtonOpenPathSound = NodePath("Panel/ButtonOpenPathSound")
 TextEditPathSound = NodePath("Panel/TextEditPathSound")
 VBoxContainerSound = NodePath("Panel/ScrollContainerSound/VBoxContainerSound")
@@ -2264,16 +2280,18 @@ ButtonSaveEditModel = NodePath("Panel/ButtonSaveEditModel")
 ButtonRemoveModel = NodePath("Panel/ButtonRemoveModel")
 ButtonAddUserSource = NodePath("Panel/ButtonLoadModel")
 ButtonClose = NodePath("Panel/ButtonClose")
+TextEditGraphXmlPath = NodePath("Panel/TextEditGraphXmlPath")
+ButtonOpenGraphXmlPath = NodePath("Panel/ButtonOpenGraphXmlPath")
 
 [node name="Panel" type="Panel" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -244.0
+offset_left = -369.0
 offset_top = 44.0
-offset_right = 245.0
-offset_bottom = 608.0
+offset_right = 373.0
+offset_bottom = 611.0
 grow_horizontal = 2
 
 [node name="Label" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
@@ -2332,7 +2350,7 @@ text = "Название модели"
 layout_mode = 0
 offset_left = 17.0
 offset_top = 45.0
-offset_right = 473.0
+offset_right = 726.0
 offset_bottom = 78.0
 placeholder_text = "Введите название латиницей"
 
@@ -2348,7 +2366,7 @@ text = "3D модель"
 layout_mode = 0
 offset_left = 19.0
 offset_top = 100.0
-offset_right = 362.0
+offset_right = 609.0
 offset_bottom = 138.0
 placeholder_text = "Путь к 3D файлу... (*.obj ; *.glb)"
 editable = false
@@ -2368,15 +2386,15 @@ focus_mode = 1
 text = "Обзор"
 icon_alignment = 1
 
-[node name="LabelTypeObject" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+[node name="LabelGroupObject" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 layout_mode = 0
-offset_left = 30.5
+offset_left = 31.0
 offset_top = 136.0
-offset_right = 278.5
+offset_right = 222.0
 offset_bottom = 163.0
-text = "Тип объекта:"
+text = "Группа объекта:"
 
-[node name="OptionButtonTypeObject" type="OptionButton" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+[node name="OptionButtonGroupObject" type="OptionButton" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 layout_mode = 0
 offset_left = 21.0
 offset_top = 159.0
@@ -2386,15 +2404,30 @@ focus_mode = 1
 autowrap_mode = 3
 clip_text = true
 
-[node name="LabelTypeCollider" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+[node name="LabelSampleObject" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 533.0
+offset_top = 136.0
+offset_right = 725.0
+offset_bottom = 163.0
+text = "Шаблон объекта:"
+
+[node name="TextEditSampleObject" type="TextEdit" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 526.0
+offset_top = 159.0
+offset_right = 726.0
+offset_bottom = 190.0
+
+[node name="LabelClassObject" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 layout_mode = 0
 offset_left = 265.0
 offset_top = 136.0
 offset_right = 472.0
 offset_bottom = 163.0
-text = "Тип коллайдера объекта:"
+text = "Класс объекта:"
 
-[node name="OptionButtonTypeCollider" type="OptionButton" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+[node name="OptionButtonClassObject" type="OptionButton" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 layout_mode = 0
 offset_left = 267.0
 offset_top = 159.0
@@ -2404,10 +2437,12 @@ focus_mode = 1
 autowrap_mode = 3
 clip_text = true
 selected = 0
-item_count = 2
-popup/item_0/text = "Цилиндр"
-popup/item_1/text = "Бокс"
+item_count = 3
+popup/item_0/text = "Статика"
+popup/item_1/text = "Динамика"
 popup/item_1/id = 1
+popup/item_2/text = "Платформа"
+popup/item_2/id = 2
 
 [node name="ItemList" type="ItemList" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 visible = false
@@ -2427,31 +2462,31 @@ item_6/text = "Освещение"
 
 [node name="LabelSound" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 layout_mode = 0
-offset_left = 31.0
-offset_top = 199.0
-offset_right = 279.0
-offset_bottom = 226.0
+offset_left = 32.0
+offset_top = 264.0
+offset_right = 280.0
+offset_bottom = 291.0
 text = "Звук:"
 
 [node name="TextEditPathSound" type="TextEdit" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 layout_mode = 0
-offset_left = 19.0
-offset_top = 224.0
-offset_right = 362.0
-offset_bottom = 260.0
+offset_left = 20.0
+offset_top = 289.0
+offset_right = 220.0
+offset_bottom = 325.0
 placeholder_text = "Путь к звуку... (*.mp3, *.ogg, *.aac)"
 editable = false
 
 [node name="ScrollContainerSound" type="ScrollContainer" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 layout_mode = 0
-offset_left = 19.0
-offset_top = 263.0
-offset_right = 482.0
-offset_bottom = 351.0
+offset_left = 20.0
+offset_top = 330.0
+offset_right = 348.0
+offset_bottom = 526.0
 horizontal_scroll_mode = 0
 
 [node name="VBoxContainerSound" type="VBoxContainer" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainerSound"]
-custom_minimum_size = Vector2(454.71, 87.37)
+custom_minimum_size = Vector2(320, 87.37)
 layout_mode = 2
 
 [node name="ItemLibraryObjectDataPrefab" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainerSound/VBoxContainerSound" instance=ExtResource("36_jw1t7")]
@@ -2463,10 +2498,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -121.0
-offset_top = 225.0
-offset_right = -15.0
-offset_bottom = 257.0
+offset_left = -501.0
+offset_top = 291.0
+offset_right = -395.0
+offset_bottom = 323.0
 grow_horizontal = 0
 focus_mode = 1
 text = "Обзор"
@@ -2490,18 +2525,18 @@ icon_alignment = 1
 
 [node name="LabelAnimation" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 layout_mode = 0
-offset_left = 31.0
-offset_top = 348.0
-offset_right = 279.0
-offset_bottom = 375.0
+offset_left = 396.0
+offset_top = 265.0
+offset_right = 644.0
+offset_bottom = 292.0
 text = "Анимация:"
 
 [node name="TextEditPathAnimation" type="TextEdit" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 layout_mode = 0
-offset_left = 19.0
-offset_top = 374.0
-offset_right = 362.0
-offset_bottom = 410.0
+offset_left = 384.0
+offset_top = 291.0
+offset_right = 608.0
+offset_bottom = 327.0
 placeholder_text = "Путь к анимации... (.glb)"
 editable = false
 
@@ -2512,9 +2547,9 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -121.0
-offset_top = 376.0
+offset_top = 293.0
 offset_right = -15.0
-offset_bottom = 408.0
+offset_bottom = 325.0
 grow_horizontal = 0
 focus_mode = 1
 text = "Обзор"
@@ -2522,14 +2557,14 @@ icon_alignment = 1
 
 [node name="ScrollContainerAnimation" type="ScrollContainer" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 layout_mode = 0
-offset_left = 19.0
-offset_top = 411.0
-offset_right = 482.0
-offset_bottom = 499.0
+offset_left = 384.0
+offset_top = 332.0
+offset_right = 725.0
+offset_bottom = 528.0
 horizontal_scroll_mode = 0
 
 [node name="VBoxContainerAnimation" type="VBoxContainer" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainerAnimation"]
-custom_minimum_size = Vector2(454.71, 87.37)
+custom_minimum_size = Vector2(320, 87.37)
 layout_mode = 2
 
 [node name="ItemLibraryObjectDataPrefab" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainerAnimation/VBoxContainerAnimation" instance=ExtResource("36_jw1t7")]
@@ -2543,6 +2578,38 @@ offset_top = 406.0
 offset_right = 470.0
 offset_bottom = 436.0
 text = "Animation.glb"
+
+[node name="LabelGraphXmlPath" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 199.0
+offset_right = 270.0
+offset_bottom = 226.0
+text = "Граф XML"
+
+[node name="TextEditGraphXmlPath" type="TextEdit" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 221.0
+offset_right = 609.0
+offset_bottom = 259.0
+placeholder_text = "Путь к файлу графа... (*.graphml)"
+editable = false
+
+[node name="ButtonOpenGraphXmlPath" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -121.0
+offset_top = 224.0
+offset_right = -15.0
+offset_bottom = 256.0
+grow_horizontal = 0
+focus_mode = 1
+text = "Обзор"
+icon_alignment = 1
 
 [node name="ButtonAddAnimation" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 visible = false
@@ -2563,14 +2630,17 @@ icon_alignment = 1
 [node name="ButtonLoadModel" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 clip_contents = true
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -381.0
-offset_top = 521.0
-offset_right = -110.0
-offset_bottom = 553.0
-grow_horizontal = 0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -135.0
+offset_top = -36.0
+offset_right = 136.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
 focus_mode = 1
 text = "Загрузить"
 icon_alignment = 1
@@ -2662,9 +2732,9 @@ IndicatorCollectionVisible = NodePath("../../../Controls/ControlBuild/Panel/Cont
 
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonHome" to="Controls" method="OnOpenControlGameProject"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" method="OnClick"]
-[connection signal="pressed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenProjectFolder" to="MapManager" method="OpenProjectFolderWithExplorer"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonSaveMap" to="MapManager" method="SaveMap"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonLoadMap" to="MapManager" method="LoadMap"]
+[connection signal="pressed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenProjectFolder" to="MapManagers/MapManager" method="OpenProjectFolderWithExplorer"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonSaveMap" to="MapManagers/MapManager" method="SaveMap"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonLoadMap" to="MapManagers/MapManager" method="LoadMap"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenGameImage" to="Controls" method="OnOpenGameImage"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenGameVideo" to="Controls" method="OnOpenGameVideo"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonExportProject" to="Controls" method="OnExportProject"]
@@ -2672,40 +2742,40 @@ IndicatorCollectionVisible = NodePath("../../../Controls/ControlBuild/Panel/Cont
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonGameProjects" to="Controls" method="OnOpenControlGameProject"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment" method="OnClick"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [0]]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPower" to="MapManager" method="ChangePower"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderScale" to="MapManager" method="ChangeScale"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPower" to="MapManagers/MapManager" method="ChangePower"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderScale" to="MapManagers/MapManager" method="ChangeScale"]
 [connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderlengthofday" to="Controls" method="SaveLengthOfDay"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderGrassTex" to="MapManager" method="SetGrassTexture"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ButtonGenerateTerrain" to="MapManager" method="GenerateNewWorld"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderGrassTex" to="MapManagers/MapManager" method="SetGrassTexture"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ButtonGenerateTerrain" to="MapManagers/MapManager" method="GenerateNewWorld"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [1]]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/HSliderWaterOffset" to="MapManager" method="ChangeWaterOffset"]
-[connection signal="item_selected" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/TypeWaterOption" to="MapManager" method="ChangeWaterType"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/ButtonGenerateWater" to="MapManager" method="CreateWater"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/HSliderWaterOffset" to="MapManagers/MapManager" method="ChangeWaterOffset"]
+[connection signal="item_selected" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/TypeWaterOption" to="MapManagers/MapManager" method="ChangeWaterType"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/ButtonGenerateWater" to="MapManagers/MapManager" method="CreateWater"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [2]]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderGrassDensity" to="MapManager" method="ChangeGrassDensity"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderPlantsDensity2" to="MapManager" method="ChangePlantsDensity"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderTreesDensity" to="MapManager" method="ChangeTreesDensity"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderGrassDensity" to="MapManagers/MapManager" method="ChangeGrassDensity"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderPlantsDensity2" to="MapManagers/MapManager" method="ChangePlantsDensity"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderTreesDensity" to="MapManagers/MapManager" method="ChangeTreesDensity"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonOpenGrass" to="ModelLoader" method="OpenModelGrass"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonOpenTrees" to="ModelLoader" method="OpenModelTrees"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/IdItemOptionCustom" to="MapManager" method="SetUsedCustomItemBuild"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonGeneratePlants" to="MapManager" method="GenerateNewPlants"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/IdItemOptionCustom" to="MapManagers/MapManager" method="SetUsedCustomItemBuild"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonGeneratePlants" to="MapManagers/MapManager" method="GenerateNewPlants"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" method="OnClick"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelLibraryView/IdItemOption" to="MapManager" method="SetUsedStandartItemBuild"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelLibraryView/IdItemOption" to="MapManagers/MapManager" method="SetUsedStandartItemBuild"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" method="OnClick"]
 [connection signal="item_selected" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/OptionButtonShadow" to="Controls" method="SetShadowEnabled"]
 [connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/HSliderMouseSence" to="Controls" method="SetSensitivity"]
 [connection signal="toggled" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/Algoritms/CheckButton" to="Controls" method="OnAlgoritmStartStopChange"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonOpenControlProject" to="Controls" method="OnOpenControlProject"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonReload" to="MapManager" method="OnReloadMap"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonTest" to="MapManager" method="PlayTest"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ButtonSetTexure" to="MapManager" method="SetGrassTexture"]
-[connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxCreateItem" to="MapManager" method="SetCreateItem"]
-[connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxDeleteItem" to="MapManager" method="SetDeleteItem"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonReload" to="MapManagers/MapManager" method="OnReloadMap"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonTest" to="MapManagers/MapManager" method="PlayTest"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ButtonSetTexure" to="MapManagers/MapManager" method="SetGrassTexture"]
+[connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxCreateItem" to="MapManagers/MapManager" method="SetCreateItem"]
+[connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxDeleteItem" to="MapManagers/MapManager" method="SetDeleteItem"]
 [connection signal="button_down" from="Controls/ControlBuild/ButtonSettings" to="Controls" method="OnOpenSettings"]
 [connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonHome" to="Controls" method="OnOpenControlGameProject"]
-[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonExit" to="MapManager" method="PlayTest"]
+[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonExit" to="MapManagers/MapManager" method="PlayTest"]
 [connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonOpenGameMenu" to="Controls" method="OnOpenControlGameProject"]
-[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonReload" to="MapManager" method="OnReloadMap"]
+[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonReload" to="MapManagers/MapManager" method="OnReloadMap"]
 [connection signal="toggled" from="Controls/ControlGame/Panel/HBoxContainer/Algoritms/CheckButton" to="Controls" method="OnAlgoritmStartStopChange"]
 [connection signal="value_changed" from="Controls/ControlSettings/Panel/HSliderlengthofday" to="Controls" method="SaveLengthOfDay"]
 [connection signal="button_down" from="Controls/ControlSettings/Panel/ButtonExit" to="Controls" method="OnCloseSettings"]
@@ -2723,4 +2793,5 @@ IndicatorCollectionVisible = NodePath("../../../Controls/ControlBuild/Panel/Cont
 [connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonOpen3DModel" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenModel"]
 [connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonOpenPathSound" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenSound"]
 [connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonOpenPathAnimation" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenAnimation"]
+[connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonOpenGraphXmlPath" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenModel"]
 [connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonAddAnimation" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnLoadModel"]

@@ -24,12 +24,13 @@ namespace Ursula.GameObjects.Controller
         {
             base._Ready();
             _ = SubscribeEvent();
-            IndicatorCollectionVisible.VisibilityChanged += IndicatorCollectionVisible_VisibilityChangedEventHandler;
         }
 
         private async GDTask SubscribeEvent()
         {
             _gameObjectCollectionModel = await _gameObjectCollectionModelProvider.GetAsync();
+
+            IndicatorCollectionVisible.VisibilityChanged += IndicatorCollectionVisible_VisibilityChangedEventHandler;
         }
 
         private void IndicatorCollectionVisible_VisibilityChangedEventHandler()

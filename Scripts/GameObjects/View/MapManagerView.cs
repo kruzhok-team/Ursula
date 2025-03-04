@@ -1,19 +1,19 @@
 ﻿using Fractural.Tasks;
 using Godot;
 using System;
-using System.Collections.Generic;
 using Ursula.Core.DI;
-using Ursula.GameObjects.Model;
 using Ursula.MapManagers.Model;
-using Ursula.MapManagers.View;
 
-namespace Ursula.MapManagers.Controller
+
+namespace Ursula.MapManagers.View
 {
-
-    public partial class MapManagerController : Node, IInjectable
+    public partial class MapManagerView : Node, IInjectable
     {
         [Export]
-        MapManagerView _mapManagerView;
+        public Control buildControl;
+
+        [Export]
+        public Control gameControl;
 
         [Inject]
         private ISingletonProvider<MapManagerModel> _mapManagerModelProvider;
@@ -28,20 +28,15 @@ namespace Ursula.MapManagers.Controller
         {
             base._Ready();
             _ = SubscribeEvent();
-            Init();
         }
 
         private async GDTask SubscribeEvent()
         {
             _mapManagerModel = await _mapManagerModelProvider.GetAsync();
-
-            
+            //_AddGameObjectAssetModel.GameGameObjectAddGameObjectAssetVisible_EventHandler += GameObjectAddGameObjectAssetModel_ShowAddGameObjectAssetVisible_EventHandler;
+            //_AddGameObjectAssetModel.GameObjectAddAssetToCollection_EventHandler += AddGameObjectAssetModel_GameObjectAddAssetToCollection_EventHandler;
         }
 
-        private void Init()
-        {
-            this.AddChild(_mapManagerModel._mapManagerData.itemsGO);
 
-        }
     }
 }
