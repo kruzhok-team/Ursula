@@ -22,7 +22,7 @@ namespace Ursula.GameObjects.View
         public bool IsGameObjectLibraryVisible { get; private set; } = false;
         public bool IsGameObjectAddUserSourceVisible { get; private set; } = false;   
 
-        public event EventHandler GameObjectLibraryVisible_EventHandler;
+        public event EventHandler GameObjectLibraryVisibleEvent;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -56,7 +56,7 @@ namespace Ursula.GameObjects.View
 
         private void InvokeGameObjectLibraryVisibleEvent()
         {
-            var handler = GameObjectLibraryVisible_EventHandler;
+            var handler = GameObjectLibraryVisibleEvent;
             handler?.Invoke(this, EventArgs.Empty);
         }
 

@@ -1,7 +1,9 @@
-﻿using Godot;
+﻿using Fractural.Tasks;
+using Godot;
 using System.Collections.Generic;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
+using VoxLibExample;
 
 namespace Ursula.GameObjects.View
 {
@@ -14,14 +16,25 @@ namespace Ursula.GameObjects.View
         [Export]
         PackedScene GameObjectAssetInfoPrefab;
 
+        [Export]
+        TabBar TabBarGameObjectGroup;
+
         [Inject]
         private ISingletonProvider<GameObjectAddGameObjectAssetModel> _gameObjectAddGameObjectAssetProvider;
 
         [Inject]
         private ISingletonProvider<GameObjectCollectionModel> _gameObjectCollectionModelProvider;
 
+        private GameObjectCollectionModel _gameObjectCollectionModel;
+
         void IInjectable.OnDependenciesInjected()
         {
+        }
+
+        public override void _Ready()
+        {
+            base._Ready();
+            SetTabBar();
         }
 
         public void Draw(IReadOnlyCollection<GameObjectAssetInfo> assets)
@@ -66,5 +79,24 @@ namespace Ursula.GameObjects.View
             model?.SetGameObjectAddGameObjectAssetVisible(true);
         }
 
+        private void SetTabBar()
+        {
+            TabBarGameObjectGroup.ClearTabs();
+            TabBarGameObjectGroup.AddTab("Все объекты");
+            string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
+            for (int i = 0; i < gameObjectGroups.Length; i++)
+            {
+                TabBarGameObjectGroup.AddTab(gameObjectGroups[i]);
+            }
+
+            TabBarGameObjectGroup.TabClicked += TabBarGameObjectGroup_TabClickedEvent;
+        }
+
+        async void TabBarGameObjectGroup_TabClickedEvent(long tab)
+        {
+            var model = _gameObjectCollectionModelProvider != null ? await _gameObjectCollectionModelProvider.GetAsync() : null;
+            string nameGroup = (int)tab == 0 ? "" : TabBarGameObjectGroup.GetTabTitle((int)tab);
+            model?.DrawCollection(nameGroup);
+        }
     }
 }

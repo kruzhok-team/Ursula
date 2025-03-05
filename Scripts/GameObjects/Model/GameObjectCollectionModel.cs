@@ -8,12 +8,15 @@ namespace Ursula.GameObjects.Model
     {
         public bool IsCollectionVisible => isCollectionVisible;
         public GameObjectAssetInfo AssetSelected => assetSelected;
+        public string NameGameObjectGroup => nameGameObjectGroup;
 
         private bool isCollectionVisible { get; set; }
         private GameObjectAssetInfo assetSelected { get; set; }
+        private string nameGameObjectGroup { get; set; }
 
         public event EventHandler GameObjectCollectionVisibleChangeEvent;
-        public event EventHandler GameObjectAssetSelectedEvent;
+        public event EventHandler GameObjectAssetSelected_EventHandler;
+        public event EventHandler GameObjectDrawCollectionEvent;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -33,6 +36,13 @@ namespace Ursula.GameObjects.Model
             return this;
         }
 
+        public GameObjectCollectionModel DrawCollection(string nameGroup)
+        {
+            nameGameObjectGroup = nameGroup;
+            InvokeGameObjectDrawCollectionEvent();
+            return this;
+        }
+
         private void InvokeGameObjectCollectionVisibleChangeEvent()
         {
             var handler = GameObjectCollectionVisibleChangeEvent;
@@ -41,9 +51,14 @@ namespace Ursula.GameObjects.Model
 
         private void InvokeGameObjectAssetSelectedEvent()
         {
-            var handler = GameObjectAssetSelectedEvent;
+            var handler = GameObjectAssetSelected_EventHandler;
             handler?.Invoke(this, EventArgs.Empty);
         }
 
+        private void InvokeGameObjectDrawCollectionEvent()
+        {
+            var handler = GameObjectDrawCollectionEvent;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

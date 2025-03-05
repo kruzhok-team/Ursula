@@ -33,21 +33,6 @@ namespace Ursula.GameObjects.View
             _ = SubscribeEvent();
         }
 
-        private async GDTask Load()
-        {
-            _commonLibrary = await _commonLibraryProvider.GetAsync();
-            await _commonLibrary.Load();
-        }
-
-        private async GDTask SubscribeEvent()
-        {
-            _hudModel = await _hudModelProvider.GetAsync();
-            _hudModel.GameObjectLibraryVisible_EventHandler += HUDViewModel_ShowLibraryEventHandler;
-
-            _gameObjectCollectionModel = await _gameObjectCollectionModelProvider.GetAsync();
-            _gameObjectCollectionModel.GameObjectCollectionVisibleChangeEvent += _gameObjectCollectionModel_GameObjectCollectionVisibleChangeEventHandler;
-        }
-
         public async void OnShow()
         {
             await Show();
@@ -58,24 +43,46 @@ namespace Ursula.GameObjects.View
             await DrawCommonCollection();
         }
 
+        private async GDTask Load()
+        {
+            _commonLibrary = await _commonLibraryProvider.GetAsync();
+            await _commonLibrary.Load();
+        }
+
+        private async GDTask SubscribeEvent()
+        {
+            _hudModel = await _hudModelProvider.GetAsync();
+            _hudModel.GameObjectLibraryVisibleEvent += HUDViewModel_ShowLibrary_EventHandler;
+
+            _gameObjectCollectionModel = await _gameObjectCollectionModelProvider.GetAsync();
+            _gameObjectCollectionModel.GameObjectCollectionVisibleChangeEvent += _gameObjectCollectionModel_GameObjectCollectionVisibleChange_EventHandler;
+
+            _gameObjectCollectionModel.GameObjectDrawCollectionEvent += _gameObjectCollectionModel_GameObjectDrawCollection_EventHandler;
+        }
+
         private async GDTask DrawCommonCollection()
         {
             var commonLib = await _commonLibraryProvider.GetAsync();
-            _collectionView?.Draw(commonLib.GetAllInfo());
+            _collectionView?.Draw(commonLib.GetInfo(_gameObjectCollectionModel.NameGameObjectGroup));
         }
 
-        private void HUDViewModel_ShowLibraryEventHandler(object sender, EventArgs e)
+        private void HUDViewModel_ShowLibrary_EventHandler(object sender, EventArgs e)
         {
             OnShow();
         }
 
-        private void _gameObjectCollectionModel_GameObjectCollectionVisibleChangeEventHandler(object sender, EventArgs e)
+        private void _gameObjectCollectionModel_GameObjectCollectionVisibleChange_EventHandler(object sender, EventArgs e)
         {
             bool isVisible = _gameObjectCollectionModel.IsCollectionVisible;
             if (isVisible)
             {
                 OnShow();
             }
+        }
+
+        async void _gameObjectCollectionModel_GameObjectDrawCollection_EventHandler(object sender, EventArgs e)
+        {
+            await DrawCommonCollection();
         }
     }
 }

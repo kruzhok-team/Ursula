@@ -112,14 +112,17 @@ namespace Ursula.MapManagers.Setters
 
             if (asset.ProviderId == GameObjectAssetsEmbeddedSource.LibId)
             {
-                int numItem = 0;
-                prefab = prefab = VoxLib.mapAssets.gameItemsGO[numItem];
+                int numItem = -1;
+                int.TryParse(asset.Sources.Model3dFilePath, out numItem);
+                prefab = numItem >= 0 ? VoxLib.mapAssets.gameItemsGO[numItem] : null;
 
             }
             else if (asset.ProviderId == GameObjectAssetsUserSource.LibId)
             {
                 prefab = VoxLib.mapAssets.customItemPrefab;
             }
+
+            if (prefab == null) return null;
 
             int _x = Mathf.RoundToInt(x);
             int _y = Mathf.RoundToInt(y);

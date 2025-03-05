@@ -7,7 +7,7 @@ namespace VoxLibExample
     [Tool]
     public partial class MapAssets : Resource
 	{
-        public const string GameObjectGroups = "Деревья,Трава,Камни,Строения,Животные,Предметы,Освещение";
+        public const string GameObjectGroups = "Деревья,Трава,Камни,Строения,Животные,Предметы,Освещение,Другое";
 
         [Export]
 		public Texture[] terrainTex { get; set; }

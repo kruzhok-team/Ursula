@@ -59,6 +59,28 @@ namespace Ursula.GameObjects.Model
             return mergedList;
         }
 
+        public IReadOnlyCollection<GameObjectAssetInfo> GetInfo(string nameGroup)
+        {
+            var mergedList = new List<GameObjectAssetInfo>(_userLib.GetAllInfo());
+            mergedList.AddRange(_embeddedLib.GetAllInfo());
+
+            var collectionList = new List<GameObjectAssetInfo>();
+
+            if (string.IsNullOrEmpty(nameGroup))
+            {
+                collectionList = mergedList;
+            }
+            else
+            {
+                for (int i = 0; i < mergedList.Count; i++)
+                {
+                    if (mergedList[i].Sources.GameObjectGroup == nameGroup) collectionList.Add(mergedList[i]);
+                }
+            }
+
+            return collectionList;
+        }
+
         public IReadOnlyCollection<IGameObjectAsset> GetAll()
         {
             if (!CheckLoaded())
@@ -165,6 +187,8 @@ namespace Ursula.GameObjects.Model
             await CheckEmbeddedAssets();
 
             _ = SyncEmbeddedAssets();
+
+
         }
 
         public async GDTask Save()
