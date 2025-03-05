@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://dgc042g3ej4rj"]
+[gd_scene load_steps=57 format=3 uid="uid://dgc042g3ej4rj"]
 
 [ext_resource type="PackedScene" uid="uid://dn1jem1nnefln" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/project_timer.tscn" id="1_wxxnd"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Core/Initialization/UrsulaEntryPoint.cs" id="1_xjqfu"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://ccpqmgm2c1jtt" path="res://addons/Ursula/Prefabs/GameObjects/GameObjectAssetInfoViewPrefab.tscn" id="16_1eb3b"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/LogScript.cs" id="16_i08yk"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/MessageBox.cs" id="17_n51xi"]
+[ext_resource type="StyleBox" uid="uid://dh4pdqyswum5a" path="res://addons/Ursula/Assets/Themes/Button.tres" id="18_c37xe"]
 [ext_resource type="PackedScene" uid="uid://bwtht1arglbrl" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/alg_control.tscn" id="18_uus1o"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ControlGamesProject.cs" id="19_xgi4p"]
 [ext_resource type="PackedScene" uid="uid://bf4yqi8xraxte" path="res://addons/Ursula/Assets/Prefabs/UI/ImportGameItem.tscn" id="20_aufgm"]
@@ -1039,9 +1040,10 @@ layout_mode = 2
 
 [node name="TabBarGameObjectGroup" type="TabBar" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView"]
 layout_mode = 2
-offset_right = 1149.0
+offset_right = 1146.0
 offset_bottom = 40.0
 theme = ExtResource("43_cp4ec")
+theme_override_styles/tab_selected = ExtResource("18_c37xe")
 current_tab = 0
 tab_count = 2
 tab_0/title = "Все объекты"

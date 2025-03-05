@@ -45,8 +45,8 @@ public partial class GameObjectCreateItemsController : Node3D, IInjectable
 
                 if (eventMouseButton.ButtonIndex == MouseButton.Left)
                 {
-                    VoxLib.mapManager.tempScale = 1f;
-                    VoxLib.mapManager.Building(collider, pos);
+                    //VoxLib.mapManager.tempScale = 1f;
+                    //VoxLib.mapManager.Building(collider, pos);
 
                     _gameObjectCreateItemsModel.SetGameObjectCreateItem(collider, pos, 1f, 0);
 

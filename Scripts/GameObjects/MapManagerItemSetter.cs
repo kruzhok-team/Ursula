@@ -34,7 +34,6 @@ namespace Ursula.MapManagers.Setters
         private GameObjectCreateItemsModel _gameObjectCreateItemsModel;
         private GameObjectCollectionModel _gameObjectCollectionModel;
 
-
         void IInjectable.OnDependenciesInjected()
         {
 
@@ -98,31 +97,29 @@ namespace Ursula.MapManagers.Setters
 
         private Node CreateGameItem
             (
-            GameObjectAssetInfo asset,
+            GameObjectAssetInfo assetInfo,
             byte rotation,
             float scale,
-            float x, float y, float z,
+            float x, 
+            float y, 
+            float z,
             int state,
             int id,
             bool isSnapGrid = false
             )
         {
 
-            PackedScene prefab = null;
+            IGameObjectAsset asset;
+            bool isTryGetItem = _gameObjectLibraryManager.TryGetItem(assetInfo.Id, out asset);
+            if (asset.Model3d == null) return null;
 
-            if (asset.ProviderId == GameObjectAssetsEmbeddedSource.LibId)
+            Node3D node = asset.Model3d as Node3D;
+
+            if (isTryGetItem == false)
             {
-                int numItem = -1;
-                int.TryParse(asset.Sources.Model3dFilePath, out numItem);
-                prefab = numItem >= 0 ? VoxLib.mapAssets.gameItemsGO[numItem] : null;
-
+                node.Free();
+                return null;
             }
-            else if (asset.ProviderId == GameObjectAssetsUserSource.LibId)
-            {
-                prefab = VoxLib.mapAssets.customItemPrefab;
-            }
-
-            if (prefab == null) return null;
 
             int _x = Mathf.RoundToInt(x);
             int _y = Mathf.RoundToInt(y);
@@ -130,25 +127,14 @@ namespace Ursula.MapManagers.Setters
 
             Vector3 newPos = new Vector3(_x, y, _z);
             if (isSnapGrid) newPos = new Vector3(_x, _y, _z);
-
             Quaternion rot = GetRotation(rotation);
-
-            Node instance = prefab.Instantiate();
-
-            Node3D node = instance as Node3D;
 
             node.Position = newPos;
             node.Quaternion = rot;
             node.Scale = Vector3.One * scale;
 
-            var itemProp = node.GetScript();
-            ItemPropsScript ips = instance as ItemPropsScript;
-
-            if (ips == null)
-            {
-                Node nodes = instance.FindChild("ItemPropsScript", true, true);
-                ips = nodes as ItemPropsScript;
-            }
+            Node nodes = node.FindChild("ItemPropsScript", true, true);
+            ItemPropsScript ips = nodes as ItemPropsScript;
 
             if (ips != null)
             {
@@ -158,27 +144,25 @@ namespace Ursula.MapManagers.Setters
                 ips.rotation = rotation;
                 ips.state = state;
                 ips.scale = scale;
-                ips.itemId = asset.Id;
-                //VoxLib.mapManager.gameItems.Add(ips);
-
-                ips.GetParent().Name = Path.GetFileNameWithoutExtension(prefab.ResourcePath) + $"{_x}{_y}{_z}";
+                ips.itemId = assetInfo.Id;
+                ips.GetParent().Name = assetInfo.Name + $"{_x}{_y}{_z}";
             }
-
-            IGameObjectAsset asset1;
-            bool isReady = _gameObjectLibraryManager.TryGetItem(asset.Id, out asset1);
-
-            Node3D Model3d = asset1.Model3d as Node3D;
-            instance.AddChild(Model3d);
-
-            //VoxLib.mapManager.itemsGO.AddChild(instance);
 
             //_mapManager.ChangeWorldBytesItem(_x, _y, _z, itemToVox(numItem), (byte)(rotation + state * 6));
 
-            //GD.Print($"Create item={numItem}, position={node.Position}");      
+            if (isTryGetItem)
+            {
+                _mapManagerModel.SetItemToMap(node, ips);
+                //_mapManager.ChangeWorldBytesItem(_x, _y, _z, itemToVox(id), (byte)(rotation + state * 6));
 
-            _mapManagerModel.SetItemToMap(instance, ips);
+                GD.Print($"Create item={assetInfo.Id}, position={node.Position}");
+            }
+            else
+            {
+                node.Free();
+            }
 
-            return instance;
+            return node;
         }
 
         private Quaternion GetRotation(byte rotation)

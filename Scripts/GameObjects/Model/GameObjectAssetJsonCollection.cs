@@ -195,11 +195,44 @@ namespace Ursula.GameObjects.Model
         private IGameObjectAsset BuildAssetImplementation(GameObjectAssetInfo assetInfo) 
         {
             //TODO: asset building implementation
-            //throw new NotImplementedException();
 
-            object model3D = ModelLoader.LoadModelByPath(assetInfo.Sources.Model3dFilePath);
+            //object model3D = ModelLoader.LoadModelByPath(assetInfo.Sources.Model3dFilePath);
+            //GameObjectAsset asset = new GameObjectAsset(assetInfo, null, model3D);
 
-            GameObjectAsset asset = new GameObjectAsset(assetInfo, null, model3D);
+
+            PackedScene prefab = null;
+
+            if (assetInfo.ProviderId == GameObjectAssetsEmbeddedSource.LibId)
+            {
+                int numItem = -1;
+                int.TryParse(assetInfo.Sources.Model3dFilePath, out numItem);
+                prefab = numItem >= 0 ? VoxLib.mapAssets.gameItemsGO[numItem] : null;
+
+            }
+            else if (assetInfo.ProviderId == GameObjectAssetsUserSource.LibId)
+            {
+                prefab = VoxLib.mapAssets.customItemPrefab;
+                //object model3D = ModelLoader.LoadModelByPath(assetInfo.Sources.Model3dFilePath);               
+            }
+
+            if (prefab == null) return null;
+
+            Node instance = prefab.Instantiate();
+            Node3D node = instance as Node3D;
+
+            if (assetInfo.ProviderId == GameObjectAssetsUserSource.LibId)
+            {
+                var customItem = instance.GetNodeOrNull("CustomItemScript");
+                if (customItem == null) customItem = instance.GetParent().FindChild("CustomItemScript", true, true);
+                var ci = customItem as CustomItem;
+                if (ci != null)
+                {
+                    ci.objPath = assetInfo.Sources.Model3dFilePath;
+                    ci.InitModel();
+                }
+            }
+
+            GameObjectAsset asset = new GameObjectAsset(assetInfo, null, node);
 
             return asset;
 
