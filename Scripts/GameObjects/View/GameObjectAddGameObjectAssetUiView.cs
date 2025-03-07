@@ -73,6 +73,13 @@ namespace Ursula.GameObjects.View
         [Export]
         Button ButtonOpenGraphXmlPath;
 
+        [Export]
+        Button ButtonOpenPreviewPath;
+
+        [Export]
+        public TextureRect TextureRectPreviewImage;
+
+
         [Inject]
         private ISingletonProvider<GameObjectAddGameObjectAssetModel> _addGameObjectAssetProvider;
 
@@ -85,6 +92,7 @@ namespace Ursula.GameObjects.View
         private string modelPath;
         private string destPath;
         private string graphXmlPath;
+        private string iconPath;
 
         List<string> audiosTo = new List<string>();
         List<string> animationsTo = new List<string>();
@@ -106,6 +114,7 @@ namespace Ursula.GameObjects.View
             ButtonOpenPathSound.ButtonDown += ButtonOpenPathSound_DownEventHandler;
             ButtonOpenPathAnimation.ButtonDown += ButtonOpenPathAnimation_DownEventHandler;
             ButtonOpenGraphXmlPath.ButtonDown += ButtonOpenGraphXmlPath_DownEventHandler;
+            ButtonOpenPreviewPath.ButtonDown += ButtonOpenIconPath_DownEventHandler;
 
             string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
             for (int i = 0; i < gameObjectGroups.Length; i++)
@@ -172,21 +181,10 @@ namespace Ursula.GameObjects.View
             string gameObjectGroup = gameObjectGroups[OptionButtonGroupObject.Selected];
             string gameObjectSample = TextEditSampleObject.Text;
 
-            GameObjectAssetSources gameObjectAsset = new GameObjectAssetSources(
-                "", 
-                "", 
-                modelPath, 
-                gameObjectGroup, 
-                OptionButtonClassObject.Selected,
-                gameObjectSample,
-                audiosTo, 
-                animationsTo,
-                graphXmlPath
-                );
-
             model.SetDestPath(destPath);
+            model.SetGraphXmlPath(graphXmlPath);
 
-            model?.SetAddGameObjectAssetToCollection(TextEditModelName.Text, gameObjectAsset);
+            model.SetAddGameObjectAssetToCollection(TextEditModelName.Text, gameObjectGroup, OptionButtonClassObject.Selected, gameObjectSample);
         }
 
         async void ButtonClose_DownEventHandler()
@@ -263,6 +261,34 @@ namespace Ursula.GameObjects.View
                 }
                 else
                     GD.PrintErr($"Ошибка  открытия графа {path}");
+            }
+, FileDialog.AccessEnum.Filesystem);
+        }
+
+        async void ButtonOpenIconPath_DownEventHandler()
+        {
+            dialogTool.Open(new string[] { "*.jpg ; Файл jpg", "*.png ; Файл png" }, async (path) =>
+            {
+                if (!string.IsNullOrEmpty(path))
+                {
+                    iconPath = path;
+
+                    Image img = new Image();
+                    var err = img.Load(path);
+
+                    if (err != Error.Ok)
+                    {
+                        GD.Print("Failed to load image from path: " + path);
+                    }
+                    else
+                    {
+                        TextureRectPreviewImage.Texture = ImageTexture.CreateFromImage(img);
+                        var viewModel = _addGameObjectAssetProvider != null ? await _addGameObjectAssetProvider.GetAsync() : null;
+                        viewModel?.SetPreviewImageFilePath(path);
+                    }
+                }
+                else
+                    GD.PrintErr($"Ошибка  открытия иконки {path}");
             }
 , FileDialog.AccessEnum.Filesystem);
         }

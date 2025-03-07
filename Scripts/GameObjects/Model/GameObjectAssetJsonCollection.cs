@@ -83,17 +83,17 @@ namespace Ursula.GameObjects.Model
             return TryBuildAsset(itemId, out asset);
         }
 
-        public void SetItem(string name, GameObjectAssetSources sources, string libId)
+        public void SetItem(string name, GameObjectTemplate template, string libId)
         {
             if (!CheckLoaded())
                 return;
 
-            if (string.IsNullOrEmpty(name) || sources == null)
+            if (string.IsNullOrEmpty(name) || template == null)
             {
                 return;
             }
 
-            var info = new GameObjectAssetInfo(name, Id, sources);
+            var info = new GameObjectAssetInfo(name, Id, template);
             _infoMap[info.Id] = info;
         }
 
@@ -196,23 +196,27 @@ namespace Ursula.GameObjects.Model
         {
             //TODO: asset building implementation
 
-            //object model3D = ModelLoader.LoadModelByPath(assetInfo.Sources.Model3dFilePath);
-            //GameObjectAsset asset = new GameObjectAsset(assetInfo, null, model3D);
-
+            string model3dFilePath = assetInfo.Template.Sources.Model3dFilePath;
 
             PackedScene prefab = null;
 
             if (assetInfo.ProviderId == GameObjectAssetsEmbeddedSource.LibId)
             {
                 int numItem = -1;
-                int.TryParse(assetInfo.Sources.Model3dFilePath, out numItem);
+                int.TryParse(model3dFilePath, out numItem);
                 prefab = numItem >= 0 ? VoxLib.mapAssets.gameItemsGO[numItem] : null;
 
             }
             else if (assetInfo.ProviderId == GameObjectAssetsUserSource.LibId)
             {
-                prefab = VoxLib.mapAssets.customItemPrefab;
-                //object model3D = ModelLoader.LoadModelByPath(assetInfo.Sources.Model3dFilePath);               
+                // :TODO fix build paths
+#if TOOLS
+                model3dFilePath = $"{GameObjectAssetsUserSource.CollectionPath}{assetInfo.Template.Folder}/{model3dFilePath}";
+#else
+                model3dFilePath = $"{VoxLib.mapManager.GetCurrentProjectFolderPath()}{assetInfo.Template.Folder}/{model3dFilePath}";
+#endif
+
+                prefab = VoxLib.mapAssets.customItemPrefab;             
             }
 
             if (prefab == null) return null;
@@ -227,7 +231,7 @@ namespace Ursula.GameObjects.Model
                 var ci = customItem as CustomItem;
                 if (ci != null)
                 {
-                    ci.objPath = assetInfo.Sources.Model3dFilePath;
+                    ci.objPath = model3dFilePath;
                     ci.InitModel();
                 }
             }

@@ -18,6 +18,9 @@ namespace Ursula.GameObjects.View
             AnimationsFrom = new List<string>();
         }
 
+        public string PreviewImageFilePath { get; private set; }
+        public string TextureFilePath { get; private set; }
+        
         public string ModelPath { get; private set; }
         public string DestPath { get; private set; }
 
@@ -26,6 +29,8 @@ namespace Ursula.GameObjects.View
 
         public List<string> AudiosTo { get; set; }
         public List<string> AnimationsTo { get; set; }
+
+        public string GraphXmlPath { get; private set; }
 
         public GameObjectUserSourceData SetModelPath(string value)
         {
@@ -57,18 +62,32 @@ namespace Ursula.GameObjects.View
             AnimationsFrom.Remove(value);
             return this;
         }
+        public GameObjectUserSourceData SetGraphXmlPath(string value)
+        {
+            GraphXmlPath = value;
+            return this;
+        }
+        public GameObjectUserSourceData SetPreviewImageFilePath(string value)
+        {
+            PreviewImageFilePath = value;
+            return this;
+        }
     }
 
     public partial class GameObjectAddGameObjectAssetModel : IInjectable
     {
         public bool IsGameObjectAddUserSourceVisible { get; private set; } = false;
 
-        public string modelName { get; private set; }
+        public GameObjectTemplate template;
+
+        public string ModelName { get; private set; }
+        public string TextureFilePath => _gameObjectUserSourceData.TextureFilePath;
         public string ModelPath => _gameObjectUserSourceData.ModelPath;
         public string DestPath => _gameObjectUserSourceData.DestPath;
-
-        public GameObjectAssetSources _gameObjectAssetSourcesFrom { get; private set; }
-        public GameObjectAssetSources _gameObjectAssetSourcesTo { get; private set; }
+        public string GraphXmlPathFrom => _gameObjectUserSourceData.GraphXmlPath;
+        public string GraphXmlPathTo => DestPath + Path.GetFileName(_gameObjectUserSourceData.GraphXmlPath);
+        public string PreviewImageFilePathFrom => _gameObjectUserSourceData.PreviewImageFilePath;
+        public string PreviewImageFilePathTo => DestPath + Path.GetFileName(PreviewImageFilePathFrom);
 
         public event EventHandler GameGameObjectAddGameObjectAssetVisible_EventHandler;
         public event EventHandler GameObjectAddAssetToCollection_EventHandler;
@@ -76,29 +95,40 @@ namespace Ursula.GameObjects.View
         private GameObjectLibraryManager _commonLibrary;
         private GameObjectUserSourceData _gameObjectUserSourceData = new GameObjectUserSourceData();
 
+
+
         void IInjectable.OnDependenciesInjected()
         {
         }
 
-        public GameObjectAddGameObjectAssetModel SetAddGameObjectAssetToCollection(string modelName, GameObjectAssetSources _gameObjectAssetSources)
+        public GameObjectAddGameObjectAssetModel SetAddGameObjectAssetToCollection(string modelName, string gameObjectGroup, int gameObjectClass, string gameObjectSample)
         {
-            this.modelName = modelName;
-
-            this._gameObjectAssetSourcesFrom = _gameObjectAssetSources;
+            this.ModelName = modelName;
 
             CopyGameObjectAsset();
 
-            this._gameObjectAssetSourcesTo = new GameObjectAssetSources(
-                _gameObjectAssetSources.PreviewImageFilePath, 
-                _gameObjectAssetSources.TextureFilePath,
-                DestPath + Path.GetFileName(_gameObjectUserSourceData.ModelPath),
-                _gameObjectAssetSources.GameObjectGroup,
-                _gameObjectAssetSources.GameObjectClass,
-                _gameObjectAssetSources.GameObjectSample,
+            DirectoryInfo directoryInfo = new DirectoryInfo(DestPath);
+
+            GameObjectAssetSources sources = new GameObjectAssetSources
+                (
+                _gameObjectUserSourceData.PreviewImageFilePath,
+                _gameObjectUserSourceData.TextureFilePath,
+                Path.GetFileName(_gameObjectUserSourceData.ModelPath),
                 _gameObjectUserSourceData.AudiosTo,
-                _gameObjectUserSourceData.AnimationsTo,
-                _gameObjectAssetSources.GraphXmlPath
+                _gameObjectUserSourceData.AnimationsTo
                 );
+
+            template = new GameObjectTemplate
+                (
+                directoryInfo.Name,
+                gameObjectGroup,
+                gameObjectClass,
+                gameObjectSample,
+                sources,
+                Path.GetFileName(_gameObjectUserSourceData.GraphXmlPath),
+                Path.GetFileName(PreviewImageFilePathFrom)
+                );
+
 
             InvokeGameObjectAddGameObjectAssetToCollectionEvent();
 
@@ -151,32 +181,49 @@ namespace Ursula.GameObjects.View
             return this;
         }
 
+        public GameObjectAddGameObjectAssetModel SetGraphXmlPath(string value)
+        {
+            if (_gameObjectUserSourceData.GraphXmlPath == value) return this;
+            _gameObjectUserSourceData.SetGraphXmlPath(value);
+            return this;
+        }
+
+        public GameObjectAddGameObjectAssetModel SetPreviewImageFilePath(string value)
+        {
+            if (_gameObjectUserSourceData.PreviewImageFilePath == value) return this;
+            _gameObjectUserSourceData.SetPreviewImageFilePath(value);
+            return this;
+        }
+
         private void CopyGameObjectAsset()
         {
             MapManager.CreateDir(DestPath);
             ModelLoader.CopyModel(ModelPath, DestPath);
 
             _gameObjectUserSourceData.AudiosTo = new List<string>();
-            string pathAudio = DestPath;
+            string pathAudio = DestPath + MapManager.PATHAUDIO;
             MapManager.CreateDir(pathAudio);
             for (int i = 0; i < _gameObjectUserSourceData.AudiosFrom.Count; i++)
             {
                 string pathFrom = _gameObjectUserSourceData.AudiosFrom[i];
-                string pathTo = $"{pathAudio}{Path.GetFileName(_gameObjectUserSourceData.AudiosFrom[i])}";
+                string pathTo = $"{pathAudio}/{Path.GetFileName(_gameObjectUserSourceData.AudiosFrom[i])}";
                 File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);
-                _gameObjectUserSourceData.AudiosTo.Add(pathTo);
+                _gameObjectUserSourceData.AudiosTo.Add($"{MapManager.PATHAUDIO}/{Path.GetFileName(pathTo)}");
             }
 
             _gameObjectUserSourceData.AnimationsTo = new List<string>();
-            string pathAnimations = DestPath;
+            string pathAnimations = DestPath + MapManager.PATHANIMATION;
             MapManager.CreateDir(pathAnimations);
             for (int i = 0; i < _gameObjectUserSourceData.AnimationsFrom.Count; i++)
             {
                 string pathFrom = _gameObjectUserSourceData.AnimationsFrom[i];
-                string pathTo = $"{pathAnimations}{Path.GetFileName(_gameObjectUserSourceData.AnimationsFrom[i])}";
+                string pathTo = $"{pathAnimations}/{Path.GetFileName(_gameObjectUserSourceData.AnimationsFrom[i])}";
                 File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);
-                _gameObjectUserSourceData.AnimationsTo.Add(pathTo);
+                _gameObjectUserSourceData.AnimationsTo.Add($"{MapManager.PATHANIMATION}/{Path.GetFileName(pathTo)}");
             }
+
+            File.Copy(GraphXmlPathFrom, ProjectSettings.GlobalizePath(GraphXmlPathTo), true);
+            File.Copy(PreviewImageFilePathFrom, ProjectSettings.GlobalizePath(PreviewImageFilePathTo), true);
         }
 
 

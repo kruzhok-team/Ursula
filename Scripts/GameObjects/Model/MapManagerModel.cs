@@ -14,6 +14,9 @@ namespace Ursula.MapManagers.Model
         public List<ItemPropsScript> gameItems { get; private set; }
         public Node3D itemsGO { get; private set; }
 
+        public MapAssets MapAssets { get; private set; }
+
+
         public MapManagerData()
         {
             gameItems = new List<ItemPropsScript>();
@@ -21,6 +24,7 @@ namespace Ursula.MapManagers.Model
 
             var mapAssets = ResourceLoader.Load<MapAssets>(MapManagerAssetPath);
             VoxLib.mapAssets = mapAssets;
+            this.MapAssets = mapAssets;
         }
 
 

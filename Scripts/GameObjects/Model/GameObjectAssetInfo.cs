@@ -1,20 +1,22 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Ursula.GameObjects.Model
 {
     [Serializable]
     public class GameObjectAssetInfo
     {
-        public GameObjectAssetInfo(string name, string providerId, GameObjectAssetSources sources)
+        [JsonConstructor]
+        public GameObjectAssetInfo(string name, string providerId, GameObjectTemplate template)
         {
             Name = name;
             ProviderId = providerId;
-            Sources = sources;
+            Template = template;
         }
 
         public string Name { get; }
         public string ProviderId { get; }
-        public GameObjectAssetSources Sources { get; }
+        public GameObjectTemplate Template { get; }
         public string Id => ProviderId + "." + Name;
     }
 }

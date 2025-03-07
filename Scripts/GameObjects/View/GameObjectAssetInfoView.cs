@@ -1,6 +1,8 @@
-﻿using Godot;
+﻿using Fractural.Tasks;
+using Godot;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Ursula.GameObjects.Model;
 
 namespace Ursula.GameObjects.View
@@ -32,26 +34,64 @@ namespace Ursula.GameObjects.View
             ButtonClickAsset.ButtonDown -= OnItemClickEvent;
         }
 
-        public void Invalidate(GameObjectAssetInfo asset)
+        public async void Invalidate(GameObjectAssetInfo assetInfo)
         {
-            _gameObjectAssetInfo = asset;
-            LabelNameAsset.Text = asset.Name;
+            PreviewImageRect.Visible = false;
 
-            PreviewImageRect.Visible = !string.IsNullOrEmpty(asset.Sources.PreviewImageFilePath);
+            _gameObjectAssetInfo = assetInfo;
+            LabelNameAsset.Text = assetInfo.Name;
 
-            if (asset.ProviderId == GameObjectAssetsEmbeddedSource.LibId)
+            if (assetInfo.ProviderId == GameObjectAssetsUserSource.LibId)
+            {
+
+                string previewImageFilePath = assetInfo.Template.PreviewImageFilePath;
+
+                // :TODO fix build paths
+#if TOOLS              
+                previewImageFilePath = $"{GameObjectAssetsUserSource.CollectionPath}{assetInfo.Template.Folder}/{previewImageFilePath}";
+#else
+                previewImageFilePath = $"{VoxLib.mapManager.GetCurrentProjectFolderPath()}{assetInfo.Template.Folder}/{previewImageFilePath}";
+#endif
+
+                await LoadPreviewImage(previewImageFilePath);
+            }
+            else if (assetInfo.ProviderId == GameObjectAssetsEmbeddedSource.LibId)
             {
                 int idEmbeddedAsset = -1;
-                int.TryParse(asset.Sources.PreviewImageFilePath, out idEmbeddedAsset);
+                int.TryParse(assetInfo.Template.PreviewImageFilePath, out idEmbeddedAsset);
                 if (idEmbeddedAsset >= 0 && idEmbeddedAsset < VoxLib.mapAssets.inventarItemTex.Length)
                 {
                     PreviewImageRect.Texture = (Texture2D)VoxLib.mapAssets.inventarItemTex[idEmbeddedAsset];
                 }
             }
+
+            PreviewImageRect.Visible = PreviewImageRect.Texture != null;
         }
 
+        async GDTask LoadPreviewImage(string path)
+        {
+            PreviewImageRect.Texture = await _LoadPreviewImage(path);
+        }
 
-        //
+        private async GDTask<Texture2D> _LoadPreviewImage(string path)
+        {
+            Texture2D tex;
+            Image img = new Image();
+
+            var err = await Task.Run(() => img.Load(path));
+
+            if (err != Error.Ok)
+            {
+                GD.Print("Failed to load image from path: " + path);
+            }
+            else
+            {
+                tex = ImageTexture.CreateFromImage(img);
+                return tex;
+            }
+            return null;
+        }
+
         private void OnItemClickEvent()
         {
             string id = _gameObjectAssetInfo != null ? _gameObjectAssetInfo.Id : null;

@@ -74,7 +74,7 @@ namespace Ursula.GameObjects.Model
             {
                 for (int i = 0; i < mergedList.Count; i++)
                 {
-                    if (mergedList[i].Sources.GameObjectGroup == nameGroup) collectionList.Add(mergedList[i]);
+                    if (mergedList[i].Template.GameObjectGroup == nameGroup) collectionList.Add(mergedList[i]);
                 }
             }
 
@@ -128,17 +128,17 @@ namespace Ursula.GameObjects.Model
             RemoveItem(asset.Info.Id);
         }
 
-        public void SetItem(string name, GameObjectAssetSources sources, string libId)
+        public void SetItem(string name, GameObjectTemplate template, string libId)
         {
             if (!CheckLoaded())
                 return;
-            if (string.IsNullOrEmpty(name) || sources == null)
+            if (string.IsNullOrEmpty(name) || template == null)
                 return;
 
             if (libId == GameObjectAssetsUserSource.LibId)
-                _userLib.SetItem(name, sources, libId);
+                _userLib.SetItem(name, template, libId);
             else if (libId == GameObjectAssetsEmbeddedSource.LibId)
-                _embeddedLib.SetItem(name, sources, libId);
+                _embeddedLib.SetItem(name, template, libId);
 
             var entry = new CommonGameObjectLibraryItem(name, _userLib.Id);
             _commonAssetMap[entry.Id] = entry;
@@ -263,20 +263,28 @@ namespace Ursula.GameObjects.Model
                     string modelName = Path.GetFileNameWithoutExtension( mapAssets.gameItemsGO[i].ResourcePath );
                     string gameObjectGroup = i < mapAssets.inventarGameObjectGroups.Length ? mapAssets.inventarGameObjectGroups[i] : "";
                     string gameObjectSample = gameObjectGroup;
+
                     GameObjectAssetSources sources = new GameObjectAssetSources
                         (
                             i.ToString(),
                             null,
                             i.ToString(),
+                            null,
+                            null
+                        );
+
+                    GameObjectTemplate template = new GameObjectTemplate
+                        (
+                            "",
                             gameObjectGroup,
                             0,
                             gameObjectSample,
-                            null,
-                            null,
-                            ""
+                            sources,
+                            "",
+                            i.ToString()
                         );
 
-                    SetItem(modelName, sources, GameObjectAssetsEmbeddedSource.LibId);
+                    SetItem(modelName, template, GameObjectAssetsEmbeddedSource.LibId);
                 }
 
                 await _embeddedLib.Save();
