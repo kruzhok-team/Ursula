@@ -7,7 +7,7 @@ using Ursula.GameObjects.View;
 using Ursula.GameObjects.Model;
 using Ursula.MapManagers.Controller;
 using Ursula.MapManagers.Model;
-using Ursula.MapManagers.Setters;
+
 
 namespace Ursula.Core.Initialization
 {
@@ -63,7 +63,7 @@ namespace Ursula.Core.Initialization
             InstallSingleton<GameObjectCreateItemsController>(services);
             InstallSingleton<GameObjectCreateItemsModel>(services);
 
-            
+
         }
 
         private void InstallSingleton<T>(ServiceCollection services) where T : class 

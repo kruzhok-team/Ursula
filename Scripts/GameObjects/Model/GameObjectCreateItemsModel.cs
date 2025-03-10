@@ -23,9 +23,8 @@ namespace Ursula.GameObjects.Model
         {
         }
 
-        public GameObjectCreateItemsModel SetGameObjectCreateItem(Node colliderNode, Vector3 positionNode, float scaleNode, byte rotationNode)
+        public GameObjectCreateItemsModel SetGameObjectCreateItem(Vector3 positionNode, float scaleNode, byte rotationNode)
         {
-            this.colliderNode = colliderNode;
             this.positionNode = positionNode;
             this.scaleNode = scaleNode;
             this.rotationNode = rotationNode;

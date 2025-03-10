@@ -63,7 +63,7 @@ namespace Ursula.GameObjects.View
         private async GDTask DrawCommonCollection()
         {
             var commonLib = await _commonLibraryProvider.GetAsync();
-            _collectionView?.Draw(commonLib.GetInfo(_gameObjectCollectionModel.NameGameObjectGroup));
+            _collectionView?.Draw(commonLib.GetInfoOnGroup(_gameObjectCollectionModel.NameGameObjectGroup));
         }
 
         private void HUDViewModel_ShowLibrary_EventHandler(object sender, EventArgs e)

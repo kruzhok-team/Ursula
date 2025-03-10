@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using Fractural.Tasks;
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,6 +14,7 @@ using Ursula.Environment.Settings;
 using Ursula.GameObjects.Model;
 using Ursula.MapManagers.Controller;
 using Ursula.MapManagers.Model;
+using Ursula.MapManagers.Setters;
 
 
 
@@ -25,7 +27,7 @@ public enum PlayMode
 }
 
 //[Tool]
-public partial class MapManager : Node3D, IInjectable
+public partial class MapManager : Node, IInjectable
 {
 	public const int CUSTOM_ITEM_INDEX_OFFSET = 1000;
     public const string PATHCATALOG = "/Models/Catalog/";
@@ -67,6 +69,8 @@ public partial class MapManager : Node3D, IInjectable
 	public FileDialog fileDialog;
     [Export]
     public FileDialog fileDialogLoad;
+    [Export]
+    public MapManagerItemSetter _mapManagerItemSetter;
 
     [Export(PropertyHint.Range, "0,1")]
 	public float grassDensity = 0;
@@ -92,6 +96,28 @@ public partial class MapManager : Node3D, IInjectable
     [Export]
     public CheckBox CheckBoxUsedOnlyCustomItem;
 
+    [Export]
+    TextureRect replaceTexUI;
+
+
+    [Inject]
+    private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
+
+    [Inject]
+    private ISingletonProvider<MapManagerController> _mapManagerControllerProvider;
+
+    [Inject]
+    private ISingletonProvider<MapManagerModel> _mapManagerModelProvider;
+
+    //[Inject]
+    //private ISingletonProvider<MapManagerItemSetter> _mapManagerItemSetterProvider;
+
+    [Inject]
+    private ISingletonProvider<GameObjectLibraryManager> _gameObjectLibraryManagerProvider;
+
+    [Inject]
+    private ISingletonProvider<GameObjectCreateItemsModel> _gameObjectCreateItemsModelProvider;
+
     public int[] grassItemsID = new int[] { 10, 11, 12, 13, 14, 15, 16, 17, 18 };
 	public int[] treesItemsID = new int[] { 0, 1, 3, 5, 6, 7, 8 };
     public int[] plantsItemsID = new int[] { 39, 40, 41, 42, 43 };
@@ -109,40 +135,24 @@ public partial class MapManager : Node3D, IInjectable
 	public VoxTypesGrid voxTypes;
 	public VoxDataGrid voxData;
 
-    [Inject]
-    private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
+    public List<ItemPropsScript> gameItems;
 
-    [Inject]
-    private ISingletonProvider<MapManagerController> _mapManagerControllerProvider;
+    public Node3D itemsGO;
 
-    [Inject]
-    private ISingletonProvider<MapManagerModel> _mapManagerModelProvider;
-
-    bool needSaveMap = false;
-	bool usedCustomItemBuild = false;
-
-    int skybox = 0;
-
-    bool initialized = false;
-
-    Node3D playerBuild;
-    Node3D playerTest;
-
-    void IInjectable.OnDependenciesInjected()
-    {
-    }
+    public byte tempRotation = 0;
+    public float tempScale = 1;
 
     public Node3D currentPlayerGO
-	{
-		get
-		{
-			return playMode == PlayMode.buildingMode ? playerBuild : playerTest;
+    {
+        get
+        {
+            return playMode == PlayMode.buildingMode ? playerBuild : playerTest;
         }
-		set
-		{
-			if (playMode == PlayMode.buildingMode) playerBuild = value; else playerTest = value;
+        set
+        {
+            if (playMode == PlayMode.buildingMode) playerBuild = value; else playerTest = value;
         }
-	}
+    }
 
     public string IMPORTPROJECTPATH
     {
@@ -157,21 +167,30 @@ public partial class MapManager : Node3D, IInjectable
         }
     }
 
+    private MapManagerModel _mapManagerModel;
+    //private MapManagerItemSetter _mapManagerItemSetter;
+    private GameObjectLibraryManager _gameObjectLibraryManager;
+    private GameObjectCreateItemsModel _gameObjectCreateItemsModel;
 
-	public List<ItemPropsScript> gameItems;
+    bool needSaveMap = false;
+	bool usedCustomItemBuild = false;
 
-	public Node3D itemsGO;
+    int skybox = 0;
 
-	public byte tempRotation = 0;
-	public float tempScale = 1;
+    bool initialized = false;
+
+    Node3D playerBuild;
+    Node3D playerTest;
 
 	int replaceTexID = 0;
-    [Export]
-    TextureRect replaceTexUI;
 
     string pathMap = null;
     string gameImagePath = null;
     string gameVideoPath = null;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
 
     public override void _Ready()
 	{
@@ -183,6 +202,8 @@ public partial class MapManager : Node3D, IInjectable
         //GenerateNewWorld();
         SetAssetsData();
 		InitPlayer();
+
+        _ = SubscribeEvent();
     }
 
     public void GenerateProjectFolder()
@@ -366,7 +387,7 @@ public partial class MapManager : Node3D, IInjectable
             itemPropS.scale = scale;
             gameItems.Add(itemPropS);
 
-            itemPropS.GetParent().Name = Path.GetFileNameWithoutExtension(prefab.ResourcePath) + $"{_x}{_y}{_z}";
+            //itemPropS.GetParent().Name = Path.GetFileNameWithoutExtension(prefab.ResourcePath) + $"{_x}{_y}{_z}";
         }
 
 		ChangeWorldBytesItem(_x, _y, _z, itemToVox(numItem), (byte)(rotation + state * 6));
@@ -383,6 +404,8 @@ public partial class MapManager : Node3D, IInjectable
 
         gameItems = new List<ItemPropsScript>();
         VoxLib.RemoveAllChildren(itemsGO);
+
+        _mapManagerModel.RemoveAllGameItems();
 
         initialized = false;
 
@@ -982,15 +1005,16 @@ public partial class MapManager : Node3D, IInjectable
         mapData.Add("StaticWater", ((bool)isStatic).ToString());
         mapData.Add("FullDayLength", DayNightCycle.instance.FullDayLength.ToString());
 
-        List<ItemPropsScript> saveItems = new List<ItemPropsScript>(gameItems);
+        List<ItemPropsScript> saveItems = new List<ItemPropsScript>(_mapManagerModel._mapManagerData.gameItems);
         mapData.Add("saveItems", saveItems.Count.ToString());
 
-		for (int i = 0; i < saveItems.Count; i++)
-		{
-			if (saveItems[i] == null) continue;
+        for (int i = 0; i < saveItems.Count; i++)
+        {
+            if (saveItems[i] == null) continue;
 
             Dictionary<string, string> itemData = new Dictionary<string, string>();
-			itemData.Add("id", saveItems[i].id.ToString());
+            itemData.Add("AssetInfoId", saveItems[i].AssetInfoId);
+            itemData.Add("id", saveItems[i].id.ToString());
             itemData.Add("type", saveItems[i].type.ToString());
             itemData.Add("positionY", saveItems[i].positionY.ToString());
             itemData.Add("rotation", saveItems[i].rotation.ToString());
@@ -998,33 +1022,32 @@ public partial class MapManager : Node3D, IInjectable
             itemData.Add("x", saveItems[i].x.ToString());
             itemData.Add("y", saveItems[i].y.ToString());
             itemData.Add("z", saveItems[i].z.ToString());
-
             itemData.Add("scale", saveItems[i].scale.ToString());
 
-            Node item = saveItems[i] as Node;
-            var obj = item.GetNodeOrNull("InteractiveObject");
-			if (obj == null) obj = item.GetParent().FindChild("InteractiveObject", true, true);
-            var io = obj as InteractiveObject;
-			if (io != null && io.xmlPath != null)
-			{
-                itemData.Add("xmlPath", io.xmlPath);
-            }
+            //Node item = saveItems[i] as Node;
+            //var obj = item.GetNodeOrNull("InteractiveObject");
+            //if (obj == null) obj = item.GetParent().FindChild("InteractiveObject", true, true);
+            //var io = obj as InteractiveObject;
+            //if (io != null && io.xmlPath != null)
+            //{
+            //    itemData.Add("xmlPath", io.xmlPath);
+            //}
 
-            var custom = item.GetNodeOrNull("CustomObjectScript");
-            if (custom == null) custom = item.GetParent().FindChild("CustomObjectScript", true, true);
-            var co = custom as CustomObject;
-			if (co != null && !string.IsNullOrEmpty(co.objPath))
-			{
-                itemData.Add("objPath", co.objPath);
-            }
+            //var custom = item.GetNodeOrNull("CustomObjectScript");
+            //if (custom == null) custom = item.GetParent().FindChild("CustomObjectScript", true, true);
+            //var co = custom as CustomObject;
+            //if (co != null && !string.IsNullOrEmpty(co.objPath))
+            //{
+            //    itemData.Add("objPath", co.objPath);
+            //}
 
-            var customItem = item.GetNodeOrNull("CustomItemScript");
-            if (customItem == null) customItem = item.GetParent().FindChild("CustomItemScript", true, true);
-            var ci = customItem as CustomItem;
-            if (ci != null && !string.IsNullOrEmpty(ci.objPath))
-            {
-                itemData.Add("objPath", ci.objPath);
-            }
+            //var customItem = item.GetNodeOrNull("CustomItemScript");
+            //if (customItem == null) customItem = item.GetParent().FindChild("CustomItemScript", true, true);
+            //var ci = customItem as CustomItem;
+            //if (ci != null && !string.IsNullOrEmpty(ci.objPath))
+            //{
+            //    itemData.Add("objPath", ci.objPath);
+            //}
 
             string ips = JsonSerializer.Serialize(itemData);
             mapData.Add("item" + i, ips);
@@ -1260,42 +1283,75 @@ public partial class MapManager : Node3D, IInjectable
                     }
 
                     int id = x + z * 256 + y * 256 * 256;
-                    Node item = CreateGameItem(numItem, rotation, scale, x, positionY, z, state, id);
 
-                    var obj = item.GetNode("InteractiveObject");
-                    var io = obj as InteractiveObject;
+                    //Node item = CreateGameItem(numItem, rotation, scale, x, positionY, z, state, id);
 
-                    if (io != null && itemData.ContainsKey("xmlPath"))
+                    //var obj = item.GetNode("InteractiveObject");
+                    //var io = obj as InteractiveObject;
+
+                    //if (io != null && itemData.ContainsKey("xmlPath"))
+                    //{
+                    //    {
+                    //        io.xmlPath = itemData["xmlPath"];
+                    //        if (isImport) io.xmlPath = dirMap + "/" + io.xmlPath;
+                    //        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+                    //        io.ReloadAlgorithm();
+                    //        //io.StartAlgorithm();
+                    //    }
+                    //}
+
+                    ////await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+                    //var custom = item.GetNodeOrNull("CustomObjectScript");
+                    //if (custom == null) custom = item.GetParent().FindChild("CustomObjectScript", true, true);
+                    //var co = custom as CustomObject;
+                    //if (co != null && itemData.ContainsKey("objPath"))
+                    //{
+                    //    co.objPath = itemData["objPath"];
+                    //    if (isImport) co.objPath = dirMap + "/" + co.objPath;
+                    //    co.InitModel();
+                    //}
+
+                    //var customItem = item.GetNodeOrNull("CustomItemScript");
+                    //if (customItem == null) customItem = item.GetParent().FindChild("CustomItemScript", true, true);
+                    //var ci = customItem as CustomItem;
+                    //if (ci != null && itemData.ContainsKey("objPath"))
+                    //{
+                    //    ci.objPath = itemData["objPath"];
+                    //    if (isImport) ci.objPath = dirMap + "/" + ci.objPath;
+                    //    ci.InitModel();
+                    //}
+
+                    if (itemData.ContainsKey("AssetInfoId"))
                     {
+                        GameObjectAssetInfo assetInfo = _gameObjectLibraryManager.GetItemInfo(itemData["AssetInfoId"]);
+
+                        Node item = _mapManagerItemSetter.CreateGameItem
+                        (
+                            assetInfo,
+                            rotation,
+                            scale,
+                            x,
+                            y,
+                            z,
+                            state,
+                            id
+                        );
+
+                        var obj = item.GetNode("InteractiveObject");
+                        var io = obj as InteractiveObject;
+                        if (io != null && !string.IsNullOrEmpty(assetInfo.Template.GraphXmlPath))
                         {
-                            io.xmlPath = itemData["xmlPath"];
-                            if (isImport) io.xmlPath = dirMap + "/" + io.xmlPath;
+                            io.xmlPath = assetInfo.Template.GraphXmlPath;
+                            if (isImport) io.xmlPath = dirMap + "/" + assetInfo.Template.GraphXmlPath;
+                            else
+                            {
+                                io.xmlPath = $"{_gameObjectLibraryManager.GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}/{io.xmlPath}";                       
+                            }
+
                             await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
                             io.ReloadAlgorithm();
-                            //io.StartAlgorithm();
                         }
-                    }
-
-                    //await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-                    var custom = item.GetNodeOrNull("CustomObjectScript");
-                    if (custom == null) custom = item.GetParent().FindChild("CustomObjectScript", true, true);
-                    var co = custom as CustomObject;
-                    if (co != null && itemData.ContainsKey("objPath"))
-                    {
-                        co.objPath = itemData["objPath"];
-                        if (isImport) co.objPath = dirMap + "/" + co.objPath;
-                        co.InitModel();
-                    }
-
-                    var customItem = item.GetNodeOrNull("CustomItemScript");
-                    if (customItem == null) customItem = item.GetParent().FindChild("CustomItemScript", true, true);
-                    var ci = customItem as CustomItem;
-                    if (ci != null && itemData.ContainsKey("objPath"))
-                    {
-                        ci.objPath = itemData["objPath"];
-                        if (isImport) ci.objPath = dirMap + "/" + ci.objPath;
-                        ci.InitModel();
                     }
                 }
             }
@@ -1466,169 +1522,6 @@ public partial class MapManager : Node3D, IInjectable
         fileDialogLoad.Show();
     }
 
-    private async void ImportProject(string fileName)
-	{
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-        string pathImport = IMPORTPROJECTPATH;
-        string pathImportProject = pathImport + "/" + Path.GetFileNameWithoutExtension(fileName);
-
-        if (Directory.Exists(pathImport)) Directory.CreateDirectory(pathImport);
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-        if (Directory.Exists(pathImportProject)) Directory.Delete(pathImportProject, true);
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-        if (fileName.Contains("user://Project")) fileName = ProjectSettings.GlobalizePath(fileName);
-
-        ZipFile.ExtractToDirectory(fileName, pathImportProject);
-
-        VoxLib.ShowMessage($"Проект {Path.GetFileName(fileName)} распакован в папку {pathImportProject}");
-
-        fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(ImportProject)));
-
-        VoxLib.instance.CGP.Instantiate();
-    }
-
-
-    private async void ExportProject(string fileName)
-	{
-        DisconnectAll();
-
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-        string loadPath = pathMap;
-        string importName = Path.GetFileName(fileName); // Path.GetFileNameWithoutExtension(pathMap) + ".txt";
-
-        string pathImport = IMPORTPROJECTPATH;
-        string pathImportProject = pathImport + "/" + Path.GetFileNameWithoutExtension(pathMap);
-        string pathImportMap = pathImportProject + "/" + Path.GetFileName(pathMap);
-
-        if (File.Exists(loadPath))
-		{
-			//pathMap = loadPath;			
-            if (!File.Exists(pathImport)) Directory.CreateDirectory(pathImport);          
-            if (!File.Exists(pathImportProject)) Directory.CreateDirectory(pathImportProject);               
-			//File.Copy(pathMap, pathImportMap, true);
-        }
-
-        Dictionary<string, string> mapData = SaveWorld();
-
-        if (mapData == null || string.IsNullOrEmpty(pathImportMap)) return;       
-
-        mapData.Add("ImportName", importName);
-
-        int saveItems = 0;
-        if (mapData.ContainsKey("saveItems")) saveItems = int.Parse(mapData["saveItems"]);
-
-		for (int i = 0; i < saveItems; i++)
-		{
-			if (mapData.ContainsKey("item" + i))
-			{
-                string items = mapData["item" + i];
-                Dictionary<string, string> itemData = new Dictionary<string, string>();
-				itemData = JsonSerializer.Deserialize<Dictionary<string, string>>(items);
-				if (itemData.Count > 0)
-				{
-                    if (itemData.ContainsKey("xmlPath"))
-					{
-                        string path;
-                        if (itemData["xmlPath"].Contains("user:")) path = ProjectSettings.GlobalizePath(itemData["xmlPath"]);
-                        else
-                            path = Path.GetFullPath(itemData["xmlPath"]);
-
-                        string name = Path.GetFileName(path);
-						if (!Directory.Exists(pathImportProject + "/" + PATHXML)) Directory.CreateDirectory(pathImportProject + "/" + PATHXML);
-						string xmlPath = Path.GetFullPath(pathImportProject + "/" + PATHXML + "/" + name);
-                        itemData["xmlPath"] = PATHXML + "/" + name;
-                        if (!File.Exists(xmlPath)) File.Copy(path, xmlPath, true);
-                    }
-
-                    if (itemData.ContainsKey("objPath"))
-					{
-                        string path;
-                        if (itemData["objPath"].Contains("user:")) path = ProjectSettings.GlobalizePath(itemData["objPath"]);
-                        else
-                            path = Path.GetFullPath(itemData["objPath"]);
-                        
-                        string name = Path.GetFileName(path);
-                        if (!Directory.Exists(pathImportProject + "/" + PATHMODEL)) Directory.CreateDirectory(pathImportProject + "/" + PATHMODEL);
-                        string objPath = Path.GetFullPath(pathImportProject + "/" + PATHMODEL + "/" + name);
-                        itemData["objPath"] = PATHMODEL + "/" + name;
-                        if (!File.Exists(objPath)) ModelLoader.CopyModel(path, pathImportProject + "/" + PATHMODEL + "/");
-                    }
-                }
-
-                mapData.Remove("item" + i);
-                string ips = JsonSerializer.Serialize(itemData);
-                mapData.Add("item" + i, ips);
-            }
-        }
-
-        if (!Directory.Exists(pathImportProject + "/" + PATHAUDIO)) Directory.CreateDirectory(pathImportProject + "/" + PATHAUDIO);
-        string[] audios = Directory.GetFiles(ProjectSettings.GlobalizePath(InteractiveObjectAudio.PATH_AUDIO));
-        foreach (string audio in audios)
-        {
-            string pathAudio = pathImportProject + "/" + PATHAUDIO + "/" + Path.GetFileName(audio);
-            File.Copy(audio, pathAudio, true);
-        }
-
-        if (mapData.ContainsKey("gameImagePath"))
-        {
-            string gameImagePath = mapData["gameImagePath"];
-            mapData.Remove("gameImagePath");
-
-            string imageName = Path.GetFileName(gameImagePath);
-            
-            string ext = Path.GetExtension(gameImagePath);
-            string gameImagePathImport = pathImportProject + "/" + GAMEIMAGE + ext;
-            mapData.Add("gameImagePath", GAMEIMAGE + ext);
-
-            File.Copy(gameImagePath, gameImagePathImport, true);
-        }
-
-        if (mapData.ContainsKey("gameVideoPath"))
-        {
-            string gameVideoPath = mapData["gameVideoPath"];
-            mapData.Remove("gameVideoPath");
-
-            string imageName = Path.GetFileName(gameVideoPath);
-
-            string ext = Path.GetExtension(gameVideoPath);
-            string gameVideoPathImport = pathImportProject + "/" + GAMEVIDEO + ext;
-            mapData.Add("gameVideoPath", GAMEVIDEO + ext);
-
-            File.Copy(gameVideoPath, gameVideoPathImport, true);
-        }
-
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-        if (File.Exists(pathImportMap)) File.Delete(pathImportMap);
-
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-        using (StreamWriter writer = new StreamWriter(pathImportMap))
-        {
-            foreach (var line in mapData)
-            {
-                writer.WriteLine(line);
-            }
-        }
-
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-        string zipFile = ProjectSettings.GlobalizePath(fileName);// pathImport + "/" + Path.GetFileNameWithoutExtension(pathMap) + ".zip";
-        if (File.Exists(zipFile)) File.Delete(zipFile);
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-        ZipFile.CreateFromDirectory(pathImportProject, zipFile);
-
-        VoxLib.ShowMessage($"Проект {Path.GetFileNameWithoutExtension(pathMap)} упакован в архив {zipFile}");
-
-        OpenInExplorer(pathImport);
-
-
-    }
-
     public void OpenGameImage()
     {
         DisconnectAll();
@@ -1693,33 +1586,6 @@ public partial class MapManager : Node3D, IInjectable
         fileDialogLoad.Show();
     }
 
-    private void DisconnectAll()
-    {
-        if (fileDialogLoad.IsConnected("file_selected", new Callable(this, nameof(SaveMapToFile)))) fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(SaveMapToFile)));
-        if (fileDialogLoad.IsConnected("file_selected", new Callable(this, nameof(LoadMapFromFile)))) fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(LoadMapFromFile)));
-        if (fileDialogLoad.IsConnected("file_selected", new Callable(this, nameof(SaveGameImage)))) fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(SaveGameImage)));
-        if (fileDialogLoad.IsConnected("file_selected", new Callable(this, nameof(ImportProject)))) fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(ImportProject)));
-
-        if (fileDialog.IsConnected("file_selected", new Callable(this, nameof(ExportProject)))) fileDialog.Disconnect("file_selected", new Callable(this, nameof(ExportProject)));
-        if (fileDialog.IsConnected("file_selected", new Callable(this, nameof(SaveMapToFile)))) fileDialog.Disconnect("file_selected", new Callable(this, nameof(SaveMapToFile)));
-    }
-
-    private async void SaveGameImage(string fileName)
-    {
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-        gameImagePath = fileName;
-        SaveMapToFile(pathMap);
-    }
-
-    private async void SaveGameVideo(string fileName)
-    {
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-        gameVideoPath = fileName;
-        SaveMapToFile(pathMap);
-    }
-
     public bool isDialogsOpen
     {
         get
@@ -1752,6 +1618,15 @@ public partial class MapManager : Node3D, IInjectable
         return null;
     }
 
+
+    private async GDTask SubscribeEvent()
+    {
+        _mapManagerModel = await _mapManagerModelProvider.GetAsync();
+        _gameObjectLibraryManager = await _gameObjectLibraryManagerProvider.GetAsync();
+        _gameObjectCreateItemsModel = await _gameObjectCreateItemsModelProvider.GetAsync();
+        //_mapManagerItemSetter = await _mapManagerItemSetterProvider.GetAsync();
+    }
+
     private List<string> FindImageFiles(string folderPath)
     {
         string[] img = Directory.GetFiles(folderPath, "*.jpg").Concat(Directory.GetFiles(folderPath, "*.png")).ToArray();
@@ -1770,4 +1645,194 @@ public partial class MapManager : Node3D, IInjectable
         }
         return model != null;
     }
+
+    private void DisconnectAll()
+    {
+        if (fileDialogLoad.IsConnected("file_selected", new Callable(this, nameof(SaveMapToFile)))) fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(SaveMapToFile)));
+        if (fileDialogLoad.IsConnected("file_selected", new Callable(this, nameof(LoadMapFromFile)))) fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(LoadMapFromFile)));
+        if (fileDialogLoad.IsConnected("file_selected", new Callable(this, nameof(SaveGameImage)))) fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(SaveGameImage)));
+        if (fileDialogLoad.IsConnected("file_selected", new Callable(this, nameof(ImportProject)))) fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(ImportProject)));
+
+        if (fileDialog.IsConnected("file_selected", new Callable(this, nameof(ExportProject)))) fileDialog.Disconnect("file_selected", new Callable(this, nameof(ExportProject)));
+        if (fileDialog.IsConnected("file_selected", new Callable(this, nameof(SaveMapToFile)))) fileDialog.Disconnect("file_selected", new Callable(this, nameof(SaveMapToFile)));
+    }
+
+    private async void SaveGameImage(string fileName)
+    {
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        gameImagePath = fileName;
+        SaveMapToFile(pathMap);
+    }
+
+    private async void SaveGameVideo(string fileName)
+    {
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        gameVideoPath = fileName;
+        SaveMapToFile(pathMap);
+    }
+
+
+    private async void ImportProject(string fileName)
+    {
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        string pathImport = IMPORTPROJECTPATH;
+        string pathImportProject = pathImport + "/" + Path.GetFileNameWithoutExtension(fileName);
+
+        if (Directory.Exists(pathImport)) Directory.CreateDirectory(pathImport);
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        if (Directory.Exists(pathImportProject)) Directory.Delete(pathImportProject, true);
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        if (fileName.Contains("user://Project")) fileName = ProjectSettings.GlobalizePath(fileName);
+
+        ZipFile.ExtractToDirectory(fileName, pathImportProject);
+
+        VoxLib.ShowMessage($"Проект {Path.GetFileName(fileName)} распакован в папку {pathImportProject}");
+
+        fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(ImportProject)));
+
+        VoxLib.instance.CGP.Instantiate();
+    }
+
+
+    private async void ExportProject(string fileName)
+    {
+        DisconnectAll();
+
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        string loadPath = pathMap;
+        string importName = Path.GetFileName(fileName); // Path.GetFileNameWithoutExtension(pathMap) + ".txt";
+
+        string pathImport = IMPORTPROJECTPATH;
+        string pathImportProject = pathImport + "/" + Path.GetFileNameWithoutExtension(pathMap);
+        string pathImportMap = pathImportProject + "/" + Path.GetFileName(pathMap);
+
+        if (File.Exists(loadPath))
+        {
+            //pathMap = loadPath;			
+            if (!File.Exists(pathImport)) Directory.CreateDirectory(pathImport);
+            if (!File.Exists(pathImportProject)) Directory.CreateDirectory(pathImportProject);
+            //File.Copy(pathMap, pathImportMap, true);
+        }
+
+        Dictionary<string, string> mapData = SaveWorld();
+
+        if (mapData == null || string.IsNullOrEmpty(pathImportMap)) return;
+
+        mapData.Add("ImportName", importName);
+
+        int saveItems = 0;
+        if (mapData.ContainsKey("saveItems")) saveItems = int.Parse(mapData["saveItems"]);
+
+        for (int i = 0; i < saveItems; i++)
+        {
+            if (mapData.ContainsKey("item" + i))
+            {
+                string items = mapData["item" + i];
+                Dictionary<string, string> itemData = new Dictionary<string, string>();
+                itemData = JsonSerializer.Deserialize<Dictionary<string, string>>(items);
+                if (itemData.Count > 0)
+                {
+                    if (itemData.ContainsKey("xmlPath"))
+                    {
+                        string path;
+                        if (itemData["xmlPath"].Contains("user:")) path = ProjectSettings.GlobalizePath(itemData["xmlPath"]);
+                        else
+                            path = Path.GetFullPath(itemData["xmlPath"]);
+
+                        string name = Path.GetFileName(path);
+                        if (!Directory.Exists(pathImportProject + "/" + PATHXML)) Directory.CreateDirectory(pathImportProject + "/" + PATHXML);
+                        string xmlPath = Path.GetFullPath(pathImportProject + "/" + PATHXML + "/" + name);
+                        itemData["xmlPath"] = PATHXML + "/" + name;
+                        if (!File.Exists(xmlPath)) File.Copy(path, xmlPath, true);
+                    }
+
+                    if (itemData.ContainsKey("objPath"))
+                    {
+                        string path;
+                        if (itemData["objPath"].Contains("user:")) path = ProjectSettings.GlobalizePath(itemData["objPath"]);
+                        else
+                            path = Path.GetFullPath(itemData["objPath"]);
+
+                        string name = Path.GetFileName(path);
+                        if (!Directory.Exists(pathImportProject + "/" + PATHMODEL)) Directory.CreateDirectory(pathImportProject + "/" + PATHMODEL);
+                        string objPath = Path.GetFullPath(pathImportProject + "/" + PATHMODEL + "/" + name);
+                        itemData["objPath"] = PATHMODEL + "/" + name;
+                        if (!File.Exists(objPath)) ModelLoader.CopyModel(path, pathImportProject + "/" + PATHMODEL + "/");
+                    }
+                }
+
+                mapData.Remove("item" + i);
+                string ips = JsonSerializer.Serialize(itemData);
+                mapData.Add("item" + i, ips);
+            }
+        }
+
+        if (!Directory.Exists(pathImportProject + "/" + PATHAUDIO)) Directory.CreateDirectory(pathImportProject + "/" + PATHAUDIO);
+        string[] audios = Directory.GetFiles(ProjectSettings.GlobalizePath(InteractiveObjectAudio.PATH_AUDIO));
+        foreach (string audio in audios)
+        {
+            string pathAudio = pathImportProject + "/" + PATHAUDIO + "/" + Path.GetFileName(audio);
+            File.Copy(audio, pathAudio, true);
+        }
+
+        if (mapData.ContainsKey("gameImagePath"))
+        {
+            string gameImagePath = mapData["gameImagePath"];
+            mapData.Remove("gameImagePath");
+
+            string imageName = Path.GetFileName(gameImagePath);
+
+            string ext = Path.GetExtension(gameImagePath);
+            string gameImagePathImport = pathImportProject + "/" + GAMEIMAGE + ext;
+            mapData.Add("gameImagePath", GAMEIMAGE + ext);
+
+            File.Copy(gameImagePath, gameImagePathImport, true);
+        }
+
+        if (mapData.ContainsKey("gameVideoPath"))
+        {
+            string gameVideoPath = mapData["gameVideoPath"];
+            mapData.Remove("gameVideoPath");
+
+            string imageName = Path.GetFileName(gameVideoPath);
+
+            string ext = Path.GetExtension(gameVideoPath);
+            string gameVideoPathImport = pathImportProject + "/" + GAMEVIDEO + ext;
+            mapData.Add("gameVideoPath", GAMEVIDEO + ext);
+
+            File.Copy(gameVideoPath, gameVideoPathImport, true);
+        }
+
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        if (File.Exists(pathImportMap)) File.Delete(pathImportMap);
+
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        using (StreamWriter writer = new StreamWriter(pathImportMap))
+        {
+            foreach (var line in mapData)
+            {
+                writer.WriteLine(line);
+            }
+        }
+
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        string zipFile = ProjectSettings.GlobalizePath(fileName);// pathImport + "/" + Path.GetFileNameWithoutExtension(pathMap) + ".zip";
+        if (File.Exists(zipFile)) File.Delete(zipFile);
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        ZipFile.CreateFromDirectory(pathImportProject, zipFile);
+
+        VoxLib.ShowMessage($"Проект {Path.GetFileNameWithoutExtension(pathMap)} упакован в архив {zipFile}");
+
+        OpenInExplorer(pathImport);
+    }
+
 }

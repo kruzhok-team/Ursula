@@ -43,6 +43,11 @@ namespace Ursula.GameObjects.Model
             return _infoMap.Values;
         }
 
+        public GameObjectAssetInfo GetItemInfo(string id)
+        {
+            return _infoMap[id];
+        }
+
         public IReadOnlyCollection<IGameObjectAsset> GetAll()
         {
             if (!CheckLoaded())

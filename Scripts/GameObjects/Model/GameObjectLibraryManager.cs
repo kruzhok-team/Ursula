@@ -59,7 +59,7 @@ namespace Ursula.GameObjects.Model
             return mergedList;
         }
 
-        public IReadOnlyCollection<GameObjectAssetInfo> GetInfo(string nameGroup)
+        public IReadOnlyCollection<GameObjectAssetInfo> GetInfoOnGroup(string nameGroup)
         {
             var mergedList = new List<GameObjectAssetInfo>(_userLib.GetAllInfo());
             mergedList.AddRange(_embeddedLib.GetAllInfo());
@@ -99,6 +99,22 @@ namespace Ursula.GameObjects.Model
                 return false;
 
             return _commonAssetMap.ContainsKey(itemId);
+        }
+
+        public GameObjectAssetInfo GetItemInfo(string itemId)
+        {
+            //if (!ContainsItem(itemId))
+            //    return null;
+
+            if (!TryGetItemProvider(itemId, out var provider))
+                return null;
+
+            if (provider == _userLib)
+                return _userLib.GetItemInfo(itemId);
+            else if (provider == _embeddedLib)
+                return _embeddedLib.GetItemInfo(itemId);
+
+            return null;
         }
 
         public void RemoveItem(string itemId)
@@ -198,6 +214,19 @@ namespace Ursula.GameObjects.Model
 
             await SaveCommonAssetsInfo();
             await SaveExclusions();
+        }
+
+        public string GetAssetCollectionPath(string itemId)
+        {
+            if (!string.IsNullOrEmpty(itemId))
+            {
+                if (itemId.Contains(GameObjectAssetsUserSource.LibId))
+                    return GameObjectAssetsUserSource.CollectionPath;
+                else if (itemId.Contains(GameObjectAssetsEmbeddedSource.LibId))
+                    return GameObjectAssetsEmbeddedSource.CollectionPath;
+            }
+
+            return "";
         }
 
         private bool TryGetItemProvider(string itemId, out IGameObjectAssetManager provider)

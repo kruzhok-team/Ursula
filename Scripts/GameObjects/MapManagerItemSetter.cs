@@ -85,17 +85,16 @@ namespace Ursula.MapManagers.Setters
             int id = _x + _y * 256 + _z * 256 * 256;
 
             Node item = CreateGameItem(asset, rotationNode, scaleNode, _x, _y, _z, 0, id, true);
-
-
         }
 
         private void DeleteItem()
         {
             Node node = _gameObjectCreateItemsModel.Collider;
-            VoxLib.mapManager.DeleteItem(node);
+            //VoxLib.mapManager.DeleteItem(node);
+            _mapManagerModel.DeleteItem(node);
         }
 
-        private Node CreateGameItem
+        public Node CreateGameItem
             (
             GameObjectAssetInfo assetInfo,
             byte rotation,
@@ -138,23 +137,19 @@ namespace Ursula.MapManagers.Setters
 
             if (ips != null)
             {
+                ips.AssetInfoId = assetInfo.Id;
                 ips.id = id;
                 ips.type = 0;
                 ips.positionY = newPos.Y;
                 ips.rotation = rotation;
                 ips.state = state;
                 ips.scale = scale;
-                ips.itemId = assetInfo.Id;
-                ips.GetParent().Name = assetInfo.Name + $"{_x}{_y}{_z}";
+                ips.GetParent().Name = $"{assetInfo.Name}_{_x}{_y}{_z}";
             }
-
-            //_mapManager.ChangeWorldBytesItem(_x, _y, _z, itemToVox(numItem), (byte)(rotation + state * 6));
 
             if (isTryGetItem)
             {
                 _mapManagerModel.SetItemToMap(node, ips);
-                //_mapManager.ChangeWorldBytesItem(_x, _y, _z, itemToVox(id), (byte)(rotation + state * 6));
-
                 GD.Print($"Create item={assetInfo.Id}, position={node.Position}");
             }
             else

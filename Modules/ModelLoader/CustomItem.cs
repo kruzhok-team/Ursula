@@ -30,12 +30,10 @@ public partial class CustomItem : Node
 
             this.AddChild(modelInstance);
 
-            Node parent = GetParent();
-
+            //Node parent = GetParent();
             //ItemPropsScript ips = parent as ItemPropsScript;
-            ItemPropsScript ips = (ItemPropsScript)this.GetParent().FindChild("ItemPropsScript", true, true);
-
-            parent.Name = Path.GetFileNameWithoutExtension(objPath) + $"{ips.x}{ips.y}{ips.z}";
+            //ItemPropsScript ips = (ItemPropsScript)this.GetParent().FindChild("ItemPropsScript", true, true);
+            //parent.Name = Path.GetFileNameWithoutExtension(objPath) + $"{ips.x}{ips.y}{ips.z}";
         }
     }
 
