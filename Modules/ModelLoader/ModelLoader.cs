@@ -108,11 +108,16 @@ public partial class ModelLoader : Node
 
         if (!objPath.Contains(".glb"))
         {
-
             string mtlPath = ProjectSettings.GlobalizePath(GetMtlFilePath(objPath));
             string destMtlPath = ProjectSettings.GlobalizePath(destPath + Path.GetFileName(mtlPath));
 
-            File.Copy(mtlPath, destMtlPath, true);
+            if (File.Exists(mtlPath))
+                File.Copy(mtlPath, destMtlPath, true);
+            else
+            {
+                GD.PrintErr("Нет файла *.mtl");
+                VoxLib.ShowMessage("Нет файла *.mtl");
+            }
 
             var filePaths = ObjParser._GetMtlTexPaths(mtlPath);
             foreach (var k in filePaths)
