@@ -41,29 +41,7 @@ namespace Ursula.GameObjects.View
             _gameObjectAssetInfo = assetInfo;
             LabelNameAsset.Text = assetInfo.Name;
 
-            if (assetInfo.ProviderId == GameObjectAssetsUserSource.LibId)
-            {
-
-                string previewImageFilePath = assetInfo.Template.PreviewImageFilePath;
-
-                // :TODO fix build paths
-#if TOOLS              
-                previewImageFilePath = $"{GameObjectAssetsUserSource.CollectionPath}{assetInfo.Template.Folder}/{previewImageFilePath}";
-#else
-                previewImageFilePath = $"{VoxLib.mapManager.GetCurrentProjectFolderPath()}{assetInfo.Template.Folder}/{previewImageFilePath}";
-#endif
-
-                await LoadPreviewImage(previewImageFilePath);
-            }
-            else if (assetInfo.ProviderId == GameObjectAssetsEmbeddedSource.LibId)
-            {
-                int idEmbeddedAsset = -1;
-                int.TryParse(assetInfo.Template.PreviewImageFilePath, out idEmbeddedAsset);
-                if (idEmbeddedAsset >= 0 && idEmbeddedAsset < VoxLib.mapAssets.inventarItemTex.Length)
-                {
-                    PreviewImageRect.Texture = (Texture2D)VoxLib.mapAssets.inventarItemTex[idEmbeddedAsset];
-                }
-            }
+            PreviewImageRect.Texture = await assetInfo.GetPreviewImage();
 
             PreviewImageRect.Visible = PreviewImageRect.Texture != null;
         }

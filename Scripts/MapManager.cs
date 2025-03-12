@@ -1322,9 +1322,17 @@ public partial class MapManager : Node, IInjectable
                     //    ci.InitModel();
                     //}
 
+
+
                     if (itemData.ContainsKey("AssetInfoId"))
                     {
                         GameObjectAssetInfo assetInfo = _gameObjectLibraryManager.GetItemInfo(itemData["AssetInfoId"]);
+
+                        string assetFolder = dirMap;
+                        if (!isImport)
+                        {
+                            assetFolder = $"{_gameObjectLibraryManager.GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}";
+                        }
 
                         Node item = _mapManagerItemSetter.CreateGameItem
                         (
@@ -1335,23 +1343,11 @@ public partial class MapManager : Node, IInjectable
                             y,
                             z,
                             state,
-                            id
+                            id,
+                            false,
+                            assetFolder
                         );
 
-                        var obj = item.GetNode("InteractiveObject");
-                        var io = obj as InteractiveObject;
-                        if (io != null && !string.IsNullOrEmpty(assetInfo.Template.GraphXmlPath))
-                        {
-                            io.xmlPath = assetInfo.Template.GraphXmlPath;
-                            if (isImport) io.xmlPath = dirMap + "/" + assetInfo.Template.GraphXmlPath;
-                            else
-                            {
-                                io.xmlPath = $"{_gameObjectLibraryManager.GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}/{io.xmlPath}";                       
-                            }
-
-                            await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-                            io.ReloadAlgorithm();
-                        }
                     }
                 }
             }

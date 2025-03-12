@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using static MoveScript;
 
@@ -19,6 +20,9 @@ public partial class InteractiveObject : Node
 
     [Export]
     public string xmlPath;
+
+    [Export]
+    public string AudioFolderPath;
 
     string workFolderPath = "res://addons/Ursula/Modules/InteractiveObjects";
 
@@ -64,7 +68,7 @@ public partial class InteractiveObject : Node
     {
         xmlPath = path; //$"{workFolderPath}/Graphs/{interactiveObjectName}.graphml"
 
-        if (xmlPath != null)
+        if (!string.IsNullOrEmpty(xmlPath))
         {
             if (xmlPath.Replace(" ", "") != "")
             {
@@ -180,5 +184,10 @@ public partial class InteractiveObject : Node
         await ToSignal(GetTree().CreateTimer(1), "timeout");
 
         ReloadAlgorithm();
+    }
+
+    public void SetAudiosPathes(List<string> audioPathes)
+    {
+        audio.SetAudiosPathes(audioPathes);
     }
 }

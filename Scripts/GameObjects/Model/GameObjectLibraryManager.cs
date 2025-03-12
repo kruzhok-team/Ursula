@@ -158,6 +158,8 @@ namespace Ursula.GameObjects.Model
 
             var entry = new CommonGameObjectLibraryItem(name, _userLib.Id);
             _commonAssetMap[entry.Id] = entry;
+
+            VoxLib.ShowMessage($"Модель {name} добавлена в библиотеку");
         }
 
         public bool TryGetItem(string itemId, out IGameObjectAsset asset)
@@ -295,7 +297,6 @@ namespace Ursula.GameObjects.Model
 
                     GameObjectAssetSources sources = new GameObjectAssetSources
                         (
-                            i.ToString(),
                             null,
                             i.ToString(),
                             null,
@@ -304,7 +305,7 @@ namespace Ursula.GameObjects.Model
 
                     GameObjectTemplate template = new GameObjectTemplate
                         (
-                            "",
+                            i.ToString(),
                             gameObjectGroup,
                             0,
                             gameObjectSample,

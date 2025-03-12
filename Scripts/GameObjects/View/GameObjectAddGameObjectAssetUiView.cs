@@ -79,6 +79,8 @@ namespace Ursula.GameObjects.View
         [Export]
         public TextureRect TextureRectPreviewImage;
 
+        public event EventHandler ButtonAddUserSourceDown_EventHandler;
+        public event EventHandler ButtonCloseDown_EventHandler;
 
         [Inject]
         private ISingletonProvider<GameObjectAddGameObjectAssetModel> _addGameObjectAssetProvider;
@@ -86,13 +88,10 @@ namespace Ursula.GameObjects.View
         private GameObjectAddGameObjectAssetModel _addGameObjectAssetModel;
         private FileDialogTool dialogTool;
 
-        public event EventHandler ButtonAddUserSourceDown_EventHandler;
-        public event EventHandler ButtonCloseDown_EventHandler;
-
         private string modelPath;
         private string destPath;
         private string graphXmlPath;
-        private string iconPath;
+        private string previewImagePath;
 
         List<string> audiosTo = new List<string>();
         List<string> animationsTo = new List<string>();
@@ -108,6 +107,8 @@ namespace Ursula.GameObjects.View
         public override void _Ready()
         {
             base._Ready();
+            dialogTool = new FileDialogTool(GetNode("FileDialog") as FileDialog);
+
             ButtonAddUserSource.ButtonDown += AddGameObjectAssetButton_DownEventHandler;
             ButtonClose.ButtonDown += ButtonClose_DownEventHandler;
             ButtonOpen3DModel.ButtonDown += ButtonOpen3DModel_DownEventHandler;
@@ -128,7 +129,6 @@ namespace Ursula.GameObjects.View
         private async GDTask SubscribeEvent()
         {
             _addGameObjectAssetModel = await _addGameObjectAssetProvider.GetAsync();
-            dialogTool = new FileDialogTool(GetNode("FileDialog") as FileDialog);
             _addGameObjectAssetModel.GameObjectAddAssetToCollection_EventHandler += AddGameObjectAssetModel_GameObjectAddAssetToCollection_EventHandler;
         }
 
@@ -147,11 +147,23 @@ namespace Ursula.GameObjects.View
         {
             Visible = value;
 
-            ClearData();
-            LabelTittle.Text = "Загрузить объект";
-            ButtonAddUserSource.Visible = true;
-            ButtonSaveEditModel.Visible = false;
-            ButtonRemoveModel.Visible = false;
+            bool isEditMode = _addGameObjectAssetModel.IsEditMode;
+
+            if (!isEditMode)
+            {
+                ClearData();
+                LabelTittle.Text = "Загрузить объект";
+            }
+            else
+            {
+                RedrawAll();
+            }
+
+            ButtonAddUserSource.Visible = !isEditMode;
+            ButtonSaveEditModel.Visible = isEditMode;
+            ButtonRemoveModel.Visible = isEditMode;
+
+            
         }
 
         private void ClearData()
@@ -167,6 +179,9 @@ namespace Ursula.GameObjects.View
             TextEditPathAnimation.Text = "";
             TextEditPathSound.Text = "";
             TextEditGraphXmlPath.Text = "";
+
+            previewImagePath = "";
+            TextureRectPreviewImage.Texture = null;
 
             VoxLib.RemoveAllChildren(VBoxContainerSound);
             VoxLib.RemoveAllChildren(VBoxContainerAnimation);
@@ -232,7 +247,6 @@ namespace Ursula.GameObjects.View
 , FileDialog.AccessEnum.Filesystem);
         }
 
-
         void ButtonOpenPathAnimation_DownEventHandler()
         {
             dialogTool.Open(new string[] { "*.glb ; Анимация glb" }, (path) =>
@@ -271,7 +285,7 @@ namespace Ursula.GameObjects.View
             {
                 if (!string.IsNullOrEmpty(path))
                 {
-                    iconPath = path;
+                    previewImagePath = path;
 
                     Image img = new Image();
                     var err = img.Load(path);
@@ -344,7 +358,7 @@ namespace Ursula.GameObjects.View
             }
         }
 
-        void AnimationItem_RemoveEventHandler(string path)
+        private void AnimationItem_RemoveEventHandler(string path)
         {
             animationResources.Remove(path);
             RedrawAnimationsResourses();
@@ -355,6 +369,20 @@ namespace Ursula.GameObjects.View
         private void AddGameObjectAssetModel_GameObjectAddAssetToCollection_EventHandler(object sender, EventArgs e)
         {
             ClearData();
+        }
+
+        private async void RedrawAll()
+        {
+            TextEditModelName.Text = _addGameObjectAssetModel.ModelName;
+
+            TextEditPath3DModel.Text = _addGameObjectAssetModel.template.Sources.Model3dFilePath;
+            TextEditSampleObject.Text = _addGameObjectAssetModel.template.GameObjectSample;
+            TextEditGraphXmlPath.Text = _addGameObjectAssetModel.template.GraphXmlPath;
+
+            TextureRectPreviewImage.Texture = await _addGameObjectAssetModel.assetInfo.GetPreviewImage();
+
+            RedrawSoundResourses();
+            RedrawAnimationsResourses();
         }
     }
 }

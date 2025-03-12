@@ -12,6 +12,7 @@
         public GameObjectAssetInfo Info { get; private set; }
         public object Model3d { get; private set; } // TODO: Replace on a real data type
         public object Texture { get; private set; } // TODO: Replace on a real data type
-        public object PreviewImage { get; private set; }
+        public object PreviewImage => Info.GetPreviewImage();
+
     }
 }

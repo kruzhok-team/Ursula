@@ -1,6 +1,7 @@
 ﻿using Fractural.Tasks;
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
@@ -104,7 +105,8 @@ namespace Ursula.MapManagers.Setters
             float z,
             int state,
             int id,
-            bool isSnapGrid = false
+            bool isSnapGrid = false,
+            string AssetFoderPath = ""
             )
         {
 
@@ -151,6 +153,32 @@ namespace Ursula.MapManagers.Setters
             {
                 _mapManagerModel.SetItemToMap(node, ips);
                 GD.Print($"Create item={assetInfo.Id}, position={node.Position}");
+
+                var obj = node.GetNode("InteractiveObject");
+                var io = obj as InteractiveObject;
+                if (io != null && !string.IsNullOrEmpty(assetInfo.Template.GraphXmlPath))
+                {
+                    io.xmlPath = assetInfo.Template.GraphXmlPath;
+                    if (string.IsNullOrEmpty(AssetFoderPath))
+                    {
+                        io.xmlPath = $"{_gameObjectLibraryManager.GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}/{io.xmlPath}";
+                    }
+                    else
+                    {
+                        io.xmlPath = AssetFoderPath + "/" + assetInfo.Template.GraphXmlPath;
+                    }
+                    io.ReloadAlgorithm();
+                }
+
+                if (io != null && assetInfo.Template.Sources.Audios != null)
+                {
+                    List<string> audios = new List<string>();
+                    for (int j = 0; j < assetInfo.Template.Sources.Audios.Count; j++)
+                    {
+                        audios.Add($"{_gameObjectLibraryManager.GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}/{assetInfo.Template.Sources.Audios[j]}");
+                    }
+                    io.SetAudiosPathes(audios);
+                }
             }
             else
             {

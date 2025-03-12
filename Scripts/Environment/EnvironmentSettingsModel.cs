@@ -12,7 +12,7 @@ namespace Ursula.Environment.Settings
         }
 
         public int ShadowEnabled => (int)(GetConfigFile()?.GetValue("Settings", "ShadowEnabled", 0) ?? 0);
-        public float Sensitivity => (float)(GetConfigFile()?.GetValue("Settings", "MouseSence", 0) ?? 0);
+        public float Sensitivity => (float)(GetConfigFile()?.GetValue("Settings", "MouseSence", 0.5f) ?? 0.5f);
         public string LastMapDirectory => (string)(GetConfigFile()?.GetValue("Settings", "LastMapDirectory", "") ?? "");
         public string LastDirectory => (string)(GetConfigFile()?.GetValue("Settings", "LastDirectory", "") ?? "");
 

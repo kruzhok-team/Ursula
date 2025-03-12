@@ -215,11 +215,11 @@ namespace Ursula.GameObjects.Model
             else if (assetInfo.ProviderId == GameObjectAssetsUserSource.LibId)
             {
                 // :TODO fix build paths
-#if TOOLS
+//#if TOOLS
                 model3dFilePath = $"{GameObjectAssetsUserSource.CollectionPath}{assetInfo.Template.Folder}/{model3dFilePath}";
-#else
-                model3dFilePath = $"{VoxLib.mapManager.GetCurrentProjectFolderPath()}{assetInfo.Template.Folder}/{model3dFilePath}";
-#endif
+//#else
+//                model3dFilePath = $"{VoxLib.mapManager.GetCurrentProjectFolderPath()}{assetInfo.Template.Folder}/{model3dFilePath}";
+//#endif
 
                 prefab = VoxLib.mapAssets.customItemPrefab;             
             }

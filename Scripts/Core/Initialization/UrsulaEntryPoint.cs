@@ -63,7 +63,8 @@ namespace Ursula.Core.Initialization
             InstallSingleton<GameObjectCreateItemsController>(services);
             InstallSingleton<GameObjectCreateItemsModel>(services);
 
-
+            InstallSingleton<GameObjectCurrentInfoModel>(services);
+            
         }
 
         private void InstallSingleton<T>(ServiceCollection services) where T : class 

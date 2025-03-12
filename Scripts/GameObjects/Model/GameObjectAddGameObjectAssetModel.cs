@@ -18,6 +18,8 @@ namespace Ursula.GameObjects.View
             AnimationsFrom = new List<string>();
         }
 
+        public string ModelName { get; private set; }
+
         public string PreviewImageFilePath { get; private set; }
         public string TextureFilePath { get; private set; }
         
@@ -31,6 +33,12 @@ namespace Ursula.GameObjects.View
         public List<string> AnimationsTo { get; set; }
 
         public string GraphXmlPath { get; private set; }
+
+        public GameObjectUserSourceData SetModelName(string value)
+        {
+            ModelName = value;
+            return this;
+        }
 
         public GameObjectUserSourceData SetModelPath(string value)
         {
@@ -77,10 +85,12 @@ namespace Ursula.GameObjects.View
     public partial class GameObjectAddGameObjectAssetModel : IInjectable
     {
         public bool IsGameObjectAddUserSourceVisible { get; private set; } = false;
+        public bool IsEditMode { get; private set; } = false;
 
+        public GameObjectAssetInfo assetInfo;
         public GameObjectTemplate template;
 
-        public string ModelName { get; private set; }
+        public string ModelName => _gameObjectUserSourceData.ModelName;
         public string TextureFilePath => _gameObjectUserSourceData.TextureFilePath;
         public string ModelPath => _gameObjectUserSourceData.ModelPath;
         public string DestPath => _gameObjectUserSourceData.DestPath;
@@ -92,7 +102,6 @@ namespace Ursula.GameObjects.View
         public event EventHandler GameGameObjectAddGameObjectAssetVisible_EventHandler;
         public event EventHandler GameObjectAddAssetToCollection_EventHandler;
 
-        private GameObjectLibraryManager _commonLibrary;
         private GameObjectUserSourceData _gameObjectUserSourceData = new GameObjectUserSourceData();
 
 
@@ -103,7 +112,7 @@ namespace Ursula.GameObjects.View
 
         public GameObjectAddGameObjectAssetModel SetAddGameObjectAssetToCollection(string modelName, string gameObjectGroup, int gameObjectClass, string gameObjectSample)
         {
-            this.ModelName = modelName;
+            SetModelName(modelName);
 
             CopyGameObjectAsset();
 
@@ -111,7 +120,6 @@ namespace Ursula.GameObjects.View
 
             GameObjectAssetSources sources = new GameObjectAssetSources
                 (
-                _gameObjectUserSourceData.PreviewImageFilePath,
                 _gameObjectUserSourceData.TextureFilePath,
                 Path.GetFileName(_gameObjectUserSourceData.ModelPath),
                 _gameObjectUserSourceData.AudiosTo,
@@ -135,11 +143,19 @@ namespace Ursula.GameObjects.View
             return this;
         }
 
-        public GameObjectAddGameObjectAssetModel SetGameObjectAddGameObjectAssetVisible(bool value)
+        public GameObjectAddGameObjectAssetModel SetGameObjectAddGameObjectAssetVisible(bool value, bool isEditMode = false)
         {
             IsGameObjectAddUserSourceVisible = value;
+            this.IsEditMode = isEditMode;
             EventArgs eventArgs = new EventArgs();
             InvokeGameObjectAddUserSourceVisibleEvent(eventArgs);
+            return this;
+        }
+
+        public GameObjectAddGameObjectAssetModel SetModelName(string value)
+        {
+            if (_gameObjectUserSourceData.ModelName == value) return this;
+            _gameObjectUserSourceData.SetModelName(value);
             return this;
         }
 
@@ -195,6 +211,22 @@ namespace Ursula.GameObjects.View
             return this;
         }
 
+        public GameObjectAddGameObjectAssetModel SetEditAsset(GameObjectAssetInfo assetInfo)
+        {
+            this.assetInfo = assetInfo;
+            template = assetInfo.Template;
+
+            SetModelName(assetInfo.Name);
+            SetModelPath(assetInfo.Template.Sources.Model3dFilePath);
+            SetGraphXmlPath(assetInfo.Template.GraphXmlPath);
+            SetPreviewImageFilePath(assetInfo.Template.PreviewImageFilePath);
+            SetDestPath(assetInfo.Template.Folder);
+
+            SetGameObjectAddGameObjectAssetVisible(true, true);
+
+            return this;
+        }
+
         private void CopyGameObjectAsset()
         {
             MapManager.CreateDir(DestPath);
@@ -207,8 +239,11 @@ namespace Ursula.GameObjects.View
             {
                 string pathFrom = _gameObjectUserSourceData.AudiosFrom[i];
                 string pathTo = $"{pathAudio}/{Path.GetFileName(_gameObjectUserSourceData.AudiosFrom[i])}";
-                File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);
-                _gameObjectUserSourceData.AudiosTo.Add($"{MapManager.PATHAUDIO}/{Path.GetFileName(pathTo)}");
+                if (File.Exists(pathFrom))
+                {
+                    File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);
+                    _gameObjectUserSourceData.AudiosTo.Add($"{MapManager.PATHAUDIO}/{Path.GetFileName(pathTo)}");
+                }
             }
 
             _gameObjectUserSourceData.AnimationsTo = new List<string>();
@@ -218,12 +253,20 @@ namespace Ursula.GameObjects.View
             {
                 string pathFrom = _gameObjectUserSourceData.AnimationsFrom[i];
                 string pathTo = $"{pathAnimations}/{Path.GetFileName(_gameObjectUserSourceData.AnimationsFrom[i])}";
-                File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);
-                _gameObjectUserSourceData.AnimationsTo.Add($"{MapManager.PATHANIMATION}/{Path.GetFileName(pathTo)}");
+
+                if (File.Exists(pathFrom))
+                {
+                    File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);
+                    _gameObjectUserSourceData.AnimationsTo.Add($"{MapManager.PATHANIMATION}/{Path.GetFileName(pathTo)}");
+                }
             }
 
-            File.Copy(GraphXmlPathFrom, ProjectSettings.GlobalizePath(GraphXmlPathTo), true);
-            File.Copy(PreviewImageFilePathFrom, ProjectSettings.GlobalizePath(PreviewImageFilePathTo), true);
+            if (File.Exists(GraphXmlPathFrom)) 
+                File.Copy(GraphXmlPathFrom, ProjectSettings.GlobalizePath(GraphXmlPathTo), true);
+
+            if (File.Exists(PreviewImageFilePathFrom)) 
+                File.Copy(PreviewImageFilePathFrom, ProjectSettings.GlobalizePath(PreviewImageFilePathTo), true);
+
         }
 
 

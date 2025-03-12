@@ -126,7 +126,7 @@ public partial class InteractiveObjectDetector : Area3D
                     onAnyObjectsNotDetected.Invoke();
                 break;
             case ScanType.Sound:
-                detectedObject = FindNodeInRadius<InteractiveObjectAudio>(scanRadius, IOAudio => IOAudio.currentAudioName == targetSoundName && IOAudio.isPlaying)?.GetParent();
+                detectedObject = FindNodeInRadius<InteractiveObjectAudio>(scanRadius, IOAudio => IOAudio.currentAudioKey == targetSoundName && IOAudio.isPlaying)?.GetParent();
                 if (detectedObject != null)
                 {
                     //ContextMenu.ShowMessageS($"Модуль сканирования. {onSoundDetected} Выполнен поиск звука по радиусу {scanRadius} -> обнаружен звук {targetSoundName}");

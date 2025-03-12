@@ -15,7 +15,7 @@ namespace Ursula.GameObjects.Model
         private string nameGameObjectGroup { get; set; }
 
         public event EventHandler GameObjectCollectionVisibleChangeEvent;
-        public event EventHandler GameObjectAssetSelected_EventHandler;
+        public event EventHandler GameObjectAssetSelectedEvent;
         public event EventHandler GameObjectDrawCollectionEvent;
 
         void IInjectable.OnDependenciesInjected()
@@ -51,7 +51,7 @@ namespace Ursula.GameObjects.Model
 
         private void InvokeGameObjectAssetSelectedEvent()
         {
-            var handler = GameObjectAssetSelected_EventHandler;
+            var handler = GameObjectAssetSelectedEvent;
             handler?.Invoke(this, EventArgs.Empty);
         }
 

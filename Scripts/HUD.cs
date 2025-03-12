@@ -52,12 +52,6 @@ public partial class HUD : Control, IInjectable
     [Export]
     public Slider SliderPlatoOffsetZ;
 
-    [Export]
-    public Button ButtonShowLibrary;
-
-    [Export]
-    public Button ButtonAddUserSource;
-
     [Inject]
     private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
 
@@ -93,16 +87,11 @@ public partial class HUD : Control, IInjectable
 
         VoxLib.hud = this;
         SettingsGO.Visible = false;
-
-        ButtonShowLibrary.ButtonDown += ShowCommonLibraryButton_DownEventHandler;
-        ButtonAddUserSource.ButtonDown += ShowAddUserSourceUiButton_DownEventHandler;
     }
 
     public override void _ExitTree()
     {
         base._ExitTree();
-        ButtonShowLibrary.ButtonDown -= ShowCommonLibraryButton_DownEventHandler;
-        ButtonAddUserSource.ButtonDown -= ShowAddUserSourceUiButton_DownEventHandler;
     }
 
     public void SetCoordinate(Vector3 coord)
