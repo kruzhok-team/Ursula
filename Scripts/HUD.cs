@@ -61,9 +61,16 @@ public partial class HUD : Control, IInjectable
     [Inject]
     private ISingletonProvider<GameObjectAddGameObjectAssetModel> _gameObjectAddUserSourceViewProvider;
 
+    [Inject]
+    private ISingletonProvider<GameObjectCurrentInfoModel> _GameObjectCurrentInfoModelProvider;
+
+    private GameObjectCurrentInfoModel gameObjectCurrentInfoModel;
+
     private float _defaultSensitivity = 0.5f;
 
     private Vector3 coord;
+
+
 
     void IInjectable.OnDependenciesInjected()
     {
@@ -87,6 +94,14 @@ public partial class HUD : Control, IInjectable
 
         VoxLib.hud = this;
         SettingsGO.Visible = false;
+
+        _ = SubscribeEvent();
+    }
+
+    private async GDTask SubscribeEvent()
+    {
+        gameObjectCurrentInfoModel = await _GameObjectCurrentInfoModelProvider.GetAsync();
+        
     }
 
     public override void _ExitTree()
@@ -142,6 +157,9 @@ public partial class HUD : Control, IInjectable
         ControlPopupMenu.HideAllMenu();
         ControlGamesProjectGO.Visible = true;
         VoxLib.instance.CGP.Instantiate();
+
+        gameObjectCurrentInfoModel.SetAssetInfoView(null, false);
+
     }
 
     public void HideAllControls()
@@ -153,6 +171,8 @@ public partial class HUD : Control, IInjectable
     public void OnCloseControlGameProject()
     {
         ControlGamesProjectGO.Visible = false;
+
+        gameObjectCurrentInfoModel.SetAssetInfoView(null, true);
     }
 
     public void SetSensitivity(float sence)

@@ -19,7 +19,7 @@ namespace Ursula.GameObjects.Model
 
         public string Name { get; }
         public string ProviderId { get; }
-        public GameObjectTemplate Template { get; }
+        public GameObjectTemplate Template { get; set; }
         public string Id => ProviderId + "." + Name;
 
         private Texture2D previewImage;

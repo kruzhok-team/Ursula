@@ -10,6 +10,8 @@ namespace Ursula.GameObjects.View
 {
     public partial class GameObjectCurrentInfoView : Control, IInjectable
     {
+        [Export]
+        PackedScene ItemLibraryObjectPrefab;
 
         [Export]
         TextEdit TextEditModelName;
@@ -24,7 +26,7 @@ namespace Ursula.GameObjects.View
         TextEdit TextEditSampleObject;
 
         [Export]
-        TextEdit TextEditGraphXmlPath;
+        VBoxContainer VBoxContainerGraphXmlPath;
 
         [Export]
         TextureRect TextureRectPreviewImage;
@@ -33,7 +35,7 @@ namespace Ursula.GameObjects.View
         Button ButtonOpenGraphXmlPath;
 
         [Export]
-        Button ButtonEditAsset;
+        Button ButtonEditGraphXmlPath;
 
         public event EventHandler OpenGraphXmlEvent;
         public event EventHandler GameObjectEditAssetEvent;
@@ -42,23 +44,11 @@ namespace Ursula.GameObjects.View
         [Inject]
         private ISingletonProvider<GameObjectCurrentInfoModel> _gameObjectCurrentInfoModelProvider;
 
-        [Inject]
-        private ISingletonProvider<GameObjectLibraryManager> _gameObjectLibraryManagerProvider;
-
-        [Inject]
-        private ISingletonProvider<GameObjectCollectionModel> _gameObjectCollectionModelProvider;
-
-        [Inject]
-        private ISingletonProvider<GameObjectAddGameObjectAssetModel> _gameObjectAddGameObjectAssetModelProvider;
-
         private FileDialogTool dialogTool;
 
         private GameObjectCurrentInfoModel _gameObjectCurrentInfoModel;
-        private GameObjectLibraryManager _gameObjectLibraryManager;
-        private GameObjectCollectionModel _gameObjectCollectionModel;
-        private GameObjectAddGameObjectAssetModel _gameObjectAddGameObjectAssetModel;
 
-        GameObjectAssetInfo currentAssetInfo;
+        private string itemId;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -70,37 +60,38 @@ namespace Ursula.GameObjects.View
             dialogTool = new FileDialogTool(GetNode("FileDialog") as FileDialog);
 
             ButtonOpenGraphXmlPath.ButtonDown += ButtonOpenGraphXmlPath_DownEventHandler;
-            ButtonEditAsset.ButtonDown += ButtonEditAsset_DownEventHandler;
+            ButtonEditGraphXmlPath.ButtonDown += ButtonEditGraphXmlPath_DownEventHandler;
+
+            string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
+            for (int i = 0; i < gameObjectGroups.Length; i++)
+            {
+                OptionButtonGroupObject.AddItem(gameObjectGroups[i]);
+            }
+
+            VoxLib.RemoveAllChildren(VBoxContainerGraphXmlPath);
 
             _ = SubscribeEvent();
         }
 
-
-
-        private GameObjectAssetInfo GetGameObjectAssetInfo(string id)
+        public override void _ExitTree()
         {
-            return _gameObjectLibraryManager.GetItemInfo(id);
+            base._ExitTree();
+            ButtonOpenGraphXmlPath.ButtonDown -= ButtonOpenGraphXmlPath_DownEventHandler;
+            ButtonEditGraphXmlPath.ButtonDown -= ButtonEditGraphXmlPath_DownEventHandler;
+
+            _gameObjectCurrentInfoModel.VisibleCurrentAssetInfoEvent -= VisibleCurrentInfoView_ShowEventHandler;
         }
 
         private async GDTask SubscribeEvent()
         {
             _gameObjectCurrentInfoModel = await _gameObjectCurrentInfoModelProvider.GetAsync();
-            _gameObjectLibraryManager = await _gameObjectLibraryManagerProvider.GetAsync();
-            _gameObjectCollectionModel = await _gameObjectCollectionModelProvider.GetAsync();
-            _gameObjectAddGameObjectAssetModel = await _gameObjectAddGameObjectAssetModelProvider.GetAsync();
 
-            _gameObjectCollectionModel.GameObjectAssetSelectedEvent += GameObjectCollectionModel_GameObjectAssetSelected_EventHandler;
+            _gameObjectCurrentInfoModel.VisibleCurrentAssetInfoEvent += VisibleCurrentInfoView_ShowEventHandler;
         }
 
-        private void GameObjectCollectionModel_GameObjectAssetSelected_EventHandler(object sender, EventArgs e)
+        public async void SetAssetInfoView(GameObjectAssetInfo currentAssetInfo)
         {
-            SetAssetInfoView();
-        }
-
-        private async void SetAssetInfoView()
-        {
-            currentAssetInfo = GetGameObjectAssetInfo(_gameObjectCollectionModel.AssetSelected.Id);
-
+            itemId = currentAssetInfo.Id;
             TextEditModelName.Text = currentAssetInfo.Name;
 
             if (currentAssetInfo.ProviderId == GameObjectAssetsUserSource.LibId)
@@ -113,19 +104,30 @@ namespace Ursula.GameObjects.View
                     TextEditPath3DModel.Text = Path.GetFileName(VoxLib.mapAssets.gameItemsGO[idEmbeddedAsset].ResourcePath);             
             }
 
-            TextEditGraphXmlPath.Text = Path.GetFileName(currentAssetInfo.Template.GraphXmlPath);
+            // GraphXml
+            VoxLib.RemoveAllChildren(VBoxContainerGraphXmlPath);
+            if (!string.IsNullOrEmpty(currentAssetInfo.Template.GraphXmlPath))
+            {
+                Node instance = ItemLibraryObjectPrefab.Instantiate();
+                ItemLibraryObjectData item = instance as ItemLibraryObjectData;
+                if (item != null)
+                {
+                    item.removeEvent += GraphXml_RemoveEventHandler;
+                    item.Invalidate(Path.GetFileName(currentAssetInfo.Template.GraphXmlPath));
+                    VBoxContainerGraphXmlPath.AddChild(instance);
+                }
+            }
 
-            OptionButtonGroupObject.Clear();
-            OptionButtonGroupObject.AddItem(currentAssetInfo.Template.GameObjectGroup);
+            OptionButtonGroupObject.Text = currentAssetInfo.Template.GameObjectGroup;
 
             TextEditSampleObject.Text = currentAssetInfo.Template.GameObjectSample;
 
             TextureRectPreviewImage.Texture = await currentAssetInfo.GetPreviewImage();
         }
 
-        private void ButtonEditAsset_DownEventHandler()
+        private void VisibleCurrentInfoView_ShowEventHandler(object sender, EventArgs e)
         {
-            _gameObjectAddGameObjectAssetModel.SetEditAsset(currentAssetInfo);
+            this.Visible = _gameObjectCurrentInfoModel.isVisibleAssetInfo;
         }
 
         private void ButtonOpenGraphXmlPath_DownEventHandler()
@@ -133,5 +135,16 @@ namespace Ursula.GameObjects.View
 
         }
 
+        private void ButtonEditGraphXmlPath_DownEventHandler()
+        {
+
+        }
+
+        private void GraphXml_RemoveEventHandler(string graphXmlName)
+        {
+            _gameObjectCurrentInfoModel.RemoveGraphXml();
+        }
+
+        
     }
 }

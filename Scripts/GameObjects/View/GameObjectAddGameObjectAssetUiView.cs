@@ -196,6 +196,7 @@ namespace Ursula.GameObjects.View
             string gameObjectGroup = gameObjectGroups[OptionButtonGroupObject.Selected];
             string gameObjectSample = TextEditSampleObject.Text;
 
+            destPath = GameObjectAssetsUserSource.CollectionPath + TextEditModelName.Text + "/";
             model.SetDestPath(destPath);
             model.SetGraphXmlPath(graphXmlPath);
 
@@ -216,11 +217,9 @@ namespace Ursula.GameObjects.View
                 {
                     modelPath = path;
                     TextEditPath3DModel.Text = path;
-                    destPath = GameObjectAssetsUserSource.CollectionPath + Path.GetFileNameWithoutExtension(path) + "/";
 
                     var viewModel = _addGameObjectAssetProvider != null ? await _addGameObjectAssetProvider.GetAsync() : null;
                     viewModel?.SetModelPath(path);
-                    viewModel?.SetDestPath(destPath);
                 }
                 else
                 {

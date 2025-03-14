@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Ursula.Core.DI;
 
-public partial class ControlGamesProject : Control
+public partial class ControlGamesProject : Control, IInjectable
 {
     public static ControlGamesProject instance;
 
@@ -14,6 +15,10 @@ public partial class ControlGamesProject : Control
     public HBoxContainer container;
 
     List<ControlGameItem> gameItems;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
 
     public override void _Ready()
     {

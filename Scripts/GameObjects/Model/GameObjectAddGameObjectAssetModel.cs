@@ -222,7 +222,7 @@ namespace Ursula.GameObjects.View
             SetPreviewImageFilePath(assetInfo.Template.PreviewImageFilePath);
             SetDestPath(assetInfo.Template.Folder);
 
-            SetGameObjectAddGameObjectAssetVisible(true, true);
+            SetGameObjectAddGameObjectAssetVisible(false, true);
 
             return this;
         }
@@ -261,12 +261,17 @@ namespace Ursula.GameObjects.View
                 }
             }
 
-            if (File.Exists(GraphXmlPathFrom)) 
+            if (File.Exists(GraphXmlPathFrom)
+                && GraphXmlPathFrom != ProjectSettings.GlobalizePath(GraphXmlPathTo))
+            {
                 File.Copy(GraphXmlPathFrom, ProjectSettings.GlobalizePath(GraphXmlPathTo), true);
+            }
 
-            if (File.Exists(PreviewImageFilePathFrom)) 
+            if (File.Exists(PreviewImageFilePathFrom)
+                && PreviewImageFilePathFrom != ProjectSettings.GlobalizePath(PreviewImageFilePathTo))
+            {
                 File.Copy(PreviewImageFilePathFrom, ProjectSettings.GlobalizePath(PreviewImageFilePathTo), true);
-
+            }
         }
 
 

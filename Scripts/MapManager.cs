@@ -109,14 +109,14 @@ public partial class MapManager : Node, IInjectable
     [Inject]
     private ISingletonProvider<MapManagerModel> _mapManagerModelProvider;
 
-    //[Inject]
-    //private ISingletonProvider<MapManagerItemSetter> _mapManagerItemSetterProvider;
-
     [Inject]
     private ISingletonProvider<GameObjectLibraryManager> _gameObjectLibraryManagerProvider;
 
     [Inject]
     private ISingletonProvider<GameObjectCreateItemsModel> _gameObjectCreateItemsModelProvider;
+
+    [Inject]
+    private ISingletonProvider<GameObjectCurrentInfoModel> _GameObjectCurrentInfoModelProvider;
 
     public int[] grassItemsID = new int[] { 10, 11, 12, 13, 14, 15, 16, 17, 18 };
 	public int[] treesItemsID = new int[] { 0, 1, 3, 5, 6, 7, 8 };
@@ -168,9 +168,9 @@ public partial class MapManager : Node, IInjectable
     }
 
     private MapManagerModel _mapManagerModel;
-    //private MapManagerItemSetter _mapManagerItemSetter;
     private GameObjectLibraryManager _gameObjectLibraryManager;
     private GameObjectCreateItemsModel _gameObjectCreateItemsModel;
+    private GameObjectCurrentInfoModel _gameObjectCurrentInfoModel;
 
     bool needSaveMap = false;
 	bool usedCustomItemBuild = false;
@@ -495,7 +495,10 @@ public partial class MapManager : Node, IInjectable
 		VoxLib.createTerrain.BakeNavMesh();
 
 		InstancePlayer();
-	}
+
+        _gameObjectCurrentInfoModel.SetAssetInfoView(null, playMode == PlayMode.buildingMode);
+
+    }
 
     public async void PlayGame()
 	{
@@ -522,6 +525,7 @@ public partial class MapManager : Node, IInjectable
         await ToSignal(GetTree().CreateTimer(5.0f), "timeout");
         VoxLib.hud.RunAllObjects();
 
+        _gameObjectCurrentInfoModel.SetAssetInfoView(null, false);
     }
 
     public Camera3D GetPlayerCamera()
@@ -1620,7 +1624,7 @@ public partial class MapManager : Node, IInjectable
         _mapManagerModel = await _mapManagerModelProvider.GetAsync();
         _gameObjectLibraryManager = await _gameObjectLibraryManagerProvider.GetAsync();
         _gameObjectCreateItemsModel = await _gameObjectCreateItemsModelProvider.GetAsync();
-        //_mapManagerItemSetter = await _mapManagerItemSetterProvider.GetAsync();
+        _gameObjectCurrentInfoModel = await _GameObjectCurrentInfoModelProvider.GetAsync();
     }
 
     private List<string> FindImageFiles(string folderPath)

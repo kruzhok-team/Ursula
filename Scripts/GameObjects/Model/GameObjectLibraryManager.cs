@@ -123,8 +123,8 @@ namespace Ursula.GameObjects.Model
                 return;
             if (string.IsNullOrEmpty(itemId))
                 return;
-            if (!_commonAssetMap.ContainsKey(itemId))
-                return;
+            //if (!_commonAssetMap.ContainsKey(itemId))
+            //    return;
 
             if (!TryGetItemProvider(itemId, out var provider))
                 return;
@@ -160,6 +160,11 @@ namespace Ursula.GameObjects.Model
             _commonAssetMap[entry.Id] = entry;
 
             VoxLib.ShowMessage($"Модель {name} добавлена в библиотеку");
+        }
+
+        public void EditItem(IGameObjectAsset asset)
+        {
+
         }
 
         public bool TryGetItem(string itemId, out IGameObjectAsset asset)
@@ -231,6 +236,12 @@ namespace Ursula.GameObjects.Model
             return "";
         }
 
+        public string GetGraphXmlPath(string itemId)
+        {
+            GameObjectAssetInfo assetInfo = GetItemInfo(itemId);
+            return $"{GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}/{assetInfo.Template.GraphXmlPath}";
+        }
+
         private bool TryGetItemProvider(string itemId, out IGameObjectAssetManager provider)
         {
             provider = null;
@@ -266,6 +277,7 @@ namespace Ursula.GameObjects.Model
 
         private async GDTask SaveCommonAssetsInfo()
         {
+            await _embeddedLib.Save();
             await _userLib.Save();
         }
 
@@ -349,6 +361,7 @@ namespace Ursula.GameObjects.Model
             }
             return true;
         }
+
 
     }
 }

@@ -103,7 +103,9 @@ public partial class ModelLoader : Node
     {
         objPath = ProjectSettings.GlobalizePath(objPath);
         string destObjPath = ProjectSettings.GlobalizePath(destPath + Path.GetFileName(objPath));
-        
+
+        if (objPath == destObjPath) return;
+
         File.Copy(objPath, destObjPath, true);
 
         if (!objPath.Contains(".glb"))

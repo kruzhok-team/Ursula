@@ -20,7 +20,9 @@ offset_top = -13.0
 offset_right = 311.0
 offset_bottom = 13.0
 grow_vertical = 2
+theme_override_font_sizes/font_size = 10
 text = "Sound.mp3"
+vertical_alignment = 1
 
 [node name="ButtonRemove" type="Button" parent="."]
 clip_contents = true
@@ -46,10 +48,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -14.0
-offset_right = 14.0
-offset_bottom = 14.0
+offset_left = -10.5
+offset_top = -9.5
+offset_right = 9.5
+offset_bottom = 9.5
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_rq0ax")
