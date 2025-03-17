@@ -243,7 +243,7 @@ public partial class HUD : Control, IInjectable
         if (itemPropS != null)
         {
             name = (parent != null) ? parent.Name : collider.Name;
-            info = $"Имя={name}, Координаты: x={(int)itemPropS.x} y={(int)itemPropS.z} z={(int)itemPropS.y}";
+            info = $"Имя={name}, Координаты: x={(int)itemPropS.x} y={(int)itemPropS.z} z={(int)itemPropS.y}, Шаблон={itemPropS.GameObjectSample}";
         }
         else
         {

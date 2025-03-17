@@ -221,7 +221,13 @@ namespace Ursula.GameObjects.Model
 //                model3dFilePath = $"{VoxLib.mapManager.GetCurrentProjectFolderPath()}{assetInfo.Template.Folder}/{model3dFilePath}";
 //#endif
 
-                prefab = VoxLib.mapAssets.customItemPrefab;             
+                if (assetInfo.Template.GameObjectClass == 1)
+                    prefab = VoxLib.mapAssets.customObjectPrefab;
+                else if (assetInfo.Template.GameObjectClass == 2)
+                    prefab = VoxLib.mapAssets.customPlatformPrefab;
+                else
+                    prefab = VoxLib.mapAssets.customItemPrefab;   
+                
             }
 
             if (prefab == null) return null;
@@ -231,13 +237,27 @@ namespace Ursula.GameObjects.Model
 
             if (assetInfo.ProviderId == GameObjectAssetsUserSource.LibId)
             {
-                var customItem = instance.GetNodeOrNull("CustomItemScript");
-                if (customItem == null) customItem = instance.GetParent().FindChild("CustomItemScript", true, true);
-                var ci = customItem as CustomItem;
-                if (ci != null)
+                if (assetInfo.Template.GameObjectClass == 1)
                 {
-                    ci.objPath = model3dFilePath;
-                    ci.InitModel();
+                    var custom = instance.GetNodeOrNull("CustomObjectScript");
+                    if (custom == null) custom = instance.GetParent().FindChild("CustomObjectScript", true, true);
+                    var co = custom as CustomObject;
+                    if (co != null)
+                    {
+                        co.objPath = model3dFilePath;
+                        co.InitModel();
+                    }
+                }
+                else
+                {
+                    var customItem = instance.GetNodeOrNull("CustomItemScript");
+                    if (customItem == null) customItem = instance.GetParent().FindChild("CustomItemScript", true, true);
+                    var ci = customItem as CustomItem;
+                    if (ci != null)
+                    {
+                        ci.objPath = model3dFilePath;
+                        ci.InitModel();
+                    }
                 }
             }
 

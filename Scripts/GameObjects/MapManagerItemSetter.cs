@@ -140,6 +140,8 @@ namespace Ursula.MapManagers.Setters
             if (ips != null)
             {
                 ips.AssetInfoId = assetInfo.Id;
+                ips.GameObjectSample = assetInfo.Template.GameObjectSample;
+                ips.GameObjectSampleHash = assetInfo.Template.GameObjectSample.GetHashCode();
                 ips.id = id;
                 ips.type = 0;
                 ips.positionY = newPos.Y;

@@ -135,7 +135,7 @@ public partial class MapManager : Node, IInjectable
 	public VoxTypesGrid voxTypes;
 	public VoxDataGrid voxData;
 
-    public List<ItemPropsScript> gameItems;
+    public List<ItemPropsScript> gameItems { get { return _mapManagerModel._mapManagerData.gameItems; } }
 
     public Node3D itemsGO;
 
@@ -402,8 +402,8 @@ public partial class MapManager : Node, IInjectable
 	{
         if (VoxLib.mapManager != this) return;
 
-        gameItems = new List<ItemPropsScript>();
-        VoxLib.RemoveAllChildren(itemsGO);
+        //gameItems = new List<ItemPropsScript>();
+        //VoxLib.RemoveAllChildren(itemsGO);
 
         _mapManagerModel.RemoveAllGameItems();
 
@@ -463,7 +463,7 @@ public partial class MapManager : Node, IInjectable
 			CreateMode.Select(0);
 		}
 
-		gameItems = new List<ItemPropsScript>();
+		//gameItems = new List<ItemPropsScript>();
 
         LoadCustomItems();
     }
@@ -829,45 +829,6 @@ public partial class MapManager : Node, IInjectable
         }
     }
 
-    public void Building(Node collider, Vector3 position)
-	{
-        if (LogScript.isLogEntered) return;
-
-        int idMode = 0;
-		int[] ids = CreateMode.GetSelectedItems();
-		for (int i = 0; i < ids.Length; i++)
-		{
-			idMode = ids[i];
-		}
-
-
-		int numItem = IdItemOption.GetSelectedId();
-		if (usedCustomItemBuild) numItem = IdItemOptionCustom.GetSelectedId();
-
-		bool isCustomItem = numItem >= CUSTOM_ITEM_INDEX_OFFSET;
-
-		int x = Mathf.RoundToInt(position.X);
-		int y = Mathf.RoundToInt(position.Y);
-		int z = Mathf.RoundToInt(position.Z);
-		if (_voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
-		{
-			int id = x + z * 256 + y * 256 * 256;
-			Node item = CreateGameItem(numItem, tempRotation, tempScale, position.X, position.Y, position.Z, 0, id);
-
-			var custom = item.GetNodeOrNull("CustomObjectScript");
-			if (custom == null) custom = item.GetParent().FindChild("CustomObjectScript", true, true);
-			var co = custom as CustomObject;
-			if (co != null)
-			{
-				co.LoadNewModel();
-			}
-
-			InitCustomItem(item, numItem);
-		}
-	}
-
-    
-
     public void DeleteItem(Node item)
 	{
 		Node3D parentNode = item.GetParentOrNull<Node3D>();
@@ -992,7 +953,7 @@ public partial class MapManager : Node, IInjectable
 	{
         //List<String> mapData = new List<string>();
 
-        int version = 0x0A01;
+        int version = 0x0A02;
 		//mapData.Add(version.ToString());
 		//mapData.Add(skybox.ToString());
 
@@ -1205,6 +1166,8 @@ public partial class MapManager : Node, IInjectable
 
         if (mapData == null) return;
 
+        int version = 0x0A01;
+        if (mapData.ContainsKey("version")) version = int.Parse(mapData["version"]);
 
         bool isImport = mapData.ContainsKey("ImportName");
 

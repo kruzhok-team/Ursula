@@ -189,6 +189,18 @@ namespace Ursula.GameObjects.View
 
         async void AddGameObjectAssetButton_DownEventHandler()
         {
+            if (TextEditModelName.Text.Length <= 0)
+            {
+                VoxLib.ShowMessage("Нет названия.");
+                return;
+            }
+
+            if (TextEditPath3DModel.Text.Length <= 0)
+            {
+                VoxLib.ShowMessage("Нет файла модели.");
+                return;
+            }
+
             ControlPopupMenu.instance._HideAllMenu();
             var model = _addGameObjectAssetProvider != null ? await _addGameObjectAssetProvider.GetAsync() : null;
 
@@ -199,6 +211,7 @@ namespace Ursula.GameObjects.View
             destPath = GameObjectAssetsUserSource.CollectionPath + TextEditModelName.Text + "/";
             model.SetDestPath(destPath);
             model.SetGraphXmlPath(graphXmlPath);
+            model.Provider = GameObjectAssetsUserSource.LibId;
 
             model.SetAddGameObjectAssetToCollection(TextEditModelName.Text, gameObjectGroup, OptionButtonClassObject.Selected, gameObjectSample);
         }

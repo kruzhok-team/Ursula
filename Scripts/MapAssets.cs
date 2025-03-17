@@ -54,6 +54,12 @@ namespace VoxLibExample
         public PackedScene customItemPrefab;
 
         [Export]
+        public PackedScene customObjectPrefab;
+
+        [Export]
+        public PackedScene customPlatformPrefab;
+
+        [Export]
         public PackedScene InteractiveObjectDetectorPrefab;
         [Export]
         public PackedScene InteractiveObjectAudioPrefab;

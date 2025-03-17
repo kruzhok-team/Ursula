@@ -5,6 +5,8 @@ using System;
 public partial class ItemPropsScript : ItemBase
 {
     public string AssetInfoId { get; set; }
+    public string GameObjectSample { get; set; }
+    public int GameObjectSampleHash { get; set; }
 
     public int id;
 	public int type;
@@ -22,6 +24,8 @@ public partial class ItemPropsScript : ItemBase
     public InteractiveObject IO;
 
     float _scale = 1;
+
+
 
     public float scale
 	{

@@ -140,7 +140,7 @@ public partial class PlayerScript : CharacterBody3D, IInjectable
 
 
 
-    public override async void _Process(double delta)
+    public override void _Process(double delta)
     {
         isNeedUse = false;
 
@@ -154,8 +154,7 @@ public partial class PlayerScript : CharacterBody3D, IInjectable
 
                 if (isVivibleInfo)
                 {
-                    //VoxLib.hud.SetInfo(HUD.GetCordsInfo(collider, pos, ips, parent));
-                    await SetHudInfo(HUD.GetCordsInfo(collider, pos, ips, parent));
+                    VoxLib.hud.SetInfo(HUD.GetCordsInfo(collider, pos, ips, parent));
                 }
 
                 if (ips != null && !isVivibleInfo)
@@ -163,8 +162,7 @@ public partial class PlayerScript : CharacterBody3D, IInjectable
                     isNeedUse = true;
 
                     string info = $"Нажмите Е для взаимодействия";
-                    //VoxLib.hud.SetInfo(info);
-                    await SetHudInfo(info);
+                    VoxLib.hud.SetInfo(info);
 
                     if (isUsed)
                     {

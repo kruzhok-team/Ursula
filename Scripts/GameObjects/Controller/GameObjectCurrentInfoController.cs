@@ -21,9 +21,13 @@ namespace Ursula.GameObjects.Controller
         [Inject]
         private ISingletonProvider<GameObjectCollectionModel> _gameObjectCollectionModelProvider;
 
+        [Inject]
+        private ISingletonProvider<GameObjectAddGameObjectAssetModel> _AddGameObjectAssetProvider;
+
         private GameObjectCurrentInfoModel _gameObjectCurrentInfoModel;
         private GameObjectLibraryManager _gameObjectLibraryManager;
         private GameObjectCollectionModel _gameObjectCollectionModel;
+        private GameObjectAddGameObjectAssetModel _AddGameObjectAssetModel;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -40,8 +44,10 @@ namespace Ursula.GameObjects.Controller
             _gameObjectCurrentInfoModel = await _gameObjectCurrentInfoModelProvider.GetAsync();
             _gameObjectLibraryManager = await _gameObjectLibraryManagerProvider.GetAsync();
             _gameObjectCollectionModel = await _gameObjectCollectionModelProvider.GetAsync();
+            _AddGameObjectAssetModel = await _AddGameObjectAssetProvider.GetAsync();
 
-            _gameObjectCollectionModel.GameObjectAssetSelectedEvent += GameObjectCollectionModel_GameObjectAssetSelected_EventHandler;
+            _gameObjectCollectionModel.GameObjectAssetSelectedEvent += GameObjectCollectionModel_GameObjectAssetSelected_EventHandler;           
+            _AddGameObjectAssetModel.GameObjectAddAssetToCollection_EventHandler += AddGameObjectAssetModel_GameObjectAddAssetToCollection_EventHandler;
         }
 
         public void RemoveGraphXml(string path)
@@ -55,9 +61,13 @@ namespace Ursula.GameObjects.Controller
             GameObjectCurrentInfoView.SetAssetInfoView(_gameObjectCollectionModel.AssetSelected);
         }
 
-        private GameObjectAssetInfo GetGameObjectAssetInfo(string id)
+
+        private void AddGameObjectAssetModel_GameObjectAddAssetToCollection_EventHandler(object sender, EventArgs e)
         {
-            return _gameObjectLibraryManager.GetItemInfo(id);
+            if (_gameObjectCurrentInfoModel.currentAssetInfo != null && _gameObjectCurrentInfoModel.currentAssetInfo.Id == _gameObjectCollectionModel.AssetSelected.Id)
+            {
+                GameObjectCurrentInfoView.SetAssetInfoView(_gameObjectCollectionModel.AssetSelected);
+            }
         }
     }
 }

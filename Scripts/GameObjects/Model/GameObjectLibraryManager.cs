@@ -242,6 +242,12 @@ namespace Ursula.GameObjects.Model
             return $"{GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}/{assetInfo.Template.GraphXmlPath}";
         }
 
+        public string GetFullPath(string itemId, string relativePath)
+        {
+            GameObjectAssetInfo assetInfo = GetItemInfo(itemId);
+            return $"{GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}/{relativePath}";
+        }
+
         private bool TryGetItemProvider(string itemId, out IGameObjectAssetManager provider)
         {
             provider = null;

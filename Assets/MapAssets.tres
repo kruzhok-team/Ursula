@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=116 format=3 uid="uid://dl6jsq7htq75q"]
+[gd_resource type="Resource" load_steps=117 format=3 uid="uid://dl6jsq7htq75q"]
 
 [ext_resource type="Material" uid="uid://cwhi82msh22nm" path="res://addons/Ursula/Shaders/IceMat.tres" id="1_28w3s"]
 [ext_resource type="Material" uid="uid://dkyhs6sd6eroy" path="res://addons/Ursula/Shaders/LavaMat.tres" id="2_s2j7q"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://bx22jh3q31hks" path="res://addons/Ursula/Assets/Prefabs/CustomItem/CustomItem.tscn" id="8_012dk"]
 [ext_resource type="Material" uid="uid://dur4cdkwtsjl6" path="res://addons/Ursula/Shaders/WaterMatPlane.tres" id="9_c68dq"]
 [ext_resource type="PackedScene" uid="uid://lb7n46lr378y" path="res://addons/Ursula/Assets/Models/Trees/palm_1/Palm 1.tscn" id="16_skoeo"]
+[ext_resource type="PackedScene" uid="uid://sh4cs5qv1h3i" path="res://addons/Ursula/Assets/Prefabs/CustomItem/CustomPlatform.tscn" id="17_d1f66"]
 [ext_resource type="PackedScene" uid="uid://mt8efaq6wfgv" path="res://addons/Ursula/Assets/Models/Trees/palm_2/Palm 2.tscn" id="17_rufk6"]
 [ext_resource type="PackedScene" uid="uid://brnesfnsjfbxk" path="res://addons/Ursula/Assets/Models/Trees/palm_3/Palm 3.tscn" id="18_o63si"]
 [ext_resource type="PackedScene" uid="uid://bpqjhmsk7wysk" path="res://addons/Ursula/Assets/Models/Trees/palm_4/Palm 4.tscn" id="19_x0etp"]
@@ -134,6 +135,8 @@ SwampMat = ExtResource("3_bh46y")
 WaterMatPlane = ExtResource("9_c68dq")
 LavaMatPlane = ExtResource("3_wymj1")
 customItemPrefab = ExtResource("8_012dk")
+customObjectPrefab = ExtResource("32_pqmb4")
+customPlatformPrefab = ExtResource("17_d1f66")
 InteractiveObjectDetectorPrefab = ExtResource("4_yghhw")
 InteractiveObjectAudioPrefab = ExtResource("2_vjjcw")
 InteractiveObjectMovePrefab = ExtResource("5_f2opi")

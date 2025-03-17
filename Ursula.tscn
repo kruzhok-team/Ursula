@@ -2777,13 +2777,11 @@ IndicatorCollectionVisible = NodePath("../../../Controls/ControlBuild/Panel/Cont
 [node name="GameObjectCurrentInfoManager" type="Node" parent="GameObjectCollection"]
 script = ExtResource("48_s74f1")
 
-[node name="GameObjectCurrentInfoController" type="Node" parent="GameObjectCollection/GameObjectCurrentInfoManager" node_paths=PackedStringArray("GameObjectCurrentInfoView", "IndicatorCurrentInfoVisible")]
+[node name="GameObjectCurrentInfoController" type="Node" parent="GameObjectCollection/GameObjectCurrentInfoManager" node_paths=PackedStringArray("GameObjectCurrentInfoView")]
 script = ExtResource("48_ggc47")
 GameObjectCurrentInfoView = NodePath("../GameObjectCurrentInfoView")
-IndicatorCurrentInfoVisible = NodePath("../../../Controls/ControlBuild")
 
-[node name="GameObjectCurrentInfoView" type="Control" parent="GameObjectCollection/GameObjectCurrentInfoManager" node_paths=PackedStringArray("TextEditModelName", "TextEditPath3DModel", "OptionButtonGroupObject", "TextEditSampleObject", "VBoxContainerGraphXmlPath", "TextureRectPreviewImage", "ButtonOpenGraphXmlPath", "ButtonEditGraphXmlPath")]
-visible = false
+[node name="GameObjectCurrentInfoView" type="Control" parent="GameObjectCollection/GameObjectCurrentInfoManager" node_paths=PackedStringArray("TextEditModelName", "TextEditPath3DModel", "ButtonOpenPath3DModel", "OptionButtonGroupObject", "TextEditSampleObject", "VBoxContainerGraphXmlPath", "TextureRectPreviewImage", "ButtonOpenPreviewImage", "ButtonOpenGraphXmlPath", "ButtonEditGraphXmlPath", "ButtonOpenAudioPath", "VBoxContainerAudios", "ButtonOpenAnimationPath", "VBoxContainerAnimation", "ButtonDeleteAsset")]
 layout_mode = 3
 anchors_preset = 11
 anchor_left = 1.0
@@ -2798,12 +2796,19 @@ script = ExtResource("48_c1rw7")
 ItemLibraryObjectPrefab = ExtResource("36_jw1t7")
 TextEditModelName = NodePath("Panel/ScrollContainer/VBoxContainer/TextEditName")
 TextEditPath3DModel = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel/TextEditPath3DModel")
+ButtonOpenPath3DModel = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel/ButtonOpenPath3DModel")
 OptionButtonGroupObject = NodePath("Panel/ScrollContainer/VBoxContainer/OptionButtonGroupObject")
 TextEditSampleObject = NodePath("Panel/ScrollContainer/VBoxContainer/TextEditSampleObject")
 VBoxContainerGraphXmlPath = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXml/VBoxContainerGraphXml")
 TextureRectPreviewImage = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/TextureRectPreview")
+ButtonOpenPreviewImage = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/ButtonOpenPreviewImage")
 ButtonOpenGraphXmlPath = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXml/ButtonOpenGraphXml")
 ButtonEditGraphXmlPath = NodePath("Panel/ScrollContainer/VBoxContainer/ButtonEditGraph")
+ButtonOpenAudioPath = NodePath("Panel/ScrollContainer/VBoxContainer/LebelAudios/ButtonOpenAudioPath")
+VBoxContainerAudios = NodePath("Panel/ScrollContainer/VBoxContainer/VBoxContainerAudios")
+ButtonOpenAnimationPath = NodePath("Panel/ScrollContainer/VBoxContainer/LebelAnimation/ButtonOpenAnimationPath")
+VBoxContainerAnimation = NodePath("Panel/ScrollContainer/VBoxContainer/VBoxContainerAnimations")
+ButtonDeleteAsset = NodePath("Panel/ScrollContainer/VBoxContainer/ButtonDeleteAsset")
 
 [node name="Panel" type="Panel" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView"]
 layout_mode = 1
@@ -2897,7 +2902,7 @@ offset_bottom = 30.0
 grow_vertical = 2
 expand_mode = 1
 
-[node name="Button" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage"]
+[node name="ButtonOpenPreviewImage" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage"]
 custom_minimum_size = Vector2(70, 30)
 layout_mode = 1
 anchors_preset = 6
@@ -2938,7 +2943,7 @@ theme_override_font_sizes/font_size = 10
 text = "model.fbx"
 editable = false
 
-[node name="Button" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel"]
+[node name="ButtonOpenPath3DModel" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel"]
 custom_minimum_size = Vector2(70, 30)
 layout_mode = 1
 anchors_preset = 6
@@ -3043,16 +3048,127 @@ layout_mode = 2
 text = "Редактировать граф"
 icon = ExtResource("42_ygxxe")
 
+[node name="LebelAudios" type="ReferenceRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextureRectPreview" type="TextureRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAudios"]
+visible = false
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 14.0
+offset_bottom = 7.0
+grow_vertical = 2
+texture = ExtResource("51_fojbo")
+expand_mode = 1
+
+[node name="LabelGraph" type="Label" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAudios"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 127.0
+offset_bottom = 7.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "Аудио:"
+
+[node name="ButtonOpenAudioPath" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAudios"]
+custom_minimum_size = Vector2(70, 30)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -15.0
+offset_bottom = 15.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("18_c37xe")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Загрузить"
+icon = ExtResource("42_ygxxe")
+
+[node name="VBoxContainerAudios" type="VBoxContainer" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemLibraryObjectDataPrefab" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/VBoxContainerAudios" instance=ExtResource("36_jw1t7")]
+layout_mode = 2
+
+[node name="LebelAnimation" type="ReferenceRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextureRectPreview" type="TextureRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAnimation"]
+visible = false
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 14.0
+offset_bottom = 7.0
+grow_vertical = 2
+texture = ExtResource("51_fojbo")
+expand_mode = 1
+
+[node name="LabelGraph" type="Label" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAnimation"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 127.0
+offset_bottom = 7.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "Анимация:"
+
+[node name="ButtonOpenAnimationPath" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAnimation"]
+custom_minimum_size = Vector2(70, 30)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -15.0
+offset_bottom = 15.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("18_c37xe")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Загрузить"
+icon = ExtResource("42_ygxxe")
+
+[node name="VBoxContainerAnimations" type="VBoxContainer" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemLibraryObjectDataPrefab" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/VBoxContainerAnimations" instance=ExtResource("36_jw1t7")]
+layout_mode = 2
+
 [node name="PanelDelimiter" type="Panel" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="ButtonEditAsset" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
-visible = false
+[node name="ButtonDeleteAsset" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-text = "Редактировать объект"
+text = "Удалить объект"
 
 [node name="FileDialog" type="FileDialog" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView"]
 auto_translate_mode = 1
