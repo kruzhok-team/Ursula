@@ -12,9 +12,9 @@ public partial class CustomItem : Node
         InitModel();
     }
 
-    public async void InitModel()
+    public void InitModel()
     {
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        //await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
         if (modelInstance != null)
             modelInstance.QueueFree();

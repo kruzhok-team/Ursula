@@ -159,7 +159,7 @@ namespace Ursula.GameObjects.Model
             var entry = new CommonGameObjectLibraryItem(name, _userLib.Id);
             _commonAssetMap[entry.Id] = entry;
 
-            VoxLib.ShowMessage($"Модель {name} добавлена в библиотеку");
+            //VoxLib.ShowMessage($"Модель {name} добавлена в библиотеку");
         }
 
         public void EditItem(IGameObjectAsset asset)

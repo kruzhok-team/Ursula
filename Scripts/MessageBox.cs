@@ -26,7 +26,7 @@ public partial class MessageBox : Control
     {
         if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.Pressed)
         {
-            HideMessage(0);
+            if (this.Visible) HideMessage(0);
         }
     }
 

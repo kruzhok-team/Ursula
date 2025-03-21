@@ -1,0 +1,6 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://dyq85c5w0hltk"]
+
+[ext_resource type="Texture2D" uid="uid://d3v71ojf8eaac" path="res://addons/Ursula/Assets/Themes/Line 232.png" id="1_tnapx"]
+
+[resource]
+texture = ExtResource("1_tnapx")

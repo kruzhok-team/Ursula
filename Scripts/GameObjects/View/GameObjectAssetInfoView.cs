@@ -18,6 +18,9 @@ namespace Ursula.GameObjects.View
         [Export]
         TextureRect PreviewImageRect;
 
+        [Export]
+        TextureRect LoadObjectImageRect;
+
         public Action<GameObjectAssetInfo> clickItemEvent = null;
 
         GameObjectAssetInfo _gameObjectAssetInfo;
@@ -37,13 +40,22 @@ namespace Ursula.GameObjects.View
         public async void Invalidate(GameObjectAssetInfo assetInfo)
         {
             PreviewImageRect.Visible = false;
+            if (assetInfo != null)
+            {
+                _gameObjectAssetInfo = assetInfo;
+                LabelNameAsset.Text = assetInfo.Name;
 
-            _gameObjectAssetInfo = assetInfo;
-            LabelNameAsset.Text = assetInfo.Name;
+                PreviewImageRect.Texture = await assetInfo.GetPreviewImage();
 
-            PreviewImageRect.Texture = await assetInfo.GetPreviewImage();
+                PreviewImageRect.Visible = PreviewImageRect.Texture != null;
 
-            PreviewImageRect.Visible = PreviewImageRect.Texture != null;
+                LoadObjectImageRect.Visible = false;
+            }
+            else
+            {
+                LabelNameAsset.Visible = false;
+                LoadObjectImageRect.Visible = true;
+            }
         }
 
         async GDTask LoadPreviewImage(string path)

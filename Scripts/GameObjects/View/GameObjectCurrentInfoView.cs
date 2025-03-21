@@ -8,6 +8,7 @@ using Ursula.GameObjects.Controller;
 using Ursula.GameObjects.Model;
 using VoxLibExample;
 
+
 namespace Ursula.GameObjects.View
 {
     public partial class GameObjectCurrentInfoView : Control, IInjectable
@@ -29,6 +30,9 @@ namespace Ursula.GameObjects.View
 
         [Export]
         TextEdit TextEditSampleObject;
+
+        [Export]
+        Button ButtonCopySampleObject;
 
         [Export]
         VBoxContainer VBoxContainerGraphXmlPath;
@@ -108,6 +112,11 @@ namespace Ursula.GameObjects.View
             ButtonOpenGraphXmlPath.ButtonDown += ButtonOpenGraphXmlPath_DownEventHandler;
             ButtonEditGraphXmlPath.ButtonDown += ButtonEditGraphXmlPath_DownEventHandler;
             ButtonDeleteAsset.ButtonDown += ButtonDeleteAsset_DownEventHandler;
+            ButtonOpenPath3DModel.ButtonDown += ButtonOpenPath3DModel_DownEventHandler;
+            ButtonOpenAudioPath.ButtonDown += ButtonOpenAudioPath_DownEventHandler;
+            ButtonOpenAnimationPath.ButtonDown += ButtonOpenAnimationPath_DownEventHandler;
+
+            ButtonCopySampleObject.ButtonDown += ButtonCopySampleObject_DownEventHandler;
 
             string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
             for (int i = 0; i < gameObjectGroups.Length; i++)
@@ -302,6 +311,26 @@ namespace Ursula.GameObjects.View
             this.Visible = _gameObjectCurrentInfoModel.isVisibleAssetInfo;
         }
 
+        private void ButtonOpenPath3DModel_DownEventHandler()
+        {
+            ModelLoader.OpenObj(async (path, mesh) =>
+            {
+                if (mesh != null)
+                {
+                    DeleteFile(_gameObjectCollectionModel.AssetSelected.Id, _gameObjectCollectionModel.AssetSelected.Template.Sources.Model3dFilePath);
+
+                    _gameObjectAddGameObjectAssetModel?.SetModelPath(path);
+                    _gameObjectAddGameObjectAssetModel?.SetCurrentAssetToCollection();
+
+                    RepaintSelectedAsset();
+                }
+                else
+                {
+                    GD.PrintErr($"Ошибка модели {path}");
+                }
+            });
+        }
+
         private void ButtonOpenGraphXmlPath_DownEventHandler()
         {
             dialogTool.Open(new string[] { "*.graphml ; Граф graphml" }, (path) =>
@@ -310,8 +339,8 @@ namespace Ursula.GameObjects.View
                 {
                     DeleteFile(_gameObjectCollectionModel.AssetSelected.Id, _gameObjectCollectionModel.AssetSelected.Template.GraphXmlPath);
 
-                    _gameObjectAddGameObjectAssetModel.SetGraphXmlPath(path);
-                    _gameObjectAddGameObjectAssetModel.SetCurrentAssetToCollection();
+                    _gameObjectAddGameObjectAssetModel?.SetGraphXmlPath(path);
+                    _gameObjectAddGameObjectAssetModel?.SetCurrentAssetToCollection();
 
                     RepaintSelectedAsset();
                 }
@@ -321,9 +350,48 @@ namespace Ursula.GameObjects.View
 , FileDialog.AccessEnum.Filesystem);
         }
 
+        private void ButtonOpenAudioPath_DownEventHandler()
+        {
+            dialogTool.Open(new string[] { "*.mp3 ; mp3", "*.ogg ; ogg", "*.aac ; aac" }, (path) =>
+            {
+                if (!string.IsNullOrEmpty(path))
+                {
+                    _gameObjectAddGameObjectAssetModel?.AddSoundResources(path);
+                    _gameObjectAddGameObjectAssetModel?.SetCurrentAssetToCollection();
+
+                    RepaintSelectedAsset();
+                }
+                else
+                    GD.PrintErr($"Ошибка открытия звука {path}");
+            }
+, FileDialog.AccessEnum.Filesystem);
+        }
+
+        private void ButtonOpenAnimationPath_DownEventHandler()
+        {
+            dialogTool.Open(new string[] { "*.glb ; Анимация glb" }, (path) =>
+            {
+                if (!string.IsNullOrEmpty(path))
+                {
+                    _gameObjectAddGameObjectAssetModel?.AddAnimationResources(path);
+                    _gameObjectAddGameObjectAssetModel?.SetCurrentAssetToCollection();
+
+                    RepaintSelectedAsset();
+                }
+                else
+                    GD.PrintErr($"Ошибка  открытия анимации {path}");
+            }
+, FileDialog.AccessEnum.Filesystem);
+        }
+
         private void ButtonEditGraphXmlPath_DownEventHandler()
         {
 
+        }
+
+        private void ButtonCopySampleObject_DownEventHandler()
+        {
+            DisplayServer.ClipboardSet(TextEditSampleObject.Text);
         }
 
         private void GraphXml_RemoveEventHandler(string graphXmlName)

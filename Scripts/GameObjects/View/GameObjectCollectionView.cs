@@ -45,6 +45,7 @@ namespace Ursula.GameObjects.View
             GameObjectAssetInfoView itemAdd = nodeAdd as GameObjectAssetInfoView;
 
             itemAdd.clickItemEvent += ClickItem_AddAssetEventHandler;
+            itemAdd.Invalidate(null);
 
             GridContainerCollectionView.AddChild(nodeAdd);
 

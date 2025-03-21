@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://ccpqmgm2c1jtt"]
+[gd_scene load_steps=6 format=3 uid="uid://ccpqmgm2c1jtt"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAssetInfoView.cs" id="1_0agk0"]
 [ext_resource type="Texture2D" uid="uid://c07i448r3l1c0" path="res://addons/Ursula/Assets/Textures/UI/NewGame.png" id="2_1d433"]
+[ext_resource type="Texture2D" uid="uid://dsv331ol4chmh" path="res://addons/Ursula/Assets/Themes/AssetBG.png" id="2_kunws"]
+[ext_resource type="StyleBox" uid="uid://dqqcv0g4ml2fl" path="res://addons/Ursula/Assets/Themes/TextEdit.tres" id="2_nugwy"]
+[ext_resource type="Texture2D" uid="uid://blshedacnfxq" path="res://addons/Ursula/Assets/Themes/Load.png" id="5_uoflf"]
 
-[node name="GameObjectAssetInfoViewPrefab" type="Control" node_paths=PackedStringArray("LabelNameAsset", "ButtonClickAsset", "PreviewImageRect")]
+[node name="GameObjectAssetInfoViewPrefab" type="Control" node_paths=PackedStringArray("LabelNameAsset", "ButtonClickAsset", "PreviewImageRect", "LoadObjectImageRect")]
 custom_minimum_size = Vector2(120, 140)
 layout_mode = 3
 anchors_preset = 0
@@ -11,8 +14,9 @@ script = ExtResource("1_0agk0")
 LabelNameAsset = NodePath("Label")
 ButtonClickAsset = NodePath("Button")
 PreviewImageRect = NodePath("Icon")
+LoadObjectImageRect = NodePath("Load")
 
-[node name="Button" type="Button" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,6 +24,21 @@ anchor_bottom = 1.0
 offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("2_kunws")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = ExtResource("2_nugwy")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -49,3 +68,36 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("2_1d433")
 expand_mode = 1
+
+[node name="Load" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 45.0
+offset_top = 25.0
+offset_right = -49.0
+offset_bottom = -81.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_uoflf")
+expand_mode = 1
+
+[node name="Label2" type="Label" parent="Load"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -27.0
+offset_top = 3.0
+offset_right = 30.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 10
+text = "Загрузить
+объект"
+horizontal_alignment = 1
+clip_text = true

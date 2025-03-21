@@ -38,7 +38,7 @@ public partial class GameObjectCreateItemsController : Node3D, IInjectable
 	{
 		if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.Pressed)
 		{
-            if (Raycaster.Hit(_camera, eventMouseButton.Position, out Node collider, out Vector3 pos))
+            if (Raycaster.Hit(_camera, eventMouseButton.Position, out Node collider, out Vector3 pos, true))
 			{
 				string name = collider.Name;
                 if (name.Contains("Bound")) return;
