@@ -2,6 +2,8 @@
 using System.Reflection;
 using static Godot.TextServer;
 using static MoveScript;
+using Modules.HSM;
+using System;
 
 public partial class MoveScript : CharacterBody3D
 {
@@ -51,13 +53,13 @@ public partial class MoveScript : CharacterBody3D
     }
 
     private Variant gravity = ProjectSettings.GetSetting("physics/3d/default_gravity", -9.8f);
-    public GMLActionHolder onTargetLost = new();
-    public GMLActionHolder onCollision = new();
+    public Action onTargetLost;
+    public Action onCollision;
 
-    public GMLActionHolder onMovementFinished = new();
-    public GMLActionHolder onStuckMoving = new();
-    public GMLActionHolder onMovingDistanceFinished = new();
-    public GMLActionHolder onChangeSurfaceType = new();
+    public Action onMovementFinished ;
+    public Action onStuckMoving;
+    public Action onMovingDistanceFinished;
+    public Action onChangeSurfaceType;
 
     float waterLevel = -1;
 
@@ -158,7 +160,7 @@ public partial class MoveScript : CharacterBody3D
                 {
                     //onMovementFinished = null;
                     isBlocked = true;
-                    ContextMenu.ShowMessageS($"{onMovementFinished.guid} Достигнут предел карты: перемещение остановлено.");
+                    ContextMenu.ShowMessageS($"{/*onMovementFinished.guid*/""} Достигнут предел карты: перемещение остановлено.");
                 }
             }
             else return;

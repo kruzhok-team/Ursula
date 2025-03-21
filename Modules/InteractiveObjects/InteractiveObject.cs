@@ -2,11 +2,12 @@ using Godot;
 using System;
 using System.IO;
 using static MoveScript;
+using Modules.HSM;
 
 // Тут будет происходить парсинг XML файла, поэтапное выполнение алгоритма и связь элементов с соответствующими узлами
 public partial class InteractiveObject : Node
 {
-    public GMLActionHolder onThisInteraction = new();
+    public Action onThisInteraction;
 
     public string selectedObjectName;
 
@@ -22,31 +23,52 @@ public partial class InteractiveObject : Node
 
     string workFolderPath = "res://addons/Ursula/Modules/InteractiveObjects";
 
-    public GMLAlgorithm gml;
+    public CyberiadaLogic hsmLogic;
+
+    public HSMDetectorModule hsmDetectorModule;
+    public HSMMovementModule hsmMovementModule;
+    public HSMAnimationModule hsmAnimationModule;
+    public HSMSoundModule hsmSoundModule;
+    public HSMTimerModule hsmTimerModule;
+    public HSMCounterOneModule hsmCounterOneModule;
+    public HSMCounterTwoModule hsmCounterTwoModule;
+
+    HSMLogger _logger;
 
     public override void _Ready()
 	{
         InteractiveObjectsManager.Register(this);
 
-        detector = LinkOrLoadPrefabComponent<InteractiveObjectDetector>("InteractiveObjectDetector", $"{workFolderPath}/Prefabs/interactive_object_detector.tscn");
-        audio = LinkOrLoadPrefabComponent<InteractiveObjectAudio>("InteractiveObjectAudio", $"{workFolderPath}/Prefabs/interactive_object_audio.tscn");
-        move = LinkOrLoadPrefabComponent<InteractiveObjectMove>("InteractiveObjectMove", $"{workFolderPath}/Prefabs/interactive_object_move.tscn");
-        timer = LinkOrLoadPrefabComponent<InteractiveObjectTimer>("InteractiveObjectTimer", $"{workFolderPath}/Prefabs/interactive_object_timer.tscn");
-
-        counter1 = LinkOrLoadPrefabComponent<InteractiveObjectCounter>("InteractiveObjectCounter1", $"{workFolderPath}/Prefabs/interactive_object_counter.tscn");
-        counter2 = LinkOrLoadPrefabComponent<InteractiveObjectCounter>("InteractiveObjectCounter2", $"{workFolderPath}/Prefabs/interactive_object_counter.tscn");
+        InitInstances();
 
         ReloadAlgorithm();
-        //StartAlgorithm();
+    }
 
-        //ItemPropsScript ips = (ItemPropsScript)this.GetParent().FindChild("ItemPropsScript", true, true);
-        //if (ips != null) ips.IO = this;
+    private void InitInstances()
+    {
+        detector = LinkComponent<InteractiveObjectDetector>("InteractiveObjectDetector", VoxLib.mapAssets.InteractiveObjectDetectorPrefab);
+        audio = LinkComponent<InteractiveObjectAudio>("InteractiveObjectAudio", VoxLib.mapAssets.InteractiveObjectAudioPrefab);
+        move = LinkComponent<InteractiveObjectMove>("InteractiveObjectMove", VoxLib.mapAssets.InteractiveObjectMovePrefab);
+        timer = LinkComponent<InteractiveObjectTimer>("InteractiveObjectTimer", VoxLib.mapAssets.InteractiveObjectTimerPrefab);
+        counter1 = LinkComponent<InteractiveObjectCounter>("InteractiveObjectCounter1", VoxLib.mapAssets.InteractiveObjectCounterPrefab);
+        counter2 = LinkComponent<InteractiveObjectCounter>("InteractiveObjectCounter2", VoxLib.mapAssets.InteractiveObjectCounterPrefab);
+    }
+
+    private void InitHsm()
+    {
+        hsmDetectorModule = new HSMDetectorModule(hsmLogic, this);
+        hsmMovementModule = new HSMMovementModule(hsmLogic, this);
+        hsmAnimationModule = new HSMAnimationModule(hsmLogic, this);
+        hsmSoundModule = new HSMSoundModule(hsmLogic, this);
+        hsmTimerModule = new HSMTimerModule(hsmLogic, this);
+        hsmCounterOneModule = new HSMCounterOneModule(hsmLogic, this);
+        hsmCounterTwoModule = new HSMCounterTwoModule(hsmLogic, this);
     }
 
     public void ReloadAlgorithm()
     {
         StopAlgorithm();
-        gml = null;
+        hsmLogic = null;
 
         LoadAlgorithm(xmlPath);
         //if (move != null) move.ReloadAlgorithm();
@@ -61,7 +83,12 @@ public partial class InteractiveObject : Node
             if (xmlPath.Replace(" ", "") != "")
             {
                 if (File.Exists(ProjectSettings.GlobalizePath(xmlPath)))
-                    gml = GMLAlgorithm.Load(xmlPath, this);
+                {
+                    hsmLogic = CyberiadaLogic.Load(xmlPath);
+                    InitHsm();
+                    _logger = new HSMLogger(this);
+                    hsmLogic.SubscribeLogger(_logger);
+                }
                 else
                     ContextMenu.ShowMessageS($"[GML {this.GetParent().Name}] Ошибка: файл алгоритма не найден по пути {xmlPath}");
             }
@@ -70,13 +97,13 @@ public partial class InteractiveObject : Node
 
     public void StartAlgorithm()
     {
-        if (gml != null)
+        if (hsmLogic != null)
         {
-            if (gml.currentState != null)
-            {
-                gml.Start();
-                return;
-            }
+            //if (gml.currentState != null)
+            //{
+            hsmLogic.Start();
+            //return;
+            //}
         }
 
         //GD.PrintErr("GML cannot be started, it is not loaded");       
@@ -84,9 +111,9 @@ public partial class InteractiveObject : Node
 
     public void StopAlgorithm()
     {
-        if (gml != null)
+        if (hsmLogic != null)
         {
-            gml.Stop();
+            hsmLogic.Stop();
         }
 
         detector?.StopScanning();

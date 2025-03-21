@@ -4,104 +4,107 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
-public class GMLActionHolder
+namespace Modules.HSM
 {
-    public string guid { get; private set; }
-    public List<string> ConstructorStackTrace { get; private set; } = new();
-    public string CallerVariableName { get; private set; } = "null (дл€ отладки укажите название переменной при создании класса nameof())";
-
-    public GMLActionHolder()
+    public class GMLActionHolder
     {
-        Init();
-    }
+        public string guid { get; private set; }
+        public List<string> ConstructorStackTrace { get; private set; } = new();
+        public string CallerVariableName { get; private set; } = "null (дл€ отладки укажите название переменной при создании класса nameof())";
 
-    /// <summary>
-    /// ћетод предназначенный дл€ отладки ссылок
-    /// </summary>
-    /// <param name="thisVariableName"></param>
-    public GMLActionHolder(string thisVariableName)
-    {
-        CallerVariableName = thisVariableName;
-        Init();
-    }
-
-    private void Init()
-    {
-        guid = Guid.NewGuid().ToString();
-        RegisterOwnerMethod();
-    }
-
-    private void RegisterOwnerMethod()
-    {
-        StackTrace stackTrace = new StackTrace(true);
-        for (int i = 1; i < stackTrace.FrameCount; i++) 
+        public GMLActionHolder()
         {
-            StackFrame frame = stackTrace.GetFrame(i);
-            MethodBase method = frame.GetMethod();
-            string className = method.DeclaringType != null ? method.DeclaringType.Name : "UnknownClass";
-            string methodName = method.Name;
-            int lineNumber = frame.GetFileLineNumber();
-
-            // ƒобавл€ем информацию в CallerMethodNames
-            ConstructorStackTrace.Add($"Line {lineNumber}: {className}.{methodName}");
+            Init();
         }
-    }
 
-    public Dictionary<GMLAlgorithm.Signal, Action> registeredMethods { get; } = new();
-
-    public void Invoke()
-    {
-        List<Action> linksFrom = new(); 
-        List<Action> methodsInSignals = new(); 
-
-        foreach(var invoke in registeredMethods)
+        /// <summary>
+        /// ћетод предназначенный дл€ отладки ссылок
+        /// </summary>
+        /// <param name="thisVariableName"></param>
+        public GMLActionHolder(string thisVariableName)
         {
-            if (invoke.Key.linkParent != null)
+            CallerVariableName = thisVariableName;
+            Init();
+        }
+
+        private void Init()
+        {
+            guid = Guid.NewGuid().ToString();
+            RegisterOwnerMethod();
+        }
+
+        private void RegisterOwnerMethod()
+        {
+            StackTrace stackTrace = new StackTrace(true);
+            for (int i = 1; i < stackTrace.FrameCount; i++)
             {
-                if (invoke.Key.linkParent.From == invoke.Key.gml.currentState)
+                StackFrame frame = stackTrace.GetFrame(i);
+                MethodBase method = frame.GetMethod();
+                string className = method.DeclaringType != null ? method.DeclaringType.Name : "UnknownClass";
+                string methodName = method.Name;
+                int lineNumber = frame.GetFileLineNumber();
+
+                // ƒобавл€ем информацию в CallerMethodNames
+                ConstructorStackTrace.Add($"Line {lineNumber}: {className}.{methodName}");
+            }
+        }
+
+        public Dictionary<GMLAlgorithm.Signal, Action> registeredMethods { get; } = new();
+
+        public void Invoke()
+        {
+            List<Action> linksFrom = new();
+            List<Action> methodsInSignals = new();
+
+            foreach (var invoke in registeredMethods)
+            {
+                if (invoke.Key.linkParent != null)
                 {
-                    linksFrom.Add(invoke.Value);
+                    if (invoke.Key.linkParent.From == invoke.Key.gml.currentState)
+                    {
+                        linksFrom.Add(invoke.Value);
+                    }
+                }
+                else
+                {
+                    methodsInSignals.Add(invoke.Value);
+                    //invoke.Value.Invoke();
                 }
             }
-            else
+
+            foreach (var links in methodsInSignals)
             {
-                methodsInSignals.Add(invoke.Value);
-                //invoke.Value.Invoke();
+                links.Invoke();
+            }
+
+            foreach (var links in linksFrom)
+            {
+                links.Invoke();
             }
         }
 
-        foreach (var links in methodsInSignals)
+        public void Subscribe(GMLAlgorithm.Signal signal, Action action)
         {
-            links.Invoke();
+            if (!registeredMethods.ContainsKey(signal))
+                registeredMethods.Add(signal, action);
+            else
+                registeredMethods[signal] += action;
         }
 
-        foreach (var links in linksFrom)
+        public void ClearSubscriptions()
         {
-            links.Invoke();
+            registeredMethods.Clear();
         }
-    }
 
-    public void Subscribe(GMLAlgorithm.Signal signal, Action action)
-    {
-        if (!registeredMethods.ContainsKey(signal))
-            registeredMethods.Add(signal, action);
-        else
-            registeredMethods[signal] += action;
-    }
+        public override string ToString()
+        {
+            var varName = "";
 
-    public void ClearSubscriptions()
-    {
-        registeredMethods.Clear();
-    }
-
-    public override string ToString()
-    {
-        var varName = "";
-
-        if (!CallerVariableName.Contains("null"))
-            varName = CallerVariableName + " ";
+            if (!CallerVariableName.Contains("null"))
+                varName = CallerVariableName + " ";
 
 
-        return $"{varName}({guid}) [{registeredMethods.Count}]";
+            return $"{varName}({guid}) [{registeredMethods.Count}]";
+        }
     }
 }

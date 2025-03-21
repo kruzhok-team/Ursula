@@ -1,5 +1,6 @@
 ﻿using Godot;
 using System;
+using Modules.HSM;
 
 public partial class ProjectTimer : Node
 {
@@ -13,8 +14,8 @@ public partial class ProjectTimer : Node
         }
     }
 
-    public GMLActionHolder Tick = new(nameof(Tick));
-    public GMLActionHolder TickOneSecond = new(nameof(TickOneSecond));
+    public Action Tick;
+    public Action TickOneSecond;
 
     private Timer _timer;
 
@@ -37,12 +38,12 @@ public partial class ProjectTimer : Node
     private void OnTick()
     {
         _accumulatedTime += GameTick;
-        Tick.Invoke();
+        Tick?.Invoke();
 
         if (_accumulatedTime >= 1.0f)
         {
             _accumulatedTime -= 1.0f;
-            TickOneSecond.Invoke();
+            TickOneSecond?.Invoke();
         }
     }
 }

@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Modules.HSM;
 
 public partial class TimerInstance : GodotObject
 {

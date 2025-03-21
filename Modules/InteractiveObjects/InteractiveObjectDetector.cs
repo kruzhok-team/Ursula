@@ -5,6 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Security.AccessControl;
 
+using Talent.Logic.Bus;
+using Modules.HSM;
+
 public partial class InteractiveObjectDetector : Area3D
 {
     public Node detectedObject; // заданныйОбъект
@@ -20,12 +23,12 @@ public partial class InteractiveObjectDetector : Area3D
     private float timeAccumulator = 0f; 
     private const float SCAN_INTERVAL = 0.25f;
 
-    public GMLActionHolder onObjectDetected = new();
-    public GMLActionHolder onPlayerDetected = new();
-    public GMLActionHolder onSoundDetected = new();
-    public GMLActionHolder onPlayerInteractionObject = new();
+    public Action onObjectDetected;
+    public Action onPlayerDetected;
+    public Action onSoundDetected;
+    public Action onPlayerInteractionObject;
 
-    public GMLActionHolder onAnyObjectsNotDetected = new();
+    public Action onAnyObjectsNotDetected;
 
     public string playerName = "Player";
 
@@ -109,10 +112,10 @@ public partial class InteractiveObjectDetector : Area3D
                     if (distance < scanRadius * scanRadius)
                     {
                         detectedObject = player;
-                        onPlayerDetected.Invoke();
+                        onPlayerDetected?.Invoke();
                     }
                     else
-                        onAnyObjectsNotDetected.Invoke();
+                        onAnyObjectsNotDetected?.Invoke();
                 }
                 break;
             case ScanType.Object:
@@ -120,17 +123,17 @@ public partial class InteractiveObjectDetector : Area3D
                 if (detectedObject != null)
                 {
                     //ContextMenu.ShowMessageS($"Модуль сканирования. {onObjectDetected} Выполнен поиск объекта по радиусу {scanRadius} -> обнаружен объект {targetObjectName}");
-                    onObjectDetected.Invoke();
+                    onObjectDetected?.Invoke();
                 }
                 else
-                    onAnyObjectsNotDetected.Invoke();
+                    onAnyObjectsNotDetected?.Invoke();
                 break;
             case ScanType.Sound:
                 detectedObject = FindNodeInRadius<InteractiveObjectAudio>(scanRadius, IOAudio => IOAudio.currentAudioName == targetSoundName && IOAudio.isPlaying)?.GetParent();
                 if (detectedObject != null)
                 {
                     //ContextMenu.ShowMessageS($"Модуль сканирования. {onSoundDetected} Выполнен поиск звука по радиусу {scanRadius} -> обнаружен звук {targetSoundName}");
-                    onSoundDetected.Invoke();
+                    onSoundDetected?.Invoke();
                 }
                 break;
         }
@@ -266,10 +269,10 @@ public partial class InteractiveObjectDetector : Area3D
         if (detectedObject != null)
         {
             //ContextMenu.ShowMessageS($"Модуль сканирования. {onObjectDetected} Выполнен поиск объекта по радиусу {scanRadius} -> обнаружен объект {targetObjectName}");
-            onPlayerInteractionObject.Invoke();
+            onPlayerInteractionObject?.Invoke();
         }
         else
-            onAnyObjectsNotDetected.Invoke();
+            onAnyObjectsNotDetected?.Invoke();
     }
 
     public override void _ExitTree()

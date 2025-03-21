@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using System.Xml.Linq;
+using Modules.HSM;
 
 public partial class InteractiveObjectMove : Node3D
 {
@@ -12,10 +13,10 @@ public partial class InteractiveObjectMove : Node3D
     public VariableHolder<float> surfaceType = new(0.0f);
     public VariableHolder<float> timesOfDay = new(0.0f);
 
-    public GMLActionHolder moveDistanceStart = new();
-    public GMLActionHolder moveDistanceCompleted = new();
-    public GMLActionHolder animationCompleted = new();
-    public GMLActionHolder animationCycleCompleted = new();
+    public Action moveDistanceStart;
+    public Action moveDistanceCompleted;
+    public Action animationCompleted;
+    public Action animationCycleCompleted;
 
     public Vector3 movePosition;
 

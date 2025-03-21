@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Godot;
 
+using Modules.HSM;
+
 public class APIDictionary
 {
     public InteractiveObject _interactiveObject { get; private set; }
@@ -60,44 +62,44 @@ public class APIDictionary
     {
         _interactiveObject = interactiveObject;
 
-        SignalDictionary = new()
-        {
-            {"МодульОбнаружения", new() {
-                { "ИгрокОбнаружен", _interactiveObject.detector.onPlayerDetected },
-                { "ОбъектОбнаружен", _interactiveObject.detector.onObjectDetected },
-                { "ЗвукОбнаружен", _interactiveObject.detector.onSoundDetected },
-                { "ЦельПотеряна", _interactiveObject.move.moveScript?.onTargetLost },
-                { "ВзаимодействиеИгрока", _interactiveObject.onThisInteraction },
-                { "ВзаимодействиеИгрокаСОбъектом", _interactiveObject.detector.onPlayerInteractionObject },
-                { "ОбъектовНеОбнаружено", _interactiveObject.detector.onAnyObjectsNotDetected },
-            }},
-            {"МодульДвижения", new() {
-                { "ЗастреваниеПриДвижении", _interactiveObject.move.moveScript?.onStuckMoving },
-                { "ПеремещениеВыполнено", _interactiveObject.move.moveScript?.onMovementFinished },
-                { "СтолкновениеСПрепятствием", _interactiveObject.move.moveScript?.onCollision },
-                { "ПройденноеРасстояние", _interactiveObject.move.moveScript?.onMovingDistanceFinished },
-                { "АнимацияЗавершилась", _interactiveObject.move.animationCompleted },
-                { "ЦиклАнимацийЗавершился", _interactiveObject.move.animationCompleted },
-            }},
-            {"МодульАнимаций", new() {
-                { "АнимацияЗавершилась", _interactiveObject.move.animationCompleted },
-                { "ЦиклАнимацийЗавершился", _interactiveObject.move.animationCompleted },
-            }},
-            {"ВзаимодействиеСМиром", new() {
-                { "СменаТипаПоверхности", _interactiveObject.move.moveScript?.onChangeSurfaceType },
-            }},
-            {"Таймер", new() {
-                { "ТаймерВыполнен", _interactiveObject.timer.TimerCompleted },
-                { "Тик", ProjectTimer.Instance.Tick },
-                { "Тик1Секунда", ProjectTimer.Instance.TickOneSecond },
-            }},
-            {"Счётчик1", new() {
-                { "ЗначениеИзменилось", _interactiveObject.counter1.onValueChanged },
-            }},
-            {"Счётчик2", new() {
-                { "ЗначениеИзменилось", _interactiveObject.counter2.onValueChanged },
-            }},
-        };
+        //SignalDictionary = new()
+        //{
+        //    {"МодульОбнаружения", new() {
+        //        { "ИгрокОбнаружен", _interactiveObject.detector.onPlayerDetected },
+        //        { "ОбъектОбнаружен", _interactiveObject.detector.onObjectDetected },
+        //        { "ЗвукОбнаружен", _interactiveObject.detector.onSoundDetected },
+        //        { "ЦельПотеряна", _interactiveObject.move.moveScript?.onTargetLost },
+        //        { "ВзаимодействиеИгрока", _interactiveObject.onThisInteraction },
+        //        { "ВзаимодействиеИгрокаСОбъектом", _interactiveObject.detector.onPlayerInteractionObject },
+        //        { "ОбъектовНеОбнаружено", _interactiveObject.detector.onAnyObjectsNotDetected },
+        //    }},
+        //    {"МодульДвижения", new() {
+        //        { "ЗастреваниеПриДвижении", _interactiveObject.move.moveScript?.onStuckMoving },
+        //        { "ПеремещениеВыполнено", _interactiveObject.move.moveScript?.onMovementFinished },
+        //        { "СтолкновениеСПрепятствием", _interactiveObject.move.moveScript?.onCollision },
+        //        { "ПройденноеРасстояние", _interactiveObject.move.moveScript?.onMovingDistanceFinished },
+        //        { "АнимацияЗавершилась", _interactiveObject.move.animationCompleted },
+        //        { "ЦиклАнимацийЗавершился", _interactiveObject.move.animationCompleted },
+        //    }},
+        //    {"МодульАнимаций", new() {
+        //        { "АнимацияЗавершилась", _interactiveObject.move.animationCompleted },
+        //        { "ЦиклАнимацийЗавершился", _interactiveObject.move.animationCompleted },
+        //    }},
+        //    {"ВзаимодействиеСМиром", new() {
+        //        { "СменаТипаПоверхности", _interactiveObject.move.moveScript?.onChangeSurfaceType },
+        //    }},
+        //    {"Таймер", new() {
+        //        { "ТаймерВыполнен", _interactiveObject.timer.TimerCompleted },
+        //        { "Тик", ProjectTimer.Instance.Tick },
+        //        { "Тик1Секунда", ProjectTimer.Instance.TickOneSecond },
+        //    }},
+        //    {"Счётчик1", new() {
+        //        { "ЗначениеИзменилось", _interactiveObject.counter1.onValueChanged },
+        //    }},
+        //    {"Счётчик2", new() {
+        //        { "ЗначениеИзменилось", _interactiveObject.counter2.onValueChanged },
+        //    }},
+        //};
 
         MethodDictionary = new()
         {

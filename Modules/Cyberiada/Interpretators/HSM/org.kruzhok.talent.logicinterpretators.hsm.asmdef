@@ -1,0 +1,23 @@
+{
+    "name": "org.kruzhok.talent.logicinterpretators.hsm",
+    "rootNamespace": "Talent.Logic.HSM",
+    "references": [
+        "GUID:7cd565da61ce6c7429e15c8dc320759e",
+        "GUID:01eaf25ffa56fb94ca70264aea91fb88"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "",
+            "define": "UNITY"
+        }
+    ],
+    "noEngineReferences": false
+}
