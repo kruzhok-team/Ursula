@@ -1,10 +1,13 @@
-﻿using Godot;
+﻿using Fractural.Tasks;
+using Godot;
 using System;
 using System.Drawing;
+using Ursula.Core.DI;
+using Ursula.GameObjects.View;
 using static Godot.TextServer;
 
 
-public partial class PlayerScript : CharacterBody3D
+public partial class PlayerScript : CharacterBody3D, IInjectable
 {
     public static PlayerScript instance;
 
@@ -34,6 +37,13 @@ public partial class PlayerScript : CharacterBody3D
 
     private float timer = 0f;
     private const float INTERVAL = 10.2f;
+
+    [Inject]
+    private ISingletonProvider<HUDViewModel> _hudManager;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
 
     public override void _Ready()
     {
@@ -75,6 +85,12 @@ public partial class PlayerScript : CharacterBody3D
 
     public override void _Input(InputEvent @event)
     {
+        if (Input.IsKeyPressed(Key.Ctrl) && Input.IsKeyPressed(Key.X) && @event.IsPressed())
+        {
+            VoxLib.mapManager.playMode = PlayMode.testMode;
+            VoxLib.mapManager.PlayTest();
+        }
+
         if (Input.IsKeyPressed(Key.Escape) && @event.IsPressed())
         {
             //if (CameraController.instance == this)
@@ -160,6 +176,12 @@ public partial class PlayerScript : CharacterBody3D
                 VoxLib.hud._labelCoordinates.Visible = false;
             }
         }
+    }
+
+    private async GDTask SetHudInfo(string info)
+    {
+        var model = _hudManager != null ? await _hudManager.GetAsync() : null;
+        model?.SetInfo(info);
     }
 
     float waterLevel = -1;

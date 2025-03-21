@@ -4,7 +4,7 @@
 
 [sub_resource type="ImageTexture" id="ImageTexture_fdbx7"]
 
-[node name="ControlGamePrefab" type="Panel" node_paths=PackedStringArray("nameGame", "textureGame")]
+[node name="ControlGamePrefab" type="Panel" node_paths=PackedStringArray("nameGame", "textureGame", "buttonTestMode")]
 custom_minimum_size = Vector2(250, 400)
 offset_left = 500.0
 offset_top = 112.0
@@ -15,6 +15,7 @@ size_flags_vertical = 4
 script = ExtResource("1_0thgq")
 nameGame = NodePath("Label")
 textureGame = NodePath("TextureRect")
+buttonTestMode = NodePath("ButtonTest")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -37,14 +38,31 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -92.0
+offset_left = -121.0
 offset_top = -89.0
-offset_right = 92.0
+offset_right = 121.0
 offset_bottom = 89.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("ImageTexture_fdbx7")
 expand_mode = 1
+
+[node name="ButtonTest" type="Button" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -77.0
+offset_right = 73.0
+offset_bottom = -46.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 1
+text = "ТЕСТ"
 
 [node name="ButtonPlay" type="Button" parent="."]
 layout_mode = 1
@@ -62,4 +80,5 @@ grow_vertical = 0
 focus_mode = 1
 text = "ИГРАТЬ"
 
+[connection signal="button_down" from="ButtonTest" to="." method="OnPlayTest"]
 [connection signal="button_down" from="ButtonPlay" to="." method="OnPlayGame"]

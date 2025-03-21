@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using static MoveScript;
 using Modules.HSM;
@@ -21,6 +22,9 @@ public partial class InteractiveObject : Node
     [Export]
     public string xmlPath;
 
+    [Export]
+    public string AudioFolderPath;
+
     string workFolderPath = "res://addons/Ursula/Modules/InteractiveObjects";
 
     public CyberiadaLogic hsmLogic;
@@ -34,6 +38,8 @@ public partial class InteractiveObject : Node
     public HSMCounterTwoModule hsmCounterTwoModule;
 
     HSMLogger _logger;
+
+
 
     public override void _Ready()
 	{
@@ -78,7 +84,7 @@ public partial class InteractiveObject : Node
     {
         xmlPath = path; //$"{workFolderPath}/Graphs/{interactiveObjectName}.graphml"
 
-        if (xmlPath != null)
+        if (!string.IsNullOrEmpty(xmlPath))
         {
             if (xmlPath.Replace(" ", "") != "")
             {
@@ -171,10 +177,38 @@ public partial class InteractiveObject : Node
         return newNode;
     }
 
+    private T LinkComponent<T>(string nodeName, PackedScene prefab) where T : Node
+    {
+        Node parentNode = GetParent();
+
+        if (parentNode.HasNode(nodeName))
+        {
+            Node foundNode = parentNode.GetNode(nodeName);
+            if (foundNode is T targetNode)
+            {
+                return targetNode;
+            }
+        }
+
+        T newNode = prefab.Instantiate<T>();
+        if (newNode == null) return null;
+
+        newNode.Name = nodeName;
+
+        parentNode.CallDeferred("add_child", newNode);
+
+        return newNode;
+    }
+
     public async void AsyncReloadAlgorithm()
     {
         await ToSignal(GetTree().CreateTimer(1), "timeout");
 
         ReloadAlgorithm();
+    }
+
+    public void SetAudiosPathes(List<string> audioPathes)
+    {
+        audio.SetAudiosPathes(audioPathes);
     }
 }

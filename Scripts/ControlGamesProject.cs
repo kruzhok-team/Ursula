@@ -1,8 +1,10 @@
 ﻿using Godot;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using Ursula.Core.DI;
 
-public partial class ControlGamesProject : Control
+public partial class ControlGamesProject : Control, IInjectable
 {
     public static ControlGamesProject instance;
 
@@ -11,6 +13,12 @@ public partial class ControlGamesProject : Control
 
     [Export]
     public HBoxContainer container;
+
+    List<ControlGameItem> gameItems;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
 
     public override void _Ready()
     {
@@ -26,6 +34,8 @@ public partial class ControlGamesProject : Control
         Input.MouseMode = Input.MouseModeEnum.Visible;
 
         _Instantiate();
+
+        Visible = true;
     }
 
     private async void _Instantiate()
@@ -37,6 +47,7 @@ public partial class ControlGamesProject : Control
     public void Instantiate()
     {
         VoxLib.RemoveAllChildren(container);
+        gameItems = new List<ControlGameItem>();
 
         string pathImport = VoxLib.mapManager.IMPORTPROJECTPATH;
 
@@ -58,29 +69,51 @@ public partial class ControlGamesProject : Control
             gameItem.Invalidate(subDirectories[i]);
 
             container.AddChild(instance);
+            gameItems.Add(gameItem);
         }
+
+        CheckInstallGames();
+
     }
 
-    public async void RunGame(string gameName, bool hideAllMenus = false)
+    public async void CheckInstallGames()
     {
-        string pathProjectDir = gameName;
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+#if !TOOLS
+        if (gameItems.Count == 1) RunGame(gameItems[0].pathProjectDir);
+#endif
+    }
+
+    string pathProjectDir;
+    public void RunGame(string gameName)
+    {
+        pathProjectDir = gameName;
+        VideoPlayer.instance.PlayVideo(pathProjectDir, OnVideoPreviewFinished);
+    }
+
+    private async void OnVideoPreviewFinished()
+    {
+        Texture2D texture = VoxLib.mapManager.GetGameImage(pathProjectDir);
+        LoadingUI.instance.ShowLoading(texture);
+
         string importName = Path.GetFileNameWithoutExtension(pathProjectDir) + ".txt";
         string[] pathMaps = Directory.GetFiles(pathProjectDir, "*.txt");
         string pathMap = pathMaps[0];
-        VoxLib.mapManager.LoadMapFromFile(pathMap);
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-        await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
-        VoxLib.mapManager.PlayGame();
-        VoxLib.hud.OnCloseControlGameProject();
-        VoxLib.hud.OnCloseControlProject();
 
-        if (hideAllMenus)
-            ControlPopupMenu.instance._HideAllMenu();
+        VoxLib.mapManager.LoadMapFromFile(pathMap);
+        await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
+        VoxLib.hud.HideAllControls();
+        ControlPopupMenu.instance._HideAllMenu();
+
+        VoxLib.mapManager.PlayGame();
+
+        LoadingUI.instance.HideLoading();
     }
 
     private void GameItem_selectedEventHandler(string gameName)
     {
         RunGame(gameName);
     }
+
 
 }

@@ -12,9 +12,9 @@ public partial class CustomItem : Node
         InitModel();
     }
 
-    public async void InitModel()
+    public void InitModel()
     {
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        //await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
         if (modelInstance != null)
             modelInstance.QueueFree();
@@ -30,12 +30,10 @@ public partial class CustomItem : Node
 
             this.AddChild(modelInstance);
 
-            Node parent = GetParent();
-
+            //Node parent = GetParent();
             //ItemPropsScript ips = parent as ItemPropsScript;
-            ItemPropsScript ips = (ItemPropsScript)this.GetParent().FindChild("ItemPropsScript", true, true);
-
-            parent.Name = Path.GetFileNameWithoutExtension(objPath) + $"{ips.x}{ips.y}{ips.z}";
+            //ItemPropsScript ips = (ItemPropsScript)this.GetParent().FindChild("ItemPropsScript", true, true);
+            //parent.Name = Path.GetFileNameWithoutExtension(objPath) + $"{ips.x}{ips.y}{ips.z}";
         }
     }
 

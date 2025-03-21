@@ -98,7 +98,7 @@ public partial class CameraController : Camera3D
     private const float DelayBetweenClicks = 0.25f;
     double lastClickTime = 0;
 
-    public override void _Process(double delta)
+    public override async void _Process(double delta)
     {
         lastClickTime -= delta;
 

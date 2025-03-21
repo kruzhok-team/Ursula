@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://irdy25ggjy7h"]
+[gd_scene load_steps=8 format=3 uid="uid://irdy25ggjy7h"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/MoveScript.cs" id="1_kfc3d"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="1_td44l"]
@@ -12,11 +12,6 @@ height = 2.55869
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qpoly"]
 radius = 1.21736
 height = 2.85116
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ej84r"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m8ela"]
-height = 1.83733
 
 [node name="CustomObject" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43002, 0)
@@ -52,15 +47,5 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0101013, -0.0420668, 0.0450207)
 shape = SubResource("CapsuleShape3D_qpoly")
-
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
-visible = false
-mass = 10.0
-physics_material_override = SubResource("PhysicsMaterial_ej84r")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.918446, 0)
-visible = false
-shape = SubResource("CapsuleShape3D_m8ela")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_Player_body_entered"]

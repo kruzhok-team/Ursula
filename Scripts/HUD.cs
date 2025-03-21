@@ -1,6 +1,12 @@
-﻿using Godot;
+﻿using Fractural.Tasks;
+using Godot;
 using Ursula.Core.DI;
 using Ursula.Environment.Settings;
+using Ursula.GameObjects.Model;
+using Ursula.GameObjects.View;
+using System.Threading.Tasks;
+using System;
+
 
 public partial class HUD : Control, IInjectable
 {
@@ -49,20 +55,35 @@ public partial class HUD : Control, IInjectable
     [Inject]
     private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
 
+    [Inject]
+    private ISingletonProvider<HUDViewModel> _hudModelProvider;
+
+    [Inject]
+    private ISingletonProvider<GameObjectAddGameObjectAssetModel> _gameObjectAddUserSourceViewProvider;
+
+    [Inject]
+    private ISingletonProvider<GameObjectCurrentInfoModel> _GameObjectCurrentInfoModelProvider;
+
+    private GameObjectCurrentInfoModel gameObjectCurrentInfoModel;
+
     private float _defaultSensitivity = 0.5f;
+
+    private Vector3 coord;
+
+
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
 
     public float sensitivity
     {
-        get 
+        get
         {
             if (!TryGetSettingsModel(out var settingsModel))
                 return _defaultSensitivity;
             return settingsModel.Sensitivity;
         }
-    }
-
-    void IInjectable.OnDependenciesInjected()
-    {
     }
 
     public override void _Ready()
@@ -73,9 +94,21 @@ public partial class HUD : Control, IInjectable
 
         VoxLib.hud = this;
         SettingsGO.Visible = false;
+
+        _ = SubscribeEvent();
     }
 
-    Vector3 coord;
+    private async GDTask SubscribeEvent()
+    {
+        gameObjectCurrentInfoModel = await _GameObjectCurrentInfoModelProvider.GetAsync();
+        
+    }
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+    }
+
     public void SetCoordinate(Vector3 coord)
     {
         if (this.coord != coord)
@@ -85,10 +118,15 @@ public partial class HUD : Control, IInjectable
         }
     }
 
-    public void SetInfo(string info)
+    public void _SetInfo(string info)
     {
         if (_labelCoordinates.Text != info)
             _labelCoordinates.Text = info;
+    }
+
+    public void SetInfo(string info)
+    {
+        _SetInfo(info);
     }
 
     public void OnOpenSettings()
@@ -119,11 +157,22 @@ public partial class HUD : Control, IInjectable
         ControlPopupMenu.HideAllMenu();
         ControlGamesProjectGO.Visible = true;
         VoxLib.instance.CGP.Instantiate();
+
+        gameObjectCurrentInfoModel.SetAssetInfoView(null, false);
+
+    }
+
+    public void HideAllControls()
+    {
+        OnCloseControlProject();
+        OnCloseControlGameProject();
     }
 
     public void OnCloseControlGameProject()
     {
         ControlGamesProjectGO.Visible = false;
+
+        gameObjectCurrentInfoModel.SetAssetInfoView(null, true);
     }
 
     public void SetSensitivity(float sence)
@@ -149,33 +198,20 @@ public partial class HUD : Control, IInjectable
     {
         if (TryGetSettingsModel(out var settingsModel))
             settingsModel.SetShadowEnabled(value).Save();
-        SetShadow();
     }
 
-    private void SetShadow()
+    public async void ShowCommonLibraryButton_DownEventHandler()
     {
-        if (!TryGetSettingsModel(out var settingsModel))
-            return;
-
-        var scene = GetTree().CurrentScene;
-        var directionalLight = FindDirectionalLight(scene);
-
-        directionalLight.ShadowEnabled = settingsModel.ShadowEnabled > 0;
+        ControlPopupMenu.instance._HideAllMenu();
+        var viewModel = _hudModelProvider != null ? await _hudModelProvider.GetAsync() : null;
+        viewModel?.SetGameObjectLibraryVisible(true);
     }
 
-    private DirectionalLight3D FindDirectionalLight(Node node)
+    public async void ShowAddUserSourceUiButton_DownEventHandler()
     {
-        if (node is DirectionalLight3D directionalLight)
-            return directionalLight;
-
-        foreach (Node child in node.GetChildren())
-        {
-            var light = FindDirectionalLight(child);
-            if (light != null)
-                return light;
-        }
-
-        return null;
+        ControlPopupMenu.instance._HideAllMenu();
+        var model = _gameObjectAddUserSourceViewProvider != null ? await _gameObjectAddUserSourceViewProvider.GetAsync() : null;
+        model?.SetGameObjectAddGameObjectAssetVisible(true);
     }
 
     public static void ItemProcessing(Node collider, Vector3 raycastPos, out ItemPropsScript itemPropS, out Node parent)
@@ -198,7 +234,7 @@ public partial class HUD : Control, IInjectable
                 parent = ips.GetParent();
             }
         }
-    }    
+    }
 
     public static string GetCordsInfo(Node collider, Vector3 raycastPos, ItemPropsScript itemPropS, Node parent)
     {
@@ -207,7 +243,7 @@ public partial class HUD : Control, IInjectable
         if (itemPropS != null)
         {
             name = (parent != null) ? parent.Name : collider.Name;
-            info = $"Имя={name}, Координаты: x={(int)itemPropS.x} y={(int)itemPropS.z} z={(int)itemPropS.y}";
+            info = $"Имя={name}, Координаты: x={(int)itemPropS.x} y={(int)itemPropS.z} z={(int)itemPropS.y}, Шаблон={itemPropS.GameObjectSample}";
         }
         else
         {
@@ -266,10 +302,22 @@ public partial class HUD : Control, IInjectable
         VoxLib.mapManager.OpenGameImage();
     }
 
+    public void OnOpenGameVideo()
+    {
+        VoxLib.mapManager.OpenGameVideo();
+    }
+
     public void SetNameMap(string nameMap)
     {
         _labelFile.Text = "Игра: " + nameMap;
     }
+
+    public void OnOpenPanelLoadObject()
+    {
+        ControlPopupMenu.instance._HideAllMenu();
+        ObjectsCatalog.instance.OnOpenPanelLoadObject();
+    }
+
 
     private async void ApplySettingsFromConfig()
     {
@@ -283,10 +331,9 @@ public partial class HUD : Control, IInjectable
 
         SliderMouseSence.Value = model.Sensitivity;
         optionButtonShadow.Selected = model.ShadowEnabled;
-        SetShadow();
     }
 
-    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist=false)
+    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist = false)
     {
         model = null;
 
@@ -297,4 +344,5 @@ public partial class HUD : Control, IInjectable
         }
         return model != null;
     }
+
 }

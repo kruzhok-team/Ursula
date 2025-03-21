@@ -1,7 +1,7 @@
-[gd_scene load_steps=42 format=3 uid="uid://dgc042g3ej4rj"]
+[gd_scene load_steps=72 format=3 uid="uid://dgc042g3ej4rj"]
 
-[ext_resource type="Script" path="res://addons/Ursula/Scripts/Core/Initialization/UrsulaEntryPoint.cs" id="1_jaltr"]
 [ext_resource type="PackedScene" uid="uid://dn1jem1nnefln" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/project_timer.tscn" id="1_wxxnd"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/Core/Initialization/UrsulaEntryPoint.cs" id="1_xjqfu"]
 [ext_resource type="PackedScene" uid="uid://bhcs2lux4ox5b" path="res://addons/Ursula/Modules/ModelLoader/model_loader.tscn" id="2_ayndh"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/HUD.cs" id="3_lm8x0"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ControlPopupMenu.cs" id="4_8kw1n"]
@@ -11,20 +11,27 @@
 [ext_resource type="Texture2D" uid="uid://cofay0dwbshxr" path="res://addons/Ursula/Assets/Textures/UI/Arrow2.png" id="8_4saec"]
 [ext_resource type="Texture2D" uid="uid://d4nx743hju6dr" path="res://addons/Ursula/Assets/Textures/UI/Mount1.png" id="9_0u5tf"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ControlTabPanel.cs" id="10_6oiyr"]
+[ext_resource type="Texture2D" uid="uid://bvj8lgc3h8dtg" path="res://addons/Ursula/Assets/Themes/ArrowDown.png" id="10_ymu3k"]
+[ext_resource type="Texture2D" uid="uid://caiws2b5krql4" path="res://addons/Ursula/Assets/Themes/ArrowRight.png" id="11_0tbdj"]
 [ext_resource type="Texture2D" uid="uid://dci21pwbltqr" path="res://addons/Ursula/Assets/Textures/Terrain/Grass3.png" id="11_bblrs"]
+[ext_resource type="Texture2D" uid="uid://crpv64ekibs6j" path="res://addons/Ursula/Assets/Themes/Environment.png" id="12_3i2qi"]
 [ext_resource type="Texture2D" uid="uid://b53nygmwrvxg1" path="res://addons/Ursula/Assets/Textures/UI/Water1.png" id="12_nolav"]
 [ext_resource type="Texture2D" uid="uid://crlcp65gxl7ca" path="res://addons/Ursula/Assets/Textures/UI/Trees1.png" id="13_2jvmc"]
-[ext_resource type="Texture2D" uid="uid://dco1lw7h2g6fe" path="res://addons/Ursula/Assets/Textures/UI/pickaxe.png" id="14_3q1ca"]
 [ext_resource type="PackedScene" uid="uid://bwi8q4jwd05pc" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/context_menu.tscn" id="15_fjimb"]
+[ext_resource type="PackedScene" uid="uid://ccpqmgm2c1jtt" path="res://addons/Ursula/Prefabs/GameObjects/GameObjectAssetInfoViewPrefab.tscn" id="16_1eb3b"]
+[ext_resource type="Texture2D" uid="uid://dux8vlwc4h7oj" path="res://addons/Ursula/Assets/Themes/Object.png" id="16_couy0"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/LogScript.cs" id="16_i08yk"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/MessageBox.cs" id="17_n51xi"]
+[ext_resource type="StyleBox" uid="uid://dh4pdqyswum5a" path="res://addons/Ursula/Assets/Themes/ButtonBlue.tres" id="18_c37xe"]
 [ext_resource type="PackedScene" uid="uid://bwtht1arglbrl" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/alg_control.tscn" id="18_uus1o"]
+[ext_resource type="Texture2D" uid="uid://c44cxy5pcvhgh" path="res://addons/Ursula/Assets/Themes/Play.png" id="19_c8ee4"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ControlGamesProject.cs" id="19_xgi4p"]
 [ext_resource type="PackedScene" uid="uid://bf4yqi8xraxte" path="res://addons/Ursula/Assets/Prefabs/UI/ImportGameItem.tscn" id="20_aufgm"]
 [ext_resource type="Texture2D" uid="uid://b0wov4nd1e1eo" path="res://addons/Ursula/BackgroundB.png" id="21_ejwl8"]
 [ext_resource type="PackedScene" uid="uid://d4krypfxpyycs" path="res://addons/Ursula/Modules/ModelsCatalog/ObjectsCatalog.tscn" id="22_3pdji"]
+[ext_resource type="PackedScene" uid="uid://b18gu5dlxifi5" path="res://addons/Ursula/Assets/Prefabs/UI/VideoPlayer.tscn" id="22_6diaf"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/VoxLib.cs" id="23_56bgx"]
-[ext_resource type="Resource" uid="uid://dl6jsq7htq75q" path="res://addons/Ursula/Assets/MapAssets.tres" id="24_iibtg"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/LoadingUI.cs" id="24_w700t"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/CreateTerrain.cs" id="25_jfqi2"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/CreateWater.cs" id="26_xdp10"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/MapManager.cs" id="27_5b8gm"]
@@ -32,6 +39,29 @@
 [ext_resource type="PackedScene" uid="uid://c0t0gdmber7kl" path="res://addons/Ursula/Player/Player.tscn" id="29_wh4fr"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameManager.cs" id="30_lv1wd"]
 [ext_resource type="PackedScene" uid="uid://c1y47k01wo4w7" path="res://addons/Ursula/Environment.tscn" id="31_xhvja"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/MapManagerView.cs" id="34_jfh7j"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/MapManagerController.cs" id="34_n8jam"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCommonLibraryView.cs" id="35_ai4aq"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAddGameObjectAssetView.cs" id="35_avsay"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAddGameObjectAssetUiView.cs" id="35_w5hvm"]
+[ext_resource type="PackedScene" uid="uid://dpwcf74rci8i6" path="res://addons/Ursula/Prefabs/GameObjects/ItemLibraryObjectDataPrefab.tscn" id="36_jw1t7"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/MapManagerItemSetter.cs" id="36_r168r"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCollectionView.cs" id="37_0m72d"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/GameObjectCollectionController.cs" id="42_rqra7"]
+[ext_resource type="Texture2D" uid="uid://dhg3d5iy5u8pt" path="res://addons/Ursula/Assets/Themes/Vector.png" id="42_ygxxe"]
+[ext_resource type="Theme" uid="uid://dyddtywft2yrs" path="res://addons/Ursula/Assets/Themes/Controls.tres" id="43_cp4ec"]
+[ext_resource type="StyleBox" uid="uid://dyq85c5w0hltk" path="res://addons/Ursula/Assets/Themes/Line.tres" id="44_6cbqs"]
+[ext_resource type="Texture2D" uid="uid://coe273kj5obe6" path="res://addons/Ursula/Assets/Themes/Close.png" id="45_yiygv"]
+[ext_resource type="StyleBox" uid="uid://dqqcv0g4ml2fl" path="res://addons/Ursula/Assets/Themes/TextEdit.tres" id="46_h4d78"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCurrentInfoView.cs" id="48_c1rw7"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/GameObjectCurrentInfoController.cs" id="48_ggc47"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/GameObjectCurrentInfoManager.cs" id="48_s74f1"]
+[ext_resource type="Texture2D" uid="uid://dx85voyjkf1ep" path="res://addons/Ursula/Assets/Themes/Settings.png" id="49_ncjq2"]
+[ext_resource type="Texture2D" uid="uid://cgi31oaada7tj" path="res://addons/Ursula/Assets/Themes/Vector (1).png" id="50_n1oer"]
+[ext_resource type="StyleBox" uid="uid://c06y7nq7pqiyd" path="res://addons/Ursula/Assets/Themes/ButtonStandart.tres" id="51_ffq47"]
+[ext_resource type="Texture2D" uid="uid://dpxfvlkkairif" path="res://addons/Ursula/Assets/Themes/Alg.png" id="51_fojbo"]
+[ext_resource type="StyleBox" uid="uid://bwkxycn6p1ew0" path="res://addons/Ursula/Assets/Themes/Panel.tres" id="51_qas0a"]
+[ext_resource type="Texture2D" uid="uid://beqqybyx7vphe" path="res://addons/Ursula/Assets/Themes/File.png" id="56_qj0h5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_elju3"]
 line_spacing = -3.0
@@ -76,7 +106,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_jaltr")
+script = ExtResource("1_xjqfu")
 
 [node name="ProjectTimer" parent="." instance=ExtResource("1_wxxnd")]
 
@@ -100,10 +130,12 @@ labelLengthOfDay = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/B
 SliderLengthOfDay = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderlengthofday")
 ControlProjectGO = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonOpenControlProject/ControlProject")
 ControlGamesProjectGO = NodePath("../ControlGamesProject")
-CheckButtonAlgoritm = [NodePath("ControlGame/Panel/HBoxContainer/Algoritms/CheckButton"), NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/Algoritms/CheckButton")]
+CheckButtonAlgoritm = [NodePath("ControlGame/Panel/HBoxContainer/Algoritms/CheckButton"), NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/CheckButton")]
 SliderPlatoSize = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPlatoSize")
 SliderPlatoOffsetX = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPlatoOffsetX")
 SliderPlatoOffsetZ = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPlatoOffsetY")
+
+[node name="HUDViewModel" type="Node" parent="Controls"]
 
 [node name="ControlBuild" type="Control" parent="Controls"]
 layout_mode = 1
@@ -112,6 +144,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="InfoHold" type="Label" parent="Controls/ControlBuild"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -164.0
+offset_top = 38.0
+offset_bottom = 177.0
+grow_horizontal = 0
+text = "ЛКМ: поставить, ПКМ: удалить
+ESC: блок мыши
+CTRL: контексное меню графов
+ALT: показ координат
+SHIFT: бег
+R: вращать
++, -, N - скалирование
+~: скрыть/показать лог"
+label_settings = SubResource("LabelSettings_elju3")
 
 [node name="Panel" type="Panel" parent="Controls/ControlBuild"]
 physics_interpolation_mode = 1
@@ -141,6 +193,7 @@ offset_top = -20.0
 offset_right = 740.0
 offset_bottom = 20.0
 grow_vertical = 2
+theme_override_constants/separation = 1
 
 [node name="ButtonHome" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer"]
 custom_minimum_size = Vector2(40, 0)
@@ -152,10 +205,10 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 3.0
-offset_top = -16.0
-offset_right = 37.0
-offset_bottom = 16.0
+offset_left = 8.0
+offset_top = -12.0
+offset_right = 32.0
+offset_bottom = 10.0
 grow_vertical = 2
 texture = ExtResource("5_i1qgd")
 expand_mode = 1
@@ -164,6 +217,11 @@ expand_mode = 1
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 focus_mode = 1
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("51_ffq47")
+theme_override_styles/hover_pressed = ExtResource("51_ffq47")
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("46_h4d78")
 text = "Файл"
 script = ExtResource("6_1h5ru")
 PanelMenu = NodePath("Panel")
@@ -175,11 +233,12 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 1.0
-offset_top = -10.5
-offset_right = 22.0
-offset_bottom = 10.5
+offset_left = 2.0
+offset_top = -8.0
+offset_right = 17.0
+offset_bottom = 7.0
 grow_vertical = 2
+texture = ExtResource("56_qj0h5")
 expand_mode = 1
 flip_h = true
 
@@ -192,12 +251,12 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -18.0
-offset_top = -9.0
-offset_right = -1.0
-offset_bottom = 8.0
+offset_top = -5.0
+offset_right = -8.0
+offset_bottom = 5.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("7_t1j1l")
+texture = ExtResource("10_ymu3k")
 expand_mode = 1
 
 [node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile"]
@@ -208,12 +267,12 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -18.0
-offset_top = -9.0
-offset_right = -1.0
-offset_bottom = 8.0
+offset_top = -5.0
+offset_right = -8.0
+offset_bottom = 5.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("8_4saec")
+texture = ExtResource("11_0tbdj")
 expand_mode = 1
 
 [node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile"]
@@ -221,7 +280,7 @@ visible = false
 layout_mode = 1
 offset_top = 41.0
 offset_right = 314.0
-offset_bottom = 313.0
+offset_bottom = 342.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel"]
 layout_mode = 0
@@ -251,20 +310,26 @@ alignment = 0
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 focus_mode = 1
-text = "Сохранить игру"
+text = "Сохранить карту"
 alignment = 0
 
 [node name="ButtonLoadMap" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 focus_mode = 1
-text = "Загрузить игру"
+text = "Загрузить карту"
 alignment = 0
 
 [node name="ButtonOpenGameImage" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
 layout_mode = 2
 focus_mode = 1
 text = "Загрузить обложку игры"
+alignment = 0
+
+[node name="ButtonOpenGameVideo" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+text = "Загрузить видео игры"
 alignment = 0
 
 [node name="ButtonExportProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
@@ -289,6 +354,11 @@ alignment = 0
 custom_minimum_size = Vector2(210, 0)
 layout_mode = 2
 focus_mode = 1
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("51_ffq47")
+theme_override_styles/hover_pressed = ExtResource("51_ffq47")
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("46_h4d78")
 text = "Генерация окружения"
 script = ExtResource("6_1h5ru")
 PanelMenu = NodePath("PanelTab")
@@ -296,16 +366,16 @@ arrow1 = NodePath("Arrow1")
 arrow2 = NodePath("Arrow2")
 
 [node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment"]
-visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -10.5
-offset_right = 21.0
-offset_bottom = 10.5
+offset_left = 2.0
+offset_top = -6.0
+offset_right = 17.0
+offset_bottom = 5.0
 grow_vertical = 2
-texture = ExtResource("9_0u5tf")
+texture = ExtResource("12_3i2qi")
 expand_mode = 1
 
 [node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment"]
@@ -317,12 +387,12 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -18.0
-offset_top = -9.0
-offset_right = -1.0
-offset_bottom = 8.0
+offset_top = -4.0
+offset_right = -8.0
+offset_bottom = 6.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("7_t1j1l")
+texture = ExtResource("10_ymu3k")
 expand_mode = 1
 
 [node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment"]
@@ -333,12 +403,12 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -18.0
-offset_top = -9.0
-offset_right = -1.0
-offset_bottom = 8.0
+offset_top = -4.0
+offset_right = -8.0
+offset_bottom = 6.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("8_4saec")
+texture = ExtResource("11_0tbdj")
 expand_mode = 1
 
 [node name="PanelTab" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment" node_paths=PackedStringArray("panels")]
@@ -357,6 +427,7 @@ offset_top = 1.0
 offset_right = 120.0
 offset_bottom = 41.0
 focus_mode = 1
+theme_override_styles/pressed = ExtResource("18_c37xe")
 text = "Ландшафт"
 script = ExtResource("6_1h5ru")
 PanelMenu = NodePath("Panel")
@@ -564,6 +635,7 @@ offset_top = 1.0
 offset_right = 243.0
 offset_bottom = 41.0
 focus_mode = 1
+theme_override_styles/pressed = ExtResource("18_c37xe")
 text = "Вода"
 script = ExtResource("6_1h5ru")
 PanelMenu = NodePath("Panel")
@@ -694,6 +766,7 @@ offset_top = 1.0
 offset_right = 366.0
 offset_bottom = 41.0
 focus_mode = 1
+theme_override_styles/pressed = ExtResource("18_c37xe")
 text = "Флора"
 script = ExtResource("6_1h5ru")
 PanelMenu = NodePath("Panel")
@@ -874,9 +947,14 @@ text = "Генерировать растительность"
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 focus_mode = 1
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("51_ffq47")
+theme_override_styles/hover_pressed = ExtResource("51_ffq47")
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("46_h4d78")
 text = "Объекты"
 script = ExtResource("6_1h5ru")
-PanelMenu = NodePath("Panel")
+PanelMenu = NodePath("PanelGameObjectLibraryView")
 arrow1 = NodePath("Arrow1")
 arrow2 = NodePath("Arrow2")
 
@@ -885,12 +963,12 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 1.0
-offset_top = -10.5
-offset_right = 22.0
-offset_bottom = 10.5
+offset_left = 3.0
+offset_top = -8.0
+offset_right = 18.0
+offset_bottom = 7.0
 grow_vertical = 2
-texture = ExtResource("14_3q1ca")
+texture = ExtResource("16_couy0")
 expand_mode = 1
 flip_h = true
 
@@ -903,12 +981,12 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -18.0
-offset_top = -9.0
-offset_right = -1.0
-offset_bottom = 8.0
+offset_top = -4.0
+offset_right = -8.0
+offset_bottom = 6.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("7_t1j1l")
+texture = ExtResource("10_ymu3k")
 expand_mode = 1
 
 [node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject"]
@@ -919,28 +997,37 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -18.0
-offset_top = -9.0
-offset_right = -1.0
-offset_bottom = 8.0
+offset_top = -4.0
+offset_right = -8.0
+offset_bottom = 6.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("8_4saec")
+texture = ExtResource("11_0tbdj")
 expand_mode = 1
 
-[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject"]
+[node name="PanelGameObjectLibraryView" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject"]
 visible = false
 layout_mode = 1
-offset_top = 39.0
-offset_right = 268.0
-offset_bottom = 119.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -351.0
+offset_top = 42.0
+offset_right = 396.0
+offset_bottom = 569.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("51_qas0a")
 
-[node name="Label7" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel"]
+[node name="Label7" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView"]
+visible = false
 layout_mode = 1
 offset_right = 268.0
 offset_bottom = 23.0
 text = "Выбор объекта"
 
-[node name="IdItemOption" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel"]
+[node name="IdItemOption" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView"]
+visible = false
 layout_mode = 1
 offset_top = 27.0
 offset_right = 265.0
@@ -950,10 +1037,45 @@ alignment = 2
 autowrap_mode = 3
 clip_text = true
 
+[node name="ScrollContainer" type="ScrollContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView/ScrollContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_direction = 2
+layout_mode = 2
+columns = 7
+
+[node name="GameObjectAssetInfoViewPrefab" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView/ScrollContainer/GridContainer" instance=ExtResource("16_1eb3b")]
+layout_mode = 2
+
+[node name="TabBarGameObjectGroup" type="TabBar" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView"]
+layout_mode = 0
+offset_right = 1146.0
+offset_bottom = 40.0
+theme = ExtResource("43_cp4ec")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/tab_selected = ExtResource("18_c37xe")
+current_tab = 0
+tab_count = 2
+tab_0/title = "Все объекты"
+tab_1/title = "Деревья"
+
 [node name="ButtonSettings" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 focus_mode = 1
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("51_ffq47")
+theme_override_styles/hover_pressed = ExtResource("51_ffq47")
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("46_h4d78")
 text = "Настройки"
 script = ExtResource("6_1h5ru")
 PanelMenu = NodePath("Panel")
@@ -982,12 +1104,12 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -18.0
-offset_top = -9.0
-offset_right = -1.0
-offset_bottom = 8.0
+offset_top = -4.0
+offset_right = -8.0
+offset_bottom = 6.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("7_t1j1l")
+texture = ExtResource("10_ymu3k")
 expand_mode = 1
 
 [node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings"]
@@ -998,12 +1120,12 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -18.0
-offset_top = -9.0
-offset_right = -1.0
-offset_bottom = 8.0
+offset_top = -4.0
+offset_right = -8.0
+offset_bottom = 6.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("8_4saec")
+texture = ExtResource("11_0tbdj")
 expand_mode = 1
 
 [node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings"]
@@ -1070,24 +1192,6 @@ focus_mode = 1
 max_value = 1.0
 step = 0.01
 
-[node name="Algoritms" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer"]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-
-[node name="CheckButton" type="CheckButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/Algoritms"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -1.0
-offset_right = 2.0
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 0
-theme_override_font_sizes/font_size = 13
-text = "Алгоритмы"
-alignment = 2
-
 [node name="HBoxContainer2" type="HBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu"]
 layout_mode = 1
 anchors_preset = 6
@@ -1095,8 +1199,9 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -61.0
+offset_left = -229.0
 offset_top = -20.0
+offset_right = -0.0799561
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
@@ -1119,6 +1224,20 @@ offset_top = 42.0
 offset_bottom = 291.0
 grow_horizontal = 0
 
+[node name="CheckButton" type="CheckButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = ExtResource("46_h4d78")
+text = "Тестирование"
+alignment = 2
+
+[node name="Algoritms" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2"]
+visible = false
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
 [node name="ButtonReload" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2"]
 visible = false
 layout_mode = 2
@@ -1126,12 +1245,27 @@ focus_mode = 1
 text = "Рестарт"
 
 [node name="ButtonTest" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2"]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 focus_mode = 1
 theme_override_font_sizes/font_size = 12
-text = "Запуск"
+theme_override_styles/normal = ExtResource("18_c37xe")
+text = "Запустить"
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonTest"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.07996
+offset_top = -9.0
+offset_right = 21.08
+offset_bottom = 10.0
+grow_vertical = 2
+texture = ExtResource("19_c8ee4")
+expand_mode = 1
 
 [node name="HSliderGrassTexID" type="HSlider" parent="Controls/ControlBuild/Panel"]
 visible = false
@@ -1217,25 +1351,6 @@ offset_bottom = 33.0
 grow_horizontal = 0
 focus_mode = 1
 text = "Настройки"
-
-[node name="InfoHold" type="Label" parent="Controls/ControlBuild"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -164.0
-offset_top = 38.0
-offset_bottom = 177.0
-grow_horizontal = 0
-text = "ЛКМ: поставить, ПКМ: удалить
-ESC: блок мыши
-CTRL: контексное меню графов
-ALT: показ координат
-SHIFT: бег
-R: вращать
-+, -, N - скалирование
-~: скрыть/показать лог"
-label_settings = SubResource("LabelSettings_elju3")
 
 [node name="ControlGame" type="Control" parent="Controls"]
 visible = false
@@ -1451,6 +1566,7 @@ popup/item_1/text = "Тени включены"
 popup/item_1/id = 1
 
 [node name="ContextMenu" parent="Controls" instance=ExtResource("15_fjimb")]
+visible = true
 layout_mode = 1
 
 [node name="LabelCoordinate" type="Label" parent="Controls"]
@@ -1790,33 +1906,6 @@ popup/item_35/text = "ТаймерСброс"
 popup/item_35/checkable = 1
 popup/item_35/id = 35
 
-[node name="MessageBox" type="Panel" parent="Controls" node_paths=PackedStringArray("label")]
-visible = false
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -301.0
-offset_top = 33.0
-offset_right = 304.0
-offset_bottom = 118.0
-grow_horizontal = 2
-script = ExtResource("17_n51xi")
-label = NodePath("Label")
-
-[node name="Label" type="Label" parent="Controls/MessageBox"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Сообщение"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
-clip_text = true
-
 [node name="AlgControl" parent="." instance=ExtResource("18_uus1o")]
 visible = false
 offset_left = 275.0
@@ -1905,7 +1994,6 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="ObjectsCatalog" parent="." instance=ExtResource("22_3pdji")]
-visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -1913,9 +2001,48 @@ anchor_right = 0.5
 anchor_bottom = 0.0
 grow_vertical = 1
 
+[node name="VideoPlayer" parent="." instance=ExtResource("22_6diaf")]
+visible = false
+layout_mode = 1
+
+[node name="Loading" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("24_w700t")
+loadingTexture = ExtResource("21_ejwl8")
+
+[node name="TextureRect" type="TextureRect" parent="Loading"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("21_ejwl8")
+
+[node name="Label2" type="Label" parent="Loading"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -102.0
+offset_top = -36.0
+offset_right = 103.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 22
+text = "Загрузка..."
+horizontal_alignment = 1
+
 [node name="VoxLib" type="Node3D" parent="." node_paths=PackedStringArray("CGP")]
 script = ExtResource("23_56bgx")
-_mapAssets = ExtResource("24_iibtg")
 CGP = NodePath("../ControlGamesProject")
 
 [node name="WorldTerrain" type="Node3D" parent="."]
@@ -1924,26 +2051,41 @@ script = ExtResource("25_jfqi2")
 [node name="WorldWater" type="Node3D" parent="."]
 script = ExtResource("26_xdp10")
 
-[node name="MapManager" type="Node3D" parent="." node_paths=PackedStringArray("buildControl", "gameControl", "IdItemOption", "IdItemOptionCustom", "CheckBoxCreateItem", "CheckBoxDeleteItem", "CreateMode", "navigationRegion3D", "fileDialog", "fileDialogLoad", "TypeWaterOption", "checkButtonWaterStatic", "sliderGrassTexID", "ReplaceTexture", "CheckBoxUsedOnlyCustomItem", "replaceTexUI")]
+[node name="MapManagers" type="Node" parent="."]
+
+[node name="MapManagerItemSetter" type="Node" parent="MapManagers"]
+script = ExtResource("36_r168r")
+
+[node name="MapManager" type="Node" parent="MapManagers" node_paths=PackedStringArray("buildControl", "gameControl", "IdItemOption", "IdItemOptionCustom", "CheckBoxCreateItem", "CheckBoxDeleteItem", "CreateMode", "navigationRegion3D", "fileDialog", "fileDialogLoad", "_mapManagerItemSetter", "TypeWaterOption", "checkButtonWaterStatic", "sliderGrassTexID", "ReplaceTexture", "CheckBoxUsedOnlyCustomItem", "replaceTexUI")]
 script = ExtResource("27_5b8gm")
-buildControl = NodePath("../Controls/ControlBuild")
-gameControl = NodePath("../Controls/ControlGame")
+buildControl = NodePath("../../Controls/ControlBuild")
+gameControl = NodePath("../../Controls/ControlGame")
 CameraFreeGO = ExtResource("28_hoa3c")
 PlayerGO = ExtResource("29_wh4fr")
-IdItemOption = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel/IdItemOption")
-IdItemOptionCustom = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/IdItemOptionCustom")
-CheckBoxCreateItem = NodePath("../Controls/ControlBuild/Panel/CheckBoxCreateItem")
-CheckBoxDeleteItem = NodePath("../Controls/ControlBuild/Panel/CheckBoxDeleteItem")
-CreateMode = NodePath("../Controls/ControlBuild/Panel/ItemList")
-navigationRegion3D = NodePath("../NavigationRegion3D")
-fileDialog = NodePath("../SaveFileDialog")
-fileDialogLoad = NodePath("../LoadFileDialog")
-TypeWaterOption = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/TypeWaterOption")
-checkButtonWaterStatic = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/CheckButtonWaterStatic")
-sliderGrassTexID = NodePath("../Controls/ControlBuild/Panel/HSliderGrassTexID")
-ReplaceTexture = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ReplaseTextureRect")
-CheckBoxUsedOnlyCustomItem = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/CheckBoxUsedOnlyCustomItem")
-replaceTexUI = NodePath("../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ReplaseTextureRect")
+IdItemOption = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView/IdItemOption")
+IdItemOptionCustom = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/IdItemOptionCustom")
+CheckBoxCreateItem = NodePath("../../Controls/ControlBuild/Panel/CheckBoxCreateItem")
+CheckBoxDeleteItem = NodePath("../../Controls/ControlBuild/Panel/CheckBoxDeleteItem")
+CreateMode = NodePath("../../Controls/ControlBuild/Panel/ItemList")
+navigationRegion3D = NodePath("../../NavigationRegion3D")
+fileDialog = NodePath("../../SaveFileDialog")
+fileDialogLoad = NodePath("../../LoadFileDialog")
+_mapManagerItemSetter = NodePath("../MapManagerItemSetter")
+TypeWaterOption = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/TypeWaterOption")
+checkButtonWaterStatic = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/CheckButtonWaterStatic")
+sliderGrassTexID = NodePath("../../Controls/ControlBuild/Panel/HSliderGrassTexID")
+ReplaceTexture = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ReplaseTextureRect")
+CheckBoxUsedOnlyCustomItem = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/CheckBoxUsedOnlyCustomItem")
+replaceTexUI = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ReplaseTextureRect")
+
+[node name="MapManagerView" type="Node" parent="MapManagers" node_paths=PackedStringArray("buildControl", "gameControl")]
+script = ExtResource("34_jfh7j")
+buildControl = NodePath("../../Controls/ControlBuild")
+gameControl = NodePath("../../Controls/ControlGame")
+
+[node name="MapManagerController" type="Node" parent="MapManagers" node_paths=PackedStringArray("_mapManagerView")]
+script = ExtResource("34_n8jam")
+_mapManagerView = NodePath("../MapManagerView")
 
 [node name="GameManager" type="Node3D" parent="."]
 script = ExtResource("30_lv1wd")
@@ -2128,51 +2270,1058 @@ shape = SubResource("BoxShape3D_eumda")
 
 [node name="Environment" parent="." instance=ExtResource("31_xhvja")]
 
+[node name="GameObjectCollection" type="Node" parent="."]
+
+[node name="GameObjectAddGameObjectAssetView" type="Node" parent="GameObjectCollection" node_paths=PackedStringArray("gameObjectAddUserSourceUI")]
+script = ExtResource("35_avsay")
+gameObjectAddUserSourceUI = NodePath("GameObjectAddGameObjectAssetUiView")
+
+[node name="GameObjectAddGameObjectAssetUiView" type="Control" parent="GameObjectCollection/GameObjectAddGameObjectAssetView" node_paths=PackedStringArray("LabelTittle", "ButtonOpen3DModel", "TextEditModelName", "TextEditPath3DModel", "OptionButtonGroupObject", "OptionButtonClassObject", "TextEditSampleObject", "ButtonOpenPathSound", "TextEditPathSound", "VBoxContainerSound", "ButtonOpenPathAnimation", "TextEditPathAnimation", "VBoxContainerAnimation", "ButtonSaveEditModel", "ButtonRemoveModel", "ButtonAddUserSource", "ButtonClose", "TextEditGraphXmlPath", "ButtonOpenGraphXmlPath", "ButtonOpenPreviewPath", "TextureRectPreviewImage")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("35_w5hvm")
+LabelTittle = NodePath("Panel/Label")
+ButtonOpen3DModel = NodePath("Panel/ButtonOpen3DModel")
+TextEditModelName = NodePath("Panel/TextEditModelName")
+TextEditPath3DModel = NodePath("Panel/TextEditPath3DModel")
+OptionButtonGroupObject = NodePath("Panel/OptionButtonGroupObject")
+OptionButtonClassObject = NodePath("Panel/OptionButtonClassObject")
+TextEditSampleObject = NodePath("Panel/TextEditSampleObject")
+ButtonOpenPathSound = NodePath("Panel/ButtonOpenPathSound")
+TextEditPathSound = NodePath("Panel/TextEditPathSound")
+VBoxContainerSound = NodePath("Panel/ScrollContainerSound/VBoxContainerSound")
+ItemLibraryObjectPrefab = ExtResource("36_jw1t7")
+ButtonOpenPathAnimation = NodePath("Panel/ButtonOpenPathAnimation")
+TextEditPathAnimation = NodePath("Panel/TextEditPathAnimation")
+VBoxContainerAnimation = NodePath("Panel/ScrollContainerAnimation/VBoxContainerAnimation")
+ButtonSaveEditModel = NodePath("Panel/ButtonSaveEditModel")
+ButtonRemoveModel = NodePath("Panel/ButtonRemoveModel")
+ButtonAddUserSource = NodePath("Panel/ButtonLoadModel")
+ButtonClose = NodePath("Panel/ButtonClose")
+TextEditGraphXmlPath = NodePath("Panel/TextEditGraphXmlPath")
+ButtonOpenGraphXmlPath = NodePath("Panel/ButtonOpenGraphXmlPath")
+ButtonOpenPreviewPath = NodePath("Panel/ButtonOpenPreview")
+TextureRectPreviewImage = NodePath("Panel/TextureRectPreview")
+
+[node name="Panel" type="Panel" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -331.0
+offset_top = 44.0
+offset_right = 336.0
+offset_bottom = 611.0
+grow_horizontal = 2
+theme_override_styles/panel = ExtResource("51_qas0a")
+
+[node name="Panel" type="Panel" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -252.5
+offset_bottom = -249.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("44_6cbqs")
+
+[node name="Label" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -123.5
+offset_right = 124.5
+offset_bottom = 30.0
+grow_horizontal = 2
+text = "Загрузить объект"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="ButtonClose" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.0
+offset_top = 1.0
+offset_bottom = 33.0
+grow_horizontal = 0
+focus_mode = 1
+flat = true
+icon_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonClose"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -25.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = 25.0
+grow_horizontal = 0
+texture = ExtResource("45_yiygv")
+expand_mode = 1
+
+[node name="LabelNameModel" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 49.0
+offset_right = 285.0
+offset_bottom = 76.0
+text = "Название модели"
+
+[node name="TextEditModelName" type="TextEdit" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 76.0
+offset_right = 346.0
+offset_bottom = 109.0
+theme_override_styles/normal = ExtResource("46_h4d78")
+placeholder_text = "Введите название латиницей"
+
+[node name="LabelNameIcon" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 549.0
+offset_top = 49.0
+offset_right = 658.0
+offset_bottom = 76.0
+text = "Иконка"
+
+[node name="ButtonOpenPreview" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -119.0
+offset_top = 76.0
+offset_right = -9.0
+offset_bottom = 108.0
+grow_horizontal = 0
+focus_mode = 1
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Загрузить"
+icon = ExtResource("42_ygxxe")
+
+[node name="TextureRectPreview" type="TextureRect" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -216.0
+offset_top = 38.0
+offset_right = -126.0
+offset_bottom = 125.0
+grow_horizontal = 0
+expand_mode = 1
+
+[node name="Label3DModel" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 130.0
+offset_right = 282.0
+offset_bottom = 157.0
+text = "3D модель"
+
+[node name="TextEditPath3DModel" type="TextEdit" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 157.0
+offset_right = 542.0
+offset_bottom = 195.0
+theme_override_styles/normal = ExtResource("46_h4d78")
+placeholder_text = "Путь к 3D файлу... (*.obj ; *.glb)"
+editable = false
+
+[node name="ButtonOpen3DModel" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -121.0
+offset_top = 160.0
+offset_right = -11.0
+offset_bottom = 192.0
+grow_horizontal = 0
+focus_mode = 1
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Загрузить"
+icon = ExtResource("42_ygxxe")
+
+[node name="LabelGroupObject" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 221.0
+offset_right = 221.0
+offset_bottom = 248.0
+text = "Группа объекта:"
+
+[node name="OptionButtonGroupObject" type="OptionButton" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 248.0
+offset_right = 222.0
+offset_bottom = 283.0
+focus_mode = 1
+theme_override_styles/normal = ExtResource("46_h4d78")
+autowrap_mode = 3
+clip_text = true
+
+[node name="LabelSampleObject" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 449.0
+offset_top = 219.0
+offset_right = 648.0
+offset_bottom = 246.0
+text = "Шаблон объекта:"
+
+[node name="TextEditSampleObject" type="TextEdit" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 448.0
+offset_top = 248.0
+offset_right = 648.0
+offset_bottom = 283.0
+theme_override_styles/normal = ExtResource("46_h4d78")
+
+[node name="LabelClassObject" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 237.0
+offset_top = 220.0
+offset_right = 436.0
+offset_bottom = 247.0
+text = "Класс объекта:"
+
+[node name="OptionButtonClassObject" type="OptionButton" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 236.0
+offset_top = 248.0
+offset_right = 436.0
+offset_bottom = 283.0
+focus_mode = 1
+theme_override_styles/normal = ExtResource("46_h4d78")
+autowrap_mode = 3
+clip_text = true
+selected = 0
+item_count = 3
+popup/item_0/text = "Статика"
+popup/item_1/text = "Динамика"
+popup/item_1/id = 1
+popup/item_2/text = "Платформа"
+popup/item_2/id = 2
+
+[node name="LabelSound" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 369.0
+offset_right = 282.0
+offset_bottom = 396.0
+text = "Звук:"
+
+[node name="TextEditPathSound" type="TextEdit" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 394.0
+offset_right = 213.0
+offset_bottom = 430.0
+theme_override_styles/normal = ExtResource("46_h4d78")
+placeholder_text = "Путь к звуку... (*.mp3, *.ogg, *.aac)"
+editable = false
+
+[node name="ScrollContainerSound" type="ScrollContainer" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 435.0
+offset_right = 311.0
+offset_bottom = 515.0
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainerSound" type="VBoxContainer" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainerSound"]
+custom_minimum_size = Vector2(300, 87.37)
+layout_mode = 2
+
+[node name="ItemLibraryObjectDataPrefab" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainerSound/VBoxContainerSound" instance=ExtResource("36_jw1t7")]
+layout_mode = 2
+
+[node name="ButtonOpenPathSound" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -451.0
+offset_top = 397.0
+offset_right = -341.0
+offset_bottom = 429.0
+grow_horizontal = 0
+focus_mode = 1
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Загрузить"
+icon = ExtResource("42_ygxxe")
+
+[node name="LabelAnimation" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 343.0
+offset_top = 370.0
+offset_right = 646.0
+offset_bottom = 397.0
+text = "Анимация:"
+
+[node name="TextEditPathAnimation" type="TextEdit" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 343.0
+offset_top = 397.0
+offset_right = 542.0
+offset_bottom = 433.0
+theme_override_styles/normal = ExtResource("46_h4d78")
+placeholder_text = "Путь к анимации... (.glb)"
+editable = false
+
+[node name="ButtonOpenPathAnimation" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -121.0
+offset_top = 402.0
+offset_right = -11.0
+offset_bottom = 434.0
+grow_horizontal = 0
+focus_mode = 1
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Загрузить"
+icon = ExtResource("42_ygxxe")
+
+[node name="ScrollContainerAnimation" type="ScrollContainer" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 344.0
+offset_top = 437.0
+offset_right = 632.0
+offset_bottom = 517.0
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainerAnimation" type="VBoxContainer" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainerAnimation"]
+custom_minimum_size = Vector2(300, 87.37)
+layout_mode = 2
+
+[node name="ItemLibraryObjectDataPrefab" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainerAnimation/VBoxContainerAnimation" instance=ExtResource("36_jw1t7")]
+layout_mode = 2
+
+[node name="LabelGraphXmlPath" type="Label" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 296.0
+offset_right = 283.0
+offset_bottom = 323.0
+text = "Граф XML"
+
+[node name="TextEditGraphXmlPath" type="TextEdit" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 321.0
+offset_right = 542.0
+offset_bottom = 359.0
+theme_override_styles/normal = ExtResource("46_h4d78")
+placeholder_text = "Путь к файлу графа... (*.graphml)"
+editable = false
+
+[node name="ButtonOpenGraphXmlPath" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -121.0
+offset_top = 324.0
+offset_right = -11.0
+offset_bottom = 356.0
+grow_horizontal = 0
+focus_mode = 1
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Загрузить"
+icon = ExtResource("42_ygxxe")
+
+[node name="ButtonAddAnimation" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -381.0
+offset_top = 479.0
+offset_right = -110.0
+offset_bottom = 511.0
+grow_horizontal = 0
+focus_mode = 1
+text = "Добавить ещё"
+icon_alignment = 1
+
+[node name="ButtonLoadModel" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -135.0
+offset_top = -44.0
+offset_right = 136.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 1
+theme = ExtResource("43_cp4ec")
+text = "Загрузить"
+icon_alignment = 1
+
+[node name="ButtonSaveEditModel" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -507.0
+offset_top = 524.0
+offset_right = -236.0
+offset_bottom = 564.0
+grow_horizontal = 0
+focus_mode = 1
+theme = ExtResource("43_cp4ec")
+text = "Сохранить"
+icon_alignment = 1
+
+[node name="ButtonRemoveModel" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -102.0
+offset_top = 504.0
+offset_right = -6.0
+offset_bottom = 558.0
+grow_horizontal = 0
+focus_mode = 1
+text = "Удалить
+обект"
+icon_alignment = 1
+
+[node name="FileDialog" type="FileDialog" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView"]
+auto_translate_mode = 1
+title = "Open a File"
+initial_position = 3
+size = Vector2i(563, 380)
+current_screen = 0
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="Control" type="Control" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/FileDialog"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -273.5
+offset_top = -182.0
+offset_right = 273.5
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AccessCheckButton" type="CheckButton" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/FileDialog/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -264.0
+offset_top = 34.78
+offset_bottom = 65.78
+grow_horizontal = 0
+size_flags_vertical = 8
+button_pressed = true
+text = "Проект/Файловая система"
+alignment = 2
+
+[node name="GameObjectCommonLibraryView" type="Node" parent="GameObjectCollection" node_paths=PackedStringArray("_collectionView")]
+script = ExtResource("35_ai4aq")
+_collectionView = NodePath("GameObjectCollectionView")
+
+[node name="GameObjectCollectionView" type="Node" parent="GameObjectCollection/GameObjectCommonLibraryView" node_paths=PackedStringArray("GridContainerCollectionView", "TabBarGameObjectGroup")]
+script = ExtResource("37_0m72d")
+GridContainerCollectionView = NodePath("../../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView/ScrollContainer/GridContainer")
+GameObjectAssetInfoPrefab = ExtResource("16_1eb3b")
+TabBarGameObjectGroup = NodePath("../../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView/TabBarGameObjectGroup")
+
+[node name="GameObjectCollectionController" type="Node" parent="GameObjectCollection/GameObjectCommonLibraryView" node_paths=PackedStringArray("IndicatorCollectionVisible")]
+script = ExtResource("42_rqra7")
+IndicatorCollectionVisible = NodePath("../../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView")
+
+[node name="GameObjectCurrentInfoManager" type="Node" parent="GameObjectCollection"]
+script = ExtResource("48_s74f1")
+
+[node name="GameObjectCurrentInfoController" type="Node" parent="GameObjectCollection/GameObjectCurrentInfoManager" node_paths=PackedStringArray("GameObjectCurrentInfoView")]
+script = ExtResource("48_ggc47")
+GameObjectCurrentInfoView = NodePath("../GameObjectCurrentInfoView")
+
+[node name="GameObjectCurrentInfoView" type="Control" parent="GameObjectCollection/GameObjectCurrentInfoManager" node_paths=PackedStringArray("TextEditModelName", "TextEditPath3DModel", "ButtonOpenPath3DModel", "OptionButtonGroupObject", "TextEditSampleObject", "ButtonCopySampleObject", "VBoxContainerGraphXmlPath", "TextureRectPreviewImage", "ButtonOpenPreviewImage", "ButtonOpenGraphXmlPath", "ButtonEditGraphXmlPath", "ButtonOpenAudioPath", "VBoxContainerAudios", "ButtonOpenAnimationPath", "VBoxContainerAnimation", "ButtonDeleteAsset")]
+visible = false
+layout_mode = 3
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -229.0
+offset_top = 40.0
+offset_bottom = -39.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("48_c1rw7")
+ItemLibraryObjectPrefab = ExtResource("36_jw1t7")
+TextEditModelName = NodePath("Panel/ScrollContainer/VBoxContainer/TextEditName")
+TextEditPath3DModel = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel/TextEditPath3DModel")
+ButtonOpenPath3DModel = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel/ButtonOpenPath3DModel")
+OptionButtonGroupObject = NodePath("Panel/ScrollContainer/VBoxContainer/OptionButtonGroupObject")
+TextEditSampleObject = NodePath("Panel/ScrollContainer/VBoxContainer/TextEditSampleObject")
+ButtonCopySampleObject = NodePath("Panel/ScrollContainer/VBoxContainer/LabelSampleObject/ButtonCopySampleObject")
+VBoxContainerGraphXmlPath = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXml/VBoxContainerGraphXml")
+TextureRectPreviewImage = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/TextureRectPreview")
+ButtonOpenPreviewImage = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/ButtonOpenPreviewImage")
+ButtonOpenGraphXmlPath = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXml/ButtonOpenGraphXml")
+ButtonEditGraphXmlPath = NodePath("Panel/ScrollContainer/VBoxContainer/ButtonEditGraph")
+ButtonOpenAudioPath = NodePath("Panel/ScrollContainer/VBoxContainer/LebelAudios/ButtonOpenAudioPath")
+VBoxContainerAudios = NodePath("Panel/ScrollContainer/VBoxContainer/VBoxContainerAudios")
+ButtonOpenAnimationPath = NodePath("Panel/ScrollContainer/VBoxContainer/LebelAnimation/ButtonOpenAnimationPath")
+VBoxContainerAnimation = NodePath("Panel/ScrollContainer/VBoxContainer/VBoxContainerAnimations")
+ButtonDeleteAsset = NodePath("Panel/ScrollContainer/VBoxContainer/ButtonDeleteAsset")
+
+[node name="Panel" type="Panel" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("51_qas0a")
+
+[node name="LabelHeader" type="Label" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel"]
+layout_mode = 2
+offset_right = 187.0
+offset_bottom = 23.0
+text = "Настройки объекта"
+horizontal_alignment = 2
+
+[node name="TextureRect1" type="TextureRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/LabelHeader"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = -8.5
+offset_right = 22.0
+offset_bottom = 11.5
+grow_vertical = 2
+texture = ExtResource("49_ncjq2")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/LabelHeader/TextureRect1"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("50_n1oer")
+expand_mode = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 28.0
+offset_right = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer"]
+custom_minimum_size = Vector2(214.105, 87.37)
+layout_mode = 2
+
+[node name="LabelNameModel" type="Label" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Название модели"
+
+[node name="TextEditName" type="TextEdit" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("46_h4d78")
+
+[node name="LabelPreviewImage" type="Label" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Иконка"
+
+[node name="ReferenceRectPreviewImage" type="ReferenceRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextureRectPreview" type="TextureRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -30.0
+offset_right = 63.0
+offset_bottom = 30.0
+grow_vertical = 2
+expand_mode = 1
+
+[node name="ButtonOpenPreviewImage" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage"]
+custom_minimum_size = Vector2(70, 30)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -83.0
+offset_top = -17.0
+offset_right = 2.0
+offset_bottom = 17.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("18_c37xe")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Загрузить"
+icon = ExtResource("42_ygxxe")
+
+[node name="LabelPath3DModel" type="Label" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "3D модель:"
+
+[node name="ReferenceRectPath3DModel" type="ReferenceRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextEditPath3DModel" type="TextEdit" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 128.0
+grow_vertical = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = ExtResource("46_h4d78")
+text = "model.fbx"
+editable = false
+
+[node name="ButtonOpenPath3DModel" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel"]
+custom_minimum_size = Vector2(70, 30)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -84.0
+offset_top = -17.5
+offset_right = 1.0
+offset_bottom = 17.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("18_c37xe")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Загрузить"
+icon = ExtResource("42_ygxxe")
+
+[node name="LabelGroupObject" type="Label" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Группа объекта:"
+
+[node name="OptionButtonGroupObject" type="OptionButton" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+focus_mode = 1
+theme_override_styles/normal = ExtResource("46_h4d78")
+autowrap_mode = 3
+clip_text = true
+
+[node name="LabelSampleObject" type="Label" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Шаблон объекта:"
+
+[node name="ButtonCopySampleObject" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LabelSampleObject"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -8.0
+offset_right = 1.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+icon = ExtResource("56_qj0h5")
+icon_alignment = 1
+expand_icon = true
+
+[node name="TextEditSampleObject" type="TextEdit" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("46_h4d78")
+
+[node name="LebelGraphXml" type="ReferenceRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextureRectPreview" type="TextureRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelGraphXml"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 14.0
+offset_bottom = 7.0
+grow_vertical = 2
+texture = ExtResource("51_fojbo")
+expand_mode = 1
+
+[node name="LabelGraph" type="Label" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelGraphXml"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -6.5
+offset_right = 176.0
+offset_bottom = 7.5
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "Алгоритмы:"
+
+[node name="ReferenceRectGraphXml" type="ReferenceRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+border_width = 0.0
+
+[node name="ButtonOpenGraphXml" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXml"]
+custom_minimum_size = Vector2(70, 30)
+layout_mode = 2
+offset_right = 216.0
+offset_bottom = 30.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("18_c37xe")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Загрузить алгоритм"
+icon = ExtResource("42_ygxxe")
+
+[node name="VBoxContainerGraphXml" type="VBoxContainer" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXml"]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 215.0
+offset_bottom = 56.0
+
+[node name="ItemLibraryObjectDataPrefab" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXml/VBoxContainerGraphXml" instance=ExtResource("36_jw1t7")]
+layout_mode = 2
+
+[node name="ButtonEditGraph" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Редактировать граф"
+icon = ExtResource("42_ygxxe")
+
+[node name="LebelAudios" type="ReferenceRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextureRectPreview" type="TextureRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAudios"]
+visible = false
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 14.0
+offset_bottom = 7.0
+grow_vertical = 2
+texture = ExtResource("51_fojbo")
+expand_mode = 1
+
+[node name="LabelGraph" type="Label" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAudios"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 127.0
+offset_bottom = 7.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "Аудио:"
+
+[node name="ButtonOpenAudioPath" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAudios"]
+custom_minimum_size = Vector2(70, 30)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -83.0
+offset_top = -15.0
+offset_right = 2.0
+offset_bottom = 15.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("18_c37xe")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Загрузить"
+icon = ExtResource("42_ygxxe")
+
+[node name="VBoxContainerAudios" type="VBoxContainer" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemLibraryObjectDataPrefab" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/VBoxContainerAudios" instance=ExtResource("36_jw1t7")]
+layout_mode = 2
+
+[node name="LebelAnimation" type="ReferenceRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextureRectPreview" type="TextureRect" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAnimation"]
+visible = false
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 14.0
+offset_bottom = 7.0
+grow_vertical = 2
+texture = ExtResource("51_fojbo")
+expand_mode = 1
+
+[node name="LabelGraph" type="Label" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAnimation"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 127.0
+offset_bottom = 7.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "Анимация:"
+
+[node name="ButtonOpenAnimationPath" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAnimation"]
+custom_minimum_size = Vector2(70, 20)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -83.0
+offset_top = -15.0
+offset_right = 2.0
+offset_bottom = 15.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("18_c37xe")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Загрузить"
+icon = ExtResource("42_ygxxe")
+
+[node name="VBoxContainerAnimations" type="VBoxContainer" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemLibraryObjectDataPrefab" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/VBoxContainerAnimations" instance=ExtResource("36_jw1t7")]
+layout_mode = 2
+
+[node name="PanelDelimiter" type="Panel" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ButtonDeleteAsset" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_ffq47")
+text = "Удалить объект"
+
+[node name="FileDialog" type="FileDialog" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView"]
+auto_translate_mode = 1
+title = "Open a File"
+initial_position = 3
+size = Vector2i(563, 380)
+current_screen = 0
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="Control" type="Control" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/FileDialog"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -273.5
+offset_top = -182.0
+offset_right = 273.5
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AccessCheckButton" type="CheckButton" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/FileDialog/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -264.0
+offset_top = 34.78
+offset_bottom = 65.78
+grow_horizontal = 0
+size_flags_vertical = 8
+button_pressed = true
+text = "Проект/Файловая система"
+alignment = 2
+
+[node name="MessageBox" type="Panel" parent="." node_paths=PackedStringArray("label")]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -301.0
+offset_top = 59.0
+offset_right = 304.0
+offset_bottom = 144.0
+grow_horizontal = 2
+script = ExtResource("17_n51xi")
+label = NodePath("Label")
+
+[node name="Label" type="Label" parent="MessageBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Сообщение"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+clip_text = true
+
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonHome" to="Controls" method="OnOpenControlGameProject"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" method="OnClick"]
-[connection signal="pressed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenProjectFolder" to="MapManager" method="OpenProjectFolderWithExplorer"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonSaveMap" to="MapManager" method="SaveMap"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonLoadMap" to="MapManager" method="LoadMap"]
+[connection signal="pressed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenProjectFolder" to="MapManagers/MapManager" method="OpenProjectFolderWithExplorer"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonSaveMap" to="MapManagers/MapManager" method="SaveMap"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonLoadMap" to="MapManagers/MapManager" method="LoadMap"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenGameImage" to="Controls" method="OnOpenGameImage"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenGameVideo" to="Controls" method="OnOpenGameVideo"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonExportProject" to="Controls" method="OnExportProject"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonImportProject" to="Controls" method="OnImportProject"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonGameProjects" to="Controls" method="OnOpenControlGameProject"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment" method="OnClick"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [0]]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPower" to="MapManager" method="ChangePower"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderScale" to="MapManager" method="ChangeScale"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPower" to="MapManagers/MapManager" method="ChangePower"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderScale" to="MapManagers/MapManager" method="ChangeScale"]
 [connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderlengthofday" to="Controls" method="SaveLengthOfDay"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderGrassTex" to="MapManager" method="SetGrassTexture"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ButtonGenerateTerrain" to="MapManager" method="GenerateNewWorld"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderGrassTex" to="MapManagers/MapManager" method="SetGrassTexture"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ButtonGenerateTerrain" to="MapManagers/MapManager" method="GenerateNewWorld"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [1]]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/HSliderWaterOffset" to="MapManager" method="ChangeWaterOffset"]
-[connection signal="item_selected" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/TypeWaterOption" to="MapManager" method="ChangeWaterType"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/ButtonGenerateWater" to="MapManager" method="CreateWater"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/HSliderWaterOffset" to="MapManagers/MapManager" method="ChangeWaterOffset"]
+[connection signal="item_selected" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/TypeWaterOption" to="MapManagers/MapManager" method="ChangeWaterType"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/ButtonGenerateWater" to="MapManagers/MapManager" method="CreateWater"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [2]]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderGrassDensity" to="MapManager" method="ChangeGrassDensity"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderPlantsDensity2" to="MapManager" method="ChangePlantsDensity"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderTreesDensity" to="MapManager" method="ChangeTreesDensity"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderGrassDensity" to="MapManagers/MapManager" method="ChangeGrassDensity"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderPlantsDensity2" to="MapManagers/MapManager" method="ChangePlantsDensity"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderTreesDensity" to="MapManagers/MapManager" method="ChangeTreesDensity"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonOpenGrass" to="ModelLoader" method="OpenModelGrass"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonOpenTrees" to="ModelLoader" method="OpenModelTrees"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/IdItemOptionCustom" to="MapManager" method="SetUsedCustomItemBuild"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonGeneratePlants" to="MapManager" method="GenerateNewPlants"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/IdItemOptionCustom" to="MapManagers/MapManager" method="SetUsedCustomItemBuild"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonGeneratePlants" to="MapManagers/MapManager" method="GenerateNewPlants"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" method="OnClick"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/Panel/IdItemOption" to="MapManager" method="SetUsedStandartItemBuild"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView/IdItemOption" to="MapManagers/MapManager" method="SetUsedStandartItemBuild"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" method="OnClick"]
 [connection signal="item_selected" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/OptionButtonShadow" to="Controls" method="SetShadowEnabled"]
 [connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/HSliderMouseSence" to="Controls" method="SetSensitivity"]
-[connection signal="toggled" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/Algoritms/CheckButton" to="Controls" method="OnAlgoritmStartStopChange"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonOpenControlProject" to="Controls" method="OnOpenControlProject"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonReload" to="MapManager" method="OnReloadMap"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonTest" to="MapManager" method="PlayTest"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ButtonSetTexure" to="MapManager" method="SetGrassTexture"]
-[connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxCreateItem" to="MapManager" method="SetCreateItem"]
-[connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxDeleteItem" to="MapManager" method="SetDeleteItem"]
+[connection signal="toggled" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/CheckButton" to="Controls" method="OnAlgoritmStartStopChange"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonReload" to="MapManagers/MapManager" method="OnReloadMap"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonTest" to="MapManagers/MapManager" method="PlayTest"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ButtonSetTexure" to="MapManagers/MapManager" method="SetGrassTexture"]
+[connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxCreateItem" to="MapManagers/MapManager" method="SetCreateItem"]
+[connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxDeleteItem" to="MapManagers/MapManager" method="SetDeleteItem"]
 [connection signal="button_down" from="Controls/ControlBuild/ButtonSettings" to="Controls" method="OnOpenSettings"]
 [connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonHome" to="Controls" method="OnOpenControlGameProject"]
-[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonExit" to="MapManager" method="PlayTest"]
+[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonExit" to="MapManagers/MapManager" method="PlayTest"]
 [connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonOpenGameMenu" to="Controls" method="OnOpenControlGameProject"]
-[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonReload" to="MapManager" method="OnReloadMap"]
+[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonReload" to="MapManagers/MapManager" method="OnReloadMap"]
 [connection signal="toggled" from="Controls/ControlGame/Panel/HBoxContainer/Algoritms/CheckButton" to="Controls" method="OnAlgoritmStartStopChange"]
 [connection signal="value_changed" from="Controls/ControlSettings/Panel/HSliderlengthofday" to="Controls" method="SaveLengthOfDay"]
 [connection signal="button_down" from="Controls/ControlSettings/Panel/ButtonExit" to="Controls" method="OnCloseSettings"]
@@ -2187,3 +3336,9 @@ shape = SubResource("BoxShape3D_eumda")
 [connection signal="text_changed" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="SetFilterText"]
 [connection signal="button_down" from="ControlGamesProject/Panel/ButtonExit" to="Controls" method="OnCloseControlGameProject"]
 [connection signal="button_down" from="ControlGamesProject/Panel/ButtonImportGame" to="Controls" method="OnImportProject"]
+[connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonOpenPreview" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenModel"]
+[connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonOpen3DModel" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenModel"]
+[connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonOpenPathSound" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenSound"]
+[connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonOpenPathAnimation" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenAnimation"]
+[connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonOpenGraphXmlPath" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenModel"]
+[connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonAddAnimation" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnLoadModel"]

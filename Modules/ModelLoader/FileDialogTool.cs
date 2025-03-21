@@ -1,8 +1,13 @@
 ﻿using Godot;
 using System;
+using Ursula.Core.DI;
+using Ursula.Environment.Settings;
 
 public partial class FileDialogTool : Node
 {
+    [Inject]
+    private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
+
     FileDialog _fileDialog;
 
     public FileDialogTool(FileDialog fileDialog)
@@ -57,7 +62,7 @@ public partial class FileDialogTool : Node
 
         _fileDialog.Access = access;
 
-        lastDirectory = LoadLastDirectory();
+        lastDirectory = LoadLastDirectory;
 
         if (!string.IsNullOrEmpty(lastDirectory))
         {
@@ -93,21 +98,18 @@ public partial class FileDialogTool : Node
 
     private void SaveLastDirectory(string path)
     {
-        ConfigFile config = new ConfigFile();
-        config.Load(settingsPath);
-        config.SetValue("FileDialog", "last_directory", path);
-        config.Save(settingsPath);
+        if (TryGetSettingsModel(out var settingsModel))
+            settingsModel.SetLastDirectory(path).Save();
     }
 
-    private string LoadLastDirectory()
+    private string LoadLastDirectory
     {
-        ConfigFile config = new ConfigFile();
-        Error err = config.Load(settingsPath);
-        if (err == Error.Ok)
+        get
         {
-            return (string)config.GetValue("FileDialog", "last_directory", "");
+            if (!TryGetSettingsModel(out var settingsModel))
+                return "";
+            return settingsModel.LastDirectory;
         }
-        return "";
     }
 
     public void DirContents(string path)
@@ -136,5 +138,17 @@ public partial class FileDialogTool : Node
         }
 
         string[] files = dir.GetFiles();
+    }
+
+    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist = false)
+    {
+        model = null;
+
+        if (!(_settingsModelProvider?.TryGet(out model) ?? false))
+        {
+            if (errorIfNotExist)
+                GD.PrintErr($"{typeof(FileDialogTool).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
+        }
+        return model != null;
     }
 }

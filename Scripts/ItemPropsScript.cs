@@ -4,7 +4,11 @@ using System;
 [Serializable]
 public partial class ItemPropsScript : ItemBase
 {
-	public int id;
+    public string AssetInfoId { get; set; }
+    public string GameObjectSample { get; set; }
+    public int GameObjectSampleHash { get; set; }
+
+    public int id;
 	public int type;
 
 	public int state;
@@ -15,12 +19,13 @@ public partial class ItemPropsScript : ItemBase
 
 	public float positionY;
 
-    //[System.NonSerialized]
     public byte rotation;
+
+    public InteractiveObject IO;
 
     float _scale = 1;
 
-	public InteractiveObject IO;
+
 
     public float scale
 	{
@@ -52,14 +57,14 @@ public partial class ItemPropsScript : ItemBase
 
 	public void DeleteItem()
 	{
-        if (VoxLib.mapManager.gameItems != null && VoxLib.mapManager.gameItems.Contains(this))
-        {
-            VoxLib.mapManager.gameItems.Remove(this);
-            VoxLib.mapManager.ChangeWorldBytesItem(x, y, z, (byte)0, (byte)0);
-            if (VoxLib.mapManager.voxTypes != null) VoxLib.mapManager.voxTypes[x, y, z] = 0;
-            if (VoxLib.mapManager.voxData != null) VoxLib.mapManager.voxData[x, y, z] = 0;
-            if (VoxLib.mapManager._voxGrid != null) VoxLib.mapManager._voxGrid.Set(x, y, z, 0);
-        }
+        //if (VoxLib.mapManager.gameItems != null && VoxLib.mapManager.gameItems.Contains(this))
+        //{
+        //    VoxLib.mapManager.gameItems.Remove(this);
+        //    VoxLib.mapManager.ChangeWorldBytesItem(x, y, z, (byte)0, (byte)0);
+        //    if (VoxLib.mapManager.voxTypes != null) VoxLib.mapManager.voxTypes[x, y, z] = 0;
+        //    if (VoxLib.mapManager.voxData != null) VoxLib.mapManager.voxData[x, y, z] = 0;
+        //    if (VoxLib.mapManager._voxGrid != null) VoxLib.mapManager._voxGrid.Set(x, y, z, 0);
+        //}
     }
 
 	public void Use()

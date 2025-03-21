@@ -9,6 +9,13 @@ public partial class InteractiveObjectsManager : Node
 
     public static InteractiveObjectsManager Instance { get; private set; }
 
+    public static InteractiveObjectDetector detectorPrefab;
+    public static InteractiveObjectAudio audioPrefab;
+    public static InteractiveObjectMove movePrefab;
+    public static InteractiveObjectTimer timerPrefab;
+    public static InteractiveObjectCounter counter1Prefab;
+    public static InteractiveObjectCounter counter2Prefab;
+
     public override void _Ready()
     {
         if (Instance != null)

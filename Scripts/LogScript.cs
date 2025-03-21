@@ -18,25 +18,25 @@ public partial class LogScript : Node
 
     [Export]
     public Label messageLabel;
-    private string logTXT;
 
     [Export]
     public TextEdit filterText;
 
     [Export]
     public OptionButton optionFilterButton;
-    private string optionFilter;
 
     [Export]
     public MenuButton FilterMenuButton;
-    System.Collections.Generic.Dictionary<int, bool> FilterItems = new System.Collections.Generic.Dictionary<int, bool>();
+    Dictionary<int, bool> FilterItems = new Dictionary<int, bool>();
 
     public bool isVisibleLog = true;
 
+    public static bool isLogEntered = false;
+
+    private string logTXT;
+    private string optionFilter;
     private List<int> selectedItems = new List<int>();
     PopupMenu popupMenu;
-
-    public static bool isLogEntered = false;
 
     public override void _Ready()
     {
@@ -51,10 +51,6 @@ public partial class LogScript : Node
         messageLabel.Text = "";
 
         popupMenu = optionFilterButton.GetPopup();
-
-        //optionFilterButton.Clear();
-        //optionFilterButton.AddItem("Нет фильтров");
-        //optionFilterButton.AddItem("ИгрокОбнаружен");
 
         popupMenu = FilterMenuButton.GetPopup();
         popupMenu.Connect("id_pressed", new Callable(this, nameof(ChangeFilter)));
@@ -74,14 +70,6 @@ public partial class LogScript : Node
             isVisibleLog = !isVisibleLog;
             LogControl.Visible = isVisibleLog;
         }
-
-        //foreach (Key key in Enum.GetValues(typeof(Key)))
-        //{
-        //    if (Input.IsKeyPressed(key))
-        //    {
-        //        GD.Print("Key pressed: " + key.ToString());
-        //    }
-        //}
     }
 
     public void HideLog()
@@ -234,7 +222,7 @@ public partial class LogScript : Node
 
         fileDialog.CurrentFile = currentFile;
 
-        VoxLib.mapManager.lastDirectory = VoxLib.mapManager.LoadLastDirectory();
+        VoxLib.mapManager.lastDirectory = VoxLib.mapManager.LoadLastDirectory;
 
         if (!string.IsNullOrEmpty(VoxLib.mapManager.lastDirectory))
         {
@@ -272,7 +260,6 @@ public partial class LogScript : Node
     public void LogExited()
     {
         isLogEntered = false;
-        //filterText.DeselectOnFocusLossEnabled = true;
         filterText.ReleaseFocus();
     }
 

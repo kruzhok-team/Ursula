@@ -3,6 +3,12 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using Ursula.Core.DI;
 using Ursula.Environment.Settings;
+using Ursula.GameObjects.View;
+using Ursula.GameObjects.Model;
+using Ursula.MapManagers.Controller;
+using Ursula.MapManagers.Model;
+using Ursula.GameObjects.Controller;
+
 
 namespace Ursula.Core.Initialization
 {
@@ -25,11 +31,42 @@ namespace Ursula.Core.Initialization
 
             if (sceneTree != null)
                 sceneTree.NodeAdded += SceneTree_NodeAddedEventHandler;
+
+        }
+
+        public override void _Ready()
+        {
+            base._Ready();
         }
 
         private void InstallModel(ServiceCollection services)
         {
             InstallSingleton<EnvironmentSettingsModel>(services);
+
+            InstallSingleton<MapManager>(services);
+            InstallSingleton<MapManagerController>(services);
+            InstallSingleton<MapManagerModel>(services);
+
+            InstallSingleton<GameObjectCommonLibraryView>(services);
+            InstallSingleton<GameObjectLibraryManager>(services);
+            InstallSingleton<GameObjectAssetsUserSource>(services);
+            InstallSingleton<GameObjectAssetsEmbeddedSource>(services);
+
+            InstallSingleton<HUDViewModel>(services);
+
+            InstallSingleton<GameObjectAddGameObjectAssetModel>(services);
+            InstallSingleton<GameObjectAddGameObjectAssetView>(services);
+            InstallSingleton<GameObjectAddGameObjectAssetUiView>(services);
+
+            InstallSingleton<GameObjectCollectionModel>(services);
+            InstallSingleton<GameObjectCollectionView>(services);
+
+            InstallSingleton<GameObjectCreateItemsController>(services);
+            InstallSingleton<GameObjectCreateItemsModel>(services);
+
+            InstallSingleton<GameObjectCurrentInfoManager>(services);
+            InstallSingleton<GameObjectCurrentInfoModel>(services);
+
         }
 
         private void InstallSingleton<T>(ServiceCollection services) where T : class 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://c1y47k01wo4w7"]
+[gd_scene load_steps=10 format=3 uid="uid://c1y47k01wo4w7"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/DayNightCycle.cs" id="1_ut2wg"]
 [ext_resource type="Texture2D" uid="uid://b2h3g1waqkvdp" path="res://addons/Ursula/Assets/Textures/Skybox/skybox_night_sky_2.png" id="2_okbeu"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/Environment/Lighting/ShadowSetter.cs" id="3_h1bib"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_37jg0"]
 sky_cover = ExtResource("2_okbeu")
@@ -50,6 +51,9 @@ proceduralSkyMaterial = SubResource("ProceduralSkyMaterial_37jg0")
 proceduralColorDay = Color(0.196078, 0.196078, 0.196078, 1)
 proceduralColorNyght = Color(1, 1, 1, 1)
 NightPanorama = SubResource("PanoramaSkyMaterial_44i48")
+
+[node name="ShadowSetter" type="Node" parent="."]
+script = ExtResource("3_h1bib")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_v6kl2")

@@ -2,14 +2,14 @@
 
 namespace Ursula.Core.Model
 {
-    public class ConfigFileModel
+    public class ConfigFileData
     {
         private string _filePath;
         private ConfigFile _cachedConfigFile; // Don't use it directly!! Use GetConfigFile instead!
 
         public Error LastFileError { get; private set; } = Godot.Error.Ok;
 
-        public ConfigFileModel(string filePath)
+        public ConfigFileData(string filePath)
         {
             _filePath = filePath;
         }
