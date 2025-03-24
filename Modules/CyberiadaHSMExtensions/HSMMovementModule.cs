@@ -91,7 +91,7 @@ public class HSMMovementModule
 
     bool MoveToPosition(List<Tuple<string, string>> value)
     {
-        _object.move.MoveFromTarget();
+        _object.move.MoveToPosition();
 
         return true;
     }
