@@ -85,7 +85,7 @@ namespace Ursula.MapManagers.Setters
 
             int id = _x + _y * 256 + _z * 256 * 256;
 
-            Node item = CreateGameItem(asset, rotationNode, scaleNode, _x, _y, _z, 0, id, true);
+            Node item = CreateGameItem(asset, rotationNode, scaleNode, _x, positionNode.Y, _z, 0, id, false);
         }
 
         private void DeleteItem()

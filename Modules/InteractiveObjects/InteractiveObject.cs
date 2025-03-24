@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using static MoveScript;
 using Modules.HSM;
+using Fractural.Tasks;
 
 // Тут будет происходить парсинг XML файла, поэтапное выполнение алгоритма и связь элементов с соответствующими узлами
 public partial class InteractiveObject : Node
@@ -60,8 +61,10 @@ public partial class InteractiveObject : Node
         counter2 = LinkComponent<InteractiveObjectCounter>("InteractiveObjectCounter2", VoxLib.mapAssets.InteractiveObjectCounterPrefab);
     }
 
-    private void InitHsm()
+    private async GDTask InitHsm()
     {
+        await ToSignal(GetTree().CreateTimer(0.1), "timeout");
+
         hsmDetectorModule = new HSMDetectorModule(hsmLogic, this);
         hsmMovementModule = new HSMMovementModule(hsmLogic, this);
         hsmAnimationModule = new HSMAnimationModule(hsmLogic, this);
@@ -91,7 +94,7 @@ public partial class InteractiveObject : Node
                 if (File.Exists(ProjectSettings.GlobalizePath(xmlPath)))
                 {
                     hsmLogic = CyberiadaLogic.Load(xmlPath);
-                    InitHsm();
+                    _= InitHsm();
                     _logger = new HSMLogger(this);
                     hsmLogic.SubscribeLogger(_logger);
                 }

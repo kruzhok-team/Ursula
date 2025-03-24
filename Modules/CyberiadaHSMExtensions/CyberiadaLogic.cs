@@ -70,7 +70,7 @@ public class CyberiadaLogic
 
     public void Stop()
     {
-        UnsubscribeLogger(_logger);
+        //UnsubscribeLogger(_logger);
 
         _hsmBehavior.Stop();
     }
