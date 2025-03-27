@@ -96,6 +96,21 @@ public partial class Bootstrapper : Node
         {
             GD.PrintErr("Сцена начала проекта не найдена.");
         }
+
+        var assetManager = ResourceLoader.Load<PackedScene>("res://addons/Ursula/GameObjectCollectionAssetManager.tscn");
+        if (assetManager != null)
+        {
+            var scene = assetManager.Instantiate();
+            AddChild(scene);
+
+            GD.Print("Менеджер ассетов загружен.");
+        }
+        else
+        {
+            GD.PrintErr("Менеджер ассетов не найден.");
+        }
+
+        
     }
 
 

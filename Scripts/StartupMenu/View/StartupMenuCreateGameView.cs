@@ -15,60 +15,76 @@ namespace Ursula.StartupMenu.View
     public partial class StartupMenuCreateGameView : StartupMenuCreateGameViewModel
     {
         [Export]
-        TextEdit TextEditGameName;
+        private TextEdit TextEditGameName;
 
         [Export]
-        TextEdit TextEditGameNameAlias;
+        private TextEdit TextEditGameNameAlias;
 
         [Export]
-        Button ButtonOpenGameImagePath;
+        private Button ButtonOpenGameImagePath;
 
         [Export]
-        TextureRect TextureRectPreviewImage;
+        private TextureRect TextureRectPreviewImage;
 
         [Export]
-        HSlider HSliderPower;
+        private HSlider HSliderPower;
 
         [Export]
-        HSlider HSliderScale;
+        private HSlider HSliderScale;
 
         [Export]
-        Button ButtonCreatingGame;
+        private Button ButtonCreatingGame;
 
         [Export]
-        TabBar TabBarReplaceTexture;
+        private TabBar TabBarReplaceTexture;
 
         [Export]
-        public OptionButton TypeSkyOption;
+        private OptionButton TypeSkyOption;
 
         [Export]
-        PackedScene StartupItemInfoViewPrefab;
+        private PackedScene StartupItemInfoViewPrefab;
 
         [Export]
         private GridContainer GridContainerSkysView;
 
         [Export]
-        HSlider HSliderFullDayLength;
+        private HSlider HSliderFullDayLength;
 
         [Export]
-        public OptionButton TypeWaterOption;
-        [Export]
-        public VoxDrawTypes TypeWater = VoxDrawTypes.water;
-        [Export]
-        HSlider HSliderWaterLevel;
-        [Export]
-        public CheckBox CheckButtonWaterStatic;
+        private OptionButton TypeWaterOption;
 
         [Export]
-        TabBar TabBarTrees;
+        private VoxDrawTypes TypeWater = VoxDrawTypes.water;
+
+        [Export]
+        private HSlider HSliderWaterLevel;
+
+        [Export]
+        private CheckBox CheckButtonWaterStatic;
+
+        [Export]
+        private TabBar TabBarTrees;
 
         [Export]
         private GridContainer GridContainerTrees;
 
         [Export]
-        PackedScene GameObjectAssetInfoPrefab;
+        private TabBar TabBarGrass;
 
+        [Export]
+        private GridContainer GridContainerGrass;
 
+        [Export]
+        private PackedScene GameObjectAssetInfoPrefab;
+
+        [Export]
+        private HSlider HSliderTreesDensity;
+
+        [Export]
+        private HSlider HSliderGrassDensity;
+
+        [Inject]
+        private ISingletonProvider<StartupMenuCreateNewProjectViewModel> _startupMenuCreateNewProjectViewModelProvider;
 
         [Inject]
         private ISingletonProvider<StartupMenuModel> _startupMenuModelProvider;
@@ -82,10 +98,12 @@ namespace Ursula.StartupMenu.View
         [Inject]
         private ISingletonProvider<GameObjectAddGameObjectAssetModel> _gameObjectAddGameObjectAssetProvider;
 
+        private StartupMenuCreateNewProjectViewModel _startupMenuCreateNewProjectViewModel { get; set; }
         private StartupMenuModel _startupMenuModel { get; set; }
         private StartupMenuCreateGameViewModel _startupMenuCreateGameViewModel { get; set; }
         private GameObjectLibraryManager _commonLibrary { get; set; }
         private GameObjectAddGameObjectAssetModel _gameObjectAddGameObjectAsset { get; set; }
+
 
         private FileDialogTool dialogTool;
 
@@ -95,18 +113,6 @@ namespace Ursula.StartupMenu.View
             _ = SubscribeEvent();
 
             dialogTool = new FileDialogTool(GetNode("FileDialog") as FileDialog);
-
-            //var theme = new Theme();
-            //var styleBox = new StyleBoxEmpty();
-            //styleBox.ContentMarginLeft = 10;
-            //styleBox.ContentMarginRight = 10;
-            //styleBox.ContentMarginTop = 5;
-            //styleBox.ContentMarginBottom = 5;
-
-            //theme.SetStylebox("tab_fg", "TabBar", styleBox);
-            //theme.SetStylebox("tab_bg", "TabBar", styleBox);
-
-            //TabBarReplaceTexture.Theme = theme;
 
             TabBarReplaceTexture.ClearTabs();
             for (int i = 0; i < VoxLib.mapAssets.terrainTexReplace.Length; i++)
@@ -129,7 +135,9 @@ namespace Ursula.StartupMenu.View
                 TabBarReplaceTexture.SetTabIcon(i, resizedTexture);
             }
 
-            TabBarTrees_TabClickedEvent(0);
+            _startupMenuCreateGameViewModel.SetTreeProviderID(GameObjectAssetsEmbeddedSource.LibId);
+            _startupMenuCreateGameViewModel.SetGrassProviderID(GameObjectAssetsEmbeddedSource.LibId);
+            Redraw();
         }
 
         public override void _ExitTree()
@@ -140,23 +148,28 @@ namespace Ursula.StartupMenu.View
         public new void Dispose()
         {
             base.Dispose();
-            //ButtonCreate?.Dispose();
-            //ButtonLoad?.Dispose();
         }
 
+        private void ShowView(bool value)
+        {
+            Visible = value;
+            _startupMenuCreateGameViewModel.SetCreateGameViewVisible(value);
+        }
 
         private async GDTask SubscribeEvent()
         {
+            _startupMenuCreateNewProjectViewModel = await _startupMenuCreateNewProjectViewModelProvider.GetAsync();
             _startupMenuModel = await _startupMenuModelProvider.GetAsync();
             _startupMenuCreateGameViewModel = await _startupMenuCreateGameViewModelProvider.GetAsync();
             _commonLibrary = await _commonLibraryProvider.GetAsync();
             _gameObjectAddGameObjectAsset = await _gameObjectAddGameObjectAssetProvider.GetAsync();
 
-            _startupMenuModel.ButtonCreateGame_EventHandler += ButtonStartCreate_ButtonDownEvent;
+            _startupMenuCreateNewProjectViewModel.StartCreatingProject_EventHandler += (sender, args) => { ShowView(true); };
 
             ButtonCreatingGame.ButtonDown += ButtonCreatingGame_ButtonDownEvent;
             ButtonOpenGameImagePath.ButtonDown += ButtonOpenGameImagePath_ButtonDownEvent;
             TabBarTrees.TabClicked += TabBarTrees_TabClickedEvent;
+            TabBarGrass.TabClicked += TabBarGrass_TabClickedEvent;
         }
 
         public void DrawItemsSky(int id)
@@ -192,9 +205,16 @@ namespace Ursula.StartupMenu.View
             _startupMenuCreateGameViewModel.SetTypeWaterID(TypeWaterOption.Selected);
             _startupMenuCreateGameViewModel.SetWaterOffset((float)HSliderWaterLevel.Value);
             _startupMenuCreateGameViewModel.SetStaticWater(CheckButtonWaterStatic.ButtonPressed);
-
+            _startupMenuCreateGameViewModel.SetTreesDensity((float)HSliderTreesDensity.Value);
+            _startupMenuCreateGameViewModel.SetGrassDensity((float)HSliderGrassDensity.Value);
 
             //_startupMenuCreateGameViewManager.CreatingGame();
+        }
+
+        private void Redraw()
+        {
+            DrawTreesCollection(_startupMenuCreateGameViewModel._CreateGameSourceData.TreeProviderID);
+            DrawGrassCollection(_startupMenuCreateGameViewModel._CreateGameSourceData.GrassProviderID);
         }
 
         private void ButtonStartCreate_ButtonDownEvent(object sender, EventArgs e)
@@ -243,7 +263,9 @@ namespace Ursula.StartupMenu.View
             else if ((int)tab == 1)
                 providerId = GameObjectAssetsUserSource.LibId;
 
-            DrawTreesCollection(providerId);
+            _startupMenuCreateGameViewModel.SetTreeProviderID(providerId);
+
+            Redraw();
         }
 
         private void DrawTreesCollection(string providerId)
@@ -257,7 +279,7 @@ namespace Ursula.StartupMenu.View
             Node nodeAdd = GameObjectAssetInfoPrefab.Instantiate();
             GameObjectAssetInfoView itemAdd = nodeAdd as GameObjectAssetInfoView;
 
-            itemAdd.clickItemEvent += ClickItem_AddAssetEventHandler;
+            itemAdd.clickItemEvent += ClickItem_TreeAddAssetEventHandler;
             itemAdd.Invalidate(null);
 
             GridContainerTrees.AddChild(nodeAdd);
@@ -279,17 +301,74 @@ namespace Ursula.StartupMenu.View
             }
         }
 
-        private void ClickItem_AddAssetEventHandler(GameObjectAssetInfo info)
+        private void TabBarGrass_TabClickedEvent(long tab)
         {
-            _startupMenuModel.SetStartupMenuMouseFilter(false);
+            string typeGroup = TabBarGrass.GetTabTitle((int)tab);
+
+            string providerId = null;
+            if ((int)tab == 0)
+                providerId = GameObjectAssetsEmbeddedSource.LibId;
+            else if ((int)tab == 1)
+                providerId = GameObjectAssetsUserSource.LibId;
+
+            _startupMenuCreateGameViewModel.SetGrassProviderID(providerId);
+
+            Redraw();
+        }
+
+        private void DrawGrassCollection(string providerId)
+        {
+            string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
+
+            IReadOnlyCollection<GameObjectAssetInfo> assets = _commonLibrary.GetInfoOnGroup(gameObjectGroups[1], providerId);
+
+            VoxLib.RemoveAllChildren(GridContainerGrass);
+
+            Node nodeAdd = GameObjectAssetInfoPrefab.Instantiate();
+            GameObjectAssetInfoView itemAdd = nodeAdd as GameObjectAssetInfoView;
+
+            itemAdd.clickItemEvent += ClickItem_GrassAddAssetEventHandler;
+            itemAdd.Invalidate(null);
+
+            GridContainerGrass.AddChild(nodeAdd);
+
+            List<GameObjectAssetInfo> result = new List<GameObjectAssetInfo>(assets);
+
+            for (int i = 0; i < result.Count; i++)
+            {
+                Node instance = GameObjectAssetInfoPrefab.Instantiate();
+                GameObjectAssetInfoView item = instance as GameObjectAssetInfoView;
+
+                if (item == null)
+                    continue;
+
+                //item.clickItemEvent += ClickItem_SelectEventHandler;
+                item.Invalidate(result[i]);
+
+                GridContainerGrass.AddChild(instance);
+            }
+        }
+
+        private void ClickItem_TreeAddAssetEventHandler(GameObjectAssetInfo info)
+        {
             _gameObjectAddGameObjectAsset.GameGameObjectAddGameObjectAssetVisible_EventHandler += _gameObjectAddGameObjectAsset_GameGameObjectAddGameObjectAssetVisible_EventHandler;
-            _gameObjectAddGameObjectAsset?.SetGameObjectAddGameObjectAssetVisible(true);
+
+            _gameObjectAddGameObjectAsset.SetGameObjectGroup("Деревья");
+            _gameObjectAddGameObjectAsset.SetGameObjectAddGameObjectAssetVisible(true);
+        }
+
+        private void ClickItem_GrassAddAssetEventHandler(GameObjectAssetInfo info)
+        {
+            _gameObjectAddGameObjectAsset.GameGameObjectAddGameObjectAssetVisible_EventHandler += _gameObjectAddGameObjectAsset_GameGameObjectAddGameObjectAssetVisible_EventHandler;
+
+            _gameObjectAddGameObjectAsset.SetGameObjectGroup("Трава");
+            _gameObjectAddGameObjectAsset.SetGameObjectAddGameObjectAssetVisible(true);
         }
 
         private void _gameObjectAddGameObjectAsset_GameGameObjectAddGameObjectAssetVisible_EventHandler(object sender, EventArgs e)
         {
             _gameObjectAddGameObjectAsset.GameGameObjectAddGameObjectAssetVisible_EventHandler -= _gameObjectAddGameObjectAsset_GameGameObjectAddGameObjectAssetVisible_EventHandler;
-            _startupMenuModel.SetStartupMenuMouseFilter(true);
+            Redraw();
         }
     }
 }
