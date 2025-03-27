@@ -83,6 +83,19 @@ public partial class Bootstrapper : Node
         {
             GD.PrintErr("Сцена окружения не найдена.");
         }
+
+        var startupMenu = ResourceLoader.Load<PackedScene>("res://addons/Ursula/StartupMenu.tscn");
+        if (startupMenu != null)
+        {
+            var scene = startupMenu.Instantiate();
+            AddChild(scene);
+
+            GD.Print("Сцена начала проекта загружена.");
+        }
+        else
+        {
+            GD.PrintErr("Сцена начала проекта не найдена.");
+        }
     }
 
 

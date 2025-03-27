@@ -8,6 +8,7 @@ using Ursula.GameObjects.Model;
 using Ursula.MapManagers.Controller;
 using Ursula.MapManagers.Model;
 using Ursula.GameObjects.Controller;
+using Ursula.StartupMenu.Model;
 
 
 namespace Ursula.Core.Initialization
@@ -67,6 +68,9 @@ namespace Ursula.Core.Initialization
             InstallSingleton<GameObjectCurrentInfoManager>(services);
             InstallSingleton<GameObjectCurrentInfoModel>(services);
 
+            InstallSingleton<StartupMenuModel>(services);
+            InstallSingleton<StartupMenuCreateGameViewModel>(services);
+            
         }
 
         private void InstallSingleton<T>(ServiceCollection services) where T : class 

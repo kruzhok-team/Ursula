@@ -163,7 +163,18 @@ namespace Ursula.GameObjects.View
             ButtonSaveEditModel.Visible = isEditMode;
             ButtonRemoveModel.Visible = isEditMode;
 
-            
+            if (value == true)
+            {
+                var canvasLayer = new CanvasLayer();
+                canvasLayer.Layer = 10;
+                canvasLayer.AddChild(this);
+                AddChild(canvasLayer);
+
+                this.MouseFilter = MouseFilterEnum.Stop;
+                this.GrabFocus();
+                this.ProcessMode = Node.ProcessModeEnum.Inherit;
+
+            }
         }
 
         private void ClearData()

@@ -2211,6 +2211,8 @@ gameObjectAddUserSourceUI = NodePath("GameObjectAddGameObjectAssetUiView")
 
 [node name="GameObjectAddGameObjectAssetUiView" type="Control" parent="GameObjectCollection/GameObjectAddGameObjectAssetView" node_paths=PackedStringArray("LabelTittle", "ButtonOpen3DModel", "TextEditModelName", "TextEditPath3DModel", "OptionButtonGroupObject", "OptionButtonClassObject", "TextEditSampleObject", "ButtonOpenPathSound", "TextEditPathSound", "VBoxContainerSound", "ButtonOpenPathAnimation", "TextEditPathAnimation", "VBoxContainerAnimation", "ButtonSaveEditModel", "ButtonRemoveModel", "ButtonAddUserSource", "ButtonClose", "TextEditGraphXmlPath", "ButtonOpenGraphXmlPath", "ButtonOpenPreviewPath", "TextureRectPreviewImage")]
 visible = false
+top_level = true
+z_index = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -2240,6 +2242,14 @@ TextEditGraphXmlPath = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRe
 ButtonOpenGraphXmlPath = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXmlPath/ButtonOpenGraphXmlPath")
 ButtonOpenPreviewPath = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/ButtonOpenPreview")
 TextureRectPreviewImage = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/TextureRectPreview")
+
+[node name="bg" type="Panel" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView"]
 layout_mode = 1
@@ -3274,8 +3284,3 @@ clip_text = true
 [connection signal="text_changed" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="SetFilterText"]
 [connection signal="button_down" from="ControlGamesProject/Panel/ButtonExit" to="Controls" method="OnCloseControlGameProject"]
 [connection signal="button_down" from="ControlGamesProject/Panel/ButtonImportGame" to="Controls" method="OnImportProject"]
-[connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/ButtonOpenPreview" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenModel"]
-[connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel/ButtonOpen3DModel" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenModel"]
-[connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXmlPath/ButtonOpenGraphXmlPath" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenModel"]
-[connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPathSound/ButtonOpenPathSound" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenSound"]
-[connection signal="button_down" from="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPathAnimation/ButtonOpenPathAnimation" to="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView" method="OnOpenAnimation"]

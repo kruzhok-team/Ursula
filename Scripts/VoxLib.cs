@@ -24,8 +24,9 @@ public partial class VoxLib : Node
 	public static CreateWater createWater;
 
 	public static string SETTINGPATH = "user://settings.cfg";
+    public const string GAMESPATH = "user://Project/Games/";
 
-	Texture texture;
+    Texture texture;
 
 	public override void _Ready()
 	{

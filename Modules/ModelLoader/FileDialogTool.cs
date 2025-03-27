@@ -54,7 +54,7 @@ public partial class FileDialogTool : Node
         _fileDialog.Show();
     }
 
-    public void Open(string[] filters, Action<string> onFileSelected, FileDialog.AccessEnum access = FileDialog.AccessEnum.Userdata)
+    public void Open(string[] filters, Action<string> onFileSelected, FileDialog.AccessEnum access = FileDialog.AccessEnum.Userdata, string pathDir = null)
     {
         _onFileSelected = onFileSelected;
 
@@ -62,7 +62,10 @@ public partial class FileDialogTool : Node
 
         _fileDialog.Access = access;
 
-        lastDirectory = LoadLastDirectory;
+        if (string.IsNullOrEmpty(pathDir))
+            lastDirectory = LoadLastDirectory;
+        else
+            lastDirectory = pathDir;
 
         if (!string.IsNullOrEmpty(lastDirectory))
         {
