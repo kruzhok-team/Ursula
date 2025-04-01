@@ -2,6 +2,7 @@
 using System;
 using Ursula.Core.DI;
 using Ursula.Environment.Settings;
+using static Godot.AudioEffectFilter;
 
 public partial class FileDialogTool : Node
 {
@@ -75,6 +76,37 @@ public partial class FileDialogTool : Node
         if (!_fileDialog.IsConnected("file_selected", new Callable(this, nameof(OnFileSelected))))
         {
             _fileDialog.Connect("file_selected", new Callable(this, nameof(OnFileSelected)));
+        }
+
+        if (!_fileDialog.IsConnected("canceled", new Callable(this, nameof(OnDialogClosed))))
+        {
+            _fileDialog.Connect("canceled", new Callable(this, nameof(OnDialogClosed)));
+        }
+
+        _fileDialog.Show();
+    }
+
+    public void OpenDir(Action<string> onFileSelected, FileDialog.AccessEnum access = FileDialog.AccessEnum.Userdata, string pathDir = null)
+    {
+        _onFileSelected = onFileSelected;
+
+        _fileDialog.Filters = null;
+
+        _fileDialog.Access = access;
+
+        if (string.IsNullOrEmpty(pathDir))
+            lastDirectory = LoadLastDirectory;
+        else
+            lastDirectory = pathDir;
+
+        if (!string.IsNullOrEmpty(lastDirectory))
+        {
+            _fileDialog.CurrentPath = lastDirectory;
+        }
+
+        if (!_fileDialog.IsConnected("dir_selected", new Callable(this, nameof(OnFileSelected))))
+        {
+            _fileDialog.Connect("dir_selected", new Callable(this, nameof(OnFileSelected)));
         }
 
         if (!_fileDialog.IsConnected("canceled", new Callable(this, nameof(OnDialogClosed))))

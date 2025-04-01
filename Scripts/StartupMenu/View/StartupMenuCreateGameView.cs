@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 using Ursula.GameObjects.View;
+using Ursula.GameProjects.Model;
 using Ursula.StartupMenu.Model;
 using VoxLibExample;
 
@@ -98,11 +99,15 @@ namespace Ursula.StartupMenu.View
         [Inject]
         private ISingletonProvider<GameObjectAddGameObjectAssetModel> _gameObjectAddGameObjectAssetProvider;
 
+        [Inject]
+        private ISingletonProvider<GameProjectLibraryManager> _gameProjectLibraryManagerProvider;
+
         private StartupMenuCreateNewProjectViewModel _startupMenuCreateNewProjectViewModel { get; set; }
         private StartupMenuModel _startupMenuModel { get; set; }
         private StartupMenuCreateGameViewModel _startupMenuCreateGameViewModel { get; set; }
         private GameObjectLibraryManager _commonLibrary { get; set; }
         private GameObjectAddGameObjectAssetModel _gameObjectAddGameObjectAsset { get; set; }
+        private GameProjectLibraryManager _gameProjectLibraryManager { get; set; }
 
 
         private FileDialogTool dialogTool;
@@ -150,10 +155,35 @@ namespace Ursula.StartupMenu.View
             base.Dispose();
         }
 
-        private void ShowView(bool value)
+        private void ShowView()
         {
-            Visible = value;
-            _startupMenuCreateGameViewModel.SetCreateGameViewVisible(value);
+            Visible = _startupMenuCreateGameViewModel.Visible;
+
+            if (Visible == true)
+            {
+                TextEditGameName.Text = _startupMenuCreateNewProjectViewModel.GameName;
+                _startupMenuCreateGameViewModel.SetGameName(_startupMenuCreateNewProjectViewModel.GameName);
+                _startupMenuCreateGameViewModel.SetCreateGameViewCreateFolderGame();
+
+                GameProjectTemplate projectTemplate = new GameProjectTemplate
+                (
+                    _startupMenuCreateNewProjectViewModel.GameName,
+                    null,
+                    null
+                );
+
+
+                string id = $"{GameProjectAssetsUserSource.LibId}.{_startupMenuCreateNewProjectViewModel.GameName}";
+                bool isExist = _gameProjectLibraryManager.ContainsItem(id);
+
+                if (!isExist)
+                {
+                    var info = _gameProjectLibraryManager.SetItem(_startupMenuCreateNewProjectViewModel.GameName, projectTemplate, GameProjectAssetsUserSource.LibId);
+                    _gameProjectLibraryManager.SaveItem(info.Id, GameProjectAssetsUserSource.LibId);
+                    _gameProjectLibraryManager.SetCurrentProjectInfo(info);
+                }
+            }
+
         }
 
         private async GDTask SubscribeEvent()
@@ -163,8 +193,9 @@ namespace Ursula.StartupMenu.View
             _startupMenuCreateGameViewModel = await _startupMenuCreateGameViewModelProvider.GetAsync();
             _commonLibrary = await _commonLibraryProvider.GetAsync();
             _gameObjectAddGameObjectAsset = await _gameObjectAddGameObjectAssetProvider.GetAsync();
+            _gameProjectLibraryManager = await _gameProjectLibraryManagerProvider.GetAsync();
 
-            _startupMenuCreateNewProjectViewModel.StartCreatingProject_EventHandler += (sender, args) => { ShowView(true); };
+            _startupMenuCreateGameViewModel.ViewVisible_EventHandler += (sender, args) => { ShowView(); };
 
             ButtonCreatingGame.ButtonDown += ButtonCreatingGame_ButtonDownEvent;
             ButtonOpenGameImagePath.ButtonDown += ButtonOpenGameImagePath_ButtonDownEvent;
@@ -219,7 +250,7 @@ namespace Ursula.StartupMenu.View
 
         private void ButtonStartCreate_ButtonDownEvent(object sender, EventArgs e)
         {
-            _startupMenuCreateGameViewModel.SetCreateGameViewVisible(true);
+            _startupMenuCreateGameViewModel.SetVisibleView(true);
         }
 
         private void ButtonOpenGameImagePath_ButtonDownEvent()
@@ -276,13 +307,16 @@ namespace Ursula.StartupMenu.View
 
             VoxLib.RemoveAllChildren(GridContainerTrees);
 
-            Node nodeAdd = GameObjectAssetInfoPrefab.Instantiate();
-            GameObjectAssetInfoView itemAdd = nodeAdd as GameObjectAssetInfoView;
+            if (providerId != GameObjectAssetsEmbeddedSource.LibId)
+            {
+                Node nodeAdd = GameObjectAssetInfoPrefab.Instantiate();
+                GameObjectAssetInfoView itemAdd = nodeAdd as GameObjectAssetInfoView;
 
-            itemAdd.clickItemEvent += ClickItem_TreeAddAssetEventHandler;
-            itemAdd.Invalidate(null);
+                itemAdd.clickItemEvent += ClickItem_TreeAddAssetEventHandler;
+                itemAdd.Invalidate(null);
 
-            GridContainerTrees.AddChild(nodeAdd);
+                GridContainerTrees.AddChild(nodeAdd);
+            }
 
             List<GameObjectAssetInfo> result = new List<GameObjectAssetInfo>(assets);
 
@@ -324,13 +358,16 @@ namespace Ursula.StartupMenu.View
 
             VoxLib.RemoveAllChildren(GridContainerGrass);
 
-            Node nodeAdd = GameObjectAssetInfoPrefab.Instantiate();
-            GameObjectAssetInfoView itemAdd = nodeAdd as GameObjectAssetInfoView;
+            if (providerId != GameObjectAssetsEmbeddedSource.LibId)
+            {
+                Node nodeAdd = GameObjectAssetInfoPrefab.Instantiate();
+                GameObjectAssetInfoView itemAdd = nodeAdd as GameObjectAssetInfoView;
 
-            itemAdd.clickItemEvent += ClickItem_GrassAddAssetEventHandler;
-            itemAdd.Invalidate(null);
+                itemAdd.clickItemEvent += ClickItem_GrassAddAssetEventHandler;
+                itemAdd.Invalidate(null);
 
-            GridContainerGrass.AddChild(nodeAdd);
+                GridContainerGrass.AddChild(nodeAdd);
+            }
 
             List<GameObjectAssetInfo> result = new List<GameObjectAssetInfo>(assets);
 

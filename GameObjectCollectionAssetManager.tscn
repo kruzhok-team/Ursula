@@ -958,7 +958,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 10
 theme_override_styles/pressed = ExtResource("8_g5135")
 theme_override_styles/normal = ExtResource("8_g5135")
-text = "Удалить объект"
+text = "Удалить объект из библиотеки"
 
 [node name="FileDialog" type="FileDialog" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView"]
 auto_translate_mode = 1

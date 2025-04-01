@@ -9,6 +9,7 @@ using Ursula.MapManagers.Controller;
 using Ursula.MapManagers.Model;
 using Ursula.GameObjects.Controller;
 using Ursula.StartupMenu.Model;
+using Ursula.GameProjects.Model;
 
 
 namespace Ursula.Core.Initialization
@@ -72,7 +73,14 @@ namespace Ursula.Core.Initialization
             InstallSingleton<StartupMenuCreateNewProjectViewModel>(services);
             InstallSingleton<StartupMenuCreateGameViewModel>(services);
 
+            InstallSingleton<GameProjectLibraryManager>(services);
+            InstallSingleton<GameProjectAssetsUserSource>(services);
+            InstallSingleton<GameProjectAssetsEmbeddedSource>(services);
+
+            InstallSingleton<GameProjectCollectionViewModel>(services);
             
+
+
         }
 
         private void InstallSingleton<T>(ServiceCollection services) where T : class 

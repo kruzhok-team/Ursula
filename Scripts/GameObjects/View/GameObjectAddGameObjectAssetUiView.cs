@@ -225,6 +225,8 @@ namespace Ursula.GameObjects.View
             model.Provider = GameObjectAssetsUserSource.LibId;
 
             model.SetAddGameObjectAssetToCollection(TextEditModelName.Text, gameObjectGroup, OptionButtonClassObject.Selected, gameObjectSample);
+
+            VoxLib.ShowMessage("Объект загружен в библиотеку.");
         }
 
         async void ButtonClose_DownEventHandler()

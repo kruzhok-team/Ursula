@@ -1,8 +1,11 @@
 ﻿using Core.UI.Constructor;
+using Fractural.Tasks;
 using Godot;
 using System;
+using System.IO;
 using Ursula.Core.DI;
 using Ursula.GameObjects.View;
+using Ursula.GameProjects.Model;
 
 namespace Ursula.StartupMenu.Model
 {
@@ -117,20 +120,16 @@ namespace Ursula.StartupMenu.Model
 
     public partial class StartupMenuCreateGameViewModel : ConstructorViewModel, IInjectable
     {
-        public event EventHandler CreateGameViewVisible_EventHandler;
-
-
-
+        public event EventHandler ViewVisible_EventHandler;
 
         public CreateGameSourceData _CreateGameSourceData = new CreateGameSourceData();
-
 
         void IInjectable.OnDependenciesInjected()
         {
 
         }
 
-        public StartupMenuCreateGameViewModel SetCreateGameViewVisible(bool value)
+        public StartupMenuCreateGameViewModel SetVisibleView(bool value)
         {
             Visible = value;
             InvokeMenuVisibleEvent();
@@ -232,13 +231,72 @@ namespace Ursula.StartupMenu.Model
 
         private void InvokeMenuVisibleEvent()
         {
-            var handler = CreateGameViewVisible_EventHandler;
+            var handler = ViewVisible_EventHandler;
             handler?.Invoke(this, EventArgs.Empty);
         }
 
         private float MapRange(float value, float min1, float max1, float min2, float max2)
         {
             return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
+        }
+
+
+        public void SetCreateGameViewCreateFolderGame()
+        {
+            string DestPath = GameProjectAssetsUserSource.CollectionPath + _CreateGameSourceData.GameName;
+            Directory.CreateDirectory(ProjectSettings.GlobalizePath(DestPath));
+
+            CopyGameProjectAsset();
+        }
+
+
+        private void CopyGameProjectAsset()
+        {
+            //MapManager.CreateDir(DestPath);
+
+            //if (Provider == GameObjectAssetsUserSource.LibId)
+            //    ModelLoader.CopyModel(ModelPath, DestPath);
+
+            //_gameObjectUserSourceData.AudiosTo = new List<string>();
+            //string pathAudio = DestPath + MapManager.PATHAUDIO;
+            //MapManager.CreateDir(pathAudio);
+            //for (int i = 0; i < _gameObjectUserSourceData.AudiosFrom.Count; i++)
+            //{
+            //    string pathFrom = _gameObjectUserSourceData.AudiosFrom[i];
+            //    string pathTo = $"{pathAudio}/{Path.GetFileName(_gameObjectUserSourceData.AudiosFrom[i])}";
+            //    if (File.Exists(pathFrom) && pathFrom != pathTo)
+            //    {
+            //        File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);
+            //    }
+            //    _gameObjectUserSourceData.AudiosTo.Add($"{MapManager.PATHAUDIO}/{Path.GetFileName(pathTo)}");
+            //}
+
+            //_gameObjectUserSourceData.AnimationsTo = new List<string>();
+            //string pathAnimations = DestPath + MapManager.PATHANIMATION;
+            //MapManager.CreateDir(pathAnimations);
+            //for (int i = 0; i < _gameObjectUserSourceData.AnimationsFrom.Count; i++)
+            //{
+            //    string pathFrom = _gameObjectUserSourceData.AnimationsFrom[i];
+            //    string pathTo = $"{pathAnimations}/{Path.GetFileName(_gameObjectUserSourceData.AnimationsFrom[i])}";
+
+            //    if (File.Exists(pathFrom) && pathFrom != pathTo)
+            //    {
+            //        File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);
+            //    }
+            //    _gameObjectUserSourceData.AnimationsTo.Add($"{MapManager.PATHANIMATION}/{Path.GetFileName(pathTo)}");
+            //}
+
+            //if (File.Exists(GraphXmlPathFrom)
+            //    && GraphXmlPathFrom != ProjectSettings.GlobalizePath(GraphXmlPathTo))
+            //{
+            //    File.Copy(GraphXmlPathFrom, ProjectSettings.GlobalizePath(GraphXmlPathTo), true);
+            //}
+
+            //if (File.Exists(PreviewImageFilePathFrom)
+            //    && PreviewImageFilePathFrom != ProjectSettings.GlobalizePath(PreviewImageFilePathTo))
+            //{
+            //    File.Copy(PreviewImageFilePathFrom, ProjectSettings.GlobalizePath(PreviewImageFilePathTo), true);
+            //}
         }
     }
 }

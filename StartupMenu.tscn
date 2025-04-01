@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cvbbjupptrj6t"]
+[gd_scene load_steps=28 format=3 uid="uid://cvbbjupptrj6t"]
 
 [ext_resource type="StyleBox" uid="uid://bwkxycn6p1ew0" path="res://addons/Ursula/Assets/Themes/Panel.tres" id="1_80fh8"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/StartupMenu/Controller/StartupMenuManager.cs" id="1_kmy6j"]
@@ -7,8 +7,12 @@
 [ext_resource type="StyleBox" uid="uid://ccj7ltfpijtug" path="res://addons/Ursula/Assets/Themes/ButtonStartup.tres" id="3_ckcod"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/StartupMenu/View/StartupMenuView.cs" id="3_ckqx5"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/StartupMenu/View/StartupMenuCreateGameView.cs" id="7_6gfre"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameProjects/View/GameProjectCollectionView.cs" id="7_neehs"]
 [ext_resource type="StyleBox" uid="uid://dqqcv0g4ml2fl" path="res://addons/Ursula/Assets/Themes/TextEdit.tres" id="8_erdri"]
+[ext_resource type="StyleBox" uid="uid://ct30m5nvsg0gu" path="res://addons/Ursula/Assets/Themes/ButtonDottedLine.tres" id="8_f0lq4"]
+[ext_resource type="PackedScene" uid="uid://bi66wbjdksip" path="res://addons/Ursula/Prefabs/GameProjects/GameProjectLoadProjectInfoView.tscn" id="8_i8o3s"]
 [ext_resource type="StyleBox" uid="uid://c06y7nq7pqiyd" path="res://addons/Ursula/Assets/Themes/ButtonStandart.tres" id="9_4m42f"]
+[ext_resource type="Texture2D" uid="uid://blshedacnfxq" path="res://addons/Ursula/Assets/Themes/Load.png" id="9_kqrnb"]
 [ext_resource type="Texture2D" uid="uid://dhg3d5iy5u8pt" path="res://addons/Ursula/Assets/Themes/Vector.png" id="10_q3qrq"]
 [ext_resource type="Texture2D" uid="uid://bp2blf6p8rwkx" path="res://addons/Ursula/Assets/Themes/Rectangle 4.png" id="11_jemed"]
 [ext_resource type="StyleBox" uid="uid://cfky2vdklo3ns" path="res://addons/Ursula/Assets/Themes/Slider.tres" id="11_tq53o"]
@@ -22,8 +26,9 @@
 [ext_resource type="PackedScene" uid="uid://ccpqmgm2c1jtt" path="res://addons/Ursula/Prefabs/GameObjects/GameObjectAssetInfoViewPrefab.tscn" id="19_b6oly"]
 [ext_resource type="Texture2D" uid="uid://coe273kj5obe6" path="res://addons/Ursula/Assets/Themes/Close.png" id="21_wmw2w"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/StartupMenu/View/StartupMenuCreateNewProjectView.cs" id="21_y5o8y"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameProjects/View/GameProjectCommonLibraryView.cs" id="23_02if2"]
 
-[node name="StartupMenuView" type="Control" node_paths=PackedStringArray("ButtonClose", "ButtonCreate", "ButtonLoad")]
+[node name="StartupMenuView" type="Control" node_paths=PackedStringArray("ButtonClose", "ButtonCreate", "ButtonLoad", "ButtonLoadFolderProject")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,6 +39,7 @@ script = ExtResource("3_ckqx5")
 ButtonClose = NodePath("ButtonClose")
 ButtonCreate = NodePath("StartupMenuManager/ButtonCreate")
 ButtonLoad = NodePath("StartupMenuManager/ButtonLoad")
+ButtonLoadFolderProject = NodePath("RightPanel/GameProjectCollectionView/ButtonLoadFolderProject")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -102,6 +108,88 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("2_m6spn")
 
+[node name="GameProjectCollectionView" type="Control" parent="RightPanel" node_paths=PackedStringArray("VBoxContainerCollectionView")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_neehs")
+VBoxContainerCollectionView = NodePath("PanelProjects/ScrollContainer/VBoxContainer")
+GameProjectAssetInfoPrefab = ExtResource("8_i8o3s")
+
+[node name="Label" type="Label" parent="RightPanel/GameProjectCollectionView"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 175.0
+offset_right = 353.0
+offset_bottom = 198.0
+text = "Сохраненные проекты"
+
+[node name="ButtonLoadFolderProject" type="Button" parent="RightPanel/GameProjectCollectionView"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 29.0
+offset_top = -268.0
+offset_right = -34.0
+offset_bottom = -182.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = ExtResource("8_f0lq4")
+text = "Загрузить директорию с проектом"
+
+[node name="TextureRect" type="TextureRect" parent="RightPanel/GameProjectCollectionView/ButtonLoadFolderProject"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 217.0
+offset_top = -12.0
+offset_right = 237.0
+offset_bottom = 12.0
+grow_vertical = 2
+texture = ExtResource("9_kqrnb")
+expand_mode = 1
+
+[node name="PanelProjects" type="Panel" parent="RightPanel/GameProjectCollectionView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 27.0
+offset_top = 205.0
+offset_right = -34.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="RightPanel/GameProjectCollectionView/PanelProjects"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 29.0
+offset_top = 27.0
+offset_right = -25.0
+offset_bottom = -21.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RightPanel/GameProjectCollectionView/PanelProjects/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GameProjectLoadProjectInfoView" parent="RightPanel/GameProjectCollectionView/PanelProjects/ScrollContainer/VBoxContainer" instance=ExtResource("8_i8o3s")]
+layout_mode = 2
+
+[node name="GameProjectLoadProjectInfoView2" parent="RightPanel/GameProjectCollectionView/PanelProjects/ScrollContainer/VBoxContainer" instance=ExtResource("8_i8o3s")]
+layout_mode = 2
+
 [node name="StartupMenuCreateGameView" type="Panel" parent="." node_paths=PackedStringArray("TextEditGameName", "TextEditGameNameAlias", "ButtonOpenGameImagePath", "TextureRectPreviewImage", "HSliderPower", "HSliderScale", "ButtonCreatingGame", "TabBarReplaceTexture", "TypeSkyOption", "GridContainerSkysView", "HSliderFullDayLength", "TypeWaterOption", "HSliderWaterLevel", "CheckButtonWaterStatic", "TabBarTrees", "GridContainerTrees", "TabBarGrass", "GridContainerGrass")]
 visible = false
 layout_mode = 1
@@ -160,6 +248,7 @@ custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme_override_styles/normal = ExtResource("8_erdri")
 placeholder_text = "Введите название на английском"
+editable = false
 
 [node name="LabelGameNameAlias" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -879,13 +968,13 @@ expand_mode = 1
 
 [node name="FileDialog" type="FileDialog" parent="."]
 auto_translate_mode = 1
-title = "Open a File"
+title = "Open a Directory"
 initial_position = 3
 size = Vector2i(563, 380)
 current_screen = 0
-ok_button_text = "Open"
-file_mode = 0
-access = 1
+ok_button_text = "Select Current Folder"
+file_mode = 2
+access = 2
 
 [node name="Control" type="Control" parent="FileDialog"]
 visible = false
@@ -916,3 +1005,8 @@ size_flags_vertical = 8
 button_pressed = true
 text = "Проект/Файловая система"
 alignment = 2
+
+[node name="GameProjectsManager" type="Node" parent="."]
+
+[node name="GameProjectCommonLibraryView" type="Node" parent="GameProjectsManager"]
+script = ExtResource("23_02if2")

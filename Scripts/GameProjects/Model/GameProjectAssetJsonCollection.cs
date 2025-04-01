@@ -1,0 +1,215 @@
+﻿using Fractural.Tasks;
+using Godot;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using Talent.Graphs;
+using Ursula.GameObjects.Model;
+
+namespace Ursula.GameProjects.Model
+{
+    public partial class GameProjectAssetJsonCollection : IGameProjectAssetManager
+    {
+        public const string ProjectJson = "project.json";
+
+        private string _jsonFilePath;
+
+        private Dictionary<string, IGameProjectAsset> _cachedAssetMap;
+        private Dictionary<string, GameProjectAssetInfo> _infoMap;
+
+        public GameProjectAssetJsonCollection(string id, string jsonFilePath)
+        {
+            Id = id;
+            _jsonFilePath = jsonFilePath;
+            _cachedAssetMap = new();
+            _infoMap = new();
+        }
+
+        public string Id { get; private set; } = string.Empty;
+        public bool IsDataLoaded { get; private set; } = false;
+
+        public int ItemCount
+        {
+            get
+            {
+                if (!CheckLoaded())
+                    return 0;
+                return _infoMap.Count;
+            }
+        }
+
+        public IReadOnlyCollection<GameProjectAssetInfo> GetAllInfo()
+        {
+            return _infoMap.Values;
+        }
+
+        public GameProjectAssetInfo GetItemInfo(string id)
+        {
+            return _infoMap[id];
+        }
+
+        public IReadOnlyCollection<IGameProjectAsset> GetAll()
+        {
+            if (!CheckLoaded())
+                return null;
+
+            foreach (var sourceName in _infoMap.Keys)
+            {
+                TryGetItem(sourceName, out _);
+            }
+
+            return _cachedAssetMap.Values;
+        }
+
+        public bool ContainsItem(string itemId)
+        {
+            if (!CheckLoaded())
+                return false;
+
+            if (string.IsNullOrEmpty(itemId))
+                return false;
+
+            return _cachedAssetMap.ContainsKey(itemId);
+        }
+
+        public bool TryGetItem(string itemId, out IGameProjectAsset asset)
+        {
+            if (!CheckLoaded())
+            {
+                asset = null;
+                return false;
+            }
+
+            if (_cachedAssetMap.ContainsKey(itemId))
+            {
+                asset = _cachedAssetMap[itemId];
+                return true;
+            }
+            return TryBuildAsset(itemId, out asset);
+        }
+
+        public GameProjectAssetInfo SetItem(string name, GameProjectTemplate template, string libId)
+        {
+            if (!CheckLoaded())
+                return null;
+
+            if (string.IsNullOrEmpty(name) || template == null)
+            {
+                return null;
+            }
+
+            var info = new GameProjectAssetInfo(name, Id, template);
+            return _infoMap[info.Id] = info;
+        }
+
+        public void RemoveItem(IGameProjectAsset asset)
+        {
+            if (!CheckLoaded())
+                return;
+
+            if (asset == null)
+                return;
+
+            RemoveItem(asset.Info.Id);
+        }
+
+        public void RemoveItem(string itemId)
+        {
+            if (!CheckLoaded())
+                return;
+
+            if (string.IsNullOrEmpty(itemId))
+                return;
+
+            if (_cachedAssetMap.ContainsKey(itemId))
+                _cachedAssetMap.Remove(itemId);
+            _infoMap.Remove(itemId);
+        }
+
+        public async GDTask Load()
+        {
+            if (IsDataLoaded)
+            {
+                //TODO: Log a data already loaded warning here
+                GD.PrintErr($"Error load _jsonFilePath={_jsonFilePath}");
+                return;
+            }
+
+            IsDataLoaded = true;
+
+            if (!File.Exists(ProjectSettings.GlobalizePath(_jsonFilePath)))
+            {
+                GD.Print($"Object file not found {_jsonFilePath}. Creating a new list.");
+                _infoMap = new Dictionary<string, GameProjectAssetInfo>();
+
+                return;
+            }
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                IncludeFields = true
+            };
+
+            string json = File.ReadAllText(ProjectSettings.GlobalizePath(_jsonFilePath));
+            _infoMap = JsonSerializer.Deserialize<Dictionary<string, GameProjectAssetInfo>>(json, options);
+        }
+
+        public bool SaveItem(string itemId, string libId)
+        {
+            if (!CheckLoaded())
+                return false;
+
+            if (string.IsNullOrEmpty(itemId)) return false;
+
+            GameProjectAssetInfo info = GetItemInfo(itemId);
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                IncludeFields = true
+            };
+
+            string json = JsonSerializer.Serialize(info, options);
+
+            string jsonFilePath = $"{_jsonFilePath}{info.Template.Folder}/{ProjectJson}";
+            File.WriteAllText(ProjectSettings.GlobalizePath(jsonFilePath), json);
+
+            return true;
+        }
+
+        private bool TryBuildAsset(string name, out IGameProjectAsset asset)
+        {
+            if (!_infoMap.TryGetValue(name, out var assetInfo))
+            {
+                //TODO: Some error or warning log
+                asset = null;
+                return false;
+            }
+
+            asset = BuildAssetImplementation(assetInfo);
+            return true;
+        }
+
+        private IGameProjectAsset BuildAssetImplementation(GameProjectAssetInfo assetInfo)
+        {
+            GameProjectAsset asset = new GameProjectAsset(assetInfo);
+
+            return asset;
+        }
+
+
+        private bool CheckLoaded()
+        {
+            if (!IsDataLoaded)
+            {
+                //TODO: Log a not loaded error or throw exception here
+                return false;
+            }
+            return true;
+        }
+
+
+    }
+}

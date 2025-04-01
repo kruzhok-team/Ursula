@@ -34,25 +34,22 @@ namespace Ursula.StartupMenu.View
             _startupMenuModel = await _startupMenuModelProvider.GetAsync();
             _startupMenuCreateNewProjectViewModel = await _startupMenuCreateNewProjectViewModelProvider.GetAsync();
 
-            _startupMenuModel.ButtonCreateGame_EventHandler += (sender, args) => { ShowView(true); };
+            _startupMenuCreateNewProjectViewModel.ViewVisible_EventHandler += (sender, args) => { ShowView(); };
 
             ButtonStartCreatingProject.ButtonDown += ButtonStartCreatingProject_ButtonDownEvent;
         }
 
-
-
-        private void ShowView(bool value)
+        private void ShowView()
         {
-            Visible = value;
-            _startupMenuCreateNewProjectViewModel.SetVisibleCreateNewProjectView(value);
+            Visible = _startupMenuCreateNewProjectViewModel.Visible;
         }
 
         private void ButtonStartCreatingProject_ButtonDownEvent()
         {
             if (TextEditProjectName.Text.Length <= 0) return;
 
-            ShowView(false);
-            _startupMenuCreateNewProjectViewModel.StartCreatingProject();
+            //_startupMenuCreateNewProjectViewModel.SetVisibleView(false);
+            _startupMenuCreateNewProjectViewModel.StartCreatingProject(TextEditProjectName.Text);
 
         }
     }
