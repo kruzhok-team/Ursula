@@ -212,7 +212,7 @@ public partial class InteractiveObjectMove : Node3D
         {
             animationPlayer.Stop();
 
-            animationCompleted.Invoke();
+            animationCompleted?.Invoke();
 
             cyclesCount--;
 
@@ -222,7 +222,7 @@ public partial class InteractiveObjectMove : Node3D
             }
             else
             {
-                animationCycleCompleted.Invoke();
+                animationCycleCompleted?.Invoke();
             }
 
         });
@@ -232,6 +232,24 @@ public partial class InteractiveObjectMove : Node3D
             await ToSignal(GetTree().CreateTimer(delay), "timeout");
             callback?.Invoke();
         }
+
+        return null;
+    }
+
+    public object PlayCycleAnimation(string id)
+    {
+        InitAnimator();
+
+        if (animationPlayer == null)
+            return null;
+
+        string nameAnim = id;
+        if (!animationPlayer.HasAnimation(nameAnim))
+            nameAnim = BaseAnimation.LIBRARY + "/" + nameAnim;
+
+        var animation = animationPlayer.GetAnimation(nameAnim);
+        animation.LoopMode = Animation.LoopModeEnum.Linear;
+        animationPlayer.Play(nameAnim);
 
         return null;
     }

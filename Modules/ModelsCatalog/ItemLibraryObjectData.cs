@@ -10,11 +10,15 @@ public partial class ItemLibraryObjectData : Control
     [Export]
     Button buttonRemove;
 
+    public bool showRemoveButton = true;
+
     string path;
     public Action<string> removeEvent = null;
 
     public override void _Ready()
     {
+        buttonRemove.Visible = showRemoveButton;
+
         buttonRemove.ButtonDown += OnItemRemove;
     }
 

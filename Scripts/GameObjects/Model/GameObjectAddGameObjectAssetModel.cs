@@ -66,6 +66,7 @@ namespace Ursula.GameObjects.View
             AudiosFrom.Remove(value);
             return this;
         }
+
         public GameObjectUserSourceData AddAnimationsResources(string value)
         {
             AnimationsFrom.Add(value);
@@ -214,6 +215,11 @@ namespace Ursula.GameObjects.View
         {
             _gameObjectUserSourceData.RemoveSoundResources(value);
             return this;
+        }
+
+        public List<string> GetAnimationResources()
+        {
+            return _gameObjectUserSourceData.AnimationsFrom;
         }
 
         public GameObjectAddGameObjectAssetModel AddAnimationResources(string value)
