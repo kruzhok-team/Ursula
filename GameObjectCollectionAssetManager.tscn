@@ -1,23 +1,24 @@
-[gd_scene load_steps=19 format=3 uid="uid://bg82i3b78gwtp"]
+[gd_scene load_steps=20 format=3 uid="uid://bg82i3b78gwtp"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAddGameObjectAssetView.cs" id="1_a4tr8"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAddGameObjectAssetUiView.cs" id="2_aaucf"]
 [ext_resource type="PackedScene" uid="uid://dpwcf74rci8i6" path="res://addons/Ursula/Prefabs/GameObjects/ItemLibraryObjectDataPrefab.tscn" id="3_lkxva"]
 [ext_resource type="StyleBox" uid="uid://bwkxycn6p1ew0" path="res://addons/Ursula/Assets/Themes/Panel.tres" id="4_6416e"]
 [ext_resource type="StyleBox" uid="uid://dyq85c5w0hltk" path="res://addons/Ursula/Assets/Themes/Line.tres" id="5_k0o5n"]
-[ext_resource type="Texture2D" uid="uid://coe273kj5obe6" path="res://addons/Ursula/Assets/Themes/Close.png" id="6_mm6t3"]
+[ext_resource type="Texture2D" uid="uid://eqrbwllnrd24" path="res://addons/Ursula/Assets/Themes/Close.png" id="6_mm6t3"]
 [ext_resource type="StyleBox" uid="uid://dqqcv0g4ml2fl" path="res://addons/Ursula/Assets/Themes/TextEdit.tres" id="7_85tg5"]
 [ext_resource type="StyleBox" uid="uid://c06y7nq7pqiyd" path="res://addons/Ursula/Assets/Themes/ButtonStandart.tres" id="8_g5135"]
-[ext_resource type="Texture2D" uid="uid://dhg3d5iy5u8pt" path="res://addons/Ursula/Assets/Themes/Vector.png" id="9_4k5qj"]
+[ext_resource type="Texture2D" uid="uid://mo4al0yq31j4" path="res://addons/Ursula/Assets/Themes/Vector.png" id="9_4k5qj"]
 [ext_resource type="Theme" uid="uid://dyddtywft2yrs" path="res://addons/Ursula/Assets/Themes/Controls.tres" id="10_x13mv"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/GameObjectCurrentInfoManager.cs" id="11_ieysk"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/GameObjectCurrentInfoController.cs" id="12_681k2"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCurrentInfoView.cs" id="13_ey2ml"]
-[ext_resource type="Texture2D" uid="uid://dx85voyjkf1ep" path="res://addons/Ursula/Assets/Themes/Settings.png" id="14_8bx1w"]
-[ext_resource type="Texture2D" uid="uid://cgi31oaada7tj" path="res://addons/Ursula/Assets/Themes/Vector (1).png" id="15_c0sdo"]
+[ext_resource type="Texture2D" uid="uid://d37qimqmo2hd1" path="res://addons/Ursula/Assets/Themes/Settings.png" id="14_8bx1w"]
+[ext_resource type="Texture2D" uid="uid://dp82sqaxqppl3" path="res://addons/Ursula/Assets/Themes/Vector (1).png" id="15_c0sdo"]
 [ext_resource type="StyleBox" uid="uid://dh4pdqyswum5a" path="res://addons/Ursula/Assets/Themes/ButtonBlue.tres" id="16_t6u2g"]
-[ext_resource type="Texture2D" uid="uid://beqqybyx7vphe" path="res://addons/Ursula/Assets/Themes/File.png" id="17_78xvn"]
-[ext_resource type="Texture2D" uid="uid://dpxfvlkkairif" path="res://addons/Ursula/Assets/Themes/Alg.png" id="18_jpbh3"]
+[ext_resource type="Texture2D" uid="uid://dd51svq0nokx" path="res://addons/Ursula/Assets/Themes/File.png" id="17_78xvn"]
+[ext_resource type="Texture2D" uid="uid://c6gqblubjpjvp" path="res://addons/Ursula/Assets/Themes/Alg.png" id="18_jpbh3"]
+[ext_resource type="Texture2D" uid="uid://l6c5qctwgj70" path="res://addons/Ursula/Assets/Themes/WhiteArrowUp.png" id="19_o5i0r"]
 
 [node name="GameObjectCollectionAssetManager" type="Node"]
 
@@ -540,8 +541,7 @@ script = ExtResource("11_ieysk")
 script = ExtResource("12_681k2")
 GameObjectCurrentInfoView = NodePath("../GameObjectCurrentInfoView")
 
-[node name="GameObjectCurrentInfoView" type="Control" parent="GameObjectCurrentInfoManager" node_paths=PackedStringArray("TextEditModelName", "TextEditPath3DModel", "ButtonOpenPath3DModel", "OptionButtonGroupObject", "TextEditSampleObject", "ButtonCopySampleObject", "VBoxContainerGraphXmlPath", "TextureRectPreviewImage", "ButtonOpenPreviewImage", "ButtonOpenGraphXmlPath", "ButtonEditGraphXmlPath", "ButtonOpenAudioPath", "VBoxContainerAudios", "ButtonOpenAnimationPath", "VBoxContainerAnimation", "ButtonDeleteAsset")]
-visible = false
+[node name="GameObjectCurrentInfoView" type="Control" parent="GameObjectCurrentInfoManager" node_paths=PackedStringArray("TextEditModelName", "TextEditPath3DModel", "ButtonOpenPath3DModel", "OptionButtonGroupObject", "TextEditSampleObject", "ButtonCopySampleObject", "VBoxContainerGraphXmlPath", "TextureRectPreviewImage", "ButtonOpenPreviewImage", "ButtonOpenGraphXmlPath", "ButtonEditGraphXmlPath", "ButtonOpenAudioPath", "VBoxContainerAudios", "ButtonOpenAnimationPath", "VBoxContainerAnimation", "ButtonDeleteAsset", "ButtonShowInfo", "TextureRectShowInfoTrue", "TextureRectShowInfoFalse")]
 layout_mode = 3
 anchors_preset = 11
 anchor_left = 1.0
@@ -570,6 +570,9 @@ VBoxContainerAudios = NodePath("Panel/ScrollContainer/VBoxContainer/VBoxContaine
 ButtonOpenAnimationPath = NodePath("Panel/ScrollContainer/VBoxContainer/LebelAnimation/ButtonOpenAnimationPath")
 VBoxContainerAnimation = NodePath("Panel/ScrollContainer/VBoxContainer/VBoxContainerAnimations")
 ButtonDeleteAsset = NodePath("Panel/ScrollContainer/VBoxContainer/ButtonDeleteAsset")
+ButtonShowInfo = NodePath("Panel/Button")
+TextureRectShowInfoTrue = NodePath("Panel/Button/ArrowUp")
+TextureRectShowInfoFalse = NodePath("Panel/Button/ArrowDown")
 
 [node name="Panel" type="Panel" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView"]
 layout_mode = 1
@@ -970,6 +973,43 @@ theme_override_font_sizes/font_size = 10
 theme_override_styles/pressed = ExtResource("8_g5135")
 theme_override_styles/normal = ExtResource("8_g5135")
 text = "Удалить объект из библиотеки"
+
+[node name="TextureButton" type="TextureButton" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel"]
+layout_mode = 0
+offset_left = 205.0
+offset_top = 3.0
+offset_right = 245.0
+offset_bottom = 43.0
+
+[node name="Button" type="Button" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel"]
+layout_mode = 0
+offset_left = 205.0
+offset_top = 3.0
+offset_right = 228.0
+offset_bottom = 25.0
+
+[node name="ArrowUp" type="TextureRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_o5i0r")
+expand_mode = 1
+
+[node name="ArrowDown" type="TextureRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+offset_right = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+texture = ExtResource("19_o5i0r")
+expand_mode = 1
 
 [node name="FileDialog" type="FileDialog" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView"]
 auto_translate_mode = 1

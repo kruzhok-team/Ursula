@@ -64,6 +64,15 @@ namespace Ursula.GameObjects.View
         [Export]
         Button ButtonDeleteAsset;
 
+        [Export]
+        Button ButtonShowInfo;
+
+        [Export]
+        TextureRect TextureRectShowInfoTrue;
+
+        [Export]
+        TextureRect TextureRectShowInfoFalse;
+
         public event EventHandler OpenGraphXmlEvent;
         public event EventHandler GameObjectEditAssetEvent;
 
@@ -92,6 +101,7 @@ namespace Ursula.GameObjects.View
         private FileDialogTool dialogTool;
 
         private string itemId;
+        private bool showInfo = true;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -117,6 +127,8 @@ namespace Ursula.GameObjects.View
             ButtonOpenAnimationPath.ButtonDown += ButtonOpenAnimationPath_DownEventHandler;
 
             ButtonCopySampleObject.ButtonDown += ButtonCopySampleObject_DownEventHandler;
+
+            ButtonShowInfo.ButtonDown += ButtonShowInfo_ButtonDownEventHandler;
 
             string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
             for (int i = 0; i < gameObjectGroups.Length; i++)
@@ -431,21 +443,14 @@ namespace Ursula.GameObjects.View
             _gameObjectCurrentInfoModel.RemoveAnimation(animationName);
         }
 
-        public override void _GuiInput(InputEvent @event)
+        private void ButtonShowInfo_ButtonDownEventHandler()
         {
-            if (@event is InputEventMouseMotion mouseMotion)
-            {
-                //if (!TextEditModelName.GetGlobalRect().HasPoint(mouseMotion.Position))
-                //{
-                //    TextEditModelName_TextChangedEventHandler();
-                //}
-
-                //if (!TextEditSampleObject.GetGlobalRect().HasPoint(mouseMotion.Position))
-                //{
-                //    TextEditSampleObject_TextChangedEventHandler();
-                //}
-            }
+            showInfo = !showInfo;
+            TextureRectShowInfoTrue.Visible = showInfo;
+            TextureRectShowInfoFalse.Visible = !showInfo;
         }
+
+
     }
 
 
