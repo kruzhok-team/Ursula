@@ -15,9 +15,24 @@ public class HSMLogger
         _interactiveObject = interactiveObject;
     }
 
+    public static void Print(InteractiveObject senderInteractiveObject, string message)
+    {
+        ContextMenu.ShowMessageS($"{GetPrefix(senderInteractiveObject, "-")} {message}");
+    }
+
+    public static void PrintMoveScriptError(InteractiveObject interactiveObject)
+    {
+        HSMLogger.Print(interactiveObject, "Объект установлен статичным, обработка функций перемещения отключена");
+    }
+
+    public static string GetPrefix(InteractiveObject interactiveObject, string stateLabel)
+    {
+        return $"[HSM {interactiveObject.GetParent().Name} | {stateLabel}]";
+    }
+
     public string GetPrefix(string stateLabel)
     {
-        return $"[HSM {_interactiveObject.GetParent().Name} | {stateLabel}]";
+        return GetPrefix(_interactiveObject, stateLabel);
     }
 
     public void OnStateEnter(object? sender, EventArgs args)

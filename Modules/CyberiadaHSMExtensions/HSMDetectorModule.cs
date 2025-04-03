@@ -30,7 +30,12 @@ public class HSMDetectorModule
         _object.detector.onObjectDetected += () => logic.localBus.InvokeEvent(ObjectDetectedModuleKey);
         _object.detector.onPlayerDetected += () => logic.localBus.InvokeEvent(PlayerDetectedModuleKey);
         _object.detector.onSoundDetected += () => logic.localBus.InvokeEvent(SoundDetectedModuleKey);
-        _object.move.moveScript.onTargetLost += () => logic.localBus.InvokeEvent(TargetLostModuleKey);
+
+        if (_object.move.moveScript != null)
+            _object.move.moveScript.onTargetLost += () => logic.localBus.InvokeEvent(TargetLostModuleKey);
+        else
+            HSMLogger.PrintMoveScriptError(interactiveObject);
+
         _object.onThisInteraction += () => logic.localBus.InvokeEvent(ThisInteractionModuleKey);
         _object.detector.onPlayerInteractionObject += () => logic.localBus.InvokeEvent(PlayerInteractionObjectModuleKey);
         _object.detector.onAnyObjectsNotDetected += () => logic.localBus.InvokeEvent(AnyObjectsNotDetectedObjectDetectedModuleKey);

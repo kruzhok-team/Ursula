@@ -3,6 +3,13 @@ using System;
 
 public static partial class GLTFLoader
 {
+    public static AnimationPlayer GetAnimationPlayer(Node node)
+    {
+        var animationPlayer = node.GetNodeOrNull("AnimationPlayer") as AnimationPlayer;
+
+        return animationPlayer;
+    }
+
     public static Node3D Load(string path)
     {
         GD.Print("spawnGlTF");
@@ -29,29 +36,29 @@ public static partial class GLTFLoader
         var node = gltf.GenerateScene(gltfState);
 
 
-        var animationPlayer = node.GetNodeOrNull("AnimationPlayer") as AnimationPlayer;
+        var animationPlayer = GetAnimationPlayer(node);
 
-        if (animationPlayer != null)
-        {
-            var animationList = animationPlayer.GetAnimationList();
+        //if (animationPlayer != null)
+        //{
+        //    var animationList = animationPlayer.GetAnimationList();
 
-            if (animationList.Length > 0)
-            {
-                string firstAnimation = animationList[0];
+        //    if (animationList.Length > 0)
+        //    {
+        //        string firstAnimation = animationList[0];
 
-                var animation = animationPlayer.GetAnimation(firstAnimation);
-                if (animation != null)
-                {
-                    animation.LoopMode = Animation.LoopModeEnum.Linear;
-                }
+        //        var animation = animationPlayer.GetAnimation(firstAnimation);
+        //        if (animation != null)
+        //        {
+        //            animation.LoopMode = Animation.LoopModeEnum.Linear;
+        //        }
 
-                animationPlayer.Play(firstAnimation);
-            }
-            else
-            {
-                GD.Print("AnimationPlayer не содержит анимаций.");
-            }
-        }
+        //        animationPlayer.Play(firstAnimation);
+        //    }
+        //    else
+        //    {
+        //        GD.Print("AnimationPlayer не содержит анимаций.");
+        //    }
+        //}
 
         return node as Node3D; //AddChild(node);
     }

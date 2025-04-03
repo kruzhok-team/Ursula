@@ -97,7 +97,7 @@ namespace Ursula.GameObjects.View
         List<string> animationsTo = new List<string>();
 
         private System.Collections.Generic.Dictionary<string, string> soundResources = new System.Collections.Generic.Dictionary<string, string>();
-        private System.Collections.Generic.Dictionary<string, string> animationResources = new System.Collections.Generic.Dictionary<string, string>();
+        //private System.Collections.Generic.Dictionary<string, string> animationResources = new System.Collections.Generic.Dictionary<string, string>();
 
 
         void IInjectable.OnDependenciesInjected()
@@ -233,12 +233,30 @@ namespace Ursula.GameObjects.View
 
                     var viewModel = _addGameObjectAssetProvider != null ? await _addGameObjectAssetProvider.GetAsync() : null;
                     viewModel?.SetModelPath(path);
+
+                    FillAnimationListFromGlb(mesh);
                 }
                 else
                 {
                     GD.PrintErr($"Ошибка модели {path} в {destPath}");
                 }
             });
+
+        }
+
+        private void FillAnimationListFromGlb(Node glbMeshNode)
+        {
+            var animationPlayer = GLTFLoader.GetAnimationPlayer(glbMeshNode);
+
+            var list = animationPlayer.GetAnimationList();
+
+            _addGameObjectAssetModel?.ClearAnimations();
+
+            foreach (var animation in list)
+            {
+                _addGameObjectAssetModel?.AddAnimationResources(animation);
+            }
+            RedrawAnimationsResourses();
 
         }
 
@@ -261,19 +279,19 @@ namespace Ursula.GameObjects.View
 
         void ButtonOpenPathAnimation_DownEventHandler()
         {
-            dialogTool.Open(new string[] { "*.glb ; Анимация glb" }, (path) =>
-            {
-                if (!string.IsNullOrEmpty(path))
-                {
-                    TextEditPathAnimation.Text = path;
-                    animationResources.Add(Path.GetFileName(path), path);
-                    RedrawAnimationsResourses();
-                    _addGameObjectAssetModel?.AddAnimationResources(path);
-                }
-                else
-                    GD.PrintErr($"Ошибка  открытия анимации {path}");
-            }
-, FileDialog.AccessEnum.Filesystem);
+//            dialogTool.Open(new string[] { "*.glb ; Анимация glb" }, (path) =>
+//            {
+//                if (!string.IsNullOrEmpty(path))
+//                {
+//                    TextEditPathAnimation.Text = path;
+//                    animationResources.Add(Path.GetFileName(path), path);
+//                    RedrawAnimationsResourses();
+//                    _addGameObjectAssetModel?.AddAnimationResources(path);
+//                }
+//                else
+//                    GD.PrintErr($"Ошибка  открытия анимации {path}");
+//            }
+//, FileDialog.AccessEnum.Filesystem);
         }
 
         private void ButtonOpenGraphXmlPath_DownEventHandler()
@@ -352,13 +370,16 @@ namespace Ursula.GameObjects.View
         {
             VoxLib.RemoveAllChildren(VBoxContainerAnimation);
 
-            List<string> _animationResources = new List<string>(animationResources.Keys);
+            //List<string> _animationResources = new List<string>(animationResources.Keys);
+            List<string> _animationResources = new List<string>(_addGameObjectAssetModel.GetAnimationResources());
 
             for (int i = 0; i < _animationResources.Count; i++)
             {
                 Node instance = ItemLibraryObjectPrefab.Instantiate();
 
                 ItemLibraryObjectData item = instance as ItemLibraryObjectData;
+
+                item.showRemoveButton = false;
 
                 if (item == null)
                     continue;
@@ -372,9 +393,9 @@ namespace Ursula.GameObjects.View
 
         private void AnimationItem_RemoveEventHandler(string path)
         {
-            animationResources.Remove(path);
-            RedrawAnimationsResourses();
-            _addGameObjectAssetModel?.RemoveAnimationResources(path);
+            //animationResources.Remove(path);
+            //RedrawAnimationsResourses();
+            //_addGameObjectAssetModel?.RemoveAnimationResources(path);
         }
 
 

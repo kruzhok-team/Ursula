@@ -212,6 +212,7 @@ namespace Ursula.GameObjects.View
                     ItemLibraryObjectData item = instance as ItemLibraryObjectData;
                     if (item != null)
                     {
+                        item.showRemoveButton = false;
                         item.removeEvent += Animations_RemoveEventHandler;
                         item.Invalidate(Path.GetFileName(animations[i]));
                         VBoxContainerAnimation.AddChild(instance);

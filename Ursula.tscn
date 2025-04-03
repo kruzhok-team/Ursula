@@ -29,7 +29,7 @@
 [ext_resource type="PackedScene" uid="uid://bf4yqi8xraxte" path="res://addons/Ursula/Assets/Prefabs/UI/ImportGameItem.tscn" id="20_aufgm"]
 [ext_resource type="Texture2D" uid="uid://b0wov4nd1e1eo" path="res://addons/Ursula/BackgroundB.png" id="21_ejwl8"]
 [ext_resource type="PackedScene" uid="uid://d4krypfxpyycs" path="res://addons/Ursula/Modules/ModelsCatalog/ObjectsCatalog.tscn" id="22_3pdji"]
-[ext_resource type="PackedScene" uid="uid://b18gu5dlxifi5" path="res://addons/Ursula/Assets/Prefabs/UI/VideoPlayer.tscn" id="22_6diaf"]
+[ext_resource type="PackedScene" path="res://addons/Ursula/Assets/Prefabs/UI/VideoPlayer.tscn" id="22_6diaf"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/VoxLib.cs" id="23_56bgx"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/LoadingUI.cs" id="24_w700t"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/CreateTerrain.cs" id="25_jfqi2"]
@@ -2583,6 +2583,7 @@ offset_bottom = 397.0
 text = "Анимация:"
 
 [node name="TextEditPathAnimation" type="TextEdit" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+visible = false
 layout_mode = 0
 offset_left = 343.0
 offset_top = 397.0
@@ -2593,6 +2594,7 @@ placeholder_text = "Путь к анимации... (.glb)"
 editable = false
 
 [node name="ButtonOpenPathAnimation" type="Button" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+visible = false
 clip_contents = true
 layout_mode = 1
 anchors_preset = 1
@@ -2612,8 +2614,8 @@ icon = ExtResource("42_ygxxe")
 [node name="ScrollContainerAnimation" type="ScrollContainer" parent="GameObjectCollection/GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
 layout_mode = 0
 offset_left = 344.0
-offset_top = 437.0
-offset_right = 632.0
+offset_top = 398.0
+offset_right = 652.0
 offset_bottom = 517.0
 horizontal_scroll_mode = 0
 
@@ -3172,6 +3174,7 @@ theme_override_font_sizes/font_size = 10
 text = "Анимация:"
 
 [node name="ButtonOpenAnimationPath" type="Button" parent="GameObjectCollection/GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAnimation"]
+visible = false
 custom_minimum_size = Vector2(70, 20)
 layout_mode = 1
 anchors_preset = 6

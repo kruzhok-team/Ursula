@@ -13,6 +13,7 @@ public class HSMAnimationModule
 
     // Command keys
     const string PlayAnimationCommandKey = $"{ModuleName}.¬оспроизвестијнимацию";
+    const string PlayCycleAnimationCommandKey = $"{ModuleName}.¬оспроизвестијнимацию÷иклически";
     const string PlayRandomAnimationCommandKey = $"{ModuleName}.¬оспроизвести—лучайнуюјнимацию";
     const string StopAnimationCommandKey = $"{ModuleName}.ќстановитьјнимацию";
 
@@ -21,11 +22,17 @@ public class HSMAnimationModule
         _object = interactiveObject;
 
         // Events
-        _object.move.animationCompleted += () => logic.localBus.InvokeEvent(AnimationCompletedModuleKey);
-        _object.move.animationCompleted += () => logic.localBus.InvokeEvent(AnimationCycleCompletedModuleKey);
+        if (_object.move.moveScript != null)
+        {
+            _object.move.animationCompleted += () => logic.localBus.InvokeEvent(AnimationCompletedModuleKey);
+            _object.move.animationCompleted += () => logic.localBus.InvokeEvent(AnimationCycleCompletedModuleKey);
+        }
+        else
+            HSMLogger.PrintMoveScriptError(interactiveObject);
 
         // Commands
         logic.localBus.AddCommandListener(PlayAnimationCommandKey, PlayAnimation);
+        logic.localBus.AddCommandListener(PlayCycleAnimationCommandKey, PlayCycleAnimation);
         logic.localBus.AddCommandListener(PlayRandomAnimationCommandKey, PlayRandomAnimation);
         logic.localBus.AddCommandListener(StopAnimationCommandKey, StopAnimation);
     }
@@ -36,6 +43,14 @@ public class HSMAnimationModule
         _object.move.PlayAnimation(
             HSMUtils.GetValue<string>(value[0]), 
             HSMUtils.GetValue<int>(value[1]));
+
+        return true;
+    }
+
+    bool PlayCycleAnimation(List<Tuple<string, string>> value)
+    {
+        _object.move.PlayCycleAnimation(
+            HSMUtils.GetValue<string>(value[0]));
 
         return true;
     }

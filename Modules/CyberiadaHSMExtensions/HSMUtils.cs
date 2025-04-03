@@ -12,6 +12,11 @@ public static class HSMUtils
             return default(T);
         }
 
+        if (typeof(T) == typeof(string))
+        {
+            return (T)(object)input;
+        }
+
         if (typeof(T) == typeof(int) && int.TryParse(input, out int intResult))
         {
             return (T)(object)intResult;
