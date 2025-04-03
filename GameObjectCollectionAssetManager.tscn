@@ -380,6 +380,7 @@ layout_mode = 2
 text = "Анимация:"
 
 [node name="ReferenceRectPathAnimation" type="ReferenceRect" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 border_width = 0.0
@@ -542,6 +543,7 @@ script = ExtResource("12_681k2")
 GameObjectCurrentInfoView = NodePath("../GameObjectCurrentInfoView")
 
 [node name="GameObjectCurrentInfoView" type="Control" parent="GameObjectCurrentInfoManager" node_paths=PackedStringArray("TextEditModelName", "TextEditPath3DModel", "ButtonOpenPath3DModel", "OptionButtonGroupObject", "TextEditSampleObject", "ButtonCopySampleObject", "VBoxContainerGraphXmlPath", "TextureRectPreviewImage", "ButtonOpenPreviewImage", "ButtonOpenGraphXmlPath", "ButtonEditGraphXmlPath", "ButtonOpenAudioPath", "VBoxContainerAudios", "ButtonOpenAnimationPath", "VBoxContainerAnimation", "ButtonDeleteAsset", "ButtonShowInfo", "TextureRectShowInfoTrue", "TextureRectShowInfoFalse")]
+visible = false
 layout_mode = 3
 anchors_preset = 11
 anchor_left = 1.0
@@ -934,6 +936,7 @@ theme_override_font_sizes/font_size = 10
 text = "Анимация:"
 
 [node name="ButtonOpenAnimationPath" type="Button" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ScrollContainer/VBoxContainer/LebelAnimation"]
+visible = false
 custom_minimum_size = Vector2(70, 20)
 layout_mode = 1
 anchors_preset = 6
