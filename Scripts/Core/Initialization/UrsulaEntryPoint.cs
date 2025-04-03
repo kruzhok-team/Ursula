@@ -10,6 +10,7 @@ using Ursula.MapManagers.Model;
 using Ursula.GameObjects.Controller;
 using Ursula.StartupMenu.Model;
 using Ursula.GameProjects.Model;
+using Ursula.Terrain.Model;
 
 
 namespace Ursula.Core.Initialization
@@ -79,8 +80,9 @@ namespace Ursula.Core.Initialization
             InstallSingleton<GameProjectAssetsEmbeddedSource>(services);
 
             InstallSingleton<GameProjectCollectionViewModel>(services);
-            
 
+            InstallSingleton<TerrainManager>(services);
+            InstallSingleton<TerrainModel>(services);
 
         }
 

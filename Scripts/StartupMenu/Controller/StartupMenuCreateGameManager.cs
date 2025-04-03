@@ -72,8 +72,8 @@ namespace Ursula.StartupMenu.Model
 
 
             // :TODO fix new generation
-            VoxLib.createTerrain.scale = _startupMenuCreateGameViewModel._CreateGameSourceData.ScaleValue;
-            VoxLib.createTerrain.power = _startupMenuCreateGameViewModel._CreateGameSourceData.PowerValue;
+            VoxLib.terrainManager.scale = _startupMenuCreateGameViewModel._CreateGameSourceData.ScaleValue;
+            VoxLib.terrainManager.power = _startupMenuCreateGameViewModel._CreateGameSourceData.PowerValue;
 
             VoxLib.mapManager.StartCoroutineCreateTerrain(true);
         }

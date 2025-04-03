@@ -20,7 +20,7 @@ public partial class VoxLib : Node
     [Export]
     public ControlGamesProject CGP;
 
-    public static CreateTerrain createTerrain;
+    public static TerrainManager terrainManager;
 	public static CreateWater createWater;
 
 	public static string SETTINGPATH = "user://settings.cfg";

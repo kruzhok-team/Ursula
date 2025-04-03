@@ -281,14 +281,14 @@ public partial class MapManager : Node, IInjectable
         for (int i = 0; i < gameItems.Count; i++)
         {
             ItemPropsScript ips = gameItems[i];
-            float heightLandscape = CreateTerrain.instance.mapHeight[ips.x, ips.z];
+            float heightLandscape = TerrainManager.instance.mapHeight[ips.x, ips.z];
 
             ChangeWorldBytesItem(ips.x, ips.y, ips.z, (byte)0, (byte)0);
             if (VoxLib.mapManager.voxTypes != null) VoxLib.mapManager.voxTypes[ips.x, ips.y, ips.z] = 0;
             if (VoxLib.mapManager.voxData != null) VoxLib.mapManager.voxData[ips.x, ips.y, ips.z] = 0;
             if (VoxLib.mapManager._voxGrid != null) VoxLib.mapManager._voxGrid.Set(ips.x, ips.y, ips.z, 0);
 
-            float y = heightLandscape + CreateTerrain.instance.positionOffset.Y;
+            float y = heightLandscape + TerrainManager.instance.positionOffset.Y;
 
             Node3D parent = ips.GetParent() as Node3D;
             parent.Position = new Vector3(ips.x, y, ips.z);
@@ -414,11 +414,11 @@ public partial class MapManager : Node, IInjectable
         await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
 		GD.Print("1 second passed!");
 
-		if (VoxLib.mapManager == this && VoxLib.createTerrain != null)
+		if (VoxLib.mapManager == this && VoxLib.terrainManager != null)
 		{
 
-			VoxLib.createTerrain.countBlock = sizeX;
-			VoxLib.createTerrain.ProcCreateTerrainRandom(randomHeight);
+			VoxLib.terrainManager.countBlock = sizeX;
+			VoxLib.terrainManager.ProcCreateTerrainRandom(randomHeight);
 
             //CreateWater();
             //GenerateNewPlants();
@@ -492,7 +492,7 @@ public partial class MapManager : Node, IInjectable
             CustomObject.SetVisibleIndicators(true);
         }
 
-		VoxLib.createTerrain.BakeNavMesh();
+		VoxLib.terrainManager.BakeNavMesh();
 
 		InstancePlayer();
 
@@ -517,7 +517,7 @@ public partial class MapManager : Node, IInjectable
 
         playMode = PlayMode.playGameMode;
         CustomObject.SetVisibleIndicators(false);
-        VoxLib.createTerrain.BakeNavMesh();
+        VoxLib.terrainManager.BakeNavMesh();
         await ToSignal(GetTree().CreateTimer(0.2f), "timeout");
         InstancePlayer();
         VoxLib.log.HideLog();
@@ -564,7 +564,7 @@ public partial class MapManager : Node, IInjectable
 		float height = VoxLib.mapManager.sizeY / 4;
 		//height += 2f;
 
-        positionP = VoxLib.createTerrain.positionOffset + new Vector3(VoxLib.mapManager.sizeX / 2, height + 1, VoxLib.mapManager.sizeZ / 2);
+        positionP = VoxLib.terrainManager.positionOffset + new Vector3(VoxLib.mapManager.sizeX / 2, height + 1, VoxLib.mapManager.sizeZ / 2);
         rotationP = Vector3.Zero;
 		positionP.Z = VoxLib.mapManager.sizeZ - 1;
 
@@ -590,9 +590,9 @@ public partial class MapManager : Node, IInjectable
 		if (playMode == PlayMode.buildingMode) playerBuild = node;
 		else playerTest = node;
 
-		if (playMode == PlayMode.testMode && VoxLib.createTerrain.mapHeight != null)
+		if (playMode == PlayMode.testMode && VoxLib.terrainManager.mapHeight != null)
 		{
-			float height = VoxLib.createTerrain.mapHeight[(int)(((Node3D)instance).Position.X / 2), (int)(((Node3D)instance).Position.Z / 2)] + VoxLib.createTerrain.positionOffset.Y;
+			float height = VoxLib.terrainManager.mapHeight[(int)(((Node3D)instance).Position.X / 2), (int)(((Node3D)instance).Position.Z / 2)] + VoxLib.terrainManager.positionOffset.Y;
 			if (((Node3D)instance).Position.Y < height || ((Node3D)instance).Position.Y >= VoxLib.mapManager.sizeY/2)
 			{
                 ((Node3D)instance).Position = new Vector3(((Node3D)instance).Position.X, height + 2, ((Node3D)instance).Position.Z);
@@ -600,8 +600,8 @@ public partial class MapManager : Node, IInjectable
 		}
         else if (playMode == PlayMode.playGameMode)
         {
-            float height = VoxLib.createTerrain.mapHeight[(int)(((Node3D)instance).Position.X / 2), (int)(((Node3D)instance).Position.Z / 2)] + VoxLib.createTerrain.positionOffset.Y;
-            ((Node3D)instance).Position = VoxLib.createTerrain.positionOffset + new Vector3(VoxLib.mapManager.sizeX / 2, height + 1, VoxLib.mapManager.sizeZ / 2);
+            float height = VoxLib.terrainManager.mapHeight[(int)(((Node3D)instance).Position.X / 2), (int)(((Node3D)instance).Position.Z / 2)] + VoxLib.terrainManager.positionOffset.Y;
+            ((Node3D)instance).Position = VoxLib.terrainManager.positionOffset + new Vector3(VoxLib.mapManager.sizeX / 2, height + 1, VoxLib.mapManager.sizeZ / 2);
         }
     }
 
@@ -659,9 +659,9 @@ public partial class MapManager : Node, IInjectable
 
 		VoxLib.RemoveAllChildren(itemsGO);
 
-		if (VoxLib.createTerrain == null || VoxLib.createTerrain.mapHeight == null) return;
+		if (VoxLib.terrainManager == null || VoxLib.terrainManager.mapHeight == null) return;
 
-		float[,] mapHeight = VoxLib.createTerrain.mapHeight;
+		float[,] mapHeight = VoxLib.terrainManager.mapHeight;
 
 		int amountGrass = Mathf.Min((int)(sizeX * sizeY * grassDensity / 64), sizeX * sizeY / 64);
 		int amountTrees = Mathf.Min((int)(sizeX * sizeY * treesDensity / 64), sizeX * sizeY / 64);
@@ -675,15 +675,15 @@ public partial class MapManager : Node, IInjectable
 		{
 			int x = Mathf.RoundToInt(GD.Randi() % (sizeX - 1));
 			int z = Mathf.RoundToInt(GD.Randi() % (sizeZ - 1));
-			int y = Mathf.RoundToInt(VoxLib.createTerrain.mapHeight[x, z] + VoxLib.createTerrain.positionOffset.Y);
+			int y = Mathf.RoundToInt(VoxLib.terrainManager.mapHeight[x, z] + VoxLib.terrainManager.positionOffset.Y);
 			int id = x + z * 256 + y * 256 * 256;
 
-			float positionY = VoxLib.createTerrain.mapHeight[x, z] + VoxLib.createTerrain.positionOffset.Y;
+			float positionY = VoxLib.terrainManager.mapHeight[x, z] + VoxLib.terrainManager.positionOffset.Y;
 
 			int type = grassItemsID[GD.Randi() % grassItemsID.Length];
 			if (isOnlyCustomItems) type = CUSTOM_ITEM_INDEX_OFFSET + Mathf.RoundToInt(GD.Randi() % (allGrass.Length));
 
-			if ((y > VoxLib.mapManager.WaterLevel || VoxLib.createTerrain.power == 0) && _voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
+			if ((y > VoxLib.mapManager.WaterLevel || VoxLib.terrainManager.power == 0) && _voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
 			{
 				Node node = CreateGameItem(type, 0, 1, x, positionY, z, 0, id);
                 if (isOnlyCustomItems) InitCustomItem(node, type);
@@ -694,15 +694,15 @@ public partial class MapManager : Node, IInjectable
 		{
 			int x = Mathf.RoundToInt(GD.Randi() % (sizeX - 1));
 			int z = Mathf.RoundToInt(GD.Randi() % (sizeZ - 1));
-			int y = Mathf.RoundToInt(VoxLib.createTerrain.mapHeight[x, z] + VoxLib.createTerrain.positionOffset.Y);
+			int y = Mathf.RoundToInt(VoxLib.terrainManager.mapHeight[x, z] + VoxLib.terrainManager.positionOffset.Y);
 			int id = x + z * 256 + y * 256 * 256;
 
-			float positionY = VoxLib.createTerrain.mapHeight[x, z] + VoxLib.createTerrain.positionOffset.Y;
+			float positionY = VoxLib.terrainManager.mapHeight[x, z] + VoxLib.terrainManager.positionOffset.Y;
 
 			int type = treesItemsID[GD.Randi() % treesItemsID.Length];
             if (isOnlyCustomItems) type = CUSTOM_ITEM_INDEX_OFFSET + Mathf.RoundToInt(GD.Randi() % (allTrees.Length)) + allGrass.Length;
 
-            if ((y > VoxLib.mapManager.WaterLevel || VoxLib.createTerrain.power == 0) && _voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
+            if ((y > VoxLib.mapManager.WaterLevel || VoxLib.terrainManager.power == 0) && _voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
 			{
 				Node node = CreateGameItem(type, 0, 1, x, positionY, z, 0, id);
                 if (isOnlyCustomItems) InitCustomItem(node, type);
@@ -713,15 +713,15 @@ public partial class MapManager : Node, IInjectable
         {
             int x = Mathf.RoundToInt(GD.Randi() % (sizeX - 1));
             int z = Mathf.RoundToInt(GD.Randi() % (sizeZ - 1));
-            int y = Mathf.RoundToInt(VoxLib.createTerrain.mapHeight[x, z] + VoxLib.createTerrain.positionOffset.Y);
+            int y = Mathf.RoundToInt(VoxLib.terrainManager.mapHeight[x, z] + VoxLib.terrainManager.positionOffset.Y);
             int id = x + z * 256 + y * 256 * 256;
 
-            float positionY = VoxLib.createTerrain.mapHeight[x, z] + VoxLib.createTerrain.positionOffset.Y;
+            float positionY = VoxLib.terrainManager.mapHeight[x, z] + VoxLib.terrainManager.positionOffset.Y;
 
             int type = plantsItemsID[GD.Randi() % plantsItemsID.Length];
             if (isOnlyCustomItems) type = CUSTOM_ITEM_INDEX_OFFSET + Mathf.RoundToInt(GD.Randi() % (allTrees.Length)) + allGrass.Length;
 
-            if ((y > VoxLib.mapManager.WaterLevel || VoxLib.createTerrain.power == 0) && _voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
+            if ((y > VoxLib.mapManager.WaterLevel || VoxLib.terrainManager.power == 0) && _voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
             {
                 Node node = CreateGameItem(type, 0, 1, x, positionY, z, 0, id);
                 if (isOnlyCustomItems) InitCustomItem(node, type);
@@ -732,12 +732,12 @@ public partial class MapManager : Node, IInjectable
 
 	public void CreateWater()
 	{
-		if (VoxLib.createTerrain == null) return;
-		if (VoxLib.createTerrain.mapHeight == null) return;
+		if (VoxLib.terrainManager == null) return;
+		if (VoxLib.terrainManager.mapHeight == null) return;
 
-		var maxHeightTerrain = VoxLib.createTerrain.MaxHeightTerrain;
+		var maxHeightTerrain = VoxLib.terrainManager.MaxHeightTerrain;
 
-		Vector3 size = new Vector3(VoxLib.createTerrain.size, maxHeightTerrain - (maxHeightTerrain * waterOffset), VoxLib.createTerrain.size);
+		Vector3 size = new Vector3(VoxLib.terrainManager.size, maxHeightTerrain - (maxHeightTerrain * waterOffset), VoxLib.terrainManager.size);
 
 		bool isStatic = !checkButtonWaterStatic.ButtonPressed;
 
@@ -751,24 +751,24 @@ public partial class MapManager : Node, IInjectable
 	{
 		get
 		{
-            if (VoxLib.createTerrain == null) return 0;
+            if (VoxLib.terrainManager == null) return 0;
 
-			float lvl = (VoxLib.createTerrain.MaxHeightTerrain - (VoxLib.createTerrain.MaxHeightTerrain * VoxLib.mapManager.waterOffset)) / 2;
-			return lvl + VoxLib.createTerrain.positionOffset.Y;
+			float lvl = (VoxLib.terrainManager.MaxHeightTerrain - (VoxLib.terrainManager.MaxHeightTerrain * VoxLib.mapManager.waterOffset)) / 2;
+			return lvl + VoxLib.terrainManager.positionOffset.Y;
 		}
 	}
 
 	public void ChangePower(float value)
 	{
-		if (VoxLib.createTerrain != null) VoxLib.createTerrain.power = value;
+		if (VoxLib.terrainManager != null) VoxLib.terrainManager.power = value;
 	}
 	public void ChangeScale(float value)
 	{
-		if (VoxLib.createTerrain != null) VoxLib.createTerrain.scale = value;
+		if (VoxLib.terrainManager != null) VoxLib.terrainManager.scale = value;
 	}
 	public void ChangeWaterOffset(float value)
 	{
-		if (VoxLib.createTerrain != null) waterOffset = 1 - value;
+		if (VoxLib.terrainManager != null) waterOffset = 1 - value;
 	}
 	public void ChangeWaterType(int value)
 	{
@@ -776,15 +776,15 @@ public partial class MapManager : Node, IInjectable
     }
 	public void ChangeGrassDensity(float value)
 	{
-		if (VoxLib.createTerrain != null) grassDensity = value;
+		if (VoxLib.terrainManager != null) grassDensity = value;
 	}
     public void ChangePlantsDensity(float value)
     {
-        if (VoxLib.createTerrain != null) plantsDensity = value;
+        if (VoxLib.terrainManager != null) plantsDensity = value;
     }
     public void ChangeTreesDensity(float value)
 	{
-		if (VoxLib.createTerrain != null) treesDensity = value;
+		if (VoxLib.terrainManager != null) treesDensity = value;
 	}
 	public void SetCreateItem(bool value)
 	{
@@ -1018,20 +1018,20 @@ public partial class MapManager : Node, IInjectable
             mapData.Add("item" + i, ips);
         }
 
-        float[,] mapHeight = VoxLib.createTerrain.mapHeight;
+        float[,] mapHeight = VoxLib.terrainManager.mapHeight;
         if (mapHeight == null) mapHeight = new float[0, 0];
 
         //string mapHeightS = SerializeFloatArray(mapHeight);
         //mapData.Add("mapHeight", mapHeightS);
 
-        mapData.Add("sizeTerrain", (VoxLib.createTerrain.size).ToString());
+        mapData.Add("sizeTerrain", (VoxLib.terrainManager.size).ToString());
 
         StringBuilder sb = new StringBuilder();
-        for (int y = 0; y < VoxLib.createTerrain.size; y++)
+        for (int y = 0; y < VoxLib.terrainManager.size; y++)
         {
 			string str = "";
 
-            for (int x = 0; x < VoxLib.createTerrain.size; x++)
+            for (int x = 0; x < VoxLib.terrainManager.size; x++)
             {
                 //mapData.Add(y.ToString() + x.ToString(), VoxLib.createTerrain.mapHeight[y, x].ToString());
                 sb.Append(mapHeight[y, x]);
@@ -1185,18 +1185,18 @@ public partial class MapManager : Node, IInjectable
 
             int i = 0;
 
-            for (int y = 0; y < VoxLib.createTerrain.size; y++)
+            for (int y = 0; y < VoxLib.terrainManager.size; y++)
             {
                 string str = "";
 
-                for (int x = 0; x < VoxLib.createTerrain.size; x++)
+                for (int x = 0; x < VoxLib.terrainManager.size; x++)
                 {
                     mapHeight[y, x] = float.Parse(_mapHeight[i]);
                     i++;
                 }
             }
 
-            VoxLib.createTerrain.mapHeight = mapHeight;
+            VoxLib.terrainManager.mapHeight = mapHeight;
             await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
             StartCoroutineCreateTerrain(false);
             await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
@@ -1206,8 +1206,8 @@ public partial class MapManager : Node, IInjectable
         if (mapData.ContainsKey("waterOffset")) waterOffset = float.Parse(mapData["waterOffset"]);
         if (mapData.ContainsKey("TypeWater")) TypeWater = (VoxDrawTypes)int.Parse(mapData["TypeWater"]);
 
-        var maxHeightTerrain = VoxLib.createTerrain.MaxHeightTerrain;
-        Vector3 size = new Vector3(VoxLib.createTerrain.size, maxHeightTerrain - (maxHeightTerrain * waterOffset), VoxLib.createTerrain.size);
+        var maxHeightTerrain = VoxLib.terrainManager.MaxHeightTerrain;
+        Vector3 size = new Vector3(VoxLib.terrainManager.size, maxHeightTerrain - (maxHeightTerrain * waterOffset), VoxLib.terrainManager.size);
 
         bool isStatic = false;
         if (mapData.ContainsKey("StaticWater")) isStatic = (bool)bool.Parse(mapData["StaticWater"]);
@@ -1356,8 +1356,8 @@ public partial class MapManager : Node, IInjectable
 
         replaceTexUI.Texture = (Texture2D)VoxLib.mapAssets.terrainTexReplace[replaceTexID];
 
-        VoxLib.createTerrain.replaceTexID = replaceTexID;
-		VoxLib.createTerrain.CreateNewMaterialTerrain();
+        VoxLib.terrainManager.replaceTexID = replaceTexID;
+		VoxLib.terrainManager.CreateNewMaterialTerrain();
     }
 
 	public async void LoadCustomItems()
