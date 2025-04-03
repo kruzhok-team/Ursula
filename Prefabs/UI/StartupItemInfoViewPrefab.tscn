@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbtt5vpssyaq7"]
+
+[ext_resource type="PackedScene" uid="uid://ccpqmgm2c1jtt" path="res://addons/Ursula/Prefabs/GameObjects/GameObjectAssetInfoViewPrefab.tscn" id="1_73mqv"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/StartupMenu/View/StartupItemInfoView.cs" id="2_4estd"]
+
+[node name="StartupItemInfoViewPrefab" instance=ExtResource("1_73mqv")]
+custom_minimum_size = Vector2(80, 80)
+offset_right = 80.0
+offset_bottom = 80.0
+script = ExtResource("2_4estd")
+
+[node name="TextureRect" parent="." index="0"]
+offset_bottom = 0.0
+
+[node name="Button" parent="." index="1"]
+offset_bottom = -3.0
+
+[node name="Label" parent="." index="2"]
+visible = false
+offset_top = -19.0
+
+[node name="Icon" parent="." index="3"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+
+[node name="Load" parent="." index="4"]
+visible = false
+
+[node name="Label2" parent="Load" index="0"]
+offset_left = -28.0
+offset_top = 31.0
+offset_right = 29.0
+offset_bottom = 62.0

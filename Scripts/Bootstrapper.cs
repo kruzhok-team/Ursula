@@ -4,17 +4,20 @@ using VoxLibExample;
 
 public partial class Bootstrapper : Node
 {
+    [Export]
+    public MapManager MapManager;
+
     public override void _Ready()
     {
         GD.Print("Инициализация бутстреппера...");
 
         try
         {
-            // Инициализация менеджеров
-            InitializeManagers();
-
             // Загрузка ассетов
             LoadAssets();
+
+            // Инициализация менеджеров
+            InitializeManagers();
 
             // Загрузка сцен
             LoadScenes();
@@ -66,6 +69,48 @@ public partial class Bootstrapper : Node
         {
             GD.PrintErr("Сцена главного меню не найдена.");
         }
+
+        // Загрузка сцены окружения
+        var environmentScene = ResourceLoader.Load<PackedScene>("res://addons/Ursula/Environment.tscn");
+        if (environmentScene != null)
+        {
+            var scene = environmentScene.Instantiate();
+            AddChild(scene);
+
+            GD.Print("Сцена окружения загружена.");
+        }
+        else
+        {
+            GD.PrintErr("Сцена окружения не найдена.");
+        }
+
+        var startupMenu = ResourceLoader.Load<PackedScene>("res://addons/Ursula/StartupMenu.tscn");
+        if (startupMenu != null)
+        {
+            var scene = startupMenu.Instantiate();
+            AddChild(scene);
+
+            GD.Print("Сцена начала проекта загружена.");
+        }
+        else
+        {
+            GD.PrintErr("Сцена начала проекта не найдена.");
+        }
+
+        var assetManager = ResourceLoader.Load<PackedScene>("res://addons/Ursula/GameObjectCollectionAssetManager.tscn");
+        if (assetManager != null)
+        {
+            var scene = assetManager.Instantiate();
+            AddChild(scene);
+
+            GD.Print("Менеджер ассетов загружен.");
+        }
+        else
+        {
+            GD.PrintErr("Менеджер ассетов не найден.");
+        }
+
+        
     }
 
 

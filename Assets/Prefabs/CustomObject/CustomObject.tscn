@@ -19,7 +19,6 @@ collision_layer = 3
 script = ExtResource("1_kfc3d")
 
 [node name="CustomObjectScript" parent="." node_paths=PackedStringArray("Indicator") instance=ExtResource("2_sd66u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.422544, 0)
 Indicator = NodePath("../CSGCylinder3D")
 
 [node name="InteractiveObject" type="Node" parent="."]

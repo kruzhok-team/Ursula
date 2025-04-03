@@ -102,12 +102,12 @@ namespace Ursula.GameObjects.View
             base._Ready();
             dialogTool = new FileDialogTool(GetNode("FileDialog") as FileDialog);
 
-            TextEditModelName.FocusExited += TextEditModelName_TextChangedEventHandler;
+            TextEditModelName.MouseExited += TextEditModelName_TextChangedEventHandler;
 
             ButtonOpenPreviewImage.ButtonDown += ButtonOpenPreviewImage_DownEventHandler;
 
             OptionButtonGroupObject.ItemSelected += OptionButtonGroupObject_ItemSelectedEventHandler;
-            TextEditSampleObject.FocusExited += TextEditSampleObject_TextChangedEventHandler;
+            TextEditSampleObject.MouseExited += TextEditSampleObject_TextChangedEventHandler;
 
             ButtonOpenGraphXmlPath.ButtonDown += ButtonOpenGraphXmlPath_DownEventHandler;
             ButtonEditGraphXmlPath.ButtonDown += ButtonEditGraphXmlPath_DownEventHandler;
@@ -129,6 +129,17 @@ namespace Ursula.GameObjects.View
             VoxLib.RemoveAllChildren(VBoxContainerAnimation);
 
             _ = SubscribeEvent();
+        }
+
+        public override void _Process(double delta)
+        {
+            //if (Input.MouseMode != Input.MouseModeEnum.Captured)
+            //{
+            //    if (TextEditModelName.HasFocus())
+            //    {
+
+            //    }
+            //}
         }
 
         public override void _ExitTree()
@@ -242,9 +253,17 @@ namespace Ursula.GameObjects.View
 
         private void TextEditModelName_TextChangedEventHandler()
         {
+            string newName = TextEditModelName.Text;
+            string itemId = $"{_gameObjectCollectionModel.AssetSelected.ProviderId}.{newName}";
+
             _gameObjectLibraryManager.RemoveItem(_gameObjectCollectionModel.AssetSelected.Id);
-            _gameObjectAddGameObjectAssetModel.SetModelName(TextEditModelName.Text);
+            _gameObjectAddGameObjectAssetModel.SetModelName(newName);
             _gameObjectAddGameObjectAssetModel.SetCurrentAssetToCollection();
+
+            GameObjectAssetInfo asset = _gameObjectLibraryManager.GetItemInfo(itemId);
+            _gameObjectCollectionModel.SetGameObjectAssetSelected(asset);
+
+            TextEditModelName.ReleaseFocus();
 
             RepaintSelectedAsset();
         }
@@ -286,8 +305,10 @@ namespace Ursula.GameObjects.View
 
         private void TextEditSampleObject_TextChangedEventHandler()
         {
-            _gameObjectAddGameObjectAssetModel.SetGameObjectSample(TextEditModelName.Text);
+            _gameObjectAddGameObjectAssetModel.SetGameObjectSample(TextEditSampleObject.Text);
             _gameObjectAddGameObjectAssetModel.SetCurrentAssetToCollection();
+
+            TextEditSampleObject.ReleaseFocus();
 
             RepaintSelectedAsset();
         }
@@ -410,5 +431,23 @@ namespace Ursula.GameObjects.View
         {
             _gameObjectCurrentInfoModel.RemoveAnimation(animationName);
         }
+
+        public override void _GuiInput(InputEvent @event)
+        {
+            if (@event is InputEventMouseMotion mouseMotion)
+            {
+                //if (!TextEditModelName.GetGlobalRect().HasPoint(mouseMotion.Position))
+                //{
+                //    TextEditModelName_TextChangedEventHandler();
+                //}
+
+                //if (!TextEditSampleObject.GetGlobalRect().HasPoint(mouseMotion.Position))
+                //{
+                //    TextEditSampleObject_TextChangedEventHandler();
+                //}
+            }
+        }
     }
+
+
 }

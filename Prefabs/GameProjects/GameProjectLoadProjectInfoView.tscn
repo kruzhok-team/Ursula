@@ -1,0 +1,108 @@
+[gd_scene load_steps=7 format=3 uid="uid://bi66wbjdksip"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameProjects/View/GameProjectLoadProjectInfoView.cs" id="1_xa0w2"]
+[ext_resource type="Texture2D" uid="uid://5ghjo0cerg0m" path="res://addons/Ursula/Assets/Themes/Rectangle 4 (1).png" id="2_h0m2a"]
+[ext_resource type="StyleBox" uid="uid://dyq85c5w0hltk" path="res://addons/Ursula/Assets/Themes/Line.tres" id="2_jxwfu"]
+[ext_resource type="StyleBox" uid="uid://dx1y20m058p13" path="res://addons/Ursula/Assets/Themes/ButtonWhite.tres" id="3_h87ws"]
+[ext_resource type="StyleBox" uid="uid://dh4pdqyswum5a" path="res://addons/Ursula/Assets/Themes/ButtonBlue.tres" id="4_o7bh8"]
+[ext_resource type="StyleBox" uid="uid://c06y7nq7pqiyd" path="res://addons/Ursula/Assets/Themes/ButtonStandart.tres" id="5_28jc2"]
+
+[node name="GameProjectLoadProjectInfoView" type="Control" node_paths=PackedStringArray("LabelNameAsset", "LabelSizeAsset", "PreviewImageRect", "ButtonClickAsset")]
+custom_minimum_size = Vector2(100, 60)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 787.0
+offset_bottom = 30.0
+script = ExtResource("1_xa0w2")
+LabelNameAsset = NodePath("LabelName")
+LabelSizeAsset = NodePath("LabelSize")
+PreviewImageRect = NodePath("TextureRectPreview")
+ButtonClickAsset = NodePath("Button")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_jxwfu")
+
+[node name="LabelName" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 63.0
+offset_top = -30.0
+offset_right = -255.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "Genhin"
+vertical_alignment = 1
+
+[node name="LabelSize" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -242.0
+offset_top = -30.0
+offset_right = -156.0
+offset_bottom = 30.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "24.8mb"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -22.0
+offset_right = 6.0
+offset_bottom = 22.0
+grow_vertical = 2
+texture = ExtResource("2_h0m2a")
+expand_mode = 1
+
+[node name="TextureRectPreview" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = -22.0
+offset_right = 56.0
+offset_bottom = 22.0
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -153.0
+offset_top = -28.0
+offset_right = -2.0
+offset_bottom = 28.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_hover_color = Color(0.00351917, 0.00351917, 0.00351917, 1)
+theme_override_styles/hover = ExtResource("3_h87ws")
+theme_override_styles/pressed = ExtResource("4_o7bh8")
+theme_override_styles/normal = ExtResource("5_28jc2")
+text = "Загрузить"

@@ -6,34 +6,34 @@ public class HSMMovementModule
 {
     InteractiveObject _object;
 
-    const string ModuleName = "МодульДвижения";
+    const string ModuleName = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
     // Event keys
-    const string StuckMovingEventKey = $"{ModuleName}.ЗастреваниеПриДвижении";
-    const string MovementFinishedEventKey = $"{ModuleName}.ПеремещениеВыполнено";
-    const string CollisionEventKey = $"{ModuleName}.СтолкновениеСПрепятствием";
-    const string MovingDistanceFinishedEventKey = $"{ModuleName}.ПеремещениеВыполнено";
-    const string AnimationCompletedEventKey = $"{ModuleName}.АнимацияЗавершилась";
-    const string AnimationCycleCompletedEventKey = $"{ModuleName}.ЦиклАнимацийЗавершился";
+    const string StuckMovingEventKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string MovementFinishedEventKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string CollisionEventKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string MovingDistanceFinishedEventKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string AnimationCompletedEventKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string AnimationCycleCompletedEventKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
     // Command keys
-    const string MoveRandomCommandKey = $"{ModuleName}.ДвигатьсяСлучайно";
-    const string MoveToTargetCommandKey = $"{ModuleName}.ДвигатьсяКОбъекту";
-    const string MoveFromTargetCommandKey = $"{ModuleName}.ДвигатьсяОтОбъекта";
-    const string MoveToPositionCommandKey = $"{ModuleName}.ДвигатьсяПоКоординатам";
-    const string SetPositionCommandKey = $"{ModuleName}.ЗадатьКоординаты";
-    const string SetPositionUpCommandKey = $"{ModuleName}.ЗадатьКоординатуВверх";
-    const string SetPositionDownCommandKey = $"{ModuleName}.ЗадатьКоординатуВниз";
-    const string SetPositionRightCommandKey = $"{ModuleName}.ЗадатьКоординатуВправо";
-    const string SetPositionLeftCommandKey = $"{ModuleName}.ЗадатьКоординатуВлево";
-    const string SetRandomPositionCommandKey = $"{ModuleName}.ЗадатьСлучайныеКоординаты";
-    const string ResetCoordinatesCommandKey = $"{ModuleName}.СбросКоординат";
-    const string StopMovingCommandKey = $"{ModuleName}.Стоп";
-    const string SetObjectNameCommandKey = $"{ModuleName}.ЗадатьИмяОбъекта";
-    const string SetMoveDistanceCommandKey = $"{ModuleName}.ЗадатьПройденноеРасстояние";
+    const string MoveRandomCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string MoveToTargetCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string MoveFromTargetCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string MoveToPositionCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string SetPositionCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string SetPositionUpCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string SetPositionDownCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string SetPositionRightCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string SetPositionLeftCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string SetRandomPositionCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string ResetCoordinatesCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string StopMovingCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅ";
+    const string SetObjectNameCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+    const string SetMoveDistanceCommandKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
     // Variable keys
-    const string DistanceVariableKey = $"{ModuleName}.ПройденноеРасстояние";
+    const string DistanceVariableKey = $"{ModuleName}.пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
     public HSMMovementModule(CyberiadaLogic logic, InteractiveObject interactiveObject)
     {

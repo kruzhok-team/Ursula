@@ -52,7 +52,7 @@ public partial class CreateWater : Node
 
         meshInstance.MaterialOverride = shaderMaterial;
 
-        meshInstance.Position = new Vector3(VoxLib.createTerrain.positionOffset.X + size / 2, VoxLib.mapManager.WaterLevel, VoxLib.createTerrain.positionOffset.Z + size / 2);
+        meshInstance.Position = new Vector3(VoxLib.terrainManager.positionOffset.X + size / 2, VoxLib.mapManager.WaterLevel, VoxLib.terrainManager.positionOffset.Z + size / 2);
         meshInstance.Scale = new Vector3(scaleWater, scaleWater, scaleWater);
 
         AddChild(meshInstance);
@@ -126,7 +126,7 @@ public partial class CreateWater : Node
         meshInstance.Mesh = mesh;
         meshInstance.Name = "Water";
 
-        meshInstance.Position = new Vector3(VoxLib.createTerrain.positionOffset.X - width - width/2, VoxLib.mapManager.WaterLevel, VoxLib.createTerrain.positionOffset.Z - height - height/2);
+        meshInstance.Position = new Vector3(VoxLib.terrainManager.positionOffset.X - width - width/2, VoxLib.mapManager.WaterLevel, VoxLib.terrainManager.positionOffset.Z - height - height/2);
         meshInstance.Scale = new Vector3(scaleWater, scaleWater, scaleWater);
 
         var shaderMaterial = new ShaderMaterial();
