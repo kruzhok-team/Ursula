@@ -32,9 +32,12 @@ namespace Ursula.MapManagers.Model
             gameItems = new List<ItemPropsScript>();
             itemsGO = new Node3D();
 
-            var mapAssets = ResourceLoader.Load<MapAssets>(MapManagerAssetPath);
-            VoxLib.mapAssets = mapAssets;
-            this.MapAssets = mapAssets;
+            if (VoxLib.mapAssets == null)
+            {
+                var mapAssets = ResourceLoader.Load<MapAssets>(MapManagerAssetPath);
+                VoxLib.mapAssets = mapAssets;
+                this.MapAssets = mapAssets;
+            }
 
             _voxGrid = new VoxGrid(sizeX, sizeY, sizeZ);
             voxTypes = new VoxTypesGrid(_voxGrid);

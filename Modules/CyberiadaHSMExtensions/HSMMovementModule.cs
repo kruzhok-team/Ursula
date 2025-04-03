@@ -40,10 +40,13 @@ public class HSMMovementModule
         _object = interactiveObject;
 
         // Events
-        _object.move.moveScript.onStuckMoving += () => logic.localBus.InvokeEvent(StuckMovingEventKey);
-        _object.move.moveScript.onMovementFinished += () => logic.localBus.InvokeEvent(MovementFinishedEventKey);
-        _object.move.moveScript.onCollision += () => logic.localBus.InvokeEvent(CollisionEventKey);
-        _object.move.moveScript.onMovingDistanceFinished += () => logic.localBus.InvokeEvent(MovingDistanceFinishedEventKey);
+        if (_object.move.moveScript != null)
+        {
+            _object.move.moveScript.onStuckMoving += () => logic.localBus.InvokeEvent(StuckMovingEventKey);
+            _object.move.moveScript.onMovementFinished += () => logic.localBus.InvokeEvent(MovementFinishedEventKey);
+            _object.move.moveScript.onCollision += () => logic.localBus.InvokeEvent(CollisionEventKey);
+            _object.move.moveScript.onMovingDistanceFinished += () => logic.localBus.InvokeEvent(MovingDistanceFinishedEventKey);
+        }
         _object.move.animationCompleted += () => logic.localBus.InvokeEvent(AnimationCompletedEventKey);
         _object.move.animationCompleted += () => logic.localBus.InvokeEvent(AnimationCycleCompletedEventKey);
 

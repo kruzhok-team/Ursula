@@ -407,7 +407,7 @@ public partial class MoveScript : CharacterBody3D
 
         int posX = _rng.RandiRange(0, VoxLib.mapManager.sizeX);
         int posZ = _rng.RandiRange(0, VoxLib.mapManager.sizeZ);
-        float posY = VoxLib.createTerrain.mapHeight[posX, posZ] + VoxLib.createTerrain.positionOffset.Y;
+        float posY = VoxLib.terrainManager.mapHeight[posX, posZ] + VoxLib.terrainManager.positionOffset.Y;
 
         // Now that the navigation map is no longer empty, set the movement target.
         MovementPosition = new Vector3(posX, posY, posZ);
@@ -425,11 +425,11 @@ public partial class MoveScript : CharacterBody3D
         moveDistance = 0;
 
         int X = (int)newPosition.X;
-        float Y = VoxLib.createTerrain.positionOffset.Y;
+        float Y = VoxLib.terrainManager.positionOffset.Y;
         int Z = (int)newPosition.Z;
 
         if (X > 0 && Z > 0)
-            Y = VoxLib.createTerrain.mapHeight[(int)newPosition.X, (int)newPosition.Z] + VoxLib.createTerrain.positionOffset.Y;
+            Y = VoxLib.terrainManager.mapHeight[(int)newPosition.X, (int)newPosition.Z] + VoxLib.terrainManager.positionOffset.Y;
 
         MovementPosition = new Vector3(X, Y, Z);
 
@@ -441,11 +441,11 @@ public partial class MoveScript : CharacterBody3D
     public Vector3 SetPositionRight(float n)
     {
         int X = (int)(GlobalPosition.X + n);
-        float Y = VoxLib.createTerrain.positionOffset.Y;
+        float Y = VoxLib.terrainManager.positionOffset.Y;
         int Z = (int)GlobalPosition.Z;
 
         if (X > 0 && Z > 0)
-            Y = VoxLib.createTerrain.mapHeight[(int)X, (int)Z] + VoxLib.createTerrain.positionOffset.Y;
+            Y = VoxLib.terrainManager.mapHeight[(int)X, (int)Z] + VoxLib.terrainManager.positionOffset.Y;
 
         PlayRunAnimation();
 
@@ -456,11 +456,11 @@ public partial class MoveScript : CharacterBody3D
     public Vector3 SetPositionLeft(float n)
     {
         int X = (int)(GlobalPosition.X - n);
-        float Y = VoxLib.createTerrain.positionOffset.Y;
+        float Y = VoxLib.terrainManager.positionOffset.Y;
         int Z = (int)(GlobalPosition.Z);
 
         if (X > 0 && Z > 0)
-            Y = VoxLib.createTerrain.mapHeight[(int)X, (int)Z] + VoxLib.createTerrain.positionOffset.Y;
+            Y = VoxLib.terrainManager.mapHeight[(int)X, (int)Z] + VoxLib.terrainManager.positionOffset.Y;
 
         PlayRunAnimation();
 
