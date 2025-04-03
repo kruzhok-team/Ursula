@@ -41,12 +41,13 @@ namespace Ursula.GameProjects.View
             _commonLibrary = await _commonLibraryProvider.GetAsync();
             _gameProjectCollectionViewModel = await _gameProjectCollectionViewModelProvider.GetAsync();
 
-            _gameProjectCollectionViewModel.ViewVisible_EventHandler += GameProjectCollectionViewModel_ViewVisible_EventHandler;
+            _gameProjectCollectionViewModel.VisibleView_EventHandler += GameProjectCollectionViewModel_ViewVisible_EventHandler;
         }
 
-        private void GameProjectCollectionViewModel_ViewVisible_EventHandler(object sender, EventArgs e)
+        private async void GameProjectCollectionViewModel_ViewVisible_EventHandler(object sender, EventArgs e)
         {
             Visible = _gameProjectCollectionViewModel.Visible;
+            if (Visible == true) await Show();
         }
 
         public async GDTask Show()
@@ -69,7 +70,7 @@ namespace Ursula.GameProjects.View
                     continue;
 
                 item.clickItemEvent += ClickItem_SelectEvent;
-                item.Invalidate(result[i]);
+                item.Generate(result[i]);
 
                 VBoxContainerCollectionView.AddChild(instance);
             }

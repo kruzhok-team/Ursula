@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cvbbjupptrj6t"]
+[gd_scene load_steps=29 format=3 uid="uid://cvbbjupptrj6t"]
 
 [ext_resource type="StyleBox" uid="uid://bwkxycn6p1ew0" path="res://addons/Ursula/Assets/Themes/Panel.tres" id="1_80fh8"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/StartupMenu/Controller/StartupMenuManager.cs" id="1_kmy6j"]
@@ -27,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://coe273kj5obe6" path="res://addons/Ursula/Assets/Themes/Close.png" id="21_wmw2w"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/StartupMenu/View/StartupMenuCreateNewProjectView.cs" id="21_y5o8y"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameProjects/View/GameProjectCommonLibraryView.cs" id="23_02if2"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/StartupMenu/Controller/StartupMenuCreateGameManager.cs" id="27_xovmk"]
 
 [node name="StartupMenuView" type="Control" node_paths=PackedStringArray("ButtonClose", "ButtonCreate", "ButtonLoad", "ButtonLoadFolderProject")]
 layout_mode = 3
@@ -108,6 +109,754 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("2_m6spn")
 
+[node name="StartupMenuCreateNewProjectView" type="Control" parent="RightPanel" node_paths=PackedStringArray("TextEditProjectName", "ButtonStartCreatingProject")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("21_y5o8y")
+TextEditProjectName = NodePath("TextEditGameName")
+ButtonStartCreatingProject = NodePath("ButtonCreatingGame")
+
+[node name="LabelGameName" type="Label" parent="RightPanel/StartupMenuCreateNewProjectView"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.5
+offset_top = -96.0
+offset_right = 74.5
+offset_bottom = -73.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Название проекта"
+
+[node name="TextEditGameName" type="TextEdit" parent="RightPanel/StartupMenuCreateNewProjectView"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -172.5
+offset_top = -15.0
+offset_right = 172.5
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = ExtResource("8_erdri")
+placeholder_text = "Введите название на английском"
+
+[node name="ButtonCreatingGame" type="Button" parent="RightPanel/StartupMenuCreateNewProjectView"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -99.5
+offset_top = 67.0
+offset_right = 100.5
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+focus_mode = 1
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = ExtResource("3_4h6p0")
+text = "Создать проект"
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="RightPanel/StartupMenuCreateNewProjectView/ButtonCreatingGame"]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.07996
+offset_top = -9.0
+offset_right = 21.08
+offset_bottom = 10.0
+grow_vertical = 2
+texture = ExtResource("12_gl16u")
+expand_mode = 1
+
+[node name="StartupMenuCreateGameView" type="Control" parent="RightPanel" node_paths=PackedStringArray("TextEditGameName", "TextEditGameNameAlias", "ButtonOpenGameImagePath", "TextureRectPreviewImage", "HSliderPower", "HSliderScale", "ButtonCreatingGame", "TabBarReplaceTexture", "TypeSkyOption", "GridContainerSkysView", "HSliderFullDayLength", "TypeWaterOption", "HSliderWaterLevel", "CheckButtonWaterStatic", "TabBarTrees", "GridContainerTrees", "TabBarGrass", "GridContainerGrass", "HSliderTreesDensity", "HSliderGrassDensity")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_6gfre")
+TextEditGameName = NodePath("ScrollContainer/VBoxContainer/TextEditGameName")
+TextEditGameNameAlias = NodePath("ScrollContainer/VBoxContainer/TextEditGameNameAlias")
+ButtonOpenGameImagePath = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/ButtonOpenPreview")
+TextureRectPreviewImage = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/TextureRectPreview")
+HSliderPower = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerPower/Panel/HSliderPower")
+HSliderScale = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerScale/Panel/HSliderScale")
+ButtonCreatingGame = NodePath("HBoxContainer/ButtonCreatingGame")
+TabBarReplaceTexture = NodePath("ScrollContainer/VBoxContainer/TabBar")
+TypeSkyOption = NodePath("ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerSky/TypeSkyOption")
+StartupItemInfoViewPrefab = ExtResource("17_dclji")
+GridContainerSkysView = NodePath("ScrollContainer/VBoxContainer/GridContainer")
+HSliderFullDayLength = NodePath("ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerFullDayLength/Panel/HSliderFullDayLength")
+TypeWaterOption = NodePath("ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerPower/TypeWaterOption")
+HSliderWaterLevel = NodePath("ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset/Panel/HSliderWaterOffset")
+CheckButtonWaterStatic = NodePath("ScrollContainer/VBoxContainer/CheckBoxStaticWater")
+TabBarTrees = NodePath("ScrollContainer/VBoxContainer/TabBarTrees")
+GridContainerTrees = NodePath("ScrollContainer/VBoxContainer/GridContainerTrees")
+TabBarGrass = NodePath("ScrollContainer/VBoxContainer/TabBarGrass")
+GridContainerGrass = NodePath("ScrollContainer/VBoxContainer/GridContainerGrass")
+GameObjectAssetInfoPrefab = ExtResource("19_b6oly")
+HSliderTreesDensity = NodePath("ScrollContainer/VBoxContainer/PanelTreeDensity/HSliderTreeDensity")
+HSliderGrassDensity = NodePath("ScrollContainer/VBoxContainer/PanelGrassDensity/HSliderGrassDensity")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="RightPanel/StartupMenuCreateGameView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = 40.0
+offset_right = -14.0
+offset_bottom = -99.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LabelGameName" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Название проекта"
+
+[node name="TextEditGameName" type="TextEdit" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("8_erdri")
+placeholder_text = "Введите название на английском"
+editable = false
+
+[node name="LabelGameNameAlias" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Алиас проекта"
+
+[node name="TextEditGameNameAlias" type="TextEdit" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("8_erdri")
+placeholder_text = "Введите название на русском"
+
+[node name="LabelNameIcon" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Иконка"
+
+[node name="ReferenceRectPreviewImage" type="ReferenceRect" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextureRectPreview" type="TextureRect" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -30.0
+offset_right = 63.0
+offset_bottom = 30.0
+grow_vertical = 2
+expand_mode = 1
+
+[node name="ButtonOpenPreview" type="Button" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -16.0
+offset_bottom = 16.0
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 1
+theme_override_styles/pressed = ExtResource("9_4m42f")
+theme_override_styles/normal = ExtResource("9_4m42f")
+text = "Загрузить"
+icon = ExtResource("10_q3qrq")
+
+[node name="ReferenceRectPowerAndScale" type="ReferenceRect" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+border_width = 0.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainerPower" type="VBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerPower"]
+layout_mode = 2
+text = "Высота гор"
+
+[node name="Panel" type="Panel" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerPower"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("8_erdri")
+
+[node name="HSliderPower" type="HSlider" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerPower/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("11_jemed")
+theme_override_icons/grabber_highlight = ExtResource("11_jemed")
+theme_override_styles/slider = ExtResource("11_tq53o")
+theme_override_styles/grabber_area = ExtResource("12_k6rnj")
+theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
+value = 50.0
+script = ExtResource("14_qwmgh")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerPower/Panel/HSliderPower"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -228.0
+offset_top = -13.0
+offset_right = -199.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ReferenceRect" type="ReferenceRect" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="VBoxContainerScale" type="VBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerScale"]
+layout_mode = 2
+text = "Толщина гор"
+
+[node name="Panel" type="Panel" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerScale"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("8_erdri")
+
+[node name="HSliderScale" type="HSlider" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerScale/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("11_jemed")
+theme_override_icons/grabber_highlight = ExtResource("11_jemed")
+theme_override_styles/slider = ExtResource("11_tq53o")
+theme_override_styles/grabber_area = ExtResource("12_k6rnj")
+theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
+value = 50.0
+script = ExtResource("14_qwmgh")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerScale/Panel/HSliderScale"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -228.0
+offset_top = -13.0
+offset_right = -199.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="LabelTextureID" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "Текстура для ландшафта"
+
+[node name="TabBar" type="TabBar" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+theme_override_constants/outline_size = 0
+theme_override_constants/h_separation = 10
+theme_override_constants/icon_max_width = 80
+theme_override_styles/button_highlight = ExtResource("15_e716k")
+theme_override_styles/button_pressed = ExtResource("15_e716k")
+theme_override_styles/tab_unselected = ExtResource("16_o44el")
+theme_override_styles/tab_selected = ExtResource("15_e716k")
+theme_override_styles/tab_disabled = ExtResource("16_o44el")
+theme_override_styles/tab_focus = ExtResource("15_e716k")
+current_tab = 0
+tab_count = 2
+tab_0/title = "12345"
+tab_1/title = "12345"
+
+[node name="LabelSky" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "Небо"
+
+[node name="GridContainer" type="GridContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(80, 80)
+layout_direction = 2
+layout_mode = 2
+columns = 7
+
+[node name="StartupItemInfoViewPrefab" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("17_dclji")]
+layout_mode = 2
+
+[node name="ReferenceRectSky" type="ReferenceRect" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+border_width = 0.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainerSky" type="VBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerSky"]
+layout_mode = 2
+text = "Небо"
+
+[node name="TypeSkyOption" type="OptionButton" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerSky"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 1
+selected = 0
+item_count = 1
+popup/item_0/text = "Sky001"
+popup/item_0/id = 1
+
+[node name="ReferenceRect" type="ReferenceRect" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="VBoxContainerFullDayLength" type="VBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerFullDayLength"]
+layout_mode = 2
+text = "Длительность суток, сек"
+
+[node name="Panel" type="Panel" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerFullDayLength"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("8_erdri")
+
+[node name="HSliderFullDayLength" type="HSlider" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerFullDayLength/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("11_jemed")
+theme_override_icons/grabber_highlight = ExtResource("11_jemed")
+theme_override_styles/slider = ExtResource("11_tq53o")
+theme_override_styles/grabber_area = ExtResource("12_k6rnj")
+theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
+min_value = 30.0
+max_value = 2400.0
+value = 480.0
+script = ExtResource("14_qwmgh")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerFullDayLength/Panel/HSliderFullDayLength"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -340.0
+offset_top = -13.0
+offset_right = -311.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ReferenceRectWater" type="ReferenceRect" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+border_width = 0.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainerPower" type="VBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerPower"]
+layout_mode = 2
+text = "Тип воды"
+
+[node name="TypeWaterOption" type="OptionButton" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerPower"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 1
+selected = 0
+item_count = 4
+popup/item_0/text = "Вода"
+popup/item_0/id = 1
+popup/item_1/text = "Лава"
+popup/item_1/id = 2
+popup/item_2/text = "Лёд"
+popup/item_2/id = 3
+popup/item_3/text = "Болото"
+popup/item_3/id = 4
+
+[node name="ReferenceRect" type="ReferenceRect" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="VBoxContainerWaterOffset" type="VBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset"]
+layout_mode = 2
+text = "Уровень воды"
+
+[node name="Panel" type="Panel" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("8_erdri")
+
+[node name="HSliderWaterOffset" type="HSlider" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("11_jemed")
+theme_override_icons/grabber_highlight = ExtResource("11_jemed")
+theme_override_styles/slider = ExtResource("11_tq53o")
+theme_override_styles/grabber_area = ExtResource("12_k6rnj")
+theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
+value = 50.0
+script = ExtResource("14_qwmgh")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset/Panel/HSliderWaterOffset"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -228.0
+offset_top = -13.0
+offset_right = -199.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="CheckBoxStaticWater" type="CheckBox" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Анимация воды"
+
+[node name="LabelTrees" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Деревья"
+
+[node name="TabBarTrees" type="TabBar" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("18_iiunf")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/tab_selected = ExtResource("3_4h6p0")
+current_tab = 0
+tab_count = 3
+tab_0/title = "Базовые"
+tab_1/title = "Загруженные"
+tab_2/title = "Смешанные"
+
+[node name="GridContainerTrees" type="GridContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_direction = 2
+layout_mode = 2
+size_flags_vertical = 3
+columns = 6
+
+[node name="GameObjectAssetInfoViewPrefab" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/GridContainerTrees" instance=ExtResource("19_b6oly")]
+layout_mode = 2
+
+[node name="LabelTreeDensity" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Плотность деревьев"
+
+[node name="PanelTreeDensity" type="Panel" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("8_erdri")
+
+[node name="HSliderTreeDensity" type="HSlider" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/PanelTreeDensity" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("11_jemed")
+theme_override_icons/grabber_highlight = ExtResource("11_jemed")
+theme_override_styles/slider = ExtResource("11_tq53o")
+theme_override_styles/grabber_area = ExtResource("12_k6rnj")
+theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
+value = 50.0
+script = ExtResource("14_qwmgh")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/PanelTreeDensity/HSliderTreeDensity"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -440.0
+offset_top = -12.0
+offset_right = -411.0
+offset_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "50"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="LabelGrass" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Деревья"
+
+[node name="TabBarGrass" type="TabBar" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("18_iiunf")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/tab_selected = ExtResource("3_4h6p0")
+current_tab = 0
+tab_count = 3
+tab_0/title = "Базовые"
+tab_1/title = "Загруженные"
+tab_2/title = "Смешанные"
+
+[node name="GridContainerGrass" type="GridContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_direction = 2
+layout_mode = 2
+size_flags_vertical = 3
+columns = 6
+
+[node name="GameObjectAssetInfoViewPrefab" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/GridContainerGrass" instance=ExtResource("19_b6oly")]
+layout_mode = 2
+
+[node name="LabelGrassDensity" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Плотность травы"
+
+[node name="PanelGrassDensity" type="Panel" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("8_erdri")
+
+[node name="HSliderGrassDensity" type="HSlider" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/PanelGrassDensity" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("11_jemed")
+theme_override_icons/grabber_highlight = ExtResource("11_jemed")
+theme_override_styles/slider = ExtResource("11_tq53o")
+theme_override_styles/grabber_area = ExtResource("12_k6rnj")
+theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
+value = 50.0
+script = ExtResource("14_qwmgh")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/PanelGrassDensity/HSliderGrassDensity"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -439.0
+offset_top = -13.0
+offset_right = -410.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "50"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="FileDialog" type="FileDialog" parent="RightPanel/StartupMenuCreateGameView"]
+auto_translate_mode = 1
+title = "Open a File"
+initial_position = 3
+size = Vector2i(563, 380)
+current_screen = 0
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="Control" type="Control" parent="RightPanel/StartupMenuCreateGameView/FileDialog"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -273.5
+offset_top = -182.0
+offset_right = 273.5
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AccessCheckButton" type="CheckButton" parent="RightPanel/StartupMenuCreateGameView/FileDialog/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -264.0
+offset_top = 34.78
+offset_bottom = 65.78
+grow_horizontal = 0
+size_flags_vertical = 8
+button_pressed = true
+text = "Проект/Файловая система"
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RightPanel/StartupMenuCreateGameView"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -90.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 2
+
+[node name="ButtonCreatingGame" type="Button" parent="RightPanel/StartupMenuCreateGameView/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 1
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = ExtResource("3_4h6p0")
+text = "Создать проект"
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="RightPanel/StartupMenuCreateGameView/HBoxContainer/ButtonCreatingGame"]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.07996
+offset_top = -9.0
+offset_right = 21.08
+offset_bottom = 10.0
+grow_vertical = 2
+texture = ExtResource("12_gl16u")
+expand_mode = 1
+
 [node name="GameProjectCollectionView" type="Control" parent="RightPanel" node_paths=PackedStringArray("VBoxContainerCollectionView")]
 visible = false
 layout_mode = 1
@@ -130,16 +879,13 @@ text = "Сохраненные проекты"
 
 [node name="ButtonLoadFolderProject" type="Button" parent="RightPanel/GameProjectCollectionView"]
 layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 29.0
-offset_top = -268.0
-offset_right = -34.0
-offset_bottom = -182.0
+offset_left = 28.0
+offset_top = 52.0
+offset_right = -35.0
+offset_bottom = 145.0
 grow_horizontal = 2
-grow_vertical = 2
 theme_override_styles/normal = ExtResource("8_f0lq4")
 text = "Загрузить директорию с проектом"
 
@@ -189,755 +935,6 @@ layout_mode = 2
 
 [node name="GameProjectLoadProjectInfoView2" parent="RightPanel/GameProjectCollectionView/PanelProjects/ScrollContainer/VBoxContainer" instance=ExtResource("8_i8o3s")]
 layout_mode = 2
-
-[node name="StartupMenuCreateGameView" type="Panel" parent="." node_paths=PackedStringArray("TextEditGameName", "TextEditGameNameAlias", "ButtonOpenGameImagePath", "TextureRectPreviewImage", "HSliderPower", "HSliderScale", "ButtonCreatingGame", "TabBarReplaceTexture", "TypeSkyOption", "GridContainerSkysView", "HSliderFullDayLength", "TypeWaterOption", "HSliderWaterLevel", "CheckButtonWaterStatic", "TabBarTrees", "GridContainerTrees", "TabBarGrass", "GridContainerGrass")]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 303.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = ExtResource("2_m6spn")
-script = ExtResource("7_6gfre")
-TextEditGameName = NodePath("ScrollContainer/VBoxContainer/TextEditGameName")
-TextEditGameNameAlias = NodePath("ScrollContainer/VBoxContainer/TextEditGameNameAlias")
-ButtonOpenGameImagePath = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/ButtonOpenPreview")
-TextureRectPreviewImage = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/TextureRectPreview")
-HSliderPower = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerPower/Panel/HSliderPower")
-HSliderScale = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerScale/Panel/HSliderScale")
-ButtonCreatingGame = NodePath("HBoxContainer/ButtonCreatingGame")
-TabBarReplaceTexture = NodePath("ScrollContainer/VBoxContainer/TabBar")
-TypeSkyOption = NodePath("ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerSky/TypeSkyOption")
-StartupItemInfoViewPrefab = ExtResource("17_dclji")
-GridContainerSkysView = NodePath("ScrollContainer/VBoxContainer/GridContainer")
-HSliderFullDayLength = NodePath("ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerFullDayLength/Panel/HSliderFullDayLength")
-TypeWaterOption = NodePath("ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerPower/TypeWaterOption")
-HSliderWaterLevel = NodePath("ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset/Panel/HSliderWaterOffset")
-CheckButtonWaterStatic = NodePath("ScrollContainer/VBoxContainer/CheckBoxStaticWater")
-TabBarTrees = NodePath("ScrollContainer/VBoxContainer/TabBarTrees")
-GridContainerTrees = NodePath("ScrollContainer/VBoxContainer/GridContainerTrees")
-TabBarGrass = NodePath("ScrollContainer/VBoxContainer/TabBarGrass")
-GridContainerGrass = NodePath("ScrollContainer/VBoxContainer/GridContainerGrass")
-GameObjectAssetInfoPrefab = ExtResource("19_b6oly")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="StartupMenuCreateGameView"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 15.0
-offset_top = 40.0
-offset_right = -14.0
-offset_bottom = -99.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="StartupMenuCreateGameView/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="LabelGameName" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "Название проекта"
-
-[node name="TextEditGameName" type="TextEdit" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-theme_override_styles/normal = ExtResource("8_erdri")
-placeholder_text = "Введите название на английском"
-editable = false
-
-[node name="LabelGameNameAlias" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "Алиас проекта"
-
-[node name="TextEditGameNameAlias" type="TextEdit" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-theme_override_styles/normal = ExtResource("8_erdri")
-placeholder_text = "Введите название на русском"
-
-[node name="LabelNameIcon" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "Иконка"
-
-[node name="ReferenceRectPreviewImage" type="ReferenceRect" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-border_width = 0.0
-
-[node name="TextureRectPreview" type="TextureRect" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -30.0
-offset_right = 63.0
-offset_bottom = 30.0
-grow_vertical = 2
-expand_mode = 1
-
-[node name="ButtonOpenPreview" type="Button" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage"]
-clip_contents = true
-custom_minimum_size = Vector2(0, 35)
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -110.0
-offset_top = -16.0
-offset_bottom = 16.0
-grow_horizontal = 0
-grow_vertical = 2
-focus_mode = 1
-theme_override_styles/pressed = ExtResource("9_4m42f")
-theme_override_styles/normal = ExtResource("9_4m42f")
-text = "Загрузить"
-icon = ExtResource("10_q3qrq")
-
-[node name="ReferenceRectPowerAndScale" type="ReferenceRect" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-border_width = 0.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainerPower" type="VBoxContainer" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerPower"]
-layout_mode = 2
-text = "Высота гор"
-
-[node name="Panel" type="Panel" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerPower"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-theme_override_styles/panel = ExtResource("8_erdri")
-
-[node name="HSliderPower" type="HSlider" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerPower/Panel" node_paths=PackedStringArray("_hSlider")]
-custom_minimum_size = Vector2(100, 30)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = -1.0
-offset_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_icons/grabber = ExtResource("11_jemed")
-theme_override_icons/grabber_highlight = ExtResource("11_jemed")
-theme_override_styles/slider = ExtResource("11_tq53o")
-theme_override_styles/grabber_area = ExtResource("12_k6rnj")
-theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
-value = 50.0
-script = ExtResource("14_qwmgh")
-_hSlider = NodePath(".")
-
-[node name="Label" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerPower/Panel/HSliderPower"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -228.0
-offset_top = -13.0
-offset_right = -199.0
-offset_bottom = 12.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "0"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="ReferenceRect" type="ReferenceRect" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="VBoxContainerScale" type="VBoxContainer" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerScale"]
-layout_mode = 2
-text = "Толщина гор"
-
-[node name="Panel" type="Panel" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerScale"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-theme_override_styles/panel = ExtResource("8_erdri")
-
-[node name="HSliderScale" type="HSlider" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerScale/Panel" node_paths=PackedStringArray("_hSlider")]
-custom_minimum_size = Vector2(100, 30)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = -1.0
-offset_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_icons/grabber = ExtResource("11_jemed")
-theme_override_icons/grabber_highlight = ExtResource("11_jemed")
-theme_override_styles/slider = ExtResource("11_tq53o")
-theme_override_styles/grabber_area = ExtResource("12_k6rnj")
-theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
-value = 50.0
-script = ExtResource("14_qwmgh")
-_hSlider = NodePath(".")
-
-[node name="Label" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerScale/Panel/HSliderScale"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -228.0
-offset_top = -13.0
-offset_right = -199.0
-offset_bottom = 12.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "0"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="LabelTextureID" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-text = "Текстура для ландшафта"
-
-[node name="TabBar" type="TabBar" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-clip_contents = true
-layout_mode = 2
-theme_override_constants/outline_size = 0
-theme_override_constants/h_separation = 10
-theme_override_constants/icon_max_width = 80
-theme_override_styles/button_highlight = ExtResource("15_e716k")
-theme_override_styles/button_pressed = ExtResource("15_e716k")
-theme_override_styles/tab_unselected = ExtResource("16_o44el")
-theme_override_styles/tab_selected = ExtResource("15_e716k")
-theme_override_styles/tab_disabled = ExtResource("16_o44el")
-theme_override_styles/tab_focus = ExtResource("15_e716k")
-current_tab = 0
-tab_count = 2
-tab_0/title = "12345"
-tab_1/title = "12345"
-
-[node name="LabelSky" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-text = "Небо"
-
-[node name="GridContainer" type="GridContainer" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(80, 80)
-layout_direction = 2
-layout_mode = 2
-columns = 7
-
-[node name="StartupItemInfoViewPrefab" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("17_dclji")]
-layout_mode = 2
-
-[node name="ReferenceRectSky" type="ReferenceRect" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-border_width = 0.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainerSky" type="VBoxContainer" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerSky"]
-layout_mode = 2
-text = "Небо"
-
-[node name="TypeSkyOption" type="OptionButton" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerSky"]
-layout_mode = 2
-size_flags_vertical = 3
-focus_mode = 1
-selected = 0
-item_count = 1
-popup/item_0/text = "Sky001"
-popup/item_0/id = 1
-
-[node name="ReferenceRect" type="ReferenceRect" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="VBoxContainerFullDayLength" type="VBoxContainer" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerFullDayLength"]
-layout_mode = 2
-text = "Длительность суток, сек"
-
-[node name="Panel" type="Panel" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerFullDayLength"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-theme_override_styles/panel = ExtResource("8_erdri")
-
-[node name="HSliderFullDayLength" type="HSlider" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerFullDayLength/Panel" node_paths=PackedStringArray("_hSlider")]
-custom_minimum_size = Vector2(100, 30)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = -1.0
-offset_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_icons/grabber = ExtResource("11_jemed")
-theme_override_icons/grabber_highlight = ExtResource("11_jemed")
-theme_override_styles/slider = ExtResource("11_tq53o")
-theme_override_styles/grabber_area = ExtResource("12_k6rnj")
-theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
-min_value = 30.0
-max_value = 2400.0
-value = 480.0
-script = ExtResource("14_qwmgh")
-_hSlider = NodePath(".")
-
-[node name="Label" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerFullDayLength/Panel/HSliderFullDayLength"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -340.0
-offset_top = -13.0
-offset_right = -311.0
-offset_bottom = 12.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "0"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="ReferenceRectWater" type="ReferenceRect" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-border_width = 0.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainerPower" type="VBoxContainer" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerPower"]
-layout_mode = 2
-text = "Тип воды"
-
-[node name="TypeWaterOption" type="OptionButton" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerPower"]
-layout_mode = 2
-size_flags_vertical = 3
-focus_mode = 1
-selected = 0
-item_count = 4
-popup/item_0/text = "Вода"
-popup/item_0/id = 1
-popup/item_1/text = "Лава"
-popup/item_1/id = 2
-popup/item_2/text = "Лёд"
-popup/item_2/id = 3
-popup/item_3/text = "Болото"
-popup/item_3/id = 4
-
-[node name="ReferenceRect" type="ReferenceRect" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="VBoxContainerWaterOffset" type="VBoxContainer" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset"]
-layout_mode = 2
-text = "Уровень воды"
-
-[node name="Panel" type="Panel" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-theme_override_styles/panel = ExtResource("8_erdri")
-
-[node name="HSliderWaterOffset" type="HSlider" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset/Panel" node_paths=PackedStringArray("_hSlider")]
-custom_minimum_size = Vector2(100, 30)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = -1.0
-offset_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_icons/grabber = ExtResource("11_jemed")
-theme_override_icons/grabber_highlight = ExtResource("11_jemed")
-theme_override_styles/slider = ExtResource("11_tq53o")
-theme_override_styles/grabber_area = ExtResource("12_k6rnj")
-theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
-value = 50.0
-script = ExtResource("14_qwmgh")
-_hSlider = NodePath(".")
-
-[node name="Label" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset/Panel/HSliderWaterOffset"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -228.0
-offset_top = -13.0
-offset_right = -199.0
-offset_bottom = 12.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "0"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="CheckBoxStaticWater" type="CheckBox" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "Анимация воды"
-
-[node name="LabelTrees" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "Деревья"
-
-[node name="TabBarTrees" type="TabBar" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("18_iiunf")
-theme_override_font_sizes/font_size = 14
-theme_override_styles/tab_selected = ExtResource("3_4h6p0")
-current_tab = 0
-tab_count = 3
-tab_0/title = "Базовые"
-tab_1/title = "Загруженные"
-tab_2/title = "Смешанные"
-
-[node name="GridContainerTrees" type="GridContainer" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_direction = 2
-layout_mode = 2
-size_flags_vertical = 3
-columns = 6
-
-[node name="GameObjectAssetInfoViewPrefab" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/GridContainerTrees" instance=ExtResource("19_b6oly")]
-layout_mode = 2
-
-[node name="LabelTreeDensity" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "Плотность деревьев"
-
-[node name="PanelTreeDensity" type="Panel" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-theme_override_styles/panel = ExtResource("8_erdri")
-
-[node name="HSliderTreeDensity" type="HSlider" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/PanelTreeDensity" node_paths=PackedStringArray("_hSlider")]
-custom_minimum_size = Vector2(100, 30)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = -1.0
-offset_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_icons/grabber = ExtResource("11_jemed")
-theme_override_icons/grabber_highlight = ExtResource("11_jemed")
-theme_override_styles/slider = ExtResource("11_tq53o")
-theme_override_styles/grabber_area = ExtResource("12_k6rnj")
-theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
-value = 50.0
-script = ExtResource("14_qwmgh")
-_hSlider = NodePath(".")
-
-[node name="Label" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/PanelTreeDensity/HSliderTreeDensity"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -440.0
-offset_top = -12.0
-offset_right = -411.0
-offset_bottom = 13.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "50"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="LabelGrass" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "Деревья"
-
-[node name="TabBarGrass" type="TabBar" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("18_iiunf")
-theme_override_font_sizes/font_size = 14
-theme_override_styles/tab_selected = ExtResource("3_4h6p0")
-current_tab = 0
-tab_count = 3
-tab_0/title = "Базовые"
-tab_1/title = "Загруженные"
-tab_2/title = "Смешанные"
-
-[node name="GridContainerGrass" type="GridContainer" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(80, 80)
-layout_direction = 2
-layout_mode = 2
-size_flags_vertical = 3
-columns = 6
-
-[node name="GameObjectAssetInfoViewPrefab" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/GridContainerGrass" instance=ExtResource("19_b6oly")]
-layout_mode = 2
-
-[node name="LabelGrassDensity" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "Плотность травы"
-
-[node name="PanelGrassDensity" type="Panel" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-theme_override_styles/panel = ExtResource("8_erdri")
-
-[node name="HSliderGrassDensity" type="HSlider" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/PanelGrassDensity" node_paths=PackedStringArray("_hSlider")]
-custom_minimum_size = Vector2(100, 30)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = -1.0
-offset_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_icons/grabber = ExtResource("11_jemed")
-theme_override_icons/grabber_highlight = ExtResource("11_jemed")
-theme_override_styles/slider = ExtResource("11_tq53o")
-theme_override_styles/grabber_area = ExtResource("12_k6rnj")
-theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
-value = 50.0
-script = ExtResource("14_qwmgh")
-_hSlider = NodePath(".")
-
-[node name="Label" type="Label" parent="StartupMenuCreateGameView/ScrollContainer/VBoxContainer/PanelGrassDensity/HSliderGrassDensity"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -439.0
-offset_top = -13.0
-offset_right = -410.0
-offset_bottom = 12.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "50"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="FileDialog" type="FileDialog" parent="StartupMenuCreateGameView"]
-auto_translate_mode = 1
-title = "Open a File"
-initial_position = 3
-size = Vector2i(563, 380)
-current_screen = 0
-ok_button_text = "Open"
-file_mode = 0
-access = 2
-
-[node name="Control" type="Control" parent="StartupMenuCreateGameView/FileDialog"]
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -273.5
-offset_top = -182.0
-offset_right = 273.5
-offset_bottom = 141.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="AccessCheckButton" type="CheckButton" parent="StartupMenuCreateGameView/FileDialog/Control"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -264.0
-offset_top = 34.78
-offset_bottom = 65.78
-grow_horizontal = 0
-size_flags_vertical = 8
-button_pressed = true
-text = "Проект/Файловая система"
-alignment = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="StartupMenuCreateGameView"]
-custom_minimum_size = Vector2(0, 90)
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -90.0
-grow_horizontal = 2
-grow_vertical = 0
-alignment = 2
-
-[node name="ButtonCreatingGame" type="Button" parent="StartupMenuCreateGameView/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-focus_mode = 1
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = ExtResource("3_4h6p0")
-text = "Создать проект"
-icon_alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="StartupMenuCreateGameView/HBoxContainer/ButtonCreatingGame"]
-visible = false
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 3.07996
-offset_top = -9.0
-offset_right = 21.08
-offset_bottom = 10.0
-grow_vertical = 2
-texture = ExtResource("12_gl16u")
-expand_mode = 1
-
-[node name="StartupMenuCreateNewProjectView" type="Panel" parent="." node_paths=PackedStringArray("TextEditProjectName", "ButtonStartCreatingProject")]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 303.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = ExtResource("2_m6spn")
-script = ExtResource("21_y5o8y")
-TextEditProjectName = NodePath("TextEditGameName")
-ButtonStartCreatingProject = NodePath("ButtonCreatingGame")
-
-[node name="LabelGameName" type="Label" parent="StartupMenuCreateNewProjectView"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -74.5
-offset_top = -96.0
-offset_right = 74.5
-offset_bottom = -73.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Название проекта"
-
-[node name="TextEditGameName" type="TextEdit" parent="StartupMenuCreateNewProjectView"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -172.5
-offset_top = -15.0
-offset_right = 172.5
-offset_bottom = 15.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/normal = ExtResource("8_erdri")
-placeholder_text = "Введите название на английском"
-
-[node name="ButtonCreatingGame" type="Button" parent="StartupMenuCreateNewProjectView"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -99.5
-offset_top = 67.0
-offset_right = 100.5
-offset_bottom = 124.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-focus_mode = 1
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = ExtResource("3_4h6p0")
-text = "Создать проект"
-icon_alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="StartupMenuCreateNewProjectView/ButtonCreatingGame"]
-visible = false
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 3.07996
-offset_top = -9.0
-offset_right = 21.08
-offset_bottom = 10.0
-grow_vertical = 2
-texture = ExtResource("12_gl16u")
-expand_mode = 1
 
 [node name="ButtonClose" type="Button" parent="."]
 clip_contents = true
@@ -1005,6 +1002,9 @@ size_flags_vertical = 8
 button_pressed = true
 text = "Проект/Файловая система"
 alignment = 2
+
+[node name="StartupMenuCreateGameManager" type="Node" parent="."]
+script = ExtResource("27_xovmk")
 
 [node name="GameProjectsManager" type="Node" parent="."]
 

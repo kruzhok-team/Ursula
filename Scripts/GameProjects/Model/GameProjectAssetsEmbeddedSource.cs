@@ -9,12 +9,10 @@ namespace Ursula.GameProjects.Model
     {
         public const string LibId = "EmbeddedGameProjectAssets";
         public const string CollectionPath = "/Games/";
-        public static string JsonDataPath;
+        public static string FolderPath;
 
-        public GameProjectAssetsEmbeddedSource() : base(LibId, JsonDataPath)
+        public GameProjectAssetsEmbeddedSource() : base(LibId, FolderPath)
         {
-            string path = Path.GetDirectoryName(OS.GetExecutablePath());
-            JsonDataPath = ProjectSettings.GlobalizePath($"{path}{CollectionPath}");
             CheckExistDirectory();
         }
 
@@ -24,7 +22,12 @@ namespace Ursula.GameProjects.Model
 
         private void CheckExistDirectory()
         {
-
+#if !TOOLS
+            if (!Directory.Exists(ProjectSettings.GlobalizePath(FolderPath)))
+            {
+                Directory.CreateDirectory(FolderPath);
+            }
+#endif
         }
     }
 }

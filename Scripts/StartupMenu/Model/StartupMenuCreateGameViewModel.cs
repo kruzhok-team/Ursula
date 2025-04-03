@@ -121,6 +121,7 @@ namespace Ursula.StartupMenu.Model
     public partial class StartupMenuCreateGameViewModel : ConstructorViewModel, IInjectable
     {
         public event EventHandler ViewVisible_EventHandler;
+        public event EventHandler StartGenerateGame_EventHandler;
 
         public CreateGameSourceData _CreateGameSourceData = new CreateGameSourceData();
 
@@ -148,9 +149,9 @@ namespace Ursula.StartupMenu.Model
             return this;
         }
 
-        public StartupMenuCreateGameViewModel SetGameImagePath(string value)
+        public StartupMenuCreateGameViewModel SetGameImagePath(string path)
         {
-            _CreateGameSourceData.SetGameImagePath(value);
+            _CreateGameSourceData.SetGameImagePath(path);
             return this;
         }
 
@@ -229,6 +230,12 @@ namespace Ursula.StartupMenu.Model
             return this;
         }
 
+        public StartupMenuCreateGameViewModel StartCreatingGame()
+        {
+            InvokeStartCreatingGameEvent();
+            return this;
+        }
+
         private void InvokeMenuVisibleEvent()
         {
             var handler = ViewVisible_EventHandler;
@@ -245,58 +252,14 @@ namespace Ursula.StartupMenu.Model
         {
             string DestPath = GameProjectAssetsUserSource.CollectionPath + _CreateGameSourceData.GameName;
             Directory.CreateDirectory(ProjectSettings.GlobalizePath(DestPath));
-
-            CopyGameProjectAsset();
         }
 
 
-        private void CopyGameProjectAsset()
+        private void InvokeStartCreatingGameEvent()
         {
-            //MapManager.CreateDir(DestPath);
-
-            //if (Provider == GameObjectAssetsUserSource.LibId)
-            //    ModelLoader.CopyModel(ModelPath, DestPath);
-
-            //_gameObjectUserSourceData.AudiosTo = new List<string>();
-            //string pathAudio = DestPath + MapManager.PATHAUDIO;
-            //MapManager.CreateDir(pathAudio);
-            //for (int i = 0; i < _gameObjectUserSourceData.AudiosFrom.Count; i++)
-            //{
-            //    string pathFrom = _gameObjectUserSourceData.AudiosFrom[i];
-            //    string pathTo = $"{pathAudio}/{Path.GetFileName(_gameObjectUserSourceData.AudiosFrom[i])}";
-            //    if (File.Exists(pathFrom) && pathFrom != pathTo)
-            //    {
-            //        File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);
-            //    }
-            //    _gameObjectUserSourceData.AudiosTo.Add($"{MapManager.PATHAUDIO}/{Path.GetFileName(pathTo)}");
-            //}
-
-            //_gameObjectUserSourceData.AnimationsTo = new List<string>();
-            //string pathAnimations = DestPath + MapManager.PATHANIMATION;
-            //MapManager.CreateDir(pathAnimations);
-            //for (int i = 0; i < _gameObjectUserSourceData.AnimationsFrom.Count; i++)
-            //{
-            //    string pathFrom = _gameObjectUserSourceData.AnimationsFrom[i];
-            //    string pathTo = $"{pathAnimations}/{Path.GetFileName(_gameObjectUserSourceData.AnimationsFrom[i])}";
-
-            //    if (File.Exists(pathFrom) && pathFrom != pathTo)
-            //    {
-            //        File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);
-            //    }
-            //    _gameObjectUserSourceData.AnimationsTo.Add($"{MapManager.PATHANIMATION}/{Path.GetFileName(pathTo)}");
-            //}
-
-            //if (File.Exists(GraphXmlPathFrom)
-            //    && GraphXmlPathFrom != ProjectSettings.GlobalizePath(GraphXmlPathTo))
-            //{
-            //    File.Copy(GraphXmlPathFrom, ProjectSettings.GlobalizePath(GraphXmlPathTo), true);
-            //}
-
-            //if (File.Exists(PreviewImageFilePathFrom)
-            //    && PreviewImageFilePathFrom != ProjectSettings.GlobalizePath(PreviewImageFilePathTo))
-            //{
-            //    File.Copy(PreviewImageFilePathFrom, ProjectSettings.GlobalizePath(PreviewImageFilePathTo), true);
-            //}
+            var handler = StartGenerateGame_EventHandler;
+            handler?.Invoke(this, EventArgs.Empty);
         }
+
     }
 }

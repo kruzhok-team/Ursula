@@ -1,4 +1,6 @@
 ﻿
+using Godot;
+using System.IO;
 using Ursula.Core.DI;
 
 namespace Ursula.GameProjects.Model
@@ -7,9 +9,9 @@ namespace Ursula.GameProjects.Model
     {
         public const string LibId = "UserGameProjectAssets";
         public const string CollectionPath = "user://Project/Games/";
-        public const string JsonDataPath = CollectionPath;
+        public const string FolderPath = CollectionPath;
 
-        public GameProjectAssetsUserSource() : base(LibId, JsonDataPath)
+        public GameProjectAssetsUserSource() : base(LibId, FolderPath)
         {
             CheckExistDirectory();
         }
@@ -20,7 +22,10 @@ namespace Ursula.GameProjects.Model
 
         private void CheckExistDirectory()
         {
-
+            if (!Directory.Exists(ProjectSettings.GlobalizePath(FolderPath)))
+            {
+                Directory.CreateDirectory(FolderPath);
+            }
         }
     }
 }

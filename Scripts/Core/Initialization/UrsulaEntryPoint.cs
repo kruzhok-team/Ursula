@@ -72,7 +72,8 @@ namespace Ursula.Core.Initialization
             InstallSingleton<StartupMenuModel>(services);
             InstallSingleton<StartupMenuCreateNewProjectViewModel>(services);
             InstallSingleton<StartupMenuCreateGameViewModel>(services);
-
+            InstallSingleton<StartupMenuCreateGameManager>(services);
+            
             InstallSingleton<GameProjectLibraryManager>(services);
             InstallSingleton<GameProjectAssetsUserSource>(services);
             InstallSingleton<GameProjectAssetsEmbeddedSource>(services);

@@ -34,7 +34,7 @@ namespace Ursula.GameProjects.View
             ButtonClickAsset.ButtonDown -= OnItemClickEvent;
         }
 
-        public async void Invalidate(GameProjectAssetInfo assetInfo)
+        public async void Generate(GameProjectAssetInfo assetInfo)
         {
             PreviewImageRect.Visible = false;
             if (assetInfo != null)
@@ -50,6 +50,10 @@ namespace Ursula.GameProjects.View
             {
                 LabelNameAsset.Visible = false;
             }
+
+            long sizeInBytes = (long)(assetInfo.ProjectSize / (1024.0 * 1024));
+
+            LabelSizeAsset.Text = $"{sizeInBytes:F2} mb";
         }
 
         private void OnItemClickEvent()

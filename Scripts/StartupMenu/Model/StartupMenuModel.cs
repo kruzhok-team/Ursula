@@ -20,7 +20,7 @@ namespace Ursula.StartupMenu.Model
 
         }
 
-        public StartupMenuModel SetStartupMenuVisible(bool value)
+        public StartupMenuModel SetVisibleView(bool value)
         {
             Visible = value;
             InvokeMenuVisibleEvent();

@@ -3,6 +3,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 using Ursula.GameObjects.View;
@@ -239,7 +240,7 @@ namespace Ursula.StartupMenu.View
             _startupMenuCreateGameViewModel.SetTreesDensity((float)HSliderTreesDensity.Value);
             _startupMenuCreateGameViewModel.SetGrassDensity((float)HSliderGrassDensity.Value);
 
-            //_startupMenuCreateGameViewManager.CreatingGame();
+            _startupMenuCreateGameViewModel.StartCreatingGame();
         }
 
         private void Redraw()
@@ -388,7 +389,7 @@ namespace Ursula.StartupMenu.View
 
         private void ClickItem_TreeAddAssetEventHandler(GameObjectAssetInfo info)
         {
-            _gameObjectAddGameObjectAsset.GameGameObjectAddGameObjectAssetVisible_EventHandler += _gameObjectAddGameObjectAsset_GameGameObjectAddGameObjectAssetVisible_EventHandler;
+            _gameObjectAddGameObjectAsset.GameGameObjectAddGameObjectAssetVisible_EventHandler += GameObjectAddGameObjectAsset_GameGameObjectAddGameObjectAssetVisible_EventHandler;
 
             _gameObjectAddGameObjectAsset.SetGameObjectGroup("Деревья");
             _gameObjectAddGameObjectAsset.SetGameObjectAddGameObjectAssetVisible(true);
@@ -396,15 +397,15 @@ namespace Ursula.StartupMenu.View
 
         private void ClickItem_GrassAddAssetEventHandler(GameObjectAssetInfo info)
         {
-            _gameObjectAddGameObjectAsset.GameGameObjectAddGameObjectAssetVisible_EventHandler += _gameObjectAddGameObjectAsset_GameGameObjectAddGameObjectAssetVisible_EventHandler;
+            _gameObjectAddGameObjectAsset.GameGameObjectAddGameObjectAssetVisible_EventHandler += GameObjectAddGameObjectAsset_GameGameObjectAddGameObjectAssetVisible_EventHandler;
 
             _gameObjectAddGameObjectAsset.SetGameObjectGroup("Трава");
             _gameObjectAddGameObjectAsset.SetGameObjectAddGameObjectAssetVisible(true);
         }
 
-        private void _gameObjectAddGameObjectAsset_GameGameObjectAddGameObjectAssetVisible_EventHandler(object sender, EventArgs e)
+        private void GameObjectAddGameObjectAsset_GameGameObjectAddGameObjectAssetVisible_EventHandler(object sender, EventArgs e)
         {
-            _gameObjectAddGameObjectAsset.GameGameObjectAddGameObjectAssetVisible_EventHandler -= _gameObjectAddGameObjectAsset_GameGameObjectAddGameObjectAssetVisible_EventHandler;
+            _gameObjectAddGameObjectAsset.GameGameObjectAddGameObjectAssetVisible_EventHandler -= GameObjectAddGameObjectAsset_GameGameObjectAddGameObjectAssetVisible_EventHandler;
             Redraw();
         }
     }

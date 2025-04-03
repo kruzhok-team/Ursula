@@ -87,7 +87,7 @@ namespace Ursula.StartupMenu.View
         private void ButtonClose_ButtonDownEvent()
         {
             Visible = false;
-            _startupMenuModel.SetStartupMenuVisible(false);
+            _startupMenuModel.SetVisibleView(false);
         }
 
         private void ButtonCreate_ButtonDownEvent()

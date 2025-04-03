@@ -13,15 +13,21 @@ namespace Ursula.GameProjects.Model
     {
         public const string ProjectJson = "project.json";
 
-        private string _jsonFilePath;
+        private string _folderPath;
 
         private Dictionary<string, IGameProjectAsset> _cachedAssetMap;
         private Dictionary<string, GameProjectAssetInfo> _infoMap;
 
-        public GameProjectAssetJsonCollection(string id, string jsonFilePath)
+        public GameProjectAssetJsonCollection(string id, string folderPath)
         {
             Id = id;
-            _jsonFilePath = jsonFilePath;
+            _folderPath = folderPath;
+            if (id == GameProjectAssetsEmbeddedSource.LibId)
+            {
+                string path = Path.GetDirectoryName(OS.GetExecutablePath());
+                path = ProjectSettings.GlobalizePath($"{path}{GameProjectAssetsEmbeddedSource.CollectionPath}");
+                _folderPath = path;
+            }
             _cachedAssetMap = new();
             _infoMap = new();
         }
@@ -132,17 +138,17 @@ namespace Ursula.GameProjects.Model
             if (IsDataLoaded)
             {
                 //TODO: Log a data already loaded warning here
-                GD.PrintErr($"Error load _jsonFilePath={_jsonFilePath}");
+                GD.PrintErr($"Error load _jsonFilePath={_folderPath}");
                 return;
             }
 
             IsDataLoaded = true;
 
-            if (!File.Exists(ProjectSettings.GlobalizePath(_jsonFilePath)))
-            {
-                GD.Print($"Object file not found {_jsonFilePath}. Creating a new list.");
-                _infoMap = new Dictionary<string, GameProjectAssetInfo>();
+            _infoMap = new Dictionary<string, GameProjectAssetInfo>();
 
+            if (!Directory.Exists(ProjectSettings.GlobalizePath(_folderPath)))
+            {
+                GD.Print($"Folder not found {_folderPath}.");
                 return;
             }
 
@@ -152,8 +158,17 @@ namespace Ursula.GameProjects.Model
                 IncludeFields = true
             };
 
-            string json = File.ReadAllText(ProjectSettings.GlobalizePath(_jsonFilePath));
-            _infoMap = JsonSerializer.Deserialize<Dictionary<string, GameProjectAssetInfo>>(json, options);
+            List<string> folders = GetFoldersInDirectory(ProjectSettings.GlobalizePath(_folderPath));
+
+            for (int i = 0; i < folders.Count; i++)
+            {
+                string path = $"{folders[i]}/{ProjectJson}";
+                string json = File.ReadAllText(path);
+                GameProjectAssetInfo projectInfo = JsonSerializer.Deserialize<GameProjectAssetInfo>(json, options);
+                _infoMap.Add(projectInfo.Id, projectInfo);
+            }
+
+
         }
 
         public bool SaveItem(string itemId, string libId)
@@ -173,7 +188,7 @@ namespace Ursula.GameProjects.Model
 
             string json = JsonSerializer.Serialize(info, options);
 
-            string jsonFilePath = $"{_jsonFilePath}{info.Template.Folder}/{ProjectJson}";
+            string jsonFilePath = $"{_folderPath}{info.Template.Folder}/{ProjectJson}";
             File.WriteAllText(ProjectSettings.GlobalizePath(jsonFilePath), json);
 
             return true;
@@ -210,6 +225,22 @@ namespace Ursula.GameProjects.Model
             return true;
         }
 
+        private List<string> GetFoldersInDirectory(string directoryPath)
+        {
+            List<string> folders = new List<string>();
 
+            // Создаем объект DirectoryInfo
+            DirectoryInfo dirInfo = new DirectoryInfo(directoryPath);
+
+            // Получаем все поддиректории
+            DirectoryInfo[] subDirectories = dirInfo.GetDirectories();
+
+            foreach (var subDir in subDirectories)
+            {
+                folders.Add(subDir.FullName);
+            }
+
+            return folders;
+        }
     }
 }

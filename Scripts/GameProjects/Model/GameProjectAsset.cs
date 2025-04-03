@@ -1,5 +1,6 @@
 ﻿using Godot;
 using System;
+using System.Xml.Linq;
 
 namespace Ursula.GameProjects.Model
 {
@@ -12,6 +13,8 @@ namespace Ursula.GameProjects.Model
 
         public GameProjectAssetInfo Info { get; private set; }
         public object PreviewImage => Info.GetPreviewImage();
-
+        public string FolderPath => Info.GetFolderPath();
+        public string MapPath => Info.GetMapPath();
+        public bool LoadMap => Info.LoadMap();
     }
 }

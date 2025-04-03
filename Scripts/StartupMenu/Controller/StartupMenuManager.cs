@@ -51,10 +51,15 @@ namespace Ursula.StartupMenu.View
 
             _startupMenuCreateNewProjectViewModel.StartCreatingProject_EventHandler += StartupMenuCreateNewProjectView_ButtonStartCreatingProject_EventHandler;
 
-            _startupMenuModel.SetStartupMenuVisible(true);
+            _startupMenuCreateGameViewModel.StartGenerateGame_EventHandler += StartupMenuCreateGameViewModel_StartGenerateGame_EventHandler; ;
+
+            _startupMenuModel.SetVisibleView(true);
         }
 
-
+        private void StartupMenuCreateGameViewModel_StartGenerateGame_EventHandler(object sender, EventArgs e)
+        {
+            _startupMenuModel.SetVisibleView(false);
+        }
 
         private void StartupMenuModel_ButtonCreateGame_EventHandler(object sender, EventArgs e)
         {
@@ -76,5 +81,6 @@ namespace Ursula.StartupMenu.View
             _startupMenuCreateGameViewModel.SetVisibleView(true);
             _gameProjectCollectionViewModel.SetVisibleView(false);
         }
+
     }
 }

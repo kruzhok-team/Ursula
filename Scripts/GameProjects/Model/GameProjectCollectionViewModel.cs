@@ -7,7 +7,7 @@ namespace Ursula.GameProjects.Model
 {
     public partial class GameProjectCollectionViewModel : ConstructorViewModel, IInjectable
     {
-        public event EventHandler ViewVisible_EventHandler;
+        public event EventHandler VisibleView_EventHandler;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -23,7 +23,7 @@ namespace Ursula.GameProjects.Model
 
         private void InvokeViewVisibleEvent()
         {
-            var handler = ViewVisible_EventHandler;
+            var handler = VisibleView_EventHandler;
             handler?.Invoke(this, EventArgs.Empty);
         }
     }
