@@ -205,7 +205,14 @@ public partial class InteractiveObjectMove : Node3D
             return null;
 
         string nameAnim = id;
-        if (!animationPlayer.HasAnimation(nameAnim)) nameAnim = BaseAnimation.LIBRARY + "/" + nameAnim;
+        if (!animationPlayer.HasAnimation(nameAnim)) 
+            nameAnim = BaseAnimation.LIBRARY + "/" + nameAnim;
+
+        if (!animationPlayer.HasAnimation(nameAnim))
+        {
+            HSMLogger.Print(interactiveObject, $"Анимация с именем '{nameAnim}' не найдена");
+            return null;
+        }
 
         animationPlayer.Play(nameAnim);
         OnAnimationFinishedWithCallBack(animationPlayer.CurrentAnimationLength, () =>
@@ -250,7 +257,10 @@ public partial class InteractiveObjectMove : Node3D
         var animation = animationPlayer.GetAnimation(nameAnim);
 
         if (animation == null)
+        {
+            HSMLogger.Print(interactiveObject, $"Анимация с именем '{nameAnim}' не найдена");
             return null;
+        }
 
         animation.LoopMode = Animation.LoopModeEnum.Linear;
         animationPlayer.Play(nameAnim);

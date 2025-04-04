@@ -1,4 +1,4 @@
-using Godot;
+п»їusing Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +17,17 @@ public class HSMLogger
 
     public static void Print(InteractiveObject senderInteractiveObject, string message)
     {
-        ContextMenu.ShowMessageS($"{GetPrefix(senderInteractiveObject, "-")} {message}");
+        ContextMenu.ShowMessageS($"{GetPrefixClear(senderInteractiveObject)} {message}");
     }
 
     public static void PrintMoveScriptError(InteractiveObject interactiveObject)
     {
-        HSMLogger.Print(interactiveObject, "Объект установлен статичным, обработка функций перемещения отключена");
+        HSMLogger.Print(interactiveObject, "РћР±СЉРµРєС‚ СѓСЃС‚Р°РЅРѕРІР»РµРЅ СЃС‚Р°С‚РёС‡РЅС‹Рј, РѕР±СЂР°Р±РѕС‚РєР° С„СѓРЅРєС†РёР№ РїРµСЂРµРјРµС‰РµРЅРёСЏ РѕС‚РєР»СЋС‡РµРЅР°");
+    }
+
+    public static string GetPrefixClear(InteractiveObject interactiveObject)
+    {
+        return $"[HSM {interactiveObject.GetParent().Name}]";
     }
 
     public static string GetPrefix(InteractiveObject interactiveObject, string stateLabel)
@@ -40,7 +45,7 @@ public class HSMLogger
         if (sender is State state)
         {
             var prefix = GetPrefix(state.Label);
-            ContextMenu.ShowMessageS($"{prefix} Выполнен вход в состояние");
+            ContextMenu.ShowMessageS($"{prefix} Р’С‹РїРѕР»РЅРµРЅ РІС…РѕРґ РІ СЃРѕСЃС‚РѕСЏРЅРёРµ");
         }
     }
 
@@ -49,7 +54,7 @@ public class HSMLogger
         if (sender is State state)
         {
             var prefix = GetPrefix(state.Label);
-            ContextMenu.ShowMessageS($"{prefix} Выполнен выход из состояния");
+            ContextMenu.ShowMessageS($"{prefix} Р’С‹РїРѕР»РЅРµРЅ РІС‹С…РѕРґ РёР· СЃРѕСЃС‚РѕСЏРЅРёСЏ");
         }
     }
 
@@ -58,7 +63,7 @@ public class HSMLogger
         if (sender is State state)
         {
             var prefix = GetPrefix(state.Label);
-            ContextMenu.ShowMessageS($"{prefix} Вызван переход по событию {transition.EventName}");
+            ContextMenu.ShowMessageS($"{prefix} Р’С‹Р·РІР°РЅ РїРµСЂРµС…РѕРґ РїРѕ СЃРѕР±С‹С‚РёСЋ {transition.EventName}");
         }
     }
 
@@ -69,14 +74,14 @@ public class HSMLogger
         if (sender is State state)
         {
             var prefix = GetPrefix(state.Label);
-            ContextMenu.ShowMessageS($"{prefix} В состоянии выполнена команда {command.GetCommandName()}({parameters})");
+            ContextMenu.ShowMessageS($"{prefix} Р’ СЃРѕСЃС‚РѕСЏРЅРёРё РІС‹РїРѕР»РЅРµРЅР° РєРѕРјР°РЅРґР° {command.GetCommandName()}({parameters})");
         }
 
         if (sender is Transition transition)
         {
             var prefix = GetPrefix(transition.EventName);
 
-            ContextMenu.ShowMessageS($"{prefix} В переходе выполнена команда {command.GetCommandName()}({parameters})");
+            ContextMenu.ShowMessageS($"{prefix} Р’ РїРµСЂРµС…РѕРґРµ РІС‹РїРѕР»РЅРµРЅР° РєРѕРјР°РЅРґР° {command.GetCommandName()}({parameters})");
         }
     }
 
@@ -85,7 +90,7 @@ public class HSMLogger
         if (sender is Transition transition)
         {
             var prefix = GetPrefix(transition.EventName);
-            ContextMenu.ShowMessageS($"{prefix} В переходе вызвана проверка условия {args.leftParameter.Value} ({args.leftParameter.Key}) {args.CompareSymbol} {args.rightParameter.Value} ({args.rightParameter.Key})  {args.Result}");
+            ContextMenu.ShowMessageS($"{prefix} Р’ РїРµСЂРµС…РѕРґРµ РІС‹Р·РІР°РЅР° РїСЂРѕРІРµСЂРєР° СѓСЃР»РѕРІРёСЏ {args.leftParameter.Value} ({args.leftParameter.Key}) {args.CompareSymbol} {args.rightParameter.Value} ({args.rightParameter.Key})  {args.Result}");
         }
     }
 }
