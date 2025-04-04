@@ -14,7 +14,6 @@ radius = 1.21736
 height = 2.85116
 
 [node name="CustomObject" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43002, 0)
 collision_layer = 3
 script = ExtResource("1_kfc3d")
 
@@ -27,14 +26,14 @@ script = ExtResource("2_il3s1")
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.870224, 0.0490571)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.316, 0.049)
 shape = SubResource("CapsuleShape3D_asd6c")
 
 [node name="ItemPropsScript" type="Node3D" parent="."]
 script = ExtResource("1_td44l")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.867505, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.31594, 0)
 height = 2.60652
 material = ExtResource("2_2dy8s")
 

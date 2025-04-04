@@ -29,7 +29,7 @@ avoidance_enabled = true
 height = 1.5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.0103147, -0.999947, 0, 0.999947, 0.0103147, -0.00439453, 0.765369, 0.168538)
+transform = Transform3D(1, 0, 0, 0, 0.0103147, -0.999947, 0, 0.999947, 0.0103147, -0.00439453, 0.476484, 0.168538)
 shape = SubResource("CapsuleShape3D_ymlvs")
 
 [node name="ItemPropsScript" type="Node3D" parent="."]

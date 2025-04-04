@@ -248,6 +248,10 @@ public partial class InteractiveObjectMove : Node3D
             nameAnim = BaseAnimation.LIBRARY + "/" + nameAnim;
 
         var animation = animationPlayer.GetAnimation(nameAnim);
+
+        if (animation == null)
+            return null;
+
         animation.LoopMode = Animation.LoopModeEnum.Linear;
         animationPlayer.Play(nameAnim);
 
