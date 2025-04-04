@@ -167,7 +167,7 @@ public partial class InteractiveObjectAudio : Node3D
 
         if (!audios.ContainsKey(index))
         {
-            HSMLogger.Print(interactiveObject, $"Звук с именем '{index}' не найден");
+            HSMLogger.Print(interactiveObject, $"Ошибка: звук с именем '{index}' не найден");
             return;
         }
 
@@ -196,7 +196,7 @@ public partial class InteractiveObjectAudio : Node3D
 
         if (!audios.ContainsKey(audioName))
         {
-            HSMLogger.Print(interactiveObject, $"Звук с именем '{audioName}' не найден");
+            HSMLogger.Print(interactiveObject, $"Ошибка: звук с именем '{audioName}' не найден");
             return;
         }
 

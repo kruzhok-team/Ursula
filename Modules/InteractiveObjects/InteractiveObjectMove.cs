@@ -210,7 +210,7 @@ public partial class InteractiveObjectMove : Node3D
 
         if (!animationPlayer.HasAnimation(nameAnim))
         {
-            HSMLogger.Print(interactiveObject, $"Анимация с именем '{nameAnim}' не найдена");
+            HSMLogger.Print(interactiveObject, $"Ошибка: анимация с именем '{nameAnim}' не найдена");
             return null;
         }
 
@@ -258,7 +258,7 @@ public partial class InteractiveObjectMove : Node3D
 
         if (animation == null)
         {
-            HSMLogger.Print(interactiveObject, $"Анимация с именем '{nameAnim}' не найдена");
+            HSMLogger.Print(interactiveObject, $"Ошибка: анимация с именем '{nameAnim}' не найдена");
             return null;
         }
 
