@@ -72,16 +72,14 @@ namespace Ursula.Terrain.Model
 
         public TerrainData _TerrainData = new TerrainData();
 
-        public bool RandomHeight = false;
-
-
         void IInjectable.OnDependenciesInjected()
         {
 
         }
 
-        public TerrainModel StartGenerateTerrain()
+        public TerrainModel StartGenerateTerrain(bool value = false)
         {
+            SetRandomHeight(value);
             InvokeStartGenerateTerrainEvent();
             return this;
         }
@@ -119,6 +117,12 @@ namespace Ursula.Terrain.Model
         public TerrainModel SetPower(float value)
         {
             _TerrainData.SetPower(value);
+            return this;
+        }
+
+        public TerrainModel SetScale(float value)
+        {
+            _TerrainData.SetScale(value);
             return this;
         }
 

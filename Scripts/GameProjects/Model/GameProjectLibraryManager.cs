@@ -11,6 +11,7 @@ namespace Ursula.GameProjects.Model
     public partial class GameProjectLibraryManager : IGameProjectLibraryManager, IInjectable
     {
         public const string LibId = "CommonGameProjectLibrary";
+        public const string MapName = "MapData.txt";
 
         public GameProjectAssetInfo currentProjectInfo { get; private set; }
 

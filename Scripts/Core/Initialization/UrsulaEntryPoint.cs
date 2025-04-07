@@ -11,6 +11,7 @@ using Ursula.GameObjects.Controller;
 using Ursula.StartupMenu.Model;
 using Ursula.GameProjects.Model;
 using Ursula.Terrain.Model;
+using Ursula.ConstructorMenu.Model;
 
 
 namespace Ursula.Core.Initialization
@@ -83,6 +84,10 @@ namespace Ursula.Core.Initialization
 
             InstallSingleton<TerrainManager>(services);
             InstallSingleton<TerrainModel>(services);
+
+            InstallSingleton<ConstructorMenuFileModel>(services);
+            InstallSingleton<ConstructorLandscapeMenuViewModel>(services);
+            
 
         }
 

@@ -5,6 +5,8 @@ using System.IO;
 using Ursula.Core.DI;
 using Ursula.GameProjects.Model;
 using Ursula.MapManagers.Model;
+using Ursula.Terrain.Model;
+using static Godot.TileSet;
 
 namespace Ursula.StartupMenu.Model
 {
@@ -22,11 +24,14 @@ namespace Ursula.StartupMenu.Model
         [Inject]
         private ISingletonProvider<MapManagerModel> _mapManagerModelProvider;
 
+        [Inject]
+        private ISingletonProvider<TerrainModel> _terrainModelProvider;
+
         private StartupMenuCreateGameViewModel _startupMenuCreateGameViewModel { get; set; }
         private GameProjectLibraryManager _gameProjectLibraryManager { get; set; }
         private MapManager _mapManager { get; set; }
         private MapManagerModel _mapManagerModel { get; set; }
-
+        private TerrainModel _terrainModel { get; set; }
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -45,6 +50,7 @@ namespace Ursula.StartupMenu.Model
             _gameProjectLibraryManager = await _gameProjectLibraryManagerProvider.GetAsync();
             _mapManager = await _mapManagerProvider.GetAsync();
             _mapManagerModel = await _mapManagerModelProvider.GetAsync();
+            _terrainModel = await _terrainModelProvider.GetAsync();
 
             _startupMenuCreateGameViewModel.StartGenerateGame_EventHandler += StartupMenuCreateGameViewModel_StartGenerateGame_EventHandler;
         }
@@ -70,12 +76,15 @@ namespace Ursula.StartupMenu.Model
             string destPath = $"{_gameProjectLibraryManager.currentProjectInfo.GetFolderPath()}/{fileName}";
             CopyFile(_startupMenuCreateGameViewModel._CreateGameSourceData.GameImagePath, destPath);
 
+            _terrainModel.SetScale(_startupMenuCreateGameViewModel._CreateGameSourceData.PowerValue);
+            _terrainModel.SetPower(_startupMenuCreateGameViewModel._CreateGameSourceData.PowerValue);
+            _terrainModel.SetReplaceTexID(_startupMenuCreateGameViewModel._CreateGameSourceData.ReplaceTextureID);
+            _terrainModel.SetPlatoSize(_startupMenuCreateGameViewModel._CreateGameSourceData.PlatoSize);
+            _terrainModel.SetPlatoOffsetX(_startupMenuCreateGameViewModel._CreateGameSourceData.PlatoPlatoOffsetX);
+            _terrainModel.SetPlatoOffsetZ(_startupMenuCreateGameViewModel._CreateGameSourceData.PlatoPlatoOffsetZ);
+            _terrainModel.StartGenerateTerrain(true);
 
-            // :TODO fix new generation
-            VoxLib.terrainManager.scale = _startupMenuCreateGameViewModel._CreateGameSourceData.ScaleValue;
-            VoxLib.terrainManager.power = _startupMenuCreateGameViewModel._CreateGameSourceData.PowerValue;
 
-            VoxLib.mapManager.StartCoroutineCreateTerrain(true);
         }
 
         private void CopyFile(string path, string destPath)

@@ -35,7 +35,7 @@ public partial class ControlGamesProject : Control, IInjectable
 
         _Instantiate();
 
-        Visible = true;
+        //Visible = true;
     }
 
     private async void _Instantiate()

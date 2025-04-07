@@ -16,5 +16,6 @@ namespace Ursula.GameProjects.Model
         public string FolderPath => Info.GetFolderPath();
         public string MapPath => Info.GetMapPath();
         public bool LoadMap => Info.LoadMap();
+        public bool SaveMap => Info.SaveMap();
     }
 }

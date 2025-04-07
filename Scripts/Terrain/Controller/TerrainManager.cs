@@ -22,10 +22,6 @@ public partial class TerrainManager : Node, IInjectable
 	public float[,] mapHeight;
 	
 	public Vector3 positionOffset = new Vector3(-0.5f, 36.0f, -0.5f); // new Vector3(0f, 0f, 0f);// 
-    public float power = 4.0f;
-	public float scale = 3.0f;
-	public float exponent = 2;
-	public int replaceTexID = 0;
 
 	public Vector3 startPoint = new Vector3(0f, 0f, 0f);
 
@@ -46,7 +42,9 @@ public partial class TerrainManager : Node, IInjectable
     private NavigationMesh navMesh;
 
     private FastNoiseLite noise;
-    float plateauHeight;
+    private float plateauHeight;
+
+    private float exponent = 2;
 
     void IInjectable.OnDependenciesInjected()
     {
@@ -68,31 +66,6 @@ public partial class TerrainManager : Node, IInjectable
 			return countChunk * countBlock + 1;
 		} 
 	}
-
-    public int platoSize
-    {
-        get
-        {
-            return (int)VoxLib.hud.SliderPlatoSize.Value;
-        }
-    }
-
-    public int platoOffsetX
-    {
-        get
-        {
-            return (int)VoxLib.hud.SliderPlatoOffsetX.Value;
-        }
-    }
-
-    public int platoOffsetZ
-    {
-        get
-        {
-            return (int)VoxLib.hud.SliderPlatoOffsetZ.Value;
-        }
-    }
-
 
     public void ProcCreateTerrainRandom(bool randomHeight)
 	{
@@ -204,22 +177,6 @@ public partial class TerrainManager : Node, IInjectable
 		}
 	}
 
-    public void CreateNewMaterialTerrain()
-	{
-        Material material = VoxLib.mapAssets.TerrainMat;
-
-		Texture texture = VoxLib.mapAssets.terrainTexReplace[replaceTexID];
-
-        ShaderMaterial _shader = (ShaderMaterial)material;
-        _shader.SetShaderParameter("_GrassTex", texture);
-        _shader.SetShaderParameter("_GroundTex", texture);
-
-        meshInstance.MaterialOverride = material;
-    }
-
-
-
-
     private async GDTask SubscribeEvent()
     {
         _terrainModel = await _terrainModelProvider.GetAsync();
@@ -229,14 +186,15 @@ public partial class TerrainManager : Node, IInjectable
 
     private void TerrainModel_StartGenerateTerrain_EventHandler(object sender, EventArgs e)
     {
-		ProcCreateTerrainRandom(_terrainModel.RandomHeight);
+		ProcCreateTerrainRandom(_terrainModel._TerrainData.RandomHeight);
     }
-
-
 
     // Генерация карты высот
     private void GenerateMapHeight(Vector2 pos)
     {
+        float power = _terrainModel._TerrainData.Power;
+        float scale = _terrainModel._TerrainData.Scale;
+
         noise = new FastNoiseLite();
         Godot.RandomNumberGenerator rng = new Godot.RandomNumberGenerator();
         noise.Seed = (int)(rng.Randi() % (1000000 - 1) + 1);
@@ -276,8 +234,12 @@ public partial class TerrainManager : Node, IInjectable
         }
 
         // Плато
+        int platoSize = _terrainModel._TerrainData.PlatoSize;
         if (platoSize > 0)
         {
+            int platoOffsetX = _terrainModel._TerrainData.PlatoOffsetX;
+            int platoOffsetZ = _terrainModel._TerrainData.PlatoOffsetZ;
+
             plateauHeight = MaxHeightTerrain / 2;
 
             int startX = (int)(platoOffsetX - platoSize);
@@ -480,9 +442,24 @@ public partial class TerrainManager : Node, IInjectable
 
         navMesh.AddPolygon(triangles);
 
+        CreateNewMaterialTerrain();
+
         BakeNavMesh();
 
         GenerateEdgesMap();
+    }
+
+    private void CreateNewMaterialTerrain()
+    {
+        Material material = VoxLib.mapAssets.TerrainMat;
+
+        Texture texture = VoxLib.mapAssets.terrainTexReplace[_terrainModel._TerrainData.ReplaceTexID];
+
+        ShaderMaterial _shader = (ShaderMaterial)material;
+        _shader.SetShaderParameter("_GrassTex", texture);
+        _shader.SetShaderParameter("_GroundTex", texture);
+
+        meshInstance.MaterialOverride = material;
     }
 
     private void GenerateEdgesMap()

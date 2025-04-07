@@ -57,7 +57,7 @@ namespace Ursula.GameProjects.Model
 
         public string GetMapPath()
         {
-            return $"{GetFolderPath()}/mapData.txt";
+            return $"{GetFolderPath()}/{GameProjectLibraryManager.MapName}";
         }
 
         public bool LoadMap()
@@ -65,6 +65,15 @@ namespace Ursula.GameProjects.Model
             string pathMap = GetMapPath();
 
             VoxLib.mapManager.LoadMapFromFile(pathMap);
+
+            return true;
+        }
+
+        public bool SaveMap()
+        {
+            string pathMap = GetMapPath();
+
+            VoxLib.mapManager.SaveMapToFile(pathMap);
 
             return true;
         }

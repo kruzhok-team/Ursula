@@ -35,6 +35,15 @@ namespace Ursula.StartupMenu.View
         private HSlider HSliderScale;
 
         [Export]
+        public HSlider HSliderPlatoSize;
+
+        [Export]
+        public HSlider HSliderPlatoOffsetX;
+
+        [Export]
+        public HSlider HSliderPlatoOffsetZ;
+
+        [Export]
         private Button ButtonCreatingGame;
 
         [Export]
@@ -84,6 +93,9 @@ namespace Ursula.StartupMenu.View
 
         [Export]
         private HSlider HSliderGrassDensity;
+
+
+
 
         [Inject]
         private ISingletonProvider<StartupMenuCreateNewProjectViewModel> _startupMenuCreateNewProjectViewModelProvider;
@@ -231,6 +243,9 @@ namespace Ursula.StartupMenu.View
             _startupMenuCreateGameViewModel.SetGameNameAlias(TextEditGameNameAlias.Text);
             _startupMenuCreateGameViewModel.SetPowerValue((float)HSliderPower.Value);
             _startupMenuCreateGameViewModel.SetScaleValue((float)HSliderScale.Value);
+            _startupMenuCreateGameViewModel.SetPlatoSizeValue((int)HSliderPlatoSize.Value);
+            _startupMenuCreateGameViewModel.SetPlatoPlatoOffsetX((int)HSliderPlatoOffsetX.Value);
+            _startupMenuCreateGameViewModel.SetPlatoPlatoOffsetZ((int)HSliderPlatoOffsetZ.Value);
             _startupMenuCreateGameViewModel.SetReplaceTextureID(TabBarReplaceTexture.CurrentTab);
             _startupMenuCreateGameViewModel.SetTypeSkyID(TypeSkyOption.Selected);
             _startupMenuCreateGameViewModel.SetFullDayLength((float)HSliderFullDayLength.Value);
@@ -240,7 +255,7 @@ namespace Ursula.StartupMenu.View
             _startupMenuCreateGameViewModel.SetTreesDensity((float)HSliderTreesDensity.Value);
             _startupMenuCreateGameViewModel.SetGrassDensity((float)HSliderGrassDensity.Value);
 
-            _startupMenuCreateGameViewModel.StartCreatingGame();
+            _startupMenuCreateGameViewModel.StartGenerateGame();
         }
 
         private void Redraw()

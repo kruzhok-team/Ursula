@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://dgc042g3ej4rj"]
+[gd_scene load_steps=68 format=3 uid="uid://dgc042g3ej4rj"]
 
 [ext_resource type="PackedScene" uid="uid://dn1jem1nnefln" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/project_timer.tscn" id="1_wxxnd"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Core/Initialization/UrsulaEntryPoint.cs" id="1_xjqfu"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://qrvv1k25dhxk" path="res://addons/Ursula/Assets/Themes/Environment.png" id="12_3i2qi"]
 [ext_resource type="Texture2D" uid="uid://bh8bkfsodgapr" path="res://addons/Ursula/Assets/Textures/UI/Water1.png" id="12_nolav"]
 [ext_resource type="Texture2D" uid="uid://th4so1xax2jh" path="res://addons/Ursula/Assets/Textures/UI/Trees1.png" id="13_2jvmc"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ConstructorMenu/View/ConstructorMenuFileView.cs" id="13_lc8ex"]
 [ext_resource type="PackedScene" uid="uid://bwi8q4jwd05pc" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/context_menu.tscn" id="15_fjimb"]
 [ext_resource type="PackedScene" uid="uid://ccpqmgm2c1jtt" path="res://addons/Ursula/Prefabs/GameObjects/GameObjectAssetInfoViewPrefab.tscn" id="16_1eb3b"]
 [ext_resource type="Texture2D" uid="uid://cf4iid5ypk7le" path="res://addons/Ursula/Assets/Themes/Object.png" id="16_couy0"]
@@ -27,15 +28,23 @@
 [ext_resource type="Texture2D" uid="uid://2p5sc7n3cngq" path="res://addons/Ursula/Assets/Themes/Play.png" id="19_c8ee4"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ControlGamesProject.cs" id="19_xgi4p"]
 [ext_resource type="PackedScene" uid="uid://bf4yqi8xraxte" path="res://addons/Ursula/Assets/Prefabs/UI/ImportGameItem.tscn" id="20_aufgm"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ConstructorMenu/View/ConstructorLandscapeMenuView.cs" id="21_5esp5"]
 [ext_resource type="Texture2D" uid="uid://ba1a3qovwmjek" path="res://addons/Ursula/BackgroundB.png" id="21_ejwl8"]
 [ext_resource type="PackedScene" uid="uid://d4krypfxpyycs" path="res://addons/Ursula/Modules/ModelsCatalog/ObjectsCatalog.tscn" id="22_3pdji"]
 [ext_resource type="PackedScene" uid="uid://b18gu5dlxifi5" path="res://addons/Ursula/Assets/Prefabs/UI/VideoPlayer.tscn" id="22_6diaf"]
+[ext_resource type="Texture2D" uid="uid://bp2blf6p8rwkx" path="res://addons/Ursula/Assets/Themes/Rectangle 4.png" id="22_m1i1r"]
+[ext_resource type="StyleBox" uid="uid://cfky2vdklo3ns" path="res://addons/Ursula/Assets/Themes/Slider.tres" id="23_8khbg"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/VoxLib.cs" id="23_56bgx"]
+[ext_resource type="StyleBox" uid="uid://dguuwmgm80720" path="res://addons/Ursula/Assets/Themes/SliderArea.tres" id="24_ux6rg"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/LoadingUI.cs" id="24_w700t"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Terrain/Controller/TerrainManager.cs" id="25_jfqi2"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/UI/SliderShowValue.cs" id="25_l6pvw"]
+[ext_resource type="StyleBox" uid="uid://cldpysp5iiigq" path="res://addons/Ursula/Assets/Themes/TabSelectedBg.tres" id="26_u4kls"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/CreateWater.cs" id="26_xdp10"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/MapManager.cs" id="27_5b8gm"]
+[ext_resource type="StyleBox" uid="uid://bovjytp1icdc4" path="res://addons/Ursula/Assets/Themes/TabUnselectedBg.tres" id="27_bd2qi"]
 [ext_resource type="PackedScene" uid="uid://uu0lfgdeox06" path="res://addons/Ursula/Player/cameraFree.tscn" id="28_hoa3c"]
+[ext_resource type="PackedScene" uid="uid://bbtt5vpssyaq7" path="res://addons/Ursula/Prefabs/UI/StartupItemInfoViewPrefab.tscn" id="28_losxi"]
 [ext_resource type="PackedScene" uid="uid://c0t0gdmber7kl" path="res://addons/Ursula/Player/Player.tscn" id="29_wh4fr"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameManager.cs" id="30_lv1wd"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/MapManagerView.cs" id="34_jfh7j"]
@@ -53,6 +62,8 @@
 [sub_resource type="LabelSettings" id="LabelSettings_elju3"]
 line_spacing = -3.0
 font_size = 10
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_qiu05"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_cseqy"]
 font_color = Color(0, 0, 0, 1)
@@ -97,7 +108,7 @@ script = ExtResource("1_xjqfu")
 
 [node name="ModelLoader" parent="." instance=ExtResource("2_ayndh")]
 
-[node name="Controls" type="Control" parent="." node_paths=PackedStringArray("_labelFile", "_cross", "_labelCoordinates", "SettingsGO", "SliderMouseSence", "optionButtonShadow", "labelLengthOfDay", "SliderLengthOfDay", "ControlProjectGO", "ControlGamesProjectGO", "CheckButtonAlgoritm", "SliderPlatoSize", "SliderPlatoOffsetX", "SliderPlatoOffsetZ")]
+[node name="Controls" type="Control" parent="." node_paths=PackedStringArray("_labelFile", "_cross", "_labelCoordinates", "SettingsGO", "SliderMouseSence", "optionButtonShadow", "labelLengthOfDay", "SliderLengthOfDay", "ControlProjectGO", "ControlGamesProjectGO", "CheckButtonAlgoritm")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -105,20 +116,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_lm8x0")
-_labelFile = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/LabelFile")
+_labelFile = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer/LabelFile")
 _cross = NodePath("Cross")
 _labelCoordinates = NodePath("LabelCoordinate")
 SettingsGO = NodePath("ControlSettings")
 SliderMouseSence = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/HSliderMouseSence")
 optionButtonShadow = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/OptionButtonShadow")
-labelLengthOfDay = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/Labellengthofday")
-SliderLengthOfDay = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderlengthofday")
+labelLengthOfDay = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel/Labellengthofday")
+SliderLengthOfDay = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel/HSliderlengthofday")
 ControlProjectGO = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonOpenControlProject/ControlProject")
 ControlGamesProjectGO = NodePath("../ControlGamesProject")
 CheckButtonAlgoritm = [NodePath("ControlGame/Panel/HBoxContainer/Algoritms/CheckButton"), NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/CheckButton")]
-SliderPlatoSize = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPlatoSize")
-SliderPlatoOffsetX = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPlatoOffsetX")
-SliderPlatoOffsetZ = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPlatoOffsetY")
 
 [node name="HUDViewModel" type="Node" parent="Controls"]
 
@@ -206,10 +214,10 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("51_ffq47")
 theme_override_styles/hover_pressed = ExtResource("51_ffq47")
 theme_override_styles/pressed = ExtResource("51_ffq47")
-theme_override_styles/normal = ExtResource("46_h4d78")
+theme_override_styles/normal = ExtResource("51_qas0a")
 text = "Файл"
 script = ExtResource("6_1h5ru")
-PanelMenu = NodePath("Panel")
+PanelMenu = NodePath("PanelMenuFile")
 arrow1 = NodePath("Arrow1")
 arrow2 = NodePath("Arrow2")
 
@@ -260,76 +268,154 @@ grow_vertical = 2
 texture = ExtResource("11_0tbdj")
 expand_mode = 1
 
-[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile"]
+[node name="PanelMenuFile" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" node_paths=PackedStringArray("ButtonCreateNewProject", "ButtonLoadProject", "ButtonSaveProject", "ButtonExportProject", "ButtonAboutProgram", "ButtonSupport")]
 visible = false
 layout_mode = 1
-offset_top = 41.0
-offset_right = 314.0
-offset_bottom = 342.0
+offset_left = -1.0
+offset_top = 40.0
+offset_right = 237.0
+offset_bottom = 304.0
+theme_override_styles/panel = ExtResource("51_qas0a")
+script = ExtResource("13_lc8ex")
+ButtonCreateNewProject = NodePath("VBoxContainer/ButtonCreateNewProject")
+ButtonLoadProject = NodePath("VBoxContainer/ButtonLoadProject")
+ButtonSaveProject = NodePath("VBoxContainer/ButtonSaveProject")
+ButtonExportProject = NodePath("VBoxContainer/ButtonExportProject")
+ButtonAboutProgram = NodePath("VBoxContainer/ButtonAboutProgram")
+ButtonSupport = NodePath("VBoxContainer/ButtonSupport")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel"]
-layout_mode = 0
-offset_right = 311.0
-offset_bottom = 324.0
+[node name="VBoxContainer" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 1.0
+offset_right = -12.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="LabelFile" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+[node name="LabelFile" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Файл"
 clip_text = true
 
-[node name="ButtonCreateNewGame" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
-visible = false
+[node name="ButtonCreateNewProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-focus_mode = 1
-text = "Создать новую игру"
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/hover = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_qas0a")
+text = "Создать новый проект"
 alignment = 0
 
-[node name="ButtonOpenProjectFolder" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+[node name="ButtonLoadProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/hover = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_qas0a")
+text = "Загрузить проект"
+alignment = 0
+
+[node name="ButtonSaveProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/hover = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_qas0a")
+text = "Сохранить проект"
+alignment = 0
+
+[node name="ButtonExportProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/hover = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_qas0a")
+text = "Экспорт"
+alignment = 0
+
+[node name="ButtonAboutProgram" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/hover = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_qas0a")
+text = "Справка о программе"
+alignment = 0
+
+[node name="ButtonSupport" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/hover = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_qas0a")
+text = "Техподдержка"
+alignment = 0
+
+[node name="ButtonOpenProjectFolder" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+visible = false
 layout_mode = 2
 focus_mode = 1
 text = "Открыть папки проекта"
 alignment = 0
 
-[node name="ButtonSaveMap" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+[node name="ButtonSaveMap" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 focus_mode = 1
 text = "Сохранить карту"
 alignment = 0
 
-[node name="ButtonLoadMap" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+[node name="ButtonLoadMap" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 focus_mode = 1
 text = "Загрузить карту"
 alignment = 0
 
-[node name="ButtonOpenGameImage" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+[node name="ButtonOpenGameImage" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+visible = false
 layout_mode = 2
 focus_mode = 1
 text = "Загрузить обложку игры"
 alignment = 0
 
-[node name="ButtonOpenGameVideo" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+[node name="ButtonOpenGameVideo" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+visible = false
 layout_mode = 2
 focus_mode = 1
 text = "Загрузить видео игры"
 alignment = 0
 
-[node name="ButtonExportProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+[node name="ButtonExportProjectOld" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+visible = false
 layout_mode = 2
 focus_mode = 1
 text = "Экспорт игры"
 alignment = 0
 
-[node name="ButtonImportProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+[node name="ButtonImportProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+visible = false
 layout_mode = 2
 focus_mode = 1
 text = "Импорт игры"
 alignment = 0
 
-[node name="ButtonGameProjects" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer"]
+[node name="ButtonGameProjects" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+visible = false
 layout_mode = 2
 focus_mode = 1
 text = "Открыть игры"
@@ -343,7 +429,7 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("51_ffq47")
 theme_override_styles/hover_pressed = ExtResource("51_ffq47")
 theme_override_styles/pressed = ExtResource("51_ffq47")
-theme_override_styles/normal = ExtResource("46_h4d78")
+theme_override_styles/normal = ExtResource("51_qas0a")
 text = "Генерация окружения"
 script = ExtResource("6_1h5ru")
 PanelMenu = NodePath("PanelTab")
@@ -400,26 +486,39 @@ expand_mode = 1
 visible = false
 layout_mode = 0
 offset_top = 40.0
-offset_right = 368.0
-offset_bottom = 82.0
+offset_right = 331.0
+offset_bottom = 99.0
+theme_override_styles/panel = ExtResource("51_qas0a")
 script = ExtResource("10_6oiyr")
-panels = [NodePath("ButtonLandscape"), NodePath("ButtonWater"), NodePath("ButtonPlants")]
+panels = [NodePath("HBoxContainer/ButtonLandscape"), NodePath("HBoxContainer/ButtonWater"), NodePath("HBoxContainer/ButtonPlants")]
 
-[node name="ButtonLandscape" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
-custom_minimum_size = Vector2(120, 0)
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab"]
 layout_mode = 1
-offset_top = 1.0
-offset_right = 120.0
-offset_bottom = 41.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 9.0
+offset_right = -11.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonLandscape" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer" node_paths=PackedStringArray("PanelMenu")]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 focus_mode = 1
 theme_override_styles/pressed = ExtResource("18_c37xe")
+theme_override_styles/normal = ExtResource("51_ffq47")
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_qiu05")
 text = "Ландшафт"
 script = ExtResource("6_1h5ru")
-PanelMenu = NodePath("Panel")
-arrow1 = NodePath("Arrow1")
-arrow2 = NodePath("Arrow2")
+PanelMenu = NodePath("PanelConstructorLandscapeMenuView")
 
-[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape"]
+[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape"]
+visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -431,7 +530,7 @@ grow_vertical = 2
 texture = ExtResource("9_0u5tf")
 expand_mode = 1
 
-[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape"]
+[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape"]
 visible = false
 layout_mode = 1
 anchors_preset = 6
@@ -448,7 +547,8 @@ grow_vertical = 2
 texture = ExtResource("7_t1j1l")
 expand_mode = 1
 
-[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape"]
+[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape"]
+visible = false
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -464,21 +564,22 @@ grow_vertical = 2
 texture = ExtResource("8_4saec")
 expand_mode = 1
 
-[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape"]
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape"]
 visible = false
 layout_mode = 0
-offset_left = 1.0
-offset_top = 39.0
-offset_right = 271.0
+offset_left = -11.0
+offset_top = 50.0
+offset_right = 320.0
 offset_bottom = 529.0
+theme_override_styles/panel = ExtResource("51_qas0a")
 
-[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_right = 268.0
 offset_bottom = 23.0
 text = "Высота гор"
 
-[node name="HSliderPower" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="HSliderPower" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 18.0
 offset_right = 268.0
@@ -487,14 +588,14 @@ focus_mode = 1
 max_value = 20.0
 value = 4.0
 
-[node name="Label2" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="Label2" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 42.0
 offset_right = 268.0
 offset_bottom = 65.0
 text = "Толщина гор"
 
-[node name="HSliderScale" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="HSliderScale" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 62.0
 offset_right = 268.0
@@ -504,7 +605,7 @@ max_value = 5.0
 step = 0.1
 value = 3.0
 
-[node name="Labellengthofday" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="Labellengthofday" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 91.0
 offset_right = 259.0
@@ -512,7 +613,7 @@ offset_bottom = 119.0
 text = "Продолжительность суток: 120с"
 horizontal_alignment = 1
 
-[node name="HSliderlengthofday" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="HSliderlengthofday" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 114.0
 offset_right = 267.0
@@ -523,14 +624,14 @@ max_value = 3600.0
 step = 10.0
 value = 480.0
 
-[node name="LabelGrassTex" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="LabelGrassTex" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 145.0
 offset_right = 259.0
 offset_bottom = 173.0
 text = "Текстура поверхности"
 
-[node name="HSliderGrassTex" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="HSliderGrassTex" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 170.0
 offset_right = 267.0
@@ -538,7 +639,7 @@ offset_bottom = 200.0
 focus_mode = 1
 max_value = 6.0
 
-[node name="ReplaseTextureRect" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="ReplaseTextureRect" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 clip_contents = true
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 1
@@ -549,28 +650,28 @@ offset_bottom = 284.0
 texture = ExtResource("11_bblrs")
 expand_mode = 1
 
-[node name="LabelPlatoSize" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="LabelPlatoSize" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 293.0
 offset_right = 259.0
 offset_bottom = 321.0
 text = "Размер плато"
 
-[node name="HSliderPlatoSize" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="HSliderPlatoSize" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 318.0
 offset_right = 267.0
 offset_bottom = 348.0
 focus_mode = 1
 
-[node name="LabelPlatoOffsetX" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="LabelPlatoOffsetX" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 344.0
 offset_right = 259.0
 offset_bottom = 372.0
 text = "Смещение плато по оси X"
 
-[node name="HSliderPlatoOffsetX" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="HSliderPlatoOffsetX" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 364.0
 offset_right = 267.0
@@ -579,14 +680,14 @@ focus_mode = 1
 max_value = 256.0
 value = 128.0
 
-[node name="LabelPlatoOffsetY" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="LabelPlatoOffsetY" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 390.0
 offset_right = 259.0
 offset_bottom = 418.0
 text = "Смещение плато по оси Y"
 
-[node name="HSliderPlatoOffsetY" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="HSliderPlatoOffsetY" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 offset_top = 412.0
 offset_right = 267.0
@@ -595,7 +696,7 @@ focus_mode = 1
 max_value = 256.0
 value = 128.0
 
-[node name="ButtonGenerateTerrain" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel"]
+[node name="ButtonGenerateTerrain" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -612,22 +713,692 @@ focus_mode = 1
 keep_pressed_outside = true
 text = "Генерировать ландшафт"
 
-[node name="ButtonWater" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
-custom_minimum_size = Vector2(120, 0)
+[node name="PanelConstructorLandscapeMenuView" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape" node_paths=PackedStringArray("HSliderPower", "HSliderScale", "HSliderPlatoSize", "HSliderPlatoOffsetX", "HSliderPlatoOffsetZ", "TabBarReplaceTexture", "TypeSkyOption", "HSliderFullDayLength", "ButtonCreateLandscape")]
+visible = false
+layout_mode = 0
+offset_left = -11.0
+offset_top = 50.0
+offset_right = 320.0
+offset_bottom = 557.0
+theme_override_styles/panel = ExtResource("51_qas0a")
+script = ExtResource("21_5esp5")
+HSliderPower = NodePath("ScrollContainer/VBoxContainer/VBoxContainerPower/Panel/HSliderPower")
+HSliderScale = NodePath("ScrollContainer/VBoxContainer/VBoxContainerScale/Panel/HSliderScale")
+HSliderPlatoSize = NodePath("ScrollContainer/VBoxContainer/PanelSizePlato/HSliderSizePlato")
+HSliderPlatoOffsetX = NodePath("ScrollContainer/VBoxContainer/VBoxContainerPlatoOffsetX/Panel/HSliderPlatoOffsetX")
+HSliderPlatoOffsetZ = NodePath("ScrollContainer/VBoxContainer/VBoxContainerPlatoOffsetZ/Panel/HSliderPlatoOffsetZ")
+TabBarReplaceTexture = NodePath("ScrollContainer/VBoxContainer/TabBar")
+TypeSkyOption = NodePath("ScrollContainer/VBoxContainer/VBoxContainerSky/TypeSkyOption")
+StartupItemInfoViewPrefab = ExtResource("28_losxi")
+HSliderFullDayLength = NodePath("ScrollContainer/VBoxContainer/VBoxContainerFullDayLength/Panel/HSliderFullDayLength")
+ButtonCreateLandscape = NodePath("ScrollContainer/VBoxContainer/ButtonCreateLandscape")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView"]
 layout_mode = 1
-offset_left = 123.0
-offset_top = 1.0
-offset_right = 243.0
-offset_bottom = 41.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -1.0
+offset_right = -13.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainerPower" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerPower"]
+layout_mode = 2
+text = "Высота гор"
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerPower"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("46_h4d78")
+
+[node name="HSliderPower" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerPower/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("22_m1i1r")
+theme_override_icons/grabber_highlight = ExtResource("22_m1i1r")
+theme_override_styles/slider = ExtResource("23_8khbg")
+theme_override_styles/grabber_area = ExtResource("24_ux6rg")
+theme_override_styles/grabber_area_highlight = ExtResource("24_ux6rg")
+value = 50.0
+script = ExtResource("25_l6pvw")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerPower/Panel/HSliderPower"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -184.0
+offset_top = -12.0
+offset_right = -155.0
+offset_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="VBoxContainerScale" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerScale"]
+layout_mode = 2
+text = "Толщина гор"
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerScale"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("46_h4d78")
+
+[node name="HSliderScale" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerScale/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 25)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("22_m1i1r")
+theme_override_icons/grabber_highlight = ExtResource("22_m1i1r")
+theme_override_styles/slider = ExtResource("23_8khbg")
+theme_override_styles/grabber_area = ExtResource("24_ux6rg")
+theme_override_styles/grabber_area_highlight = ExtResource("24_ux6rg")
+value = 50.0
+script = ExtResource("25_l6pvw")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerScale/Panel/HSliderScale"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -184.0
+offset_top = -13.0
+offset_right = -155.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="LabelSizePlato" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Размер плато"
+
+[node name="PanelSizePlato" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("46_h4d78")
+
+[node name="HSliderSizePlato" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/PanelSizePlato" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("22_m1i1r")
+theme_override_icons/grabber_highlight = ExtResource("22_m1i1r")
+theme_override_styles/slider = ExtResource("23_8khbg")
+theme_override_styles/grabber_area = ExtResource("24_ux6rg")
+theme_override_styles/grabber_area_highlight = ExtResource("24_ux6rg")
+max_value = 200.0
+value = 100.0
+script = ExtResource("25_l6pvw")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/PanelSizePlato/HSliderSizePlato"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -183.0
+offset_top = -14.0
+offset_right = -154.0
+offset_bottom = 11.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "100"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="VBoxContainerPlatoOffsetX" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerPlatoOffsetX"]
+layout_mode = 2
+text = "Смещение плато по оси X"
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerPlatoOffsetX"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("46_h4d78")
+
+[node name="HSliderPlatoOffsetX" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerPlatoOffsetX/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("22_m1i1r")
+theme_override_icons/grabber_highlight = ExtResource("22_m1i1r")
+theme_override_styles/slider = ExtResource("23_8khbg")
+theme_override_styles/grabber_area = ExtResource("24_ux6rg")
+theme_override_styles/grabber_area_highlight = ExtResource("24_ux6rg")
+value = 50.0
+script = ExtResource("25_l6pvw")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerPlatoOffsetX/Panel/HSliderPlatoOffsetX"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -184.0
+offset_top = -12.0
+offset_right = -155.0
+offset_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "50"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="VBoxContainerPlatoOffsetZ" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerPlatoOffsetZ"]
+layout_mode = 2
+text = "Смещение плато по оси Y"
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerPlatoOffsetZ"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("46_h4d78")
+
+[node name="HSliderPlatoOffsetZ" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerPlatoOffsetZ/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("22_m1i1r")
+theme_override_icons/grabber_highlight = ExtResource("22_m1i1r")
+theme_override_styles/slider = ExtResource("23_8khbg")
+theme_override_styles/grabber_area = ExtResource("24_ux6rg")
+theme_override_styles/grabber_area_highlight = ExtResource("24_ux6rg")
+value = 50.0
+script = ExtResource("25_l6pvw")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerPlatoOffsetZ/Panel/HSliderPlatoOffsetZ"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -183.0
+offset_top = -12.0
+offset_right = -154.0
+offset_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "50"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="LabelTextureID" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "Текстура для ландшафта"
+
+[node name="TabBar" type="TabBar" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+theme_override_constants/outline_size = 0
+theme_override_constants/h_separation = 10
+theme_override_constants/icon_max_width = 80
+theme_override_styles/button_highlight = ExtResource("26_u4kls")
+theme_override_styles/button_pressed = ExtResource("26_u4kls")
+theme_override_styles/tab_unselected = ExtResource("27_bd2qi")
+theme_override_styles/tab_selected = ExtResource("26_u4kls")
+theme_override_styles/tab_disabled = ExtResource("27_bd2qi")
+theme_override_styles/tab_focus = ExtResource("26_u4kls")
+current_tab = 0
+tab_count = 2
+tab_0/title = "12345"
+tab_1/title = "12345"
+
+[node name="GridContainer" type="GridContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(80, 60)
+layout_direction = 2
+layout_mode = 2
+columns = 5
+
+[node name="StartupItemInfoViewPrefab" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("28_losxi")]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+
+[node name="VBoxContainerSky" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerSky"]
+layout_mode = 2
+text = "Небо"
+
+[node name="TypeSkyOption" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerSky"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 1
+selected = 0
+item_count = 1
+popup/item_0/text = "Sky001"
+popup/item_0/id = 1
+
+[node name="VBoxContainerFullDayLength" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerFullDayLength"]
+layout_mode = 2
+text = "Длительность суток, сек"
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerFullDayLength"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("46_h4d78")
+
+[node name="HSliderFullDayLength" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerFullDayLength/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("22_m1i1r")
+theme_override_icons/grabber_highlight = ExtResource("22_m1i1r")
+theme_override_styles/slider = ExtResource("23_8khbg")
+theme_override_styles/grabber_area = ExtResource("24_ux6rg")
+theme_override_styles/grabber_area_highlight = ExtResource("24_ux6rg")
+min_value = 30.0
+max_value = 2400.0
+value = 480.0
+script = ExtResource("25_l6pvw")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/VBoxContainerFullDayLength/Panel/HSliderFullDayLength"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -264.0
+offset_top = -12.0
+offset_right = -235.0
+offset_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ButtonCreateLandscape" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 18
+theme_override_styles/hover = ExtResource("18_c37xe")
+theme_override_styles/pressed = ExtResource("18_c37xe")
+theme_override_styles/normal = ExtResource("18_c37xe")
+text = "Генерировать ландшафт"
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/ButtonCreateLandscape"]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.07996
+offset_top = -9.0
+offset_right = 21.08
+offset_bottom = 10.0
+grow_vertical = 2
+texture = ExtResource("19_c8ee4")
+expand_mode = 1
+
+[node name="ReferenceRectWater" type="ReferenceRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+border_width = 0.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/ReferenceRectWater"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainerPower" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerPower"]
+layout_mode = 2
+text = "Тип воды"
+
+[node name="TypeWaterOption" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerPower"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 1
+selected = 0
+item_count = 4
+popup/item_0/text = "Вода"
+popup/item_0/id = 1
+popup/item_1/text = "Лава"
+popup/item_1/id = 2
+popup/item_2/text = "Лёд"
+popup/item_2/id = 3
+popup/item_3/text = "Болото"
+popup/item_3/id = 4
+
+[node name="ReferenceRect" type="ReferenceRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="VBoxContainerWaterOffset" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset"]
+layout_mode = 2
+text = "Уровень воды"
+
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("46_h4d78")
+
+[node name="HSliderWaterOffset" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("22_m1i1r")
+theme_override_icons/grabber_highlight = ExtResource("22_m1i1r")
+theme_override_styles/slider = ExtResource("23_8khbg")
+theme_override_styles/grabber_area = ExtResource("24_ux6rg")
+theme_override_styles/grabber_area_highlight = ExtResource("24_ux6rg")
+value = 50.0
+script = ExtResource("25_l6pvw")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/ReferenceRectWater/HBoxContainer/VBoxContainerWaterOffset/Panel/HSliderWaterOffset"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -228.0
+offset_top = -13.0
+offset_right = -199.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="CheckBoxStaticWater" type="CheckBox" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Анимация воды"
+
+[node name="LabelTrees" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Деревья"
+
+[node name="TabBarTrees" type="TabBar" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("43_cp4ec")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/tab_selected = ExtResource("18_c37xe")
+current_tab = 0
+tab_count = 3
+tab_0/title = "Базовые"
+tab_1/title = "Загруженные"
+tab_2/title = "Смешанные"
+
+[node name="GridContainerTrees" type="GridContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(80, 80)
+layout_direction = 2
+layout_mode = 2
+size_flags_vertical = 3
+columns = 6
+
+[node name="GameObjectAssetInfoViewPrefab" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/GridContainerTrees" instance=ExtResource("16_1eb3b")]
+layout_mode = 2
+
+[node name="LabelTreeDensity" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Плотность деревьев"
+
+[node name="PanelTreeDensity" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("46_h4d78")
+
+[node name="HSliderTreeDensity" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/PanelTreeDensity" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("22_m1i1r")
+theme_override_icons/grabber_highlight = ExtResource("22_m1i1r")
+theme_override_styles/slider = ExtResource("23_8khbg")
+theme_override_styles/grabber_area = ExtResource("24_ux6rg")
+theme_override_styles/grabber_area_highlight = ExtResource("24_ux6rg")
+value = 50.0
+script = ExtResource("25_l6pvw")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/PanelTreeDensity/HSliderTreeDensity"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -440.0
+offset_top = -12.0
+offset_right = -411.0
+offset_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "50"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="LabelGrass" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Деревья"
+
+[node name="TabBarGrass" type="TabBar" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("43_cp4ec")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/tab_selected = ExtResource("18_c37xe")
+current_tab = 0
+tab_count = 3
+tab_0/title = "Базовые"
+tab_1/title = "Загруженные"
+tab_2/title = "Смешанные"
+
+[node name="GridContainerGrass" type="GridContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(80, 80)
+layout_direction = 2
+layout_mode = 2
+size_flags_vertical = 3
+columns = 6
+
+[node name="GameObjectAssetInfoViewPrefab" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/GridContainerGrass" instance=ExtResource("16_1eb3b")]
+layout_mode = 2
+
+[node name="LabelGrassDensity" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Плотность травы"
+
+[node name="PanelGrassDensity" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("46_h4d78")
+
+[node name="HSliderGrassDensity" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/PanelGrassDensity" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("22_m1i1r")
+theme_override_icons/grabber_highlight = ExtResource("22_m1i1r")
+theme_override_styles/slider = ExtResource("23_8khbg")
+theme_override_styles/grabber_area = ExtResource("24_ux6rg")
+theme_override_styles/grabber_area_highlight = ExtResource("24_ux6rg")
+value = 50.0
+script = ExtResource("25_l6pvw")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/PanelConstructorLandscapeMenuView/ScrollContainer/VBoxContainer/PanelGrassDensity/HSliderGrassDensity"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -439.0
+offset_top = -13.0
+offset_right = -410.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "50"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ButtonWater" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer" node_paths=PackedStringArray("PanelMenu")]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 focus_mode = 1
 theme_override_styles/pressed = ExtResource("18_c37xe")
+theme_override_styles/normal = ExtResource("51_ffq47")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_qiu05")
 text = "Вода"
 script = ExtResource("6_1h5ru")
 PanelMenu = NodePath("Panel")
-arrow1 = NodePath("Arrow1")
-arrow2 = NodePath("Arrow2")
 
-[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater"]
+[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater"]
+visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -640,7 +1411,7 @@ grow_vertical = 2
 texture = ExtResource("12_nolav")
 expand_mode = 1
 
-[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater"]
+[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater"]
 visible = false
 layout_mode = 1
 anchors_preset = 6
@@ -657,7 +1428,8 @@ grow_vertical = 2
 texture = ExtResource("7_t1j1l")
 expand_mode = 1
 
-[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater"]
+[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater"]
+visible = false
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -673,20 +1445,20 @@ grow_vertical = 2
 texture = ExtResource("8_4saec")
 expand_mode = 1
 
-[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater"]
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater"]
 visible = false
 layout_mode = 0
 offset_top = 39.0
 offset_right = 268.0
 offset_bottom = 204.0
 
-[node name="Label3" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+[node name="Label3" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater/Panel"]
 layout_mode = 1
 offset_right = 268.0
 offset_bottom = 23.0
 text = "Уровень воды"
 
-[node name="HSliderWaterOffset" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+[node name="HSliderWaterOffset" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater/Panel"]
 layout_mode = 1
 offset_top = 23.0
 offset_right = 268.0
@@ -695,14 +1467,14 @@ focus_mode = 1
 max_value = 1.0
 step = 0.01
 
-[node name="Label4" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+[node name="Label4" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater/Panel"]
 layout_mode = 1
 offset_top = 45.0
 offset_right = 92.0
 offset_bottom = 68.0
 text = "Тип воды"
 
-[node name="TypeWaterOption" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+[node name="TypeWaterOption" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater/Panel"]
 layout_mode = 1
 offset_top = 66.0
 offset_right = 210.0
@@ -719,14 +1491,14 @@ popup/item_2/id = 3
 popup/item_3/text = "Болото"
 popup/item_3/id = 4
 
-[node name="Label10" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+[node name="Label10" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater/Panel"]
 layout_mode = 1
 offset_top = 100.0
 offset_right = 129.0
 offset_bottom = 123.0
 text = "Анимированная вода"
 
-[node name="CheckButtonWaterStatic" type="CheckButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+[node name="CheckButtonWaterStatic" type="CheckButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater/Panel"]
 layout_mode = 1
 offset_left = 175.0
 offset_top = 100.0
@@ -734,7 +1506,7 @@ offset_right = 229.0
 offset_bottom = 124.0
 focus_mode = 1
 
-[node name="ButtonGenerateWater" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel"]
+[node name="ButtonGenerateWater" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater/Panel"]
 layout_mode = 1
 offset_left = 29.0
 offset_top = 126.0
@@ -743,22 +1515,20 @@ offset_bottom = 157.0
 focus_mode = 1
 text = "Генерировать воду"
 
-[node name="ButtonPlants" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 1
-offset_left = 246.0
-offset_top = 1.0
-offset_right = 366.0
-offset_bottom = 41.0
+[node name="ButtonPlants" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer" node_paths=PackedStringArray("PanelMenu")]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 focus_mode = 1
 theme_override_styles/pressed = ExtResource("18_c37xe")
+theme_override_styles/normal = ExtResource("51_ffq47")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_qiu05")
 text = "Флора"
 script = ExtResource("6_1h5ru")
 PanelMenu = NodePath("Panel")
-arrow1 = NodePath("Arrow1")
-arrow2 = NodePath("Arrow2")
 
-[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants"]
+[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants"]
+visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -771,7 +1541,7 @@ grow_vertical = 2
 texture = ExtResource("13_2jvmc")
 expand_mode = 1
 
-[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants"]
+[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants"]
 visible = false
 layout_mode = 1
 anchors_preset = 6
@@ -788,7 +1558,8 @@ grow_vertical = 2
 texture = ExtResource("7_t1j1l")
 expand_mode = 1
 
-[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants"]
+[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants"]
+visible = false
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -804,20 +1575,20 @@ grow_vertical = 2
 texture = ExtResource("8_4saec")
 expand_mode = 1
 
-[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants"]
+[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants"]
 visible = false
 layout_mode = 1
 offset_top = 39.0
 offset_right = 268.0
 offset_bottom = 333.0
 
-[node name="Label5" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="Label5" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 layout_mode = 1
 offset_right = 268.0
 offset_bottom = 23.0
 text = "Плотность травы"
 
-[node name="HSliderGrassDensity" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="HSliderGrassDensity" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 layout_mode = 1
 offset_top = 18.0
 offset_right = 268.0
@@ -826,14 +1597,14 @@ focus_mode = 1
 max_value = 1.0
 step = 0.01
 
-[node name="Label7" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="Label7" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 layout_mode = 1
 offset_top = 39.0
 offset_right = 268.0
 offset_bottom = 62.0
 text = "Плотность растений"
 
-[node name="HSliderPlantsDensity2" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="HSliderPlantsDensity2" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 layout_mode = 1
 offset_top = 56.0
 offset_right = 268.0
@@ -842,14 +1613,14 @@ focus_mode = 1
 max_value = 1.0
 step = 0.01
 
-[node name="Label6" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="Label6" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 layout_mode = 1
 offset_top = 80.0
 offset_right = 268.0
 offset_bottom = 103.0
 text = "Плотность деревьев"
 
-[node name="HSliderTreesDensity" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="HSliderTreesDensity" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 layout_mode = 1
 offset_top = 97.0
 offset_right = 268.0
@@ -858,14 +1629,14 @@ focus_mode = 1
 max_value = 1.0
 step = 0.01
 
-[node name="Label9" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="Label9" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 layout_mode = 1
 offset_top = 122.0
 offset_right = 268.0
 offset_bottom = 145.0
 text = "Загружаемая растительность"
 
-[node name="ButtonOpenGrass" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="ButtonOpenGrass" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 layout_mode = 1
 offset_left = 13.0
 offset_top = 149.0
@@ -875,7 +1646,7 @@ focus_mode = 1
 theme_override_font_sizes/font_size = 12
 text = "+ трава"
 
-[node name="ButtonOpenTrees" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="ButtonOpenTrees" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 layout_mode = 1
 offset_left = 144.0
 offset_top = 149.0
@@ -885,7 +1656,7 @@ focus_mode = 1
 theme_override_font_sizes/font_size = 12
 text = "+ дерево"
 
-[node name="Label8" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="Label8" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 visible = false
 layout_mode = 1
 anchors_preset = 1
@@ -898,7 +1669,7 @@ offset_bottom = 437.0
 grow_horizontal = 0
 text = "Текстура поверхности"
 
-[node name="IdItemOptionCustom" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="IdItemOptionCustom" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 layout_mode = 1
 offset_top = 178.0
 offset_right = 265.0
@@ -909,7 +1680,7 @@ alignment = 2
 autowrap_mode = 3
 clip_text = true
 
-[node name="CheckBoxUsedOnlyCustomItem" type="CheckBox" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="CheckBoxUsedOnlyCustomItem" type="CheckBox" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 layout_mode = 1
 offset_top = 223.0
 offset_right = 258.0
@@ -918,7 +1689,7 @@ focus_mode = 1
 theme_override_font_sizes/font_size = 10
 text = "Использовать только загруженные растения"
 
-[node name="ButtonGeneratePlants" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel"]
+[node name="ButtonGeneratePlants" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
 layout_mode = 1
 offset_left = 29.0
 offset_top = 251.0
@@ -936,7 +1707,7 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("51_ffq47")
 theme_override_styles/hover_pressed = ExtResource("51_ffq47")
 theme_override_styles/pressed = ExtResource("51_ffq47")
-theme_override_styles/normal = ExtResource("46_h4d78")
+theme_override_styles/normal = ExtResource("51_qas0a")
 text = "Объекты"
 script = ExtResource("6_1h5ru")
 PanelMenu = NodePath("PanelGameObjectLibraryView")
@@ -1060,7 +1831,7 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("51_ffq47")
 theme_override_styles/hover_pressed = ExtResource("51_ffq47")
 theme_override_styles/pressed = ExtResource("51_ffq47")
-theme_override_styles/normal = ExtResource("46_h4d78")
+theme_override_styles/normal = ExtResource("51_qas0a")
 text = "Настройки"
 script = ExtResource("6_1h5ru")
 PanelMenu = NodePath("Panel")
@@ -1214,7 +1985,7 @@ custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = ExtResource("46_h4d78")
+theme_override_styles/normal = ExtResource("51_qas0a")
 text = "Тестирование"
 alignment = 2
 
@@ -2048,7 +2819,7 @@ gameControl = NodePath("../../Controls/ControlGame")
 CameraFreeGO = ExtResource("28_hoa3c")
 PlayerGO = ExtResource("29_wh4fr")
 IdItemOption = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView/IdItemOption")
-IdItemOptionCustom = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/IdItemOptionCustom")
+IdItemOptionCustom = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/IdItemOptionCustom")
 CheckBoxCreateItem = NodePath("../../Controls/ControlBuild/Panel/CheckBoxCreateItem")
 CheckBoxDeleteItem = NodePath("../../Controls/ControlBuild/Panel/CheckBoxDeleteItem")
 CreateMode = NodePath("../../Controls/ControlBuild/Panel/ItemList")
@@ -2056,12 +2827,12 @@ navigationRegion3D = NodePath("../../NavigationRegion3D")
 fileDialog = NodePath("../../SaveFileDialog")
 fileDialogLoad = NodePath("../../LoadFileDialog")
 _mapManagerItemSetter = NodePath("../MapManagerItemSetter")
-TypeWaterOption = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/TypeWaterOption")
-checkButtonWaterStatic = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/CheckButtonWaterStatic")
+TypeWaterOption = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater/Panel/TypeWaterOption")
+checkButtonWaterStatic = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater/Panel/CheckButtonWaterStatic")
 sliderGrassTexID = NodePath("../../Controls/ControlBuild/Panel/HSliderGrassTexID")
-ReplaceTexture = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ReplaseTextureRect")
-CheckBoxUsedOnlyCustomItem = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/CheckBoxUsedOnlyCustomItem")
-replaceTexUI = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ReplaseTextureRect")
+ReplaceTexture = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel/ReplaseTextureRect")
+CheckBoxUsedOnlyCustomItem = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/CheckBoxUsedOnlyCustomItem")
+replaceTexUI = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel/ReplaseTextureRect")
 
 [node name="MapManagerView" type="Node" parent="MapManagers" node_paths=PackedStringArray("buildControl", "gameControl")]
 script = ExtResource("34_jfh7j")
@@ -2234,33 +3005,33 @@ clip_text = true
 
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonHome" to="Controls" method="OnOpenControlGameProject"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" method="OnClick"]
-[connection signal="pressed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenProjectFolder" to="MapManagers/MapManager" method="OpenProjectFolderWithExplorer"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonSaveMap" to="MapManagers/MapManager" method="SaveMap"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonLoadMap" to="MapManagers/MapManager" method="LoadMap"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenGameImage" to="Controls" method="OnOpenGameImage"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonOpenGameVideo" to="Controls" method="OnOpenGameVideo"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonExportProject" to="Controls" method="OnExportProject"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonImportProject" to="Controls" method="OnImportProject"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/Panel/VBoxContainer/ButtonGameProjects" to="Controls" method="OnOpenControlGameProject"]
+[connection signal="pressed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer/ButtonOpenProjectFolder" to="MapManagers/MapManager" method="OpenProjectFolderWithExplorer"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer/ButtonSaveMap" to="MapManagers/MapManager" method="SaveMap"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer/ButtonLoadMap" to="MapManagers/MapManager" method="LoadMap"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer/ButtonOpenGameImage" to="Controls" method="OnOpenGameImage"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer/ButtonOpenGameVideo" to="Controls" method="OnOpenGameVideo"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer/ButtonExportProjectOld" to="Controls" method="OnExportProject"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer/ButtonImportProject" to="Controls" method="OnImportProject"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer/ButtonGameProjects" to="Controls" method="OnOpenControlGameProject"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment" method="OnClick"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [0]]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderPower" to="MapManagers/MapManager" method="ChangePower"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderScale" to="MapManagers/MapManager" method="ChangeScale"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderlengthofday" to="Controls" method="SaveLengthOfDay"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/HSliderGrassTex" to="MapManagers/MapManager" method="SetGrassTexture"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonLandscape/Panel/ButtonGenerateTerrain" to="MapManagers/MapManager" method="GenerateNewWorld"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [1]]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/HSliderWaterOffset" to="MapManagers/MapManager" method="ChangeWaterOffset"]
-[connection signal="item_selected" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/TypeWaterOption" to="MapManagers/MapManager" method="ChangeWaterType"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonWater/Panel/ButtonGenerateWater" to="MapManagers/MapManager" method="CreateWater"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [2]]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderGrassDensity" to="MapManagers/MapManager" method="ChangeGrassDensity"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderPlantsDensity2" to="MapManagers/MapManager" method="ChangePlantsDensity"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/HSliderTreesDensity" to="MapManagers/MapManager" method="ChangeTreesDensity"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonOpenGrass" to="ModelLoader" method="OpenModelGrass"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonOpenTrees" to="ModelLoader" method="OpenModelTrees"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/IdItemOptionCustom" to="MapManagers/MapManager" method="SetUsedCustomItemBuild"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/ButtonPlants/Panel/ButtonGeneratePlants" to="MapManagers/MapManager" method="GenerateNewPlants"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [0]]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel/HSliderPower" to="MapManagers/MapManager" method="ChangePower"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel/HSliderScale" to="MapManagers/MapManager" method="ChangeScale"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel/HSliderlengthofday" to="Controls" method="SaveLengthOfDay"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel/HSliderGrassTex" to="MapManagers/MapManager" method="SetGrassTexture"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape/Panel/ButtonGenerateTerrain" to="MapManagers/MapManager" method="GenerateNewWorld"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [1]]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater/Panel/HSliderWaterOffset" to="MapManagers/MapManager" method="ChangeWaterOffset"]
+[connection signal="item_selected" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater/Panel/TypeWaterOption" to="MapManagers/MapManager" method="ChangeWaterType"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater/Panel/ButtonGenerateWater" to="MapManagers/MapManager" method="CreateWater"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [2]]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/HSliderGrassDensity" to="MapManagers/MapManager" method="ChangeGrassDensity"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/HSliderPlantsDensity2" to="MapManagers/MapManager" method="ChangePlantsDensity"]
+[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/HSliderTreesDensity" to="MapManagers/MapManager" method="ChangeTreesDensity"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/ButtonOpenGrass" to="ModelLoader" method="OpenModelGrass"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/ButtonOpenTrees" to="ModelLoader" method="OpenModelTrees"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/IdItemOptionCustom" to="MapManagers/MapManager" method="SetUsedCustomItemBuild"]
+[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/ButtonGeneratePlants" to="MapManagers/MapManager" method="GenerateNewPlants"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" method="OnClick"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView/IdItemOption" to="MapManagers/MapManager" method="SetUsedStandartItemBuild"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" method="OnClick"]
