@@ -143,6 +143,7 @@ namespace Ursula.StartupMenu.Model
     {
         public event EventHandler ViewVisible_EventHandler;
         public event EventHandler StartGenerateGame_EventHandler;
+        public event EventHandler StartGeneratePlants_EventHandler;
 
         public CreateGameSourceData _CreateGameSourceData = new CreateGameSourceData();
 
@@ -279,6 +280,12 @@ namespace Ursula.StartupMenu.Model
             return this;
         }
 
+        public StartupMenuCreateGameViewModel StartGeneratePlants()
+        {
+            InvokeStartGeneratePlantsEvent();
+            return this;
+        }
+
         private void InvokeMenuVisibleEvent()
         {
             var handler = ViewVisible_EventHandler;
@@ -304,5 +311,10 @@ namespace Ursula.StartupMenu.Model
             handler?.Invoke(this, EventArgs.Empty);
         }
 
+        private void InvokeStartGeneratePlantsEvent()
+        {
+            var handler = StartGeneratePlants_EventHandler;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

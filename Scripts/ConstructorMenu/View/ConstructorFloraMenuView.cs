@@ -140,7 +140,7 @@ namespace Ursula.ConstructorMenu.View
             _startupMenuCreateGameViewModel.SetTreesDensity((float)HSliderTreesDensity.Value);
             _startupMenuCreateGameViewModel.SetGrassDensity((float)HSliderGrassDensity.Value);
 
-            //_startupMenuCreateGameViewModel.StartGenerateGame();
+            _startupMenuCreateGameViewModel.StartGeneratePlants();
         }
 
         private void TabBarTrees_TabClickedEvent(long tab)

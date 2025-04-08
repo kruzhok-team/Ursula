@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://34p15yvjpntr"]
+[gd_scene load_steps=14 format=3 uid="uid://34p15yvjpntr"]
 
-[ext_resource type="PackedScene" uid="uid://814k24stira3" path="res://addons/Ursula/Assets/Models/Buildings/Build2/building_dome_two_inputs.fbx" id="1_05yl8"]
+[ext_resource type="PackedScene" uid="uid://cmvqcscjwyxn0" path="res://addons/Ursula/Assets/Models/Buildings/Build2/building_dome_two_inputs.fbx" id="1_05yl8"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_a57hf"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="2_qgmls"]
 [ext_resource type="Material" uid="uid://bho48tauktn43" path="res://addons/Ursula/Assets/Models/Buildings/Build2/Glass_mat.tres" id="3_utssp"]
 [ext_resource type="Material" uid="uid://cyogn54isv3fh" path="res://addons/Ursula/Assets/Models/Buildings/Build2/Build_2_mat.tres" id="4_wwne8"]
+[ext_resource type="Material" uid="uid://bwdd7272o4h2e" path="res://addons/Ursula/Assets/Models/Buildings/Build1/Build_1_mat.tres" id="5_vabdt"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_28u7p"]
 size = Vector3(12.9518, 7.52039, 13.2469)
@@ -36,23 +37,20 @@ script = ExtResource("2_a57hf")
 [node name="InteractiveObject" type="Node" parent="." index="1"]
 script = ExtResource("2_qgmls")
 
-[node name="RootNode" parent="." index="2"]
-transform = Transform3D(1.745, 0, 0, 0, 1.745, 0, 0, 0, 1.745, 0, 0.151262, 0)
+[node name="building_dome_two_inputs" parent="." index="2"]
+transform = Transform3D(1.69565, 0, 0, 0, -8.16512e-08, 1.81408, 0, -1.86796, -7.92958e-08, -4.82178e-05, -0.107478, 8.69751e-05)
 
-[node name="building_dome_two_inputs_001" parent="RootNode/building_dome_two_inputs" index="0"]
-surface_material_override/0 = ExtResource("3_utssp")
+[node name="building_dome_two_inputs_001" parent="building_dome_two_inputs" index="0"]
+material_override = ExtResource("3_utssp")
 
-[node name="building_dome_two_inputs_002" parent="RootNode/building_dome_two_inputs" index="1"]
-surface_material_override/0 = ExtResource("4_wwne8")
+[node name="building_dome_two_inputs_004" parent="building_dome_two_inputs" index="2"]
+material_override = ExtResource("5_vabdt")
 
-[node name="building_dome_two_inputs_004" parent="RootNode/building_dome_two_inputs" index="2"]
-surface_material_override/0 = ExtResource("4_wwne8")
+[node name="building_dome_two_inputs2" parent="building_dome_two_inputs" index="3"]
+material_override = ExtResource("4_wwne8")
 
-[node name="building_dome_two_inputs2" parent="RootNode/building_dome_two_inputs" index="3"]
-surface_material_override/0 = ExtResource("4_wwne8")
-
-[node name="building_dome_two_inputs_003" parent="RootNode/building_dome_two_inputs" index="4"]
-surface_material_override/0 = ExtResource("4_wwne8")
+[node name="building_dome_two_inputs_003" parent="building_dome_two_inputs" index="4"]
+material_override = ExtResource("4_wwne8")
 
 [node name="Trigger" type="StaticBody3D" parent="." index="3"]
 collision_layer = 8388608

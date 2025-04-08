@@ -19,6 +19,7 @@ using Ursula.StartupMenu.Model;
 using Ursula.Terrain.Model;
 using Ursula.Water.Model;
 using VoxLibExample;
+using static Godot.TileSet;
 
 
 
@@ -420,12 +421,9 @@ public partial class MapManager : Node, IInjectable
 
     }
 
-	public async void StartCoroutineCreateTerrain(bool randomHeight)
+	public async GDTask StartCoroutineCreateTerrain(bool randomHeight)
 	{
         if (VoxLib.mapManager != this) return;
-
-        //gameItems = new List<ItemPropsScript>();
-        //VoxLib.RemoveAllChildren(itemsGO);
 
         _mapManagerModel.RemoveAllGameItems();
 
@@ -438,10 +436,12 @@ public partial class MapManager : Node, IInjectable
 
 		if (VoxLib.mapManager == this && VoxLib.terrainManager != null)
 		{
-            _terrainModel.StartGenerateTerrain(true);
+            _terrainModel.StartGenerateTerrain(false);
         }
 
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        return;
     }
 
 	private async void SetAssetsData()
@@ -972,10 +972,10 @@ public partial class MapManager : Node, IInjectable
         mapData.Add("sizeY", sizeY.ToString());
         mapData.Add("sizeZ", sizeZ.ToString());
         mapData.Add("skybox", skybox.ToString());
-        mapData.Add("grassTexID", replaceTexID.ToString());
-        mapData.Add("waterOffset", waterOffset.ToString());
-        mapData.Add("TypeWater", ((int)TypeWater).ToString());
-        bool isStatic = !checkButtonWaterStatic.ButtonPressed;
+        mapData.Add("grassTexID", _terrainModel._TerrainData.ReplaceTexID.ToString());
+        mapData.Add("waterOffset", _waterModel._WaterData.WaterOffset.ToString());
+        mapData.Add("TypeWater", ((int)_waterModel._WaterData.TypeWaterID).ToString());
+        bool isStatic = _waterModel._WaterData.IsStaticWater;
         mapData.Add("StaticWater", ((bool)isStatic).ToString());
         mapData.Add("FullDayLength", DayNightCycle.instance.FullDayLength.ToString());
 
@@ -1030,9 +1030,6 @@ public partial class MapManager : Node, IInjectable
         float[,] mapHeight = VoxLib.terrainManager.mapHeight;
         if (mapHeight == null) mapHeight = new float[0, 0];
 
-        //string mapHeightS = SerializeFloatArray(mapHeight);
-        //mapData.Add("mapHeight", mapHeightS);
-
         mapData.Add("sizeTerrain", (VoxLib.terrainManager.size).ToString());
 
         StringBuilder sb = new StringBuilder();
@@ -1042,7 +1039,6 @@ public partial class MapManager : Node, IInjectable
 
             for (int x = 0; x < VoxLib.terrainManager.size; x++)
             {
-                //mapData.Add(y.ToString() + x.ToString(), VoxLib.createTerrain.mapHeight[y, x].ToString());
                 sb.Append(mapHeight[y, x]);
                 if (x < mapHeight.GetLength(1) - 1)
                 {
@@ -1181,6 +1177,7 @@ public partial class MapManager : Node, IInjectable
         if (mapData.ContainsKey("skybox")) skybox = int.Parse(mapData["skybox"]);
         int sizeTerrain = 0;
         if (mapData.ContainsKey("sizeTerrain")) sizeTerrain = int.Parse(mapData["sizeTerrain"]);
+        _terrainModel.SetSize(sizeTerrain);
 
         float[,] mapHeight = new float[sizeTerrain, sizeTerrain];
         if (mapData.ContainsKey("mapHeight"))
@@ -1201,30 +1198,40 @@ public partial class MapManager : Node, IInjectable
             }
 
             VoxLib.terrainManager.mapHeight = mapHeight;
+            _terrainModel.SetMapHeight(mapHeight);
+
             await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-            StartCoroutineCreateTerrain(false);
+            await StartCoroutineCreateTerrain(false);
             await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         }
 
         if (mapData.ContainsKey("grassTexID")) replaceTexID = int.Parse(mapData["grassTexID"]);
-        if (mapData.ContainsKey("waterOffset")) waterOffset = float.Parse(mapData["waterOffset"]);
-        if (mapData.ContainsKey("TypeWater")) TypeWater = (VoxDrawTypes)int.Parse(mapData["TypeWater"]);
+        _terrainModel.SetReplaceTexID(replaceTexID);
 
-        //var maxHeightTerrain = VoxLib.terrainManager.MaxHeightTerrain;
-        //Vector3 size = new Vector3(VoxLib.terrainManager.size, maxHeightTerrain - (maxHeightTerrain * waterOffset), VoxLib.terrainManager.size);
+        if (mapData.ContainsKey("waterOffset")) waterOffset = float.Parse(mapData["waterOffset"]);
+        _waterModel.SetWaterOffset(waterOffset);
+
+        if (mapData.ContainsKey("TypeWater")) TypeWater = (VoxDrawTypes)int.Parse(mapData["TypeWater"]);
+        _waterModel.SetTypeWaterID((int)TypeWater);
 
         bool isStatic = false;
         if (mapData.ContainsKey("StaticWater")) isStatic = (bool)bool.Parse(mapData["StaticWater"]);
-        checkButtonWaterStatic.ButtonPressed = !isStatic;
+        _waterModel.SetStaticWater(isStatic);
 
         if (mapData.ContainsKey("FullDayLength"))
         {
-            DayNightCycle.instance.SetFullDayLength(float.Parse(mapData["FullDayLength"]));
+            float fullDayLength = float.Parse(mapData["FullDayLength"]);
+            DayNightCycle.instance.SetFullDayLength(fullDayLength);
+            _terrainModel.SetFullDayLength(fullDayLength);
         }
         if (waterOffset == 1)
+        {
             VoxLib.waterManager.DeleteWater();
+        }
         else
+        {
             VoxLib.waterManager.GenerateWater(sizeX, isStatic);
+        }
 
         int saveItems = 0;
         if (mapData.ContainsKey("saveItems")) saveItems = int.Parse(mapData["saveItems"]);

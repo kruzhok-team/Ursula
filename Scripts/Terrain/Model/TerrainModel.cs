@@ -16,6 +16,8 @@ namespace Ursula.Terrain.Model
         public float Exponent { get; private set; }
         public int ReplaceTexID { get; private set; }
         public float[,] MapHeight { get; private set; }
+        public int TypeSkyID { get; private set; }
+        public float FullDayLength { get; private set; }
 
         public void SetRandomHeight(bool value)
         {
@@ -65,6 +67,16 @@ namespace Ursula.Terrain.Model
         public void SetMapHeight(float[,] mapHeight)
         {
             MapHeight = mapHeight;
+        }
+
+        public void SetTypeSkyID(int value)
+        {
+            TypeSkyID = value;
+        }
+
+        public void SetFullDayLength(float value)
+        {
+            FullDayLength = value;
         }
     }
 
@@ -144,6 +156,18 @@ namespace Ursula.Terrain.Model
         public TerrainModel SetMapHeight(float[,] mapHeight)
         {
             _TerrainData.SetMapHeight(mapHeight);
+            return this;
+        }
+
+        public TerrainModel SetTypeSkyID(int value)
+        {
+            _TerrainData.SetTypeSkyID(value);
+            return this;
+        }
+
+        public TerrainModel SetFullDayLength(float value)
+        {
+            _TerrainData.SetFullDayLength(value);
             return this;
         }
 

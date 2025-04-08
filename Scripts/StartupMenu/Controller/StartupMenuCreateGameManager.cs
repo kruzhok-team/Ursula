@@ -90,6 +90,7 @@ namespace Ursula.StartupMenu.Model
             _gameObjectCreateItemsModel = await _gameObjectCreateItemsModelProvider.GetAsync();
 
             _startupMenuCreateGameViewModel.StartGenerateGame_EventHandler += StartupMenuCreateGameViewModel_StartGenerateGame_EventHandler;
+            _startupMenuCreateGameViewModel.StartGeneratePlants_EventHandler += StartupMenuCreateGameViewModel_StartGeneratePlants_EventHandler;
         }
 
         private void StartupMenuCreateGameViewModel_StartGenerateGame_EventHandler(object sender, EventArgs e)
@@ -131,6 +132,11 @@ namespace Ursula.StartupMenu.Model
             string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
             IReadOnlyCollection<GameObjectAssetInfo> assets = _commonLibrary.GetInfoOnGroup(gameObjectGroups[0], _startupMenuCreateGameViewModel._CreateGameSourceData.TreeProviderID);
 
+            GeneratePlants();
+        }
+
+        private void StartupMenuCreateGameViewModel_StartGeneratePlants_EventHandler(object sender, EventArgs e)
+        {
             GeneratePlants();
         }
 

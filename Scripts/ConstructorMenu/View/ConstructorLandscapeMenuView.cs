@@ -110,6 +110,8 @@ namespace Ursula.ConstructorMenu.View
             _terrainModel.SetPlatoSize(_startupMenuCreateGameViewModel._CreateGameSourceData.PlatoSize);
             _terrainModel.SetPlatoOffsetX(_startupMenuCreateGameViewModel._CreateGameSourceData.PlatoPlatoOffsetX);
             _terrainModel.SetPlatoOffsetZ(_startupMenuCreateGameViewModel._CreateGameSourceData.PlatoPlatoOffsetZ);
+            _terrainModel.SetTypeSkyID(_startupMenuCreateGameViewModel._CreateGameSourceData.TypeSkyID);
+            _terrainModel.SetFullDayLength(_startupMenuCreateGameViewModel._CreateGameSourceData.FullDayLength);
 
             _terrainModel.StartGenerateTerrain(true);
         }

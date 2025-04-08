@@ -22,7 +22,22 @@ script = ExtResource("2_65j3j")
 [node name="InteractiveObject" type="Node" parent="." index="1"]
 script = ExtResource("3_u37v3")
 
-[node name="Trigger" type="StaticBody3D" parent="." index="2"]
+[node name="RootNode" parent="." index="2"]
+transform = Transform3D(2, 0, 0, 0, 1.57718, 0, 0, 0, 1.51077, 17.6271, 1.19038, 44.19)
+
+[node name="building_2_single_input_001" parent="RootNode" index="0"]
+material_override = ExtResource("2_bv7xm")
+
+[node name="building_2_single_input_002" parent="RootNode" index="1"]
+material_override = ExtResource("2_bv7xm")
+
+[node name="building_2_single_input_003" parent="RootNode" index="2"]
+material_override = ExtResource("2_bv7xm")
+
+[node name="building_2_single_input" parent="RootNode" index="3"]
+material_override = ExtResource("2_bv7xm")
+
+[node name="Trigger" type="StaticBody3D" parent="." index="3"]
 collision_layer = 8388608
 collision_mask = 8388608
 
@@ -30,7 +45,7 @@ collision_mask = 8388608
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.79411, 4.49734, -0.0425177)
 shape = SubResource("BoxShape3D_sgdsf")
 
-[node name="Collisions" type="Node3D" parent="." index="3"]
+[node name="Collisions" type="Node3D" parent="." index="4"]
 
 [node name="Collision" type="StaticBody3D" parent="Collisions" index="0"]
 collision_layer = 3
@@ -160,15 +175,3 @@ shape = SubResource("BoxShape3D_x2vho")
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="Collisions/Collision6" index="1"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -4.76452, -0.277046, 0.0189972)
 shape = SubResource("BoxShape3D_x2vho")
-
-[node name="RootNode" parent="." index="4"]
-transform = Transform3D(1.92444, 0, 0, 0, 1.92463, 0, 0, 0, 1.56514, 16.6893, 1.03651, 45.8689)
-
-[node name="building_2_single_input_001" parent="RootNode" index="0"]
-material_override = ExtResource("2_bv7xm")
-
-[node name="building_2_single_input_002" parent="RootNode" index="1"]
-material_override = ExtResource("2_bv7xm")
-
-[node name="building_2_single_input" parent="RootNode" index="3"]
-material_override = ExtResource("2_bv7xm")

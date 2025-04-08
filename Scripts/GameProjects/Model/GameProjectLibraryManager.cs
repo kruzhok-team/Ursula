@@ -246,6 +246,7 @@ namespace Ursula.GameProjects.Model
         public void LoadProject(GameProjectAssetInfo info)
         {
             SetCurrentProjectInfo(info);
+            info.LoadMap();
             InvokeLoadProjectEvent();
         }
 

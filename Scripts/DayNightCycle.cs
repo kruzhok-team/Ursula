@@ -113,6 +113,6 @@ public partial class DayNightCycle : Node
     {
         this.FullDayLength = FullDayLength;
         _currentTime = 0;
-        VoxLib.hud.SaveLengthOfDay(FullDayLength);
+        //VoxLib.hud.SaveLengthOfDay(FullDayLength);
     }
 }
