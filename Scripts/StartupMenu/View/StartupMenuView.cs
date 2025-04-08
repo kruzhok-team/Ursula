@@ -3,6 +3,7 @@ using Fractural.Tasks;
 using Godot;
 using System;
 using Ursula.Core.DI;
+using Ursula.GameObjects.Model;
 using Ursula.GameProjects.Model;
 using Ursula.StartupMenu.Model;
 
@@ -25,8 +26,11 @@ namespace Ursula.StartupMenu.View
         [Inject]
         private ISingletonProvider<StartupMenuModel> _startupMenuModelProvider;
 
-        private StartupMenuModel _startupMenuModel { get; set; }
+        [Inject]
+        private ISingletonProvider<GameObjectCurrentInfoModel> _gameObjectCurrentInfoModelProvider;
 
+        private StartupMenuModel _startupMenuModel { get; set; }
+        private GameObjectCurrentInfoModel _gameObjectCurrentInfoModel { get; set; }
 
         private FileDialogTool dialogTool;
 
@@ -41,6 +45,7 @@ namespace Ursula.StartupMenu.View
         private async GDTask SubscribeEvent()
         {
             _startupMenuModel = await _startupMenuModelProvider.GetAsync();
+            _gameObjectCurrentInfoModel = await _gameObjectCurrentInfoModelProvider.GetAsync();
 
             _startupMenuModel.StartupMenuVisible_EventHandler += StartupMenuModel_StartupMenuVisible_EventHandler;
             _startupMenuModel.StartupMenuMouseFilterEvent_EventHandler += StartupMenuModel_StartupMenuMouseFilterEvent_EventHandler; ;
@@ -103,6 +108,7 @@ namespace Ursula.StartupMenu.View
         private void StartupMenuModel_StartupMenuVisible_EventHandler(object sender, EventArgs e)
         {
             Visible = _startupMenuModel.Visible;
+            _gameObjectCurrentInfoModel.SetAssetInfoView(null, false);
         }
     }
 }

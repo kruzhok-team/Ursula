@@ -103,14 +103,13 @@ public partial class Bootstrapper : Node
             var scene = assetManager.Instantiate();
             AddChild(scene);
 
-            GD.Print("Менеджер ассетов загружен.");
+            GD.Print("Сцена менеджера коллекции загружена.");
         }
         else
         {
-            GD.PrintErr("Менеджер ассетов не найден.");
+            GD.PrintErr("Сцена менеджера коллекции не найдена.");
         }
 
-        
     }
 
 

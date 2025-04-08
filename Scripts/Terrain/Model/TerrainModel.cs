@@ -7,7 +7,7 @@ namespace Ursula.Terrain.Model
     public class TerrainData
     {
         public bool RandomHeight { get; private set; }
-        public int Size { get; private set; }
+        public int Size { get; private set; } = 256;
         public int PlatoSize { get; private set; }
         public int PlatoOffsetX { get; private set; }
         public int PlatoOffsetZ { get; private set; }
@@ -15,7 +15,7 @@ namespace Ursula.Terrain.Model
         public float Scale { get; private set; }
         public float Exponent { get; private set; }
         public int ReplaceTexID { get; private set; }
-
+        public float[,] MapHeight { get; private set; }
 
         public void SetRandomHeight(bool value)
         {
@@ -62,7 +62,10 @@ namespace Ursula.Terrain.Model
             ReplaceTexID = value;
         }
 
-
+        public void SetMapHeight(float[,] mapHeight)
+        {
+            MapHeight = mapHeight;
+        }
     }
 
 
@@ -138,7 +141,11 @@ namespace Ursula.Terrain.Model
             return this;
         }
 
-
+        public TerrainModel SetMapHeight(float[,] mapHeight)
+        {
+            _TerrainData.SetMapHeight(mapHeight);
+            return this;
+        }
 
         private void InvokeStartGenerateTerrainEvent()
         {

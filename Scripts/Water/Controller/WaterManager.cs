@@ -1,14 +1,52 @@
-﻿using Godot;
+﻿using Fractural.Tasks;
+using Godot;
+using System;
 using System.Drawing;
+using Ursula.Core.DI;
+using Ursula.Terrain.Model;
+using Ursula.Water.Model;
+using static Godot.TileSet;
 
-public partial class CreateWater : Node
+public partial class WaterManager : WaterModel, IInjectable
 {
+    [Inject]
+    private ISingletonProvider<WaterModel> _waterModelProvider;
+
+    [Inject]
+    private ISingletonProvider<TerrainModel> _terrainModelProvider;
+
+    [Inject]
+    private ISingletonProvider<TerrainManager> _terrainManagerProvider;
+
+    private WaterModel _waterModel { get; set; }
+    private TerrainModel _terrainModel { get; set; }
+    private TerrainManager _terrainManager { get; set; }
+
     MeshInstance3D meshInstance;
     private float scaleWater = 4f;
 
+
+
+    void IInjectable.OnDependenciesInjected()
+    {
+
+    }
+
     public override void _Ready()
     {
-        VoxLib.createWater ??= this;
+        VoxLib.waterManager ??= this;
+
+        base._Ready();
+        _ = SubscribeEvent();
+    }
+
+    private async GDTask SubscribeEvent()
+    {
+        _waterModel = await _waterModelProvider.GetAsync();
+        _terrainModel = await _terrainModelProvider.GetAsync();
+        _terrainManager = await _terrainManagerProvider.GetAsync();
+
+        _waterModel.StartGenerateWater_EventHandler += WaterModel_StartGenerateWater_EventHandler;
     }
 
     public void GenerateStaticWater(int size)
@@ -34,7 +72,7 @@ public partial class CreateWater : Node
 
         var shaderMaterial = new ShaderMaterial();
         shaderMaterial = VoxLib.mapAssets.WaterMat;
-        switch (VoxLib.mapManager.TypeWater)
+        switch ((VoxDrawTypes)_waterModel._WaterData.TypeWaterID)
         {
             case VoxDrawTypes.water:
                 shaderMaterial = VoxLib.mapAssets.WaterMatPlane;
@@ -52,18 +90,23 @@ public partial class CreateWater : Node
 
         meshInstance.MaterialOverride = shaderMaterial;
 
-        meshInstance.Position = new Vector3(VoxLib.terrainManager.positionOffset.X + size / 2, VoxLib.mapManager.WaterLevel, VoxLib.terrainManager.positionOffset.Z + size / 2);
+        meshInstance.Position = new Vector3(_terrainManager.positionOffset.X + size / 2, _waterModel._WaterData.WaterLevel, _terrainManager.positionOffset.Z + size / 2);
         meshInstance.Scale = new Vector3(scaleWater, scaleWater, scaleWater);
 
         AddChild(meshInstance);
     }
 
-    public void GenerateWater(Vector3 size, bool isStatic = true)
+    public void GenerateWater(int size, bool isStatic = true)
     {
+        float lvl = (_terrainManager.MaxHeightTerrain - (_terrainManager.MaxHeightTerrain * _waterModel._WaterData.WaterOffset)) / 2;
+        lvl += _terrainManager.positionOffset.Y;
+
+        _waterModel.SetWaterLevel(lvl);
+
         if (isStatic)
-            GenerateStaticWater((int)size.X);
+            GenerateStaticWater(size);
         else
-            GenerateDinamicWater((int)size.X);
+            GenerateDinamicWater(size);
     }
 
     void GenerateDinamicWater(int countBlock)
@@ -126,12 +169,12 @@ public partial class CreateWater : Node
         meshInstance.Mesh = mesh;
         meshInstance.Name = "Water";
 
-        meshInstance.Position = new Vector3(VoxLib.terrainManager.positionOffset.X - width - width/2, VoxLib.mapManager.WaterLevel, VoxLib.terrainManager.positionOffset.Z - height - height/2);
+        meshInstance.Position = new Vector3(_terrainManager.positionOffset.X - width - width/2, _waterModel._WaterData.WaterLevel, _terrainManager.positionOffset.Z - height - height/2);
         meshInstance.Scale = new Vector3(scaleWater, scaleWater, scaleWater);
 
         var shaderMaterial = new ShaderMaterial();
         shaderMaterial = VoxLib.mapAssets.WaterMat;
-        switch (VoxLib.mapManager.TypeWater)
+        switch ((VoxDrawTypes)_waterModel._WaterData.TypeWaterID)
         {
             case VoxDrawTypes.water:
                 shaderMaterial = VoxLib.mapAssets.WaterMat;
@@ -163,5 +206,11 @@ public partial class CreateWater : Node
         {
 
         }
+    }
+
+    private void WaterModel_StartGenerateWater_EventHandler(object sender, EventArgs e)
+    {
+        DeleteWater();
+        GenerateWater(_waterModel._WaterData.Size, _waterModel._WaterData.IsStaticWater);
     }
 }

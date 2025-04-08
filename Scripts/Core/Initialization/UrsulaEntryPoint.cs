@@ -12,6 +12,8 @@ using Ursula.StartupMenu.Model;
 using Ursula.GameProjects.Model;
 using Ursula.Terrain.Model;
 using Ursula.ConstructorMenu.Model;
+using Ursula.Water.Model;
+using Ursula.MapManagers.Setters;
 
 
 namespace Ursula.Core.Initialization
@@ -87,7 +89,14 @@ namespace Ursula.Core.Initialization
 
             InstallSingleton<ConstructorMenuFileModel>(services);
             InstallSingleton<ConstructorLandscapeMenuViewModel>(services);
+
+            InstallSingleton<WaterManager>(services);
+            InstallSingleton<WaterModel>(services);
+            InstallSingleton<ConstructorWaterMenuViewModel>(services);
+
+            InstallSingleton<ConstructorFloraMenuViewModel>(services);
             
+
 
         }
 

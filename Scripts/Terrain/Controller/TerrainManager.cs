@@ -2,10 +2,12 @@
 using Godot;
 using System;
 using Ursula.Core.DI;
+using Ursula.MapManagers.Model;
 using Ursula.Terrain.Model;
+using Ursula.Water.Model;
 
 
-public partial class TerrainManager : Node, IInjectable
+public partial class TerrainManager : TerrainModel, IInjectable
 {
     public static string NAMETERRAIN = "Terrain";
     private const string ObstacleGroup = "obstacles";
@@ -15,6 +17,11 @@ public partial class TerrainManager : Node, IInjectable
     [Inject]
     private ISingletonProvider<TerrainModel> _terrainModelProvider;
 
+    [Inject]
+    private ISingletonProvider<WaterModel> _waterModelProvider;
+
+    [Inject]
+    private ISingletonProvider<MapManagerModel> _mapManagerModelProvider;
 
     public int countChunk = 1;
 	public int countBlock = 256;
@@ -36,6 +43,8 @@ public partial class TerrainManager : Node, IInjectable
 
 
     private TerrainModel _terrainModel { get; set; }
+    private WaterModel _waterModel { get; set; }
+    private MapManagerModel _mapManagerModel { get; set; }
 
     private bool isNavMeshUpdater = false;
     private MeshInstance3D meshInstance;
@@ -75,6 +84,7 @@ public partial class TerrainManager : Node, IInjectable
 	public void ProcCreateTerrain(bool randomHeight)
 	{
         VoxLib.RemoveAllChildren(VoxLib.mapManager.navigationRegion3D);
+        _mapManagerModel.RemoveAllGameItems();
 
         _ProcCreateTerrain(randomHeight);
     }
@@ -180,6 +190,8 @@ public partial class TerrainManager : Node, IInjectable
     private async GDTask SubscribeEvent()
     {
         _terrainModel = await _terrainModelProvider.GetAsync();
+        _waterModel = await _waterModelProvider.GetAsync();
+        _mapManagerModel = await _mapManagerModelProvider.GetAsync();
 
         _terrainModel.StartGenerateTerrain_EventHandler += TerrainModel_StartGenerateTerrain_EventHandler;
     }
@@ -281,6 +293,8 @@ public partial class TerrainManager : Node, IInjectable
 
         int rows = mapHeight.GetLength(0); // Количество строк
         int columns = mapHeight.GetLength(1); // Количество столбцов
+
+        _terrainModel.SetMapHeight(mapHeight);
 
         GD.Print($"Generate mapHeight. sizeX: {rows}, sizeY: {columns}"); // Вывод размеров массива
     }

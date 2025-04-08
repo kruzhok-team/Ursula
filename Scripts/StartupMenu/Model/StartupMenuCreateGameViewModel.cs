@@ -238,6 +238,7 @@ namespace Ursula.StartupMenu.Model
         public StartupMenuCreateGameViewModel SetWaterOffset(float value)
         {
             float offset = MapRange(value, 0, 100, 0, 1);
+            offset = 1 - offset;
             _CreateGameSourceData.SetWaterOffset(offset);
             return this;
         }

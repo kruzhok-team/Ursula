@@ -15,8 +15,11 @@ using Ursula.GameObjects.Model;
 using Ursula.MapManagers.Controller;
 using Ursula.MapManagers.Model;
 using Ursula.MapManagers.Setters;
+using Ursula.StartupMenu.Model;
 using Ursula.Terrain.Model;
-using static Godot.TileSet;
+using Ursula.Water.Model;
+using VoxLibExample;
+
 
 
 
@@ -123,6 +126,15 @@ public partial class MapManager : Node, IInjectable
     [Inject]
     private ISingletonProvider<TerrainModel> _terrainModelProvider;
 
+    [Inject]
+    private ISingletonProvider<WaterModel> _waterModelProvider;
+
+    [Inject]
+    private ISingletonProvider<TerrainManager> _terrainManagerProvider;
+
+    [Inject]
+    private ISingletonProvider<GameObjectCollectionModel> _gameObjectCollectionModelProvider;
+
 
     public int[] grassItemsID = new int[] { 10, 11, 12, 13, 14, 15, 16, 17, 18 };
 	public int[] treesItemsID = new int[] { 0, 1, 3, 5, 6, 7, 8 };
@@ -178,7 +190,9 @@ public partial class MapManager : Node, IInjectable
     private GameObjectCreateItemsModel _gameObjectCreateItemsModel { get; set; }
     private GameObjectCurrentInfoModel _gameObjectCurrentInfoModel { get; set; }
     private TerrainModel _terrainModel { get; set; }
-
+    private WaterModel _waterModel { get; set; }
+    private TerrainManager _terrainManager { get; set; }
+    private GameObjectCollectionModel _gameObjectCollectionModel { get; set; }
 
     bool needSaveMap = false;
 	bool usedCustomItemBuild = false;
@@ -732,7 +746,7 @@ public partial class MapManager : Node, IInjectable
 
     }
 
-	public void CreateWater()
+    public void CreateWater()
 	{
 		if (VoxLib.terrainManager == null) return;
 		if (VoxLib.terrainManager.mapHeight == null) return;
@@ -744,20 +758,21 @@ public partial class MapManager : Node, IInjectable
 		bool isStatic = !checkButtonWaterStatic.ButtonPressed;
 
 		if (waterOffset == 1)
-			VoxLib.createWater.DeleteWater();
+			VoxLib.waterManager.DeleteWater();
 		else
-			VoxLib.createWater.GenerateWater(size, isStatic);
+			VoxLib.waterManager.GenerateWater(_terrainModel._TerrainData.Size, isStatic);
 	}
 
 	public float WaterLevel
 	{
 		get
 		{
-            if (VoxLib.terrainManager == null) return 0;
+            //if (VoxLib.terrainManager == null) return 0;
+            //float lvl = (VoxLib.terrainManager.MaxHeightTerrain - (VoxLib.terrainManager.MaxHeightTerrain * VoxLib.mapManager.waterOffset)) / 2;
+            //return lvl + VoxLib.terrainManager.positionOffset.Y;
 
-			float lvl = (VoxLib.terrainManager.MaxHeightTerrain - (VoxLib.terrainManager.MaxHeightTerrain * VoxLib.mapManager.waterOffset)) / 2;
-			return lvl + VoxLib.terrainManager.positionOffset.Y;
-		}
+            return _waterModel._WaterData.WaterLevel;
+        }
 	}
 
 	public void ChangeWaterOffset(float value)
@@ -1195,8 +1210,8 @@ public partial class MapManager : Node, IInjectable
         if (mapData.ContainsKey("waterOffset")) waterOffset = float.Parse(mapData["waterOffset"]);
         if (mapData.ContainsKey("TypeWater")) TypeWater = (VoxDrawTypes)int.Parse(mapData["TypeWater"]);
 
-        var maxHeightTerrain = VoxLib.terrainManager.MaxHeightTerrain;
-        Vector3 size = new Vector3(VoxLib.terrainManager.size, maxHeightTerrain - (maxHeightTerrain * waterOffset), VoxLib.terrainManager.size);
+        //var maxHeightTerrain = VoxLib.terrainManager.MaxHeightTerrain;
+        //Vector3 size = new Vector3(VoxLib.terrainManager.size, maxHeightTerrain - (maxHeightTerrain * waterOffset), VoxLib.terrainManager.size);
 
         bool isStatic = false;
         if (mapData.ContainsKey("StaticWater")) isStatic = (bool)bool.Parse(mapData["StaticWater"]);
@@ -1207,9 +1222,9 @@ public partial class MapManager : Node, IInjectable
             DayNightCycle.instance.SetFullDayLength(float.Parse(mapData["FullDayLength"]));
         }
         if (waterOffset == 1)
-            VoxLib.createWater.DeleteWater();
+            VoxLib.waterManager.DeleteWater();
         else
-            VoxLib.createWater.GenerateWater(size, isStatic);
+            VoxLib.waterManager.GenerateWater(sizeX, isStatic);
 
         int saveItems = 0;
         if (mapData.ContainsKey("saveItems")) saveItems = int.Parse(mapData["saveItems"]);
@@ -1550,7 +1565,6 @@ public partial class MapManager : Node, IInjectable
         return null;
     }
 
-
     private async GDTask SubscribeEvent()
     {
         _mapManagerModel = await _mapManagerModelProvider.GetAsync();
@@ -1558,6 +1572,9 @@ public partial class MapManager : Node, IInjectable
         _gameObjectCreateItemsModel = await _gameObjectCreateItemsModelProvider.GetAsync();
         _gameObjectCurrentInfoModel = await _GameObjectCurrentInfoModelProvider.GetAsync();
         _terrainModel = await _terrainModelProvider.GetAsync();
+        _waterModel = await _waterModelProvider.GetAsync();
+        _terrainManager = await _terrainManagerProvider.GetAsync();
+        _gameObjectCollectionModel = await _gameObjectCollectionModelProvider.GetAsync();
     }
 
     private List<string> FindImageFiles(string folderPath)
@@ -1767,5 +1784,6 @@ public partial class MapManager : Node, IInjectable
 
         OpenInExplorer(pathImport);
     }
+
 
 }

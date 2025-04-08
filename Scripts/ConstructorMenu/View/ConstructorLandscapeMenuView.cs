@@ -5,6 +5,7 @@ using Ursula.ConstructorMenu.Model;
 using Ursula.Core.DI;
 using Ursula.StartupMenu.Model;
 using Ursula.Terrain.Model;
+using Ursula.Water.Model;
 
 namespace Ursula.ConstructorMenu.View
 {
