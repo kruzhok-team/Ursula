@@ -188,7 +188,7 @@ grow_vertical = 2
 texture = ExtResource("12_gl16u")
 expand_mode = 1
 
-[node name="StartupMenuCreateGameView" type="Control" parent="RightPanel" node_paths=PackedStringArray("TextEditGameName", "TextEditGameNameAlias", "ButtonOpenGameImagePath", "TextureRectPreviewImage", "HSliderPower", "HSliderScale", "ButtonCreatingGame", "TabBarReplaceTexture", "TypeSkyOption", "GridContainerSkysView", "HSliderFullDayLength", "TypeWaterOption", "HSliderWaterLevel", "CheckButtonWaterStatic", "TabBarTrees", "GridContainerTrees", "TabBarGrass", "GridContainerGrass", "HSliderTreesDensity", "HSliderGrassDensity")]
+[node name="StartupMenuCreateGameView" type="Control" parent="RightPanel" node_paths=PackedStringArray("TextEditGameName", "TextEditGameNameAlias", "ButtonOpenGameImagePath", "TextureRectPreviewImage", "HSliderPower", "HSliderScale", "HSliderPlatoSize", "HSliderPlatoOffsetX", "HSliderPlatoOffsetZ", "ButtonCreatingGame", "TabBarReplaceTexture", "TypeSkyOption", "GridContainerSkysView", "HSliderFullDayLength", "TypeWaterOption", "HSliderWaterLevel", "CheckButtonWaterStatic", "TabBarTrees", "GridContainerTrees", "TabBarGrass", "GridContainerGrass", "HSliderTreesDensity", "HSliderGrassDensity")]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -204,6 +204,9 @@ ButtonOpenGameImagePath = NodePath("ScrollContainer/VBoxContainer/ReferenceRectP
 TextureRectPreviewImage = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/TextureRectPreview")
 HSliderPower = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerPower/Panel/HSliderPower")
 HSliderScale = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPowerAndScale/HBoxContainer/VBoxContainerScale/Panel/HSliderScale")
+HSliderPlatoSize = NodePath("ScrollContainer/VBoxContainer/PanelSizePlato/HSliderSizePlato")
+HSliderPlatoOffsetX = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer/VBoxContainerPower/Panel/HSliderPlatoOffsetX")
+HSliderPlatoOffsetZ = NodePath("ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer/VBoxContainerScale/Panel/HSliderPlatoOffsetZ")
 ButtonCreatingGame = NodePath("HBoxContainer/ButtonCreatingGame")
 TabBarReplaceTexture = NodePath("ScrollContainer/VBoxContainer/TabBar")
 TypeSkyOption = NodePath("ScrollContainer/VBoxContainer/ReferenceRectSky/HBoxContainer/VBoxContainerSky/TypeSkyOption")
@@ -342,7 +345,7 @@ theme_override_icons/grabber_highlight = ExtResource("11_jemed")
 theme_override_styles/slider = ExtResource("11_tq53o")
 theme_override_styles/grabber_area = ExtResource("12_k6rnj")
 theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
-value = 50.0
+value = 30.0
 script = ExtResource("14_qwmgh")
 _hSlider = NodePath(".")
 
@@ -353,13 +356,13 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -228.0
+offset_left = -298.0
 offset_top = -13.0
-offset_right = -199.0
+offset_right = -269.0
 offset_bottom = 12.0
 grow_horizontal = 0
 grow_vertical = 2
-text = "0"
+text = "30"
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -415,6 +418,172 @@ offset_bottom = 12.0
 grow_horizontal = 0
 grow_vertical = 2
 text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="LabelSizePlato" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Размер плато"
+
+[node name="PanelSizePlato" type="Panel" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("8_erdri")
+
+[node name="HSliderSizePlato" type="HSlider" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/PanelSizePlato" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("11_jemed")
+theme_override_icons/grabber_highlight = ExtResource("11_jemed")
+theme_override_styles/slider = ExtResource("11_tq53o")
+theme_override_styles/grabber_area = ExtResource("12_k6rnj")
+theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
+max_value = 200.0
+value = 30.0
+script = ExtResource("14_qwmgh")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/PanelSizePlato/HSliderSizePlato"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -713.0
+offset_top = -12.0
+offset_right = -684.0
+offset_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "30"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ReferenceRectPlatoOffset" type="ReferenceRect" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+border_width = 0.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainerPower" type="VBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer/VBoxContainerPower"]
+layout_mode = 2
+text = "Смещение плато по оси X"
+
+[node name="Panel" type="Panel" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer/VBoxContainerPower"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("8_erdri")
+
+[node name="HSliderPlatoOffsetX" type="HSlider" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer/VBoxContainerPower/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("11_jemed")
+theme_override_icons/grabber_highlight = ExtResource("11_jemed")
+theme_override_styles/slider = ExtResource("11_tq53o")
+theme_override_styles/grabber_area = ExtResource("12_k6rnj")
+theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
+value = 50.0
+script = ExtResource("14_qwmgh")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer/VBoxContainerPower/Panel/HSliderPlatoOffsetX"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -228.0
+offset_top = -13.0
+offset_right = -199.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "50"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ReferenceRect" type="ReferenceRect" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="VBoxContainerScale" type="VBoxContainer" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer/VBoxContainerScale"]
+layout_mode = 2
+text = "Смещение плато по оси Y"
+
+[node name="Panel" type="Panel" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer/VBoxContainerScale"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("8_erdri")
+
+[node name="HSliderPlatoOffsetZ" type="HSlider" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer/VBoxContainerScale/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("11_jemed")
+theme_override_icons/grabber_highlight = ExtResource("11_jemed")
+theme_override_styles/slider = ExtResource("11_tq53o")
+theme_override_styles/grabber_area = ExtResource("12_k6rnj")
+theme_override_styles/grabber_area_highlight = ExtResource("12_k6rnj")
+value = 50.0
+script = ExtResource("14_qwmgh")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer/ReferenceRectPlatoOffset/HBoxContainer/VBoxContainerScale/Panel/HSliderPlatoOffsetZ"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -228.0
+offset_top = -13.0
+offset_right = -199.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "50"
 horizontal_alignment = 2
 vertical_alignment = 1
 

@@ -16,6 +16,9 @@ namespace Ursula.StartupMenu.Model
         public string GameImagePath { get; private set; }
         public float PowerValue { get; private set; }
         public float ScaleValue { get; private set; }
+        public int PlatoSize { get; private set; }
+        public int PlatoPlatoOffsetX { get; private set; }
+        public int PlatoPlatoOffsetZ { get; private set; }
         public int ReplaceTextureID { get; private set; }
         public int TypeSkyID { get; private set; }
         public float FullDayLength { get; private set; }
@@ -54,6 +57,24 @@ namespace Ursula.StartupMenu.Model
         public CreateGameSourceData SetScaleValue(float value)
         {
             ScaleValue = value;
+            return this;
+        }
+
+        public CreateGameSourceData SetPlatoSizeValue(int value)
+        {
+            PlatoSize = value;
+            return this;
+        }
+
+        public CreateGameSourceData SetPlatoPlatoOffsetX(int value)
+        {
+            PlatoPlatoOffsetX = value;
+            return this;
+        }
+
+        public CreateGameSourceData SetPlatoPlatoOffsetZ(int value)
+        {
+            PlatoPlatoOffsetZ = value;
             return this;
         }
 
@@ -122,6 +143,7 @@ namespace Ursula.StartupMenu.Model
     {
         public event EventHandler ViewVisible_EventHandler;
         public event EventHandler StartGenerateGame_EventHandler;
+        public event EventHandler StartGeneratePlants_EventHandler;
 
         public CreateGameSourceData _CreateGameSourceData = new CreateGameSourceData();
 
@@ -157,7 +179,7 @@ namespace Ursula.StartupMenu.Model
 
         public StartupMenuCreateGameViewModel SetPowerValue(float value)
         {
-            float power = MapRange(value, 0, 100, 0, 40);
+            float power = MapRange(value, 0, 100, 0, 30);
             _CreateGameSourceData.SetPowerValue(power);
             return this;
         }
@@ -166,6 +188,27 @@ namespace Ursula.StartupMenu.Model
         {
             float scale = MapRange(value, 1, 100, 1, 5);
             _CreateGameSourceData.SetScaleValue(scale);
+            return this;
+        }
+
+        public StartupMenuCreateGameViewModel SetPlatoSizeValue(int value)
+        {
+            //float scale = MapRange(value, 1, 100, 1, 5);
+            _CreateGameSourceData.SetPlatoSizeValue(value);
+            return this;
+        }
+
+        public StartupMenuCreateGameViewModel SetPlatoPlatoOffsetX(int value)
+        {
+            float scale = MapRange(value, 1, 100, 1, 256);
+            _CreateGameSourceData.SetPlatoPlatoOffsetX((int)scale);
+            return this;
+        }
+
+        public StartupMenuCreateGameViewModel SetPlatoPlatoOffsetZ(int value)
+        {
+            float scale = MapRange(value, 1, 100, 1, 256);
+            _CreateGameSourceData.SetPlatoPlatoOffsetZ((int)scale);
             return this;
         }
 
@@ -196,6 +239,7 @@ namespace Ursula.StartupMenu.Model
         public StartupMenuCreateGameViewModel SetWaterOffset(float value)
         {
             float offset = MapRange(value, 0, 100, 0, 1);
+            offset = 1 - offset;
             _CreateGameSourceData.SetWaterOffset(offset);
             return this;
         }
@@ -230,9 +274,15 @@ namespace Ursula.StartupMenu.Model
             return this;
         }
 
-        public StartupMenuCreateGameViewModel StartCreatingGame()
+        public StartupMenuCreateGameViewModel StartGenerateGame()
         {
-            InvokeStartCreatingGameEvent();
+            InvokeStartGenerateGameEvent();
+            return this;
+        }
+
+        public StartupMenuCreateGameViewModel StartGeneratePlants()
+        {
+            InvokeStartGeneratePlantsEvent();
             return this;
         }
 
@@ -255,11 +305,16 @@ namespace Ursula.StartupMenu.Model
         }
 
 
-        private void InvokeStartCreatingGameEvent()
+        private void InvokeStartGenerateGameEvent()
         {
             var handler = StartGenerateGame_EventHandler;
             handler?.Invoke(this, EventArgs.Empty);
         }
 
+        private void InvokeStartGeneratePlantsEvent()
+        {
+            var handler = StartGeneratePlants_EventHandler;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

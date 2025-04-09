@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://b742v4kdxdb6t"]
 
-[ext_resource type="PackedScene" uid="uid://c87u5ah4ywte7" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_connect_cross/tunnel_connect_cross.fbx" id="1_4i7cf"]
+[ext_resource type="PackedScene" uid="uid://dq2u5mtg701nl" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_connect_cross/tunnel_connect_cross.fbx" id="1_4i7cf"]
 [ext_resource type="Material" uid="uid://buswuey2j5cvm" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_connect_cross/tunnel_connect_cross_mat.tres" id="2_8pq63"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_r3os0"]
 [ext_resource type="Material" uid="uid://bho48tauktn43" path="res://addons/Ursula/Assets/Models/Buildings/Build2/Glass_mat.tres" id="3_6tkox"]
@@ -32,16 +32,11 @@ script = ExtResource("2_r3os0")
 [node name="InteractiveObject" type="Node" parent="." index="1"]
 script = ExtResource("3_s6o2a")
 
-[node name="RootNode" parent="." index="2"]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
-
-[node name="tunnel_connect_cross_0032" parent="RootNode/tunnel_connect_cross_003" index="0"]
+[node name="tunnel_connect_cross_003" parent="." index="2"]
+transform = Transform3D(3, 0, 0, 0, -1.31134e-07, 3, 0, -3, -1.31134e-07, -1.90735e-07, 0.000600388, -1.43051e-08)
 material_override = ExtResource("2_8pq63")
 
-[node name="tunnel_connect_cross" parent="RootNode/tunnel_connect_cross_003" index="1"]
-material_override = ExtResource("2_8pq63")
-
-[node name="tunnel_connect_cross_001" parent="RootNode/tunnel_connect_cross_003" index="2"]
+[node name="tunnel_connect_cross_001" parent="tunnel_connect_cross_003" index="2"]
 material_override = ExtResource("3_6tkox")
 
 [node name="Trigger" type="StaticBody3D" parent="." index="3"]

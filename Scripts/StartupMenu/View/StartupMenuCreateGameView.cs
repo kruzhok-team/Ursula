@@ -35,6 +35,15 @@ namespace Ursula.StartupMenu.View
         private HSlider HSliderScale;
 
         [Export]
+        public HSlider HSliderPlatoSize;
+
+        [Export]
+        public HSlider HSliderPlatoOffsetX;
+
+        [Export]
+        public HSlider HSliderPlatoOffsetZ;
+
+        [Export]
         private Button ButtonCreatingGame;
 
         [Export]
@@ -85,6 +94,9 @@ namespace Ursula.StartupMenu.View
         [Export]
         private HSlider HSliderGrassDensity;
 
+
+
+
         [Inject]
         private ISingletonProvider<StartupMenuCreateNewProjectViewModel> _startupMenuCreateNewProjectViewModelProvider;
 
@@ -102,6 +114,9 @@ namespace Ursula.StartupMenu.View
 
         [Inject]
         private ISingletonProvider<GameProjectLibraryManager> _gameProjectLibraryManagerProvider;
+
+
+
 
         private StartupMenuCreateNewProjectViewModel _startupMenuCreateNewProjectViewModel { get; set; }
         private StartupMenuModel _startupMenuModel { get; set; }
@@ -182,7 +197,7 @@ namespace Ursula.StartupMenu.View
                     var info = _gameProjectLibraryManager.SetItem(_startupMenuCreateNewProjectViewModel.GameName, projectTemplate, GameProjectAssetsUserSource.LibId);
                     _gameProjectLibraryManager.SaveItem(info.Id, GameProjectAssetsUserSource.LibId);
                     _gameProjectLibraryManager.SetCurrentProjectInfo(info);
-                }
+                }              
             }
 
         }
@@ -195,6 +210,7 @@ namespace Ursula.StartupMenu.View
             _commonLibrary = await _commonLibraryProvider.GetAsync();
             _gameObjectAddGameObjectAsset = await _gameObjectAddGameObjectAssetProvider.GetAsync();
             _gameProjectLibraryManager = await _gameProjectLibraryManagerProvider.GetAsync();
+
 
             _startupMenuCreateGameViewModel.ViewVisible_EventHandler += (sender, args) => { ShowView(); };
 
@@ -231,16 +247,19 @@ namespace Ursula.StartupMenu.View
             _startupMenuCreateGameViewModel.SetGameNameAlias(TextEditGameNameAlias.Text);
             _startupMenuCreateGameViewModel.SetPowerValue((float)HSliderPower.Value);
             _startupMenuCreateGameViewModel.SetScaleValue((float)HSliderScale.Value);
+            _startupMenuCreateGameViewModel.SetPlatoSizeValue((int)HSliderPlatoSize.Value);
+            _startupMenuCreateGameViewModel.SetPlatoPlatoOffsetX((int)HSliderPlatoOffsetX.Value);
+            _startupMenuCreateGameViewModel.SetPlatoPlatoOffsetZ((int)HSliderPlatoOffsetZ.Value);
             _startupMenuCreateGameViewModel.SetReplaceTextureID(TabBarReplaceTexture.CurrentTab);
             _startupMenuCreateGameViewModel.SetTypeSkyID(TypeSkyOption.Selected);
             _startupMenuCreateGameViewModel.SetFullDayLength((float)HSliderFullDayLength.Value);
             _startupMenuCreateGameViewModel.SetTypeWaterID(TypeWaterOption.Selected);
             _startupMenuCreateGameViewModel.SetWaterOffset((float)HSliderWaterLevel.Value);
-            _startupMenuCreateGameViewModel.SetStaticWater(CheckButtonWaterStatic.ButtonPressed);
+            _startupMenuCreateGameViewModel.SetStaticWater(!CheckButtonWaterStatic.ButtonPressed);
             _startupMenuCreateGameViewModel.SetTreesDensity((float)HSliderTreesDensity.Value);
             _startupMenuCreateGameViewModel.SetGrassDensity((float)HSliderGrassDensity.Value);
 
-            _startupMenuCreateGameViewModel.StartCreatingGame();
+            _startupMenuCreateGameViewModel.StartGenerateGame();
         }
 
         private void Redraw()
@@ -319,9 +338,9 @@ namespace Ursula.StartupMenu.View
                 GridContainerTrees.AddChild(nodeAdd);
             }
 
-            List<GameObjectAssetInfo> result = new List<GameObjectAssetInfo>(assets);
+            List<GameObjectAssetInfo> trees = new List<GameObjectAssetInfo>(assets);
 
-            for (int i = 0; i < result.Count; i++)
+            for (int i = 0; i < trees.Count; i++)
             {
                 Node instance = GameObjectAssetInfoPrefab.Instantiate();
                 GameObjectAssetInfoView item = instance as GameObjectAssetInfoView;
@@ -330,7 +349,7 @@ namespace Ursula.StartupMenu.View
                     continue;
 
                 //item.clickItemEvent += ClickItem_SelectEventHandler;
-                item.Invalidate(result[i]);
+                item.Invalidate(trees[i]);
 
                 GridContainerTrees.AddChild(instance);
             }

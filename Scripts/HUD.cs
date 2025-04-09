@@ -43,15 +43,6 @@ public partial class HUD : Control, IInjectable
     [Export]
     public CheckButton[] CheckButtonAlgoritm;
 
-    [Export]
-    public Slider SliderPlatoSize;
-
-    [Export]
-    public Slider SliderPlatoOffsetX;
-
-    [Export]
-    public Slider SliderPlatoOffsetZ;
-
     [Inject]
     private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
 

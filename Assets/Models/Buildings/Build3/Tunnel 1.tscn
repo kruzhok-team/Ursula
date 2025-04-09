@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://bwupw7sswdsu1"]
 
-[ext_resource type="PackedScene" uid="uid://bls24eq86itmy" path="res://addons/Ursula/Assets/Models/Buildings/Build3/tunnel.fbx" id="1_hpudq"]
+[ext_resource type="PackedScene" uid="uid://cunawqmf2ltid" path="res://addons/Ursula/Assets/Models/Buildings/Build3/tunnel.fbx" id="1_hpudq"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_m7qkp"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_dny8u"]
 [ext_resource type="Material" uid="uid://bho48tauktn43" path="res://addons/Ursula/Assets/Models/Buildings/Build2/Glass_mat.tres" id="3_h6ya8"]
@@ -23,16 +23,16 @@ script = ExtResource("2_m7qkp")
 [node name="InteractiveObject" type="Node" parent="." index="1"]
 script = ExtResource("3_dny8u")
 
-[node name="RootNode" parent="." index="2"]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+[node name="tunnel" parent="." index="2"]
+transform = Transform3D(3, 0, 0, 0, -1.31134e-07, 3, 0, -3, -1.31134e-07, 7.62939e-08, 3.8147e-08, 8.47033e-24)
 
-[node name="tunnel_glass" parent="RootNode/tunnel" index="0"]
+[node name="tunnel_glass" parent="tunnel" index="0"]
 material_override = ExtResource("3_h6ya8")
 
-[node name="tunnel_new" parent="RootNode/tunnel" index="1"]
+[node name="tunnel_new" parent="tunnel" index="1"]
 material_override = ExtResource("4_610w7")
 
-[node name="tunnel_new_joint_002" parent="RootNode/tunnel" index="2"]
+[node name="tunnel_new_joint_002" parent="tunnel" index="2"]
 material_override = ExtResource("4_610w7")
 
 [node name="Trigger" type="StaticBody3D" parent="." index="3"]

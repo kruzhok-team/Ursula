@@ -21,7 +21,7 @@ public partial class VoxLib : Node
     public ControlGamesProject CGP;
 
     public static TerrainManager terrainManager;
-	public static CreateWater createWater;
+	public static WaterManager waterManager;
 
 	public static string SETTINGPATH = "user://settings.cfg";
     public const string GAMESPATH = "user://Project/Games/";

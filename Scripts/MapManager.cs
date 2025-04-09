@@ -15,6 +15,12 @@ using Ursula.GameObjects.Model;
 using Ursula.MapManagers.Controller;
 using Ursula.MapManagers.Model;
 using Ursula.MapManagers.Setters;
+using Ursula.StartupMenu.Model;
+using Ursula.Terrain.Model;
+using Ursula.Water.Model;
+using VoxLibExample;
+using static Godot.TileSet;
+
 
 
 
@@ -118,6 +124,19 @@ public partial class MapManager : Node, IInjectable
     [Inject]
     private ISingletonProvider<GameObjectCurrentInfoModel> _GameObjectCurrentInfoModelProvider;
 
+    [Inject]
+    private ISingletonProvider<TerrainModel> _terrainModelProvider;
+
+    [Inject]
+    private ISingletonProvider<WaterModel> _waterModelProvider;
+
+    [Inject]
+    private ISingletonProvider<TerrainManager> _terrainManagerProvider;
+
+    [Inject]
+    private ISingletonProvider<GameObjectCollectionModel> _gameObjectCollectionModelProvider;
+
+
     public int[] grassItemsID = new int[] { 10, 11, 12, 13, 14, 15, 16, 17, 18 };
 	public int[] treesItemsID = new int[] { 0, 1, 3, 5, 6, 7, 8 };
     public int[] plantsItemsID = new int[] { 39, 40, 41, 42, 43 };
@@ -167,10 +186,14 @@ public partial class MapManager : Node, IInjectable
         }
     }
 
-    private MapManagerModel _mapManagerModel;
-    private GameObjectLibraryManager _gameObjectLibraryManager;
-    private GameObjectCreateItemsModel _gameObjectCreateItemsModel;
-    private GameObjectCurrentInfoModel _gameObjectCurrentInfoModel;
+    private MapManagerModel _mapManagerModel { get; set; }
+    private GameObjectLibraryManager _gameObjectLibraryManager { get; set; }
+    private GameObjectCreateItemsModel _gameObjectCreateItemsModel { get; set; }
+    private GameObjectCurrentInfoModel _gameObjectCurrentInfoModel { get; set; }
+    private TerrainModel _terrainModel { get; set; }
+    private WaterModel _waterModel { get; set; }
+    private TerrainManager _terrainManager { get; set; }
+    private GameObjectCollectionModel _gameObjectCollectionModel { get; set; }
 
     bool needSaveMap = false;
 	bool usedCustomItemBuild = false;
@@ -398,12 +421,9 @@ public partial class MapManager : Node, IInjectable
 
     }
 
-	public async void StartCoroutineCreateTerrain(bool randomHeight)
+	public async GDTask StartCoroutineCreateTerrain(bool randomHeight)
 	{
         if (VoxLib.mapManager != this) return;
-
-        //gameItems = new List<ItemPropsScript>();
-        //VoxLib.RemoveAllChildren(itemsGO);
 
         _mapManagerModel.RemoveAllGameItems();
 
@@ -416,16 +436,12 @@ public partial class MapManager : Node, IInjectable
 
 		if (VoxLib.mapManager == this && VoxLib.terrainManager != null)
 		{
-
-			VoxLib.terrainManager.countBlock = sizeX;
-			VoxLib.terrainManager.ProcCreateTerrainRandom(randomHeight);
-
-            //CreateWater();
-            //GenerateNewPlants();
-            SetGrassTexture();
+            _terrainModel.StartGenerateTerrain(false);
         }
 
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        return;
     }
 
 	private async void SetAssetsData()
@@ -683,7 +699,7 @@ public partial class MapManager : Node, IInjectable
 			int type = grassItemsID[GD.Randi() % grassItemsID.Length];
 			if (isOnlyCustomItems) type = CUSTOM_ITEM_INDEX_OFFSET + Mathf.RoundToInt(GD.Randi() % (allGrass.Length));
 
-			if ((y > VoxLib.mapManager.WaterLevel || VoxLib.terrainManager.power == 0) && _voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
+			if ((y > VoxLib.mapManager.WaterLevel || _terrainModel._TerrainData.Power == 0) && _voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
 			{
 				Node node = CreateGameItem(type, 0, 1, x, positionY, z, 0, id);
                 if (isOnlyCustomItems) InitCustomItem(node, type);
@@ -702,7 +718,7 @@ public partial class MapManager : Node, IInjectable
 			int type = treesItemsID[GD.Randi() % treesItemsID.Length];
             if (isOnlyCustomItems) type = CUSTOM_ITEM_INDEX_OFFSET + Mathf.RoundToInt(GD.Randi() % (allTrees.Length)) + allGrass.Length;
 
-            if ((y > VoxLib.mapManager.WaterLevel || VoxLib.terrainManager.power == 0) && _voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
+            if ((y > VoxLib.mapManager.WaterLevel || _terrainModel._TerrainData.Power == 0) && _voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
 			{
 				Node node = CreateGameItem(type, 0, 1, x, positionY, z, 0, id);
                 if (isOnlyCustomItems) InitCustomItem(node, type);
@@ -721,7 +737,7 @@ public partial class MapManager : Node, IInjectable
             int type = plantsItemsID[GD.Randi() % plantsItemsID.Length];
             if (isOnlyCustomItems) type = CUSTOM_ITEM_INDEX_OFFSET + Mathf.RoundToInt(GD.Randi() % (allTrees.Length)) + allGrass.Length;
 
-            if ((y > VoxLib.mapManager.WaterLevel || VoxLib.terrainManager.power == 0) && _voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
+            if ((y > VoxLib.mapManager.WaterLevel || _terrainModel._TerrainData.Power == 0) && _voxGrid.Getdata(x, y, z) == 0 && voxTypes[x, y, z] == 0)
             {
                 Node node = CreateGameItem(type, 0, 1, x, positionY, z, 0, id);
                 if (isOnlyCustomItems) InitCustomItem(node, type);
@@ -730,7 +746,7 @@ public partial class MapManager : Node, IInjectable
 
     }
 
-	public void CreateWater()
+    public void CreateWater()
 	{
 		if (VoxLib.terrainManager == null) return;
 		if (VoxLib.terrainManager.mapHeight == null) return;
@@ -742,30 +758,23 @@ public partial class MapManager : Node, IInjectable
 		bool isStatic = !checkButtonWaterStatic.ButtonPressed;
 
 		if (waterOffset == 1)
-			VoxLib.createWater.DeleteWater();
+			VoxLib.waterManager.DeleteWater();
 		else
-			VoxLib.createWater.GenerateWater(size, isStatic);
+			VoxLib.waterManager.GenerateWater(_terrainModel._TerrainData.Size, isStatic);
 	}
 
 	public float WaterLevel
 	{
 		get
 		{
-            if (VoxLib.terrainManager == null) return 0;
+            //if (VoxLib.terrainManager == null) return 0;
+            //float lvl = (VoxLib.terrainManager.MaxHeightTerrain - (VoxLib.terrainManager.MaxHeightTerrain * VoxLib.mapManager.waterOffset)) / 2;
+            //return lvl + VoxLib.terrainManager.positionOffset.Y;
 
-			float lvl = (VoxLib.terrainManager.MaxHeightTerrain - (VoxLib.terrainManager.MaxHeightTerrain * VoxLib.mapManager.waterOffset)) / 2;
-			return lvl + VoxLib.terrainManager.positionOffset.Y;
-		}
+            return _waterModel._WaterData.WaterLevel;
+        }
 	}
 
-	public void ChangePower(float value)
-	{
-		if (VoxLib.terrainManager != null) VoxLib.terrainManager.power = value;
-	}
-	public void ChangeScale(float value)
-	{
-		if (VoxLib.terrainManager != null) VoxLib.terrainManager.scale = value;
-	}
 	public void ChangeWaterOffset(float value)
 	{
 		if (VoxLib.terrainManager != null) waterOffset = 1 - value;
@@ -777,7 +786,7 @@ public partial class MapManager : Node, IInjectable
 	public void ChangeGrassDensity(float value)
 	{
 		if (VoxLib.terrainManager != null) grassDensity = value;
-	}
+    }
     public void ChangePlantsDensity(float value)
     {
         if (VoxLib.terrainManager != null) plantsDensity = value;
@@ -923,7 +932,7 @@ public partial class MapManager : Node, IInjectable
         }
     }
 
-    private void SaveMapToFile(string file)
+    public void SaveMapToFile(string file)
     {
         fileDialog.Disconnect("file_selected", new Callable(this, nameof(SaveMapToFile)));
 
@@ -963,10 +972,10 @@ public partial class MapManager : Node, IInjectable
         mapData.Add("sizeY", sizeY.ToString());
         mapData.Add("sizeZ", sizeZ.ToString());
         mapData.Add("skybox", skybox.ToString());
-        mapData.Add("grassTexID", replaceTexID.ToString());
-        mapData.Add("waterOffset", waterOffset.ToString());
-        mapData.Add("TypeWater", ((int)TypeWater).ToString());
-        bool isStatic = !checkButtonWaterStatic.ButtonPressed;
+        mapData.Add("grassTexID", _terrainModel._TerrainData.ReplaceTexID.ToString());
+        mapData.Add("waterOffset", _waterModel._WaterData.WaterOffset.ToString());
+        mapData.Add("TypeWater", ((int)_waterModel._WaterData.TypeWaterID).ToString());
+        bool isStatic = _waterModel._WaterData.IsStaticWater;
         mapData.Add("StaticWater", ((bool)isStatic).ToString());
         mapData.Add("FullDayLength", DayNightCycle.instance.FullDayLength.ToString());
 
@@ -1021,9 +1030,6 @@ public partial class MapManager : Node, IInjectable
         float[,] mapHeight = VoxLib.terrainManager.mapHeight;
         if (mapHeight == null) mapHeight = new float[0, 0];
 
-        //string mapHeightS = SerializeFloatArray(mapHeight);
-        //mapData.Add("mapHeight", mapHeightS);
-
         mapData.Add("sizeTerrain", (VoxLib.terrainManager.size).ToString());
 
         StringBuilder sb = new StringBuilder();
@@ -1033,7 +1039,6 @@ public partial class MapManager : Node, IInjectable
 
             for (int x = 0; x < VoxLib.terrainManager.size; x++)
             {
-                //mapData.Add(y.ToString() + x.ToString(), VoxLib.createTerrain.mapHeight[y, x].ToString());
                 sb.Append(mapHeight[y, x]);
                 if (x < mapHeight.GetLength(1) - 1)
                 {
@@ -1122,11 +1127,6 @@ public partial class MapManager : Node, IInjectable
         }
     }
 
-    public async void MoveToRandomSetup()
-	{
-
-	}
-
     public async void LoadMapFromFile(string fileName)
     {
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
@@ -1177,6 +1177,7 @@ public partial class MapManager : Node, IInjectable
         if (mapData.ContainsKey("skybox")) skybox = int.Parse(mapData["skybox"]);
         int sizeTerrain = 0;
         if (mapData.ContainsKey("sizeTerrain")) sizeTerrain = int.Parse(mapData["sizeTerrain"]);
+        _terrainModel.SetSize(sizeTerrain);
 
         float[,] mapHeight = new float[sizeTerrain, sizeTerrain];
         if (mapData.ContainsKey("mapHeight"))
@@ -1197,30 +1198,40 @@ public partial class MapManager : Node, IInjectable
             }
 
             VoxLib.terrainManager.mapHeight = mapHeight;
+            _terrainModel.SetMapHeight(mapHeight);
+
             await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-            StartCoroutineCreateTerrain(false);
+            await StartCoroutineCreateTerrain(false);
             await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         }
 
         if (mapData.ContainsKey("grassTexID")) replaceTexID = int.Parse(mapData["grassTexID"]);
-        if (mapData.ContainsKey("waterOffset")) waterOffset = float.Parse(mapData["waterOffset"]);
-        if (mapData.ContainsKey("TypeWater")) TypeWater = (VoxDrawTypes)int.Parse(mapData["TypeWater"]);
+        _terrainModel.SetReplaceTexID(replaceTexID);
 
-        var maxHeightTerrain = VoxLib.terrainManager.MaxHeightTerrain;
-        Vector3 size = new Vector3(VoxLib.terrainManager.size, maxHeightTerrain - (maxHeightTerrain * waterOffset), VoxLib.terrainManager.size);
+        if (mapData.ContainsKey("waterOffset")) waterOffset = float.Parse(mapData["waterOffset"]);
+        _waterModel.SetWaterOffset(waterOffset);
+
+        if (mapData.ContainsKey("TypeWater")) TypeWater = (VoxDrawTypes)int.Parse(mapData["TypeWater"]);
+        _waterModel.SetTypeWaterID((int)TypeWater);
 
         bool isStatic = false;
         if (mapData.ContainsKey("StaticWater")) isStatic = (bool)bool.Parse(mapData["StaticWater"]);
-        checkButtonWaterStatic.ButtonPressed = !isStatic;
+        _waterModel.SetStaticWater(isStatic);
 
         if (mapData.ContainsKey("FullDayLength"))
         {
-            DayNightCycle.instance.SetFullDayLength(float.Parse(mapData["FullDayLength"]));
+            float fullDayLength = float.Parse(mapData["FullDayLength"]);
+            DayNightCycle.instance.SetFullDayLength(fullDayLength);
+            _terrainModel.SetFullDayLength(fullDayLength);
         }
         if (waterOffset == 1)
-            VoxLib.createWater.DeleteWater();
+        {
+            VoxLib.waterManager.DeleteWater();
+        }
         else
-            VoxLib.createWater.GenerateWater(size, isStatic);
+        {
+            VoxLib.waterManager.GenerateWater(sizeX, isStatic);
+        }
 
         int saveItems = 0;
         if (mapData.ContainsKey("saveItems")) saveItems = int.Parse(mapData["saveItems"]);
@@ -1348,16 +1359,7 @@ public partial class MapManager : Node, IInjectable
     {
         replaceTexID = (int)id;
         replaceTexUI.Texture = (Texture2D)VoxLib.mapAssets.terrainTexReplace[replaceTexID];
-    }
-
-    public void SetGrassTexture()
-	{
-		//replaceTexID = (int)sliderGrassTexID.Value;
-
-        replaceTexUI.Texture = (Texture2D)VoxLib.mapAssets.terrainTexReplace[replaceTexID];
-
-        VoxLib.terrainManager.replaceTexID = replaceTexID;
-		VoxLib.terrainManager.CreateNewMaterialTerrain();
+        _terrainModel.SetReplaceTexID(replaceTexID);
     }
 
 	public async void LoadCustomItems()
@@ -1429,19 +1431,8 @@ public partial class MapManager : Node, IInjectable
         fileDialog.Filters = new string[] { "*.zip ; zip" };
         fileDialog.CurrentDir = IMPORTPROJECTPATH;
 
-        //CheckButton checkButton = fileDialog.FindChild("AccessCheckButton", true, false) as CheckButton;
-        //if (checkButton != null)
-        //{
-        //    checkButton.Connect("toggled", new Callable(this, nameof(OnCheckButtonToggled)));
-        //}
-        //else
-        //{
-        //    GD.Print("CheckButton не найден среди дочерних узлов.");
-        //}
-
         if (string.IsNullOrEmpty(pathMap))
         {
-            //GD.Print("Нет сохраненного проекта для импорта.");
             VoxLib.ShowMessage("Нет сохраненного проекта для импорта.");
             return;
         }
@@ -1581,13 +1572,16 @@ public partial class MapManager : Node, IInjectable
         return null;
     }
 
-
     private async GDTask SubscribeEvent()
     {
         _mapManagerModel = await _mapManagerModelProvider.GetAsync();
         _gameObjectLibraryManager = await _gameObjectLibraryManagerProvider.GetAsync();
         _gameObjectCreateItemsModel = await _gameObjectCreateItemsModelProvider.GetAsync();
         _gameObjectCurrentInfoModel = await _GameObjectCurrentInfoModelProvider.GetAsync();
+        _terrainModel = await _terrainModelProvider.GetAsync();
+        _waterModel = await _waterModelProvider.GetAsync();
+        _terrainManager = await _terrainManagerProvider.GetAsync();
+        _gameObjectCollectionModel = await _gameObjectCollectionModelProvider.GetAsync();
     }
 
     private List<string> FindImageFiles(string folderPath)
@@ -1797,5 +1791,6 @@ public partial class MapManager : Node, IInjectable
 
         OpenInExplorer(pathImport);
     }
+
 
 }

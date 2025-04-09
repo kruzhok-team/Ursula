@@ -14,6 +14,9 @@ namespace Ursula.GameObjects.View
     public partial class GameObjectCurrentInfoView : Control, IInjectable
     {
         [Export]
+        Panel PanelContainerInfo;
+
+        [Export]
         PackedScene ItemLibraryObjectPrefab;
 
         [Export]
@@ -140,6 +143,8 @@ namespace Ursula.GameObjects.View
             VoxLib.RemoveAllChildren(VBoxContainerAudios);
             VoxLib.RemoveAllChildren(VBoxContainerAnimation);
 
+            ContainerInfoVisible();
+
             _ = SubscribeEvent();
         }
 
@@ -260,7 +265,7 @@ namespace Ursula.GameObjects.View
         private void RepaintSelectedAsset()
         {
             GameObjectAssetInfo assetInfo = _gameObjectLibraryManager.GetItemInfo(_gameObjectCollectionModel.AssetSelected.Id);
-            _gameObjectCollectionModel.SetGameObjectAssetSelected(assetInfo);
+            _gameObjectCollectionModel.SetGameObjectAssetSelected(assetInfo);           
         }
 
         private void TextEditModelName_TextChangedEventHandler()
@@ -447,11 +452,15 @@ namespace Ursula.GameObjects.View
         private void ButtonShowInfo_ButtonDownEventHandler()
         {
             showInfo = !showInfo;
-            TextureRectShowInfoTrue.Visible = showInfo;
-            TextureRectShowInfoFalse.Visible = !showInfo;
+            ContainerInfoVisible();
         }
 
-
+        private void ContainerInfoVisible()
+        {
+            TextureRectShowInfoTrue.Visible = showInfo;
+            TextureRectShowInfoFalse.Visible = !showInfo;
+            PanelContainerInfo.Visible = showInfo;
+        }
     }
 
 

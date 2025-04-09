@@ -7,7 +7,7 @@ namespace Ursula.Terrain.Model
     public class TerrainData
     {
         public bool RandomHeight { get; private set; }
-        public int Size { get; private set; }
+        public int Size { get; private set; } = 256;
         public int PlatoSize { get; private set; }
         public int PlatoOffsetX { get; private set; }
         public int PlatoOffsetZ { get; private set; }
@@ -15,7 +15,9 @@ namespace Ursula.Terrain.Model
         public float Scale { get; private set; }
         public float Exponent { get; private set; }
         public int ReplaceTexID { get; private set; }
-
+        public float[,] MapHeight { get; private set; }
+        public int TypeSkyID { get; private set; }
+        public float FullDayLength { get; private set; }
 
         public void SetRandomHeight(bool value)
         {
@@ -62,7 +64,20 @@ namespace Ursula.Terrain.Model
             ReplaceTexID = value;
         }
 
+        public void SetMapHeight(float[,] mapHeight)
+        {
+            MapHeight = mapHeight;
+        }
 
+        public void SetTypeSkyID(int value)
+        {
+            TypeSkyID = value;
+        }
+
+        public void SetFullDayLength(float value)
+        {
+            FullDayLength = value;
+        }
     }
 
 
@@ -72,16 +87,14 @@ namespace Ursula.Terrain.Model
 
         public TerrainData _TerrainData = new TerrainData();
 
-        public bool RandomHeight = false;
-
-
         void IInjectable.OnDependenciesInjected()
         {
 
         }
 
-        public TerrainModel StartGenerateTerrain()
+        public TerrainModel StartGenerateTerrain(bool value = false)
         {
+            SetRandomHeight(value);
             InvokeStartGenerateTerrainEvent();
             return this;
         }
@@ -122,6 +135,12 @@ namespace Ursula.Terrain.Model
             return this;
         }
 
+        public TerrainModel SetScale(float value)
+        {
+            _TerrainData.SetScale(value);
+            return this;
+        }
+
         public TerrainModel SetExponent(float value)
         {
             _TerrainData.SetExponent(value);
@@ -134,7 +153,23 @@ namespace Ursula.Terrain.Model
             return this;
         }
 
+        public TerrainModel SetMapHeight(float[,] mapHeight)
+        {
+            _TerrainData.SetMapHeight(mapHeight);
+            return this;
+        }
 
+        public TerrainModel SetTypeSkyID(int value)
+        {
+            _TerrainData.SetTypeSkyID(value);
+            return this;
+        }
+
+        public TerrainModel SetFullDayLength(float value)
+        {
+            _TerrainData.SetFullDayLength(value);
+            return this;
+        }
 
         private void InvokeStartGenerateTerrainEvent()
         {

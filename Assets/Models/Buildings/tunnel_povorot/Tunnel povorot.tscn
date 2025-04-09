@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://dusw1mp67phf7"]
 
-[ext_resource type="PackedScene" uid="uid://dulxonp4v23o2" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_povorot/tunnel_povorot.fbx" id="1_i6hni"]
+[ext_resource type="PackedScene" uid="uid://b01o5nv1numar" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_povorot/tunnel_povorot.fbx" id="1_i6hni"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_6yqy2"]
 [ext_resource type="Material" uid="uid://5ph6w2qw1ejc" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_povorot/tunnel_povorot_mat.tres" id="2_jsnyp"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_8nd50"]
@@ -23,16 +23,11 @@ script = ExtResource("2_6yqy2")
 [node name="InteractiveObject" type="Node" parent="." index="1"]
 script = ExtResource("3_8nd50")
 
-[node name="RootNode" parent="." index="2"]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
-
-[node name="tunnel_povorot_002" parent="RootNode/tunnel_povorot_001" index="0"]
+[node name="tunnel_povorot_001" parent="." index="2"]
+transform = Transform3D(300, 0, 0, 0, -1.31134e-05, 300, 0, -300, -1.31134e-05, 0, 3.8147e-08, 8.47033e-24)
 material_override = ExtResource("2_jsnyp")
 
-[node name="tunnel_povorot_003" parent="RootNode/tunnel_povorot_001" index="1"]
-material_override = ExtResource("2_jsnyp")
-
-[node name="tunnel_povorot" parent="RootNode/tunnel_povorot_001" index="2"]
+[node name="tunnel_povorot" parent="tunnel_povorot_001" index="2"]
 material_override = ExtResource("3_o7gg3")
 
 [node name="Trigger" type="StaticBody3D" parent="." index="3"]
