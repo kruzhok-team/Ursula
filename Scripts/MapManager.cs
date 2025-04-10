@@ -479,9 +479,6 @@ public partial class MapManager : Node, IInjectable
 			CreateMode.Select(0);
 		}
 
-		//gameItems = new List<ItemPropsScript>();
-
-        LoadCustomItems();
     }
 
 	public void PlayTest()
@@ -955,7 +952,9 @@ public partial class MapManager : Node, IInjectable
         SaveLastDirectory(lastDirectory);
         currentFile = fileDialog.CurrentFile;
         pathMap = file;
-        GD.Print("Map saved to: " + savePath);
+        GD.Print("Map saved to: " + Path.GetFileName(savePath));
+
+        VoxLib.ShowMessage("Проект сохранен в файл: " + savePath);
 	}
 
     public Dictionary<string, string> SaveWorld(bool import = false)
@@ -1127,7 +1126,7 @@ public partial class MapManager : Node, IInjectable
         }
     }
 
-    public async void LoadMapFromFile(string fileName)
+    public async GDTask LoadMapFromFile(string fileName)
     {
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
@@ -1309,7 +1308,7 @@ public partial class MapManager : Node, IInjectable
                         string assetFolder = dirMap;
                         if (!isImport)
                         {
-                            assetFolder = $"{_gameObjectLibraryManager.GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}";
+                            assetFolder = $"{assetInfo.GetAssetPath()}";
                         }
 
                         Node item = _mapManagerItemSetter.CreateGameItem
@@ -1360,31 +1359,6 @@ public partial class MapManager : Node, IInjectable
         replaceTexID = (int)id;
         replaceTexUI.Texture = (Texture2D)VoxLib.mapAssets.terrainTexReplace[replaceTexID];
         _terrainModel.SetReplaceTexID(replaceTexID);
-    }
-
-	public async void LoadCustomItems()
-	{
-        IdItemOptionCustom.Clear();
-
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-        string[] allGrass = GetAllCustomGrass();
-        for (int i = 0; i < allGrass.Length; i++)
-		{
-			int idx = IdItemOptionCustom.GetItemIndex(CUSTOM_ITEM_INDEX_OFFSET + i);
-            if (idx > 0) IdItemOptionCustom.RemoveItem(idx);
-            //await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-            IdItemOptionCustom.AddItem(PATHCUSTOMGRASS + Path.GetFileName(allGrass[i]), CUSTOM_ITEM_INDEX_OFFSET + i);
-        }
-
-        string[] allTrees = GetAllCustomTrees();
-        for (int i = 0; i < allTrees.Length; i++)
-        {
-            int idx = IdItemOptionCustom.GetItemIndex(CUSTOM_ITEM_INDEX_OFFSET + allGrass.Length + i);
-            if (idx > 0) IdItemOptionCustom.RemoveItem(idx);
-            //await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-            IdItemOptionCustom.AddItem(PATHCUSTOMTREES + Path.GetFileName(allTrees[i]), CUSTOM_ITEM_INDEX_OFFSET + allGrass.Length + i);
-        }
     }
 
     string[] GetAllCustomGrass()

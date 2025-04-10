@@ -169,6 +169,7 @@ namespace Ursula.GameObjects.View
                 Path.GetFileName(PreviewImageFilePathFrom)
                 );
 
+            Provider = assetInfo.ProviderId;
 
             InvokeGameObjectAddGameObjectAssetToCollectionEvent();
 
@@ -179,6 +180,7 @@ namespace Ursula.GameObjects.View
         {
             IsGameObjectAddUserSourceVisible = value;
             this.IsEditMode = isEditMode;
+            Provider = GameObjectAssetsUserSource.LibId;
             EventArgs eventArgs = new EventArgs();
             InvokeGameObjectAddUserSourceVisibleEvent(eventArgs);
             return this;

@@ -8,7 +8,7 @@ namespace Ursula.GameObjects.Model
         string Id { get; }
         int ItemCount { get; }
 
-        GDTask Load();
+        GDTask Load(string JsonDataPath);
         IReadOnlyCollection<IGameObjectAsset> GetAll();
         bool ContainsItem(string name);
         bool TryGetItem(string name, out IGameObjectAsset asset);

@@ -11,8 +11,11 @@ namespace Ursula.GameObjects.Model
     public class GameObjectAssetsEmbeddedSource : GameObjectAssetJsonCollection, IInjectable
     {
         public const string LibId = "EmbeddedGameObjectAssets";
-        public const string CollectionPath = "user://Project/EmbeddedCollection/";
-        public const string JsonDataPath = CollectionPath + "EmbeddedSource.json";
+        public const string NameSource = "EmbeddedSource.json";
+        public static string AssetPath = ProjectFolderPath + CollectionPath;
+        public static string ProjectFolderPath;
+        public const string CollectionPath = "/EmbeddedCollection/";
+        public const string JsonDataPath = CollectionPath + NameSource;
 
         [Inject]
         private ISingletonProvider<GameObjectLibraryManager> _commonLibraryProvider;

@@ -51,7 +51,7 @@ namespace Ursula.GameProjects.View
                 LabelNameAsset.Visible = false;
             }
 
-            long sizeInBytes = (long)(assetInfo.ProjectSize / (1024.0 * 1024));
+            float sizeInBytes = (float)(assetInfo.ProjectSize / (1024.0 * 1024.0));
 
             LabelSizeAsset.Text = $"{sizeInBytes:F2} mb";
         }

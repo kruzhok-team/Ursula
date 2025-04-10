@@ -2,6 +2,8 @@
 using Fractural.Tasks;
 using Godot;
 using System;
+using System.IO;
+using System.IO.Compression;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 using Ursula.GameProjects.Model;
@@ -29,8 +31,13 @@ namespace Ursula.StartupMenu.View
         [Inject]
         private ISingletonProvider<GameObjectCurrentInfoModel> _gameObjectCurrentInfoModelProvider;
 
+        [Inject]
+        private ISingletonProvider<GameProjectCollectionViewModel> _gameProjectCollectionViewModelProvider;
+
+
         private StartupMenuModel _startupMenuModel { get; set; }
         private GameObjectCurrentInfoModel _gameObjectCurrentInfoModel { get; set; }
+        private GameProjectCollectionViewModel _gameProjectCollectionViewModel { get; set; }
 
         private FileDialogTool dialogTool;
 
@@ -46,6 +53,7 @@ namespace Ursula.StartupMenu.View
         {
             _startupMenuModel = await _startupMenuModelProvider.GetAsync();
             _gameObjectCurrentInfoModel = await _gameObjectCurrentInfoModelProvider.GetAsync();
+            _gameProjectCollectionViewModel = await _gameProjectCollectionViewModelProvider.GetAsync();
 
             _startupMenuModel.StartupMenuVisible_EventHandler += StartupMenuModel_StartupMenuVisible_EventHandler;
             _startupMenuModel.StartupMenuMouseFilterEvent_EventHandler += StartupMenuModel_StartupMenuMouseFilterEvent_EventHandler; ;
@@ -58,11 +66,15 @@ namespace Ursula.StartupMenu.View
 
         private void ButtonLoadFolderProject_ButtonDownEvent()
         {
-            dialogTool.OpenDir((path) =>
+            dialogTool.Open(new string[] { "*.zip ; Файл zip" }, (path) =>
             {
                 if (!string.IsNullOrEmpty(path))
                 {
+                    string extractPath = $"{ProjectSettings.GlobalizePath(GameProjectAssetsUserSource.CollectionPath)}/{Path.GetFileNameWithoutExtension(path)}";
+                    ZipFile.ExtractToDirectory(path, extractPath, overwriteFiles: true);
 
+                    _startupMenuModel.SetLoadLibrary();
+                    _gameProjectCollectionViewModel.SetVisibleView(true);
                 }
                 else
                     GD.PrintErr($"Ошибка  открытия {path}");

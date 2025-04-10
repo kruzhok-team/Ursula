@@ -95,7 +95,7 @@ namespace Ursula.Core.Initialization
             InstallSingleton<ConstructorWaterMenuViewModel>(services);
 
             InstallSingleton<ConstructorFloraMenuViewModel>(services);
-            
+
 
 
         }

@@ -16,6 +16,8 @@ namespace Ursula.GameObjects.Model
     {
         public const string LibId = "CommonGameObjectLibrary";
 
+        public event EventHandler GameObjectLibraryLoadLibraryEvent;
+
         private ISingletonProvider<GameObjectAssetsUserSource> _userLibraryProvider;
         private ISingletonProvider<GameObjectAssetsEmbeddedSource> _embeddedLibraryProvider;
 
@@ -43,6 +45,12 @@ namespace Ursula.GameObjects.Model
 
         public IGameObjectAssetProvider UserCollection => _userLib;
         public IGameObjectAssetProvider EmbeddedCollection => _embeddedLib;
+
+        public GameObjectLibraryManager LoadLibrary()
+        {
+            InvokeGameObjectLibraryLoadLibraryEvent();
+            return this;
+        }
 
         public bool IsItemExcluded(string itemId)
         {
@@ -98,6 +106,14 @@ namespace Ursula.GameObjects.Model
         {
             if (!CheckLoaded())
                 return false;
+
+            if (!TryGetItemProvider(itemId, out var provider))
+                return false;
+
+            if (provider == _userLib)
+                return _userLib.ContainsItem(itemId);
+            else if (provider == _embeddedLib)
+                return _embeddedLib.ContainsItem(itemId);
 
             return _commonAssetMap.ContainsKey(itemId);
         }
@@ -182,16 +198,23 @@ namespace Ursula.GameObjects.Model
             return provider.TryGetItem(itemId, out asset);
         }
 
-        public async GDTask Load()
+        public async GDTask Load(string _projectPath)
         {
-            if (IsDataLoaded)
-            {
-                //TODO: Log an error or warning due to data already loaded
-                return;
-            }
+            //if (IsDataLoaded)
+            //{
+            //    //TODO: Log an error or warning due to data already loaded
+            //    return;
+            //}
 
             _userLib = await _userLibraryProvider.GetAsync();
             _embeddedLib = await _embeddedLibraryProvider.GetAsync();
+
+            if (string.IsNullOrEmpty(_projectPath))
+            {
+                await _userLib.Load(null);
+                await _embeddedLib.Load(null);
+                return;
+            }
 
             if (_embeddedLib == null || _userLib == null)
             {
@@ -199,10 +222,10 @@ namespace Ursula.GameObjects.Model
                 return;
             }
 
-            if (!_userLib.IsDataLoaded)
-                await _userLib.Load();
-            if (!_embeddedLib.IsDataLoaded)
-                await _embeddedLib.Load();
+            //if (!_userLib.IsDataLoaded)
+            await _userLib.Load(_projectPath + "/" + GameObjectAssetsUserSource.JsonDataPath);
+            //if (!_embeddedLib.IsDataLoaded)
+            await _embeddedLib.Load(_projectPath + "/" + GameObjectAssetsEmbeddedSource.JsonDataPath);
 
             _commonAssetMap = LoadCommonAssetsInfo();
             _exclusions = LoadExclusions();
@@ -224,29 +247,18 @@ namespace Ursula.GameObjects.Model
             await SaveExclusions();
         }
 
-        public string GetAssetCollectionPath(string itemId)
+        public string GetAssetPath(string itemId)
         {
-            if (!string.IsNullOrEmpty(itemId))
-            {
-                if (itemId.Contains(GameObjectAssetsUserSource.LibId))
-                    return GameObjectAssetsUserSource.CollectionPath;
-                else if (itemId.Contains(GameObjectAssetsEmbeddedSource.LibId))
-                    return GameObjectAssetsEmbeddedSource.CollectionPath;
-            }
-
-            return "";
+            GameObjectAssetInfo assetInfo = GetItemInfo(itemId);
+            if (assetInfo == null) return null;
+            return assetInfo.GetAssetPath();
         }
 
         public string GetGraphXmlPath(string itemId)
         {
             GameObjectAssetInfo assetInfo = GetItemInfo(itemId);
-            return $"{GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}/{assetInfo.Template.GraphXmlPath}";
-        }
-
-        public string GetFullPath(string itemId, string relativePath)
-        {
-            GameObjectAssetInfo assetInfo = GetItemInfo(itemId);
-            return $"{GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}/{relativePath}";
+            if (assetInfo == null) return null;
+            return assetInfo.GetGraphXmlPath();
         }
 
         private bool TryGetItemProvider(string itemId, out IGameObjectAssetManager provider)
@@ -304,7 +316,8 @@ namespace Ursula.GameObjects.Model
 
         private async GDTask CheckEmbeddedAssets()
         {
-            if (!File.Exists(ProjectSettings.GlobalizePath(GameObjectAssetsEmbeddedSource.JsonDataPath)))
+            string path = $"{GameObjectAssetsEmbeddedSource.ProjectFolderPath}/{GameObjectAssetsEmbeddedSource.JsonDataPath}";
+            if (!File.Exists(path))
             {
                 var mapAssets = ResourceLoader.Load<MapAssets>(MapManagerData.MapManagerAssetPath);
 
@@ -369,6 +382,10 @@ namespace Ursula.GameObjects.Model
             return true;
         }
 
-
+        private void InvokeGameObjectLibraryLoadLibraryEvent()
+        {
+            var handler = GameObjectLibraryLoadLibraryEvent;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

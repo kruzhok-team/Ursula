@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using Fractural.Tasks;
+using Godot;
 using System;
 using System.Xml.Linq;
 
@@ -13,9 +14,9 @@ namespace Ursula.GameProjects.Model
 
         public GameProjectAssetInfo Info { get; private set; }
         public object PreviewImage => Info.GetPreviewImage();
-        public string FolderPath => Info.GetFolderPath();
+        public string FolderPath => Info.GetProjectPath();
         public string MapPath => Info.GetMapPath();
-        public bool LoadMap => Info.LoadMap();
+        public GDTask LoadMap => Info.LoadMap();
         public bool SaveMap => Info.SaveMap();
     }
 }

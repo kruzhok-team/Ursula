@@ -1134,12 +1134,12 @@ expand_mode = 1
 
 [node name="FileDialog" type="FileDialog" parent="."]
 auto_translate_mode = 1
-title = "Open a Directory"
+title = "Open a File"
 initial_position = 3
 size = Vector2i(563, 380)
 current_screen = 0
-ok_button_text = "Select Current Folder"
-file_mode = 2
+ok_button_text = "Open"
+file_mode = 0
 access = 2
 
 [node name="Control" type="Control" parent="FileDialog"]

@@ -29,7 +29,7 @@ namespace Ursula.GameObjects.View
         {
             base._Ready();
 
-            _ = Load();
+            _ = Load(null);
             _ = SubscribeEvent();
         }
 
@@ -43,21 +43,29 @@ namespace Ursula.GameObjects.View
             await DrawCommonCollection();
         }
 
-        private async GDTask Load()
+        public async GDTask Load(string _projectPath)
         {
             _commonLibrary = await _commonLibraryProvider.GetAsync();
-            await _commonLibrary.Load();
+            await _commonLibrary.Load(_projectPath);
         }
 
         private async GDTask SubscribeEvent()
         {
+            _commonLibrary = await _commonLibraryProvider.GetAsync();
+            _commonLibrary.GameObjectLibraryLoadLibraryEvent += CommonLibrary_GameObjectLibraryLoadLibrary_EventHandler;
+
             _hudModel = await _hudModelProvider.GetAsync();
             _hudModel.GameObjectLibraryVisibleEvent += HUDViewModel_ShowLibrary_EventHandler;
 
             _gameObjectCollectionModel = await _gameObjectCollectionModelProvider.GetAsync();
-            _gameObjectCollectionModel.GameObjectCollectionVisibleChangeEvent += _gameObjectCollectionModel_GameObjectCollectionVisibleChange_EventHandler;
+            _gameObjectCollectionModel.GameObjectCollectionVisibleChangeEvent += GameObjectCollectionModel_GameObjectCollectionVisibleChange_EventHandler;
 
-            _gameObjectCollectionModel.GameObjectDrawCollectionEvent += _gameObjectCollectionModel_GameObjectDrawCollection_EventHandler;
+            _gameObjectCollectionModel.GameObjectDrawCollectionEvent += GameObjectCollectionModel_GameObjectDrawCollection_EventHandler;
+        }
+
+        private void CommonLibrary_GameObjectLibraryLoadLibrary_EventHandler(object sender, EventArgs e)
+        {
+            //_ = Load();
         }
 
         private async GDTask DrawCommonCollection()
@@ -71,7 +79,7 @@ namespace Ursula.GameObjects.View
             OnShow();
         }
 
-        private void _gameObjectCollectionModel_GameObjectCollectionVisibleChange_EventHandler(object sender, EventArgs e)
+        private void GameObjectCollectionModel_GameObjectCollectionVisibleChange_EventHandler(object sender, EventArgs e)
         {
             bool isVisible = _gameObjectCollectionModel.IsCollectionVisible;
             if (isVisible)
@@ -80,9 +88,11 @@ namespace Ursula.GameObjects.View
             }
         }
 
-        async void _gameObjectCollectionModel_GameObjectDrawCollection_EventHandler(object sender, EventArgs e)
+        async void GameObjectCollectionModel_GameObjectDrawCollection_EventHandler(object sender, EventArgs e)
         {
             await DrawCommonCollection();
         }
+
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Fractural.Tasks;
 using Godot;
 using System;
+using System.IO;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -24,6 +25,20 @@ namespace Ursula.GameObjects.Model
 
         private Texture2D previewImage;
 
+        public string GetAssetPath()
+        {
+            if (ProviderId == GameObjectAssetsUserSource.LibId)
+                return $"{GameObjectAssetsUserSource.ProjectPath}{GameObjectAssetsUserSource.CollectionPath}{Name}";
+            else if (ProviderId == GameObjectAssetsEmbeddedSource.LibId)
+                return $"{GameObjectAssetsUserSource.ProjectPath}{GameObjectAssetsEmbeddedSource.CollectionPath}{Name}";
+            return null;
+        }
+
+        public string GetGraphXmlPath()
+        {
+            return $"{GetAssetPath()}/{Template.GraphXmlPath}";
+        }
+
         public async GDTask<Texture2D> GetPreviewImage()
         {
             if (previewImage != null) return previewImage;
@@ -32,10 +47,11 @@ namespace Ursula.GameObjects.Model
             string collectionPath = "";
 
 //#if TOOLS
-            path = $"{GameObjectAssetsUserSource.CollectionPath}{Template.Folder}/{Template.PreviewImageFilePath}";
-//#else
-//            path = $"{VoxLib.mapManager.GetCurrentProjectFolderPath()}{Template.Folder}/{Template.PreviewImageFilePath}";
-//#endif
+            path = $"{GetAssetPath()}/{Template.PreviewImageFilePath}";
+            //#else
+            //            path = $"{VoxLib.mapManager.GetCurrentProjectFolderPath()}{Template.Folder}/{Template.PreviewImageFilePath}";
+            //#endif
+
             if (ProviderId == GameObjectAssetsUserSource.LibId)
                 previewImage = await _LoadPreviewImage(path);
             else
@@ -55,6 +71,8 @@ namespace Ursula.GameObjects.Model
         {
             Texture2D tex;
             Image img = new Image();
+
+            if (!File.Exists(path)) return null;
 
             var err = await Task.Run(() => img.Load(path));
 

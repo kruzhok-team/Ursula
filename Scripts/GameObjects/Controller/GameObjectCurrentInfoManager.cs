@@ -50,9 +50,9 @@ namespace Ursula.GameObjects.Controller
 
             _gameObjectCollectionModel.GameObjectAssetSelectedEvent += GameObjectCollectionModel_GameObjectAssetSelected_EventHandler;
 
-            _gameObjectCurrentInfoModel.RemoveCurrentInfoGraphXmlEvent += _gameObjectCurrentInfoModel_RemoveCurrentInfoGraphXmlEventHandler;
-            _gameObjectCurrentInfoModel.RemoveCurrentInfoAudioEvent += _gameObjectCurrentInfoModel_RemoveCurrentInfoAudioEventHandler;
-            _gameObjectCurrentInfoModel.RemoveCurrentInfoAnimationEvent += _gameObjectCurrentInfoModel_RemoveCurrentInfoAnimationEventHandler;
+            _gameObjectCurrentInfoModel.RemoveCurrentInfoGraphXmlEvent += GameObjectCurrentInfoModel_RemoveCurrentInfoGraphXmlEventHandler;
+            _gameObjectCurrentInfoModel.RemoveCurrentInfoAudioEvent += GameObjectCurrentInfoModel_RemoveCurrentInfoAudioEventHandler;
+            _gameObjectCurrentInfoModel.RemoveCurrentInfoAnimationEvent += GameObjectCurrentInfoModel_RemoveCurrentInfoAnimationEventHandler;
 
         }
 
@@ -60,19 +60,9 @@ namespace Ursula.GameObjects.Controller
         {
             currentItemId = _gameObjectCollectionModel.AssetSelected.Id;
             GameObjectAssetInfo assetInfo = _gameObjectLibraryManager.GetItemInfo(currentItemId);
+            _gameObjectAddGameObjectAssetModel.assetInfo = assetInfo;
 
-            string destPath = "";
-
-            if (_gameObjectCollectionModel.AssetSelected.ProviderId == GameObjectAssetsUserSource.LibId)
-            {
-                destPath = ProjectSettings.GlobalizePath(GameObjectAssetsUserSource.CollectionPath + Path.GetFileNameWithoutExtension(assetInfo.Template.Folder) + "/");
-                _gameObjectAddGameObjectAssetModel.Provider = GameObjectAssetsUserSource.LibId;
-            }
-            else if (_gameObjectCollectionModel.AssetSelected.ProviderId == GameObjectAssetsEmbeddedSource.LibId)
-            {
-                destPath = ProjectSettings.GlobalizePath(GameObjectAssetsEmbeddedSource.CollectionPath + Path.GetFileNameWithoutExtension(assetInfo.Template.Folder) + "/");
-                _gameObjectAddGameObjectAssetModel.Provider = GameObjectAssetsEmbeddedSource.LibId;
-            }
+            string destPath = $"{assetInfo.GetAssetPath()}/";
 
             if (string.IsNullOrEmpty(destPath)) return;
 
@@ -108,11 +98,11 @@ namespace Ursula.GameObjects.Controller
             }
         }
 
-        private async void _gameObjectCurrentInfoModel_RemoveCurrentInfoGraphXmlEventHandler(object sender, EventArgs e)
+        private async void GameObjectCurrentInfoModel_RemoveCurrentInfoGraphXmlEventHandler(object sender, EventArgs e)
         {
             GameObjectAssetInfo assetInfo = _gameObjectLibraryManager.GetItemInfo(currentItemId);
 
-            string pathGraphXml = _gameObjectLibraryManager.GetGraphXmlPath(assetInfo.Id);
+            string pathGraphXml = assetInfo.GetGraphXmlPath();
 
             _DeleteFile(ProjectSettings.GlobalizePath(pathGraphXml));
 
@@ -137,7 +127,7 @@ namespace Ursula.GameObjects.Controller
                 File.Delete(path);
         }
 
-        private async void _gameObjectCurrentInfoModel_RemoveCurrentInfoAudioEventHandler(object sender, EventArgs e)
+        private async void GameObjectCurrentInfoModel_RemoveCurrentInfoAudioEventHandler(object sender, EventArgs e)
         {
             GameObjectAssetInfo assetInfo = _gameObjectLibraryManager.GetItemInfo(currentItemId);
 
@@ -146,7 +136,7 @@ namespace Ursula.GameObjects.Controller
 
             List<string> audios = assetInfo.Template.Sources.Audios;
             audios.Remove(relativePath);
-            string path = _gameObjectLibraryManager.GetFullPath(currentItemId, relativePath);
+            string path = $"{assetInfo.GetAssetPath()}/{relativePath}";
 
             _DeleteFile(ProjectSettings.GlobalizePath(path));
 
@@ -165,7 +155,7 @@ namespace Ursula.GameObjects.Controller
             await _gameObjectLibraryManager.Save();
         }
 
-        private async void _gameObjectCurrentInfoModel_RemoveCurrentInfoAnimationEventHandler(object sender, EventArgs e)
+        private async void GameObjectCurrentInfoModel_RemoveCurrentInfoAnimationEventHandler(object sender, EventArgs e)
         {
             GameObjectAssetInfo assetInfo = _gameObjectLibraryManager.GetItemInfo(currentItemId);
 
@@ -174,7 +164,7 @@ namespace Ursula.GameObjects.Controller
 
             List<string> animations = assetInfo.Template.Sources.Animations;
             animations.Remove(relativePath);
-            string path = _gameObjectLibraryManager.GetFullPath(currentItemId, relativePath);
+            string path = $"{assetInfo.GetAssetPath()}/{relativePath}";
 
             _DeleteFile(ProjectSettings.GlobalizePath(path));
 

@@ -135,12 +135,12 @@ namespace Ursula.GameProjects.Model
 
         public async GDTask Load()
         {
-            if (IsDataLoaded)
-            {
-                //TODO: Log a data already loaded warning here
-                GD.PrintErr($"Error load _jsonFilePath={_folderPath}");
-                return;
-            }
+            //if (IsDataLoaded)
+            //{
+            //    //TODO: Log a data already loaded warning here
+            //    GD.PrintErr($"Error load _jsonFilePath={_folderPath}");
+            //    return;
+            //}
 
             IsDataLoaded = true;
 

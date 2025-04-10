@@ -206,7 +206,7 @@ namespace Ursula.GameObjects.View
             string gameObjectGroup = gameObjectGroups[OptionButtonGroupObject.Selected];
             string gameObjectSample = TextEditSampleObject.Text;
 
-            destPath = GameObjectAssetsUserSource.CollectionPath + TextEditModelName.Text + "/";
+            destPath = GameObjectAssetsUserSource.ProjectPath + "/" + GameObjectAssetsUserSource.CollectionPath + TextEditModelName.Text + "/";
             model.SetDestPath(destPath);
             model.SetGraphXmlPath(graphXmlPath);
             model.Provider = GameObjectAssetsUserSource.LibId;
@@ -247,6 +247,8 @@ namespace Ursula.GameObjects.View
         private void FillAnimationListFromGlb(Node glbMeshNode)
         {
             var animationPlayer = GLTFLoader.GetAnimationPlayer(glbMeshNode);
+
+            if (animationPlayer == null) return;
 
             var list = animationPlayer.GetAnimationList();
 
@@ -402,6 +404,7 @@ namespace Ursula.GameObjects.View
         private void AddGameObjectAssetModel_GameObjectAddAssetToCollection_EventHandler(object sender, EventArgs e)
         {
             ClearData();
+            OnShow(false);
         }
 
         private async void RedrawAll()

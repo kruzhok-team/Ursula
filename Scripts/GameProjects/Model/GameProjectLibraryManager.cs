@@ -6,6 +6,7 @@ using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 
 
+
 namespace Ursula.GameProjects.Model
 {
     public partial class GameProjectLibraryManager : IGameProjectLibraryManager, IInjectable
@@ -20,11 +21,12 @@ namespace Ursula.GameProjects.Model
 
         private GameProjectAssetsUserSource _userLib;
         private GameProjectAssetsEmbeddedSource _embeddedLib;
+
         private Dictionary<string, CommonGameProjectLibraryItem> _commonAssetMap;
         private HashSet<string> _exclusions;
 
 
-        public EventHandler GameProjectLoadProject_EventHandler;
+        public EventHandler GameProjectSetLoadProject_Event;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -160,11 +162,11 @@ namespace Ursula.GameProjects.Model
 
         public async GDTask Load()
         {
-            if (IsDataLoaded)
-            {
-                //TODO: Log an error or warning due to data already loaded
-                return;
-            }
+            //if (IsDataLoaded)
+            //{
+            //    //TODO: Log an error or warning due to data already loaded
+            //    return;
+            //}
 
             _userLib = await _userLibraryProvider.GetAsync();
             _embeddedLib = await _embeddedLibraryProvider.GetAsync();
@@ -175,9 +177,9 @@ namespace Ursula.GameProjects.Model
                 return;
             }
 
-            if (!_userLib.IsDataLoaded)
+            //if (!_userLib.IsDataLoaded)
                 await _userLib.Load();
-            if (!_embeddedLib.IsDataLoaded)
+            //if (!_embeddedLib.IsDataLoaded)
                 await _embeddedLib.Load();
 
             _commonAssetMap = LoadCommonAssetsInfo();
@@ -243,16 +245,18 @@ namespace Ursula.GameProjects.Model
             currentProjectInfo = info;
         }
 
-        public void LoadProject(GameProjectAssetInfo info)
+        public void SetLoadProject(GameProjectAssetInfo info)
         {
             SetCurrentProjectInfo(info);
-            info.LoadMap();
-            InvokeLoadProjectEvent();
+            GameObjectAssetsUserSource.ProjectPath = info.GetProjectPath();
+            GameObjectAssetsEmbeddedSource.ProjectFolderPath = info.GetProjectPath();
+
+            InvokeSetLoadProjectEvent();
         }
 
-        private void InvokeLoadProjectEvent()
+        private void InvokeSetLoadProjectEvent()
         {
-            var handler = GameProjectLoadProject_EventHandler;
+            var handler = GameProjectSetLoadProject_Event;
             handler?.Invoke(this, EventArgs.Empty);
         }
     }

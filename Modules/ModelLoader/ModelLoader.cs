@@ -142,8 +142,6 @@ public partial class ModelLoader : Node
             }
         }
 
-        VoxLib.mapManager.LoadCustomItems();
-
         GD.Print($"Скопирована модель {objPath} в {destObjPath}");
     }
 }

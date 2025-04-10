@@ -12,7 +12,7 @@ namespace Ursula.StartupMenu.Model
 
         public event EventHandler ButtonCreateGame_EventHandler;
         public event EventHandler ButtonLoadGame_EventHandler;
-
+        public event EventHandler LoadLibrary_Event;
 
 
         void IInjectable.OnDependenciesInjected()
@@ -45,6 +45,11 @@ namespace Ursula.StartupMenu.Model
             return this;
         }
 
+        public StartupMenuModel SetLoadLibrary()
+        {
+            InvokeLoadLibraryEvent();
+            return this;
+        }
 
         private void InvokeMenuVisibleEvent()
         {
@@ -67,6 +72,12 @@ namespace Ursula.StartupMenu.Model
         private void InvokeButtonLoadGameEvent()
         {
             var handler = ButtonLoadGame_EventHandler;
+            handler?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void InvokeLoadLibraryEvent()
+        {
+            var handler = LoadLibrary_Event;
             handler?.Invoke(this, EventArgs.Empty);
         }
     }

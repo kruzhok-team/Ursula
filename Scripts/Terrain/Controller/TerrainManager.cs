@@ -141,29 +141,29 @@ public partial class TerrainManager : TerrainModel, IInjectable
         Rid map = VoxLib.mapManager.navigationRegion3D.GetNavigationMap();
 
 		VoxLib.mapManager.navigationRegion3D.BakeNavigationMesh();
-		
-		//for (int i = 0; i < VoxLib.mapManager.gameItems.Count; i++)
-		//{
-		//	NavigationObstacle3D obstacle3D = VoxLib.mapManager.gameItems[i].FindChild("NavigationObstacle3D", true, true) as NavigationObstacle3D;
-		//	if (obstacle3D != null)
-		//	{
-		//		var RID = NavigationServer3D.ObstacleCreate();
 
-		//		NavigationServer3D.ObstacleSetMap(RID, map);
-		//		NavigationServer3D.ObstacleSetPosition(RID, obstacle3D.Position);
-		//		//NavigationServer3D.ObstacleSetRadius(RID, obstacle3D.Radius);
+        //for (int i = 0; i < VoxLib.mapManager.gameItems.Count; i++)
+        //{
+        //	NavigationObstacle3D obstacle3D = VoxLib.mapManager.gameItems[i].FindChild("NavigationObstacle3D", true, true) as NavigationObstacle3D;
+        //	if (obstacle3D != null)
+        //	{
+        //		var RID = NavigationServer3D.ObstacleCreate();
 
-		//		NavigationServer3D.ObstacleSetVertices(RID, obstacle3D.Vertices);
-		//		NavigationServer3D.ObstacleSetHeight(RID, obstacle3D.Height);
+        //		NavigationServer3D.ObstacleSetMap(RID, map);
+        //		NavigationServer3D.ObstacleSetPosition(RID, obstacle3D.Position);
+        //		//NavigationServer3D.ObstacleSetRadius(RID, obstacle3D.Radius);
 
-		//		NavigationServer3D.ObstacleSetAvoidanceEnabled(RID, true);
-		//	}
-		//}
+        //		NavigationServer3D.ObstacleSetVertices(RID, obstacle3D.Vertices);
+        //		NavigationServer3D.ObstacleSetHeight(RID, obstacle3D.Height);
 
-		//var obstacles = NavigationServer3D.MapGetObstacles(map);
-		//GD.Print($"Added nav mesh obstacles: count= {obstacles.Count}");
+        //		NavigationServer3D.ObstacleSetAvoidanceEnabled(RID, true);
+        //	}
+        //}
 
+        //var obstacles = NavigationServer3D.MapGetObstacles(map);
+        //GD.Print($"Added nav mesh obstacles: count= {obstacles.Count}");
 
+        GD.Print($"NavMesh {navMesh} baked.");
     }
 
 	public float MaxHeightTerrain

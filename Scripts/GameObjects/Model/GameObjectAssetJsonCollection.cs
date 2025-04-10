@@ -13,7 +13,7 @@ namespace Ursula.GameObjects.Model
     // Json asset collection partial implementation
     public class GameObjectAssetJsonCollection : IGameObjectAssetManager
     {
-        private string _jsonFilePath;
+        public string _jsonFilePath;
         private Dictionary<string, IGameObjectAsset> _cachedAssetMap;
         private Dictionary<string, GameObjectAssetInfo> _infoMap;
 
@@ -27,6 +27,11 @@ namespace Ursula.GameObjects.Model
 
         public string Id { get; private set; } = string.Empty;
         public bool IsDataLoaded { get; private set; } = false;
+
+        public void SetPathJson(string path)
+        {
+            _jsonFilePath = path;
+        }
 
         public int ItemCount
         {
@@ -69,7 +74,7 @@ namespace Ursula.GameObjects.Model
             if (string.IsNullOrEmpty(itemId))
                 return false;
 
-            return _cachedAssetMap.ContainsKey(itemId);
+            return _infoMap.ContainsKey(itemId);
         }
 
         public bool TryGetItem(string itemId, out IGameObjectAsset asset)
@@ -126,19 +131,21 @@ namespace Ursula.GameObjects.Model
             _infoMap.Remove(itemId);
         }
 
-        public async GDTask Load()
+        public async GDTask Load(string _jsonFilePath)
         {
-            if (IsDataLoaded)
-            {
-                //TODO: Log a data already loaded warning here
-                return;
-            }
+            //if (IsDataLoaded)
+            //{
+            //    //TODO: Log a data already loaded warning here
+            //    return;
+            //}
+
+            this._jsonFilePath = _jsonFilePath;
 
             IsDataLoaded = true;
             // TODO: Implement _sources deserialization from a json file by _jsonFilePath
             //throw new NotImplementedException();
 
-            if (!File.Exists(ProjectSettings.GlobalizePath(_jsonFilePath)))
+            if (string.IsNullOrEmpty(_jsonFilePath) || !File.Exists(ProjectSettings.GlobalizePath(_jsonFilePath)))
             {
                 GD.Print($"Object file not found {_jsonFilePath}. Creating a new list.");
                 _infoMap = new Dictionary<string, GameObjectAssetInfo>();
@@ -163,6 +170,10 @@ namespace Ursula.GameObjects.Model
 
             // TODO: Implement sources serialization to a json file by _jsonFilePath
             //throw new NotImplementedException();
+
+            string pathDir = Path.GetDirectoryName(_jsonFilePath);
+            if (!Directory.Exists(pathDir)) Directory.CreateDirectory(pathDir);
+
 
             var options = new JsonSerializerOptions
             {
@@ -216,7 +227,7 @@ namespace Ursula.GameObjects.Model
             {
                 // :TODO fix build paths
 //#if TOOLS
-                model3dFilePath = $"{GameObjectAssetsUserSource.CollectionPath}{assetInfo.Template.Folder}/{model3dFilePath}";
+                model3dFilePath = $"{assetInfo.GetAssetPath()}/{model3dFilePath}";
 //#else
 //                model3dFilePath = $"{VoxLib.mapManager.GetCurrentProjectFolderPath()}{assetInfo.Template.Folder}/{model3dFilePath}";
 //#endif

@@ -24,7 +24,6 @@ public partial class VoxLib : Node
 	public static WaterManager waterManager;
 
 	public static string SETTINGPATH = "user://settings.cfg";
-    public const string GAMESPATH = "user://Project/Games/";
 
     Texture texture;
 

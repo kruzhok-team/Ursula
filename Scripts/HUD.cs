@@ -169,7 +169,7 @@ public partial class HUD : Control, IInjectable
     public void SetSensitivity(float sence)
     {
         if (TryGetSettingsModel(out var settingsModel))
-            settingsModel.SetSensitivity(sence).Save();
+            settingsModel.SetSensitivity(sence/100).Save();
     }
 
     public void SaveLengthOfDay(float value)
@@ -320,7 +320,7 @@ public partial class HUD : Control, IInjectable
             return;
         }
 
-        SliderMouseSence.Value = model.Sensitivity;
+        SliderMouseSence.Value = model.Sensitivity * 100;
         optionButtonShadow.Selected = model.ShadowEnabled;
     }
 

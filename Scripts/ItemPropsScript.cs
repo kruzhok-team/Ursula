@@ -74,7 +74,7 @@ public partial class ItemPropsScript : ItemBase
 
         var interactiveObject = GetNodeOrNull("InteractiveObject") as InteractiveObject;
         if (interactiveObject == null) interactiveObject = GetParent().GetNodeOrNull("InteractiveObject") as InteractiveObject;
-        interactiveObject?.onThisInteraction.Invoke();
+        interactiveObject?.onThisInteraction?.Invoke();
 
         var baseAnimation = GetNodeOrNull("AnimationObject") as BaseAnimation;
         if (baseAnimation == null) baseAnimation = GetParent().GetNodeOrNull("AnimationObject") as BaseAnimation;

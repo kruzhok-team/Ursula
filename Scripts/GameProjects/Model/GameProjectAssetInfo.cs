@@ -1,15 +1,18 @@
 ﻿using Fractural.Tasks;
 using Godot;
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 
 namespace Ursula.GameProjects.Model
 {
     [Serializable]
-    public partial class GameProjectAssetInfo
+    public partial class GameProjectAssetInfo: IInjectable
     {
         [JsonConstructor]
         public GameProjectAssetInfo(string name, string providerId, GameProjectTemplate template)
@@ -28,11 +31,15 @@ namespace Ursula.GameProjects.Model
         {
             get
             {
-                return GetDirectorySize(GetFolderPath());
+                return GetDirectorySize(GetProjectPath());
             }
         }
 
         private Texture2D previewImage;
+
+        void IInjectable.OnDependenciesInjected()
+        {
+        }
 
         public async GDTask<Texture2D> GetPreviewImage()
         {
@@ -47,7 +54,12 @@ namespace Ursula.GameProjects.Model
             return previewImage;
         }
 
-        public string GetFolderPath()
+        public string GetJsonDataPath()
+        {
+            return $"{GetProjectPath()}/{GameObjectAssetsUserSource.NameSource}";
+        }
+
+        public string GetProjectPath()
         {
             string path = ProviderId == GameProjectAssetsUserSource.LibId
                 ? $"{GameProjectAssetsUserSource.FolderPath}{Name}"
@@ -57,16 +69,13 @@ namespace Ursula.GameProjects.Model
 
         public string GetMapPath()
         {
-            return $"{GetFolderPath()}/{GameProjectLibraryManager.MapName}";
+            return $"{GetProjectPath()}/{GameProjectLibraryManager.MapName}";
         }
 
-        public bool LoadMap()
+        public async GDTask LoadMap()
         {
             string pathMap = GetMapPath();
-
-            VoxLib.mapManager.LoadMapFromFile(pathMap);
-
-            return true;
+            await VoxLib.mapManager.LoadMapFromFile(pathMap);
         }
 
         public bool SaveMap()
@@ -76,6 +85,88 @@ namespace Ursula.GameProjects.Model
             VoxLib.mapManager.SaveMapToFile(pathMap);
 
             return true;
+        }
+
+        public async GDTask ExportProject()
+        {
+            string exportFolder = GetExportFolderPath();
+            string projectFolder = GetProjectPath();
+
+            //if (!Directory.Exists(exportFolder))
+            //    Directory.CreateDirectory(exportFolder);
+
+            string pathZip = $"{projectFolder}.zip";
+            if (File.Exists(pathZip)) File.Delete(pathZip);
+
+            //CopyFolder(projectFolder, exportFolder);
+
+            await GDTask.Delay(1000);
+
+            ZipFile.CreateFromDirectory(projectFolder, pathZip);
+
+            string path = Path.GetDirectoryName(pathZip);
+            OpenInExplorer(path);
+        }
+
+        private string GetExportFolderPath()
+        {
+            string path = $"{GetExportFolderGamePath()}{Name}";
+            return ProjectSettings.GlobalizePath(path);
+        }
+
+        private string GetExportFolderGamePath()
+        {
+            string executablePath = OS.GetExecutablePath();
+            string executableDirectory = Path.GetDirectoryName(executablePath);
+
+            string path = $"{executableDirectory}/{GameProjectAssetsEmbeddedSource.CollectionPath}";
+            return ProjectSettings.GlobalizePath(path);
+        }
+
+        private void CopyFolder(string sourcePath, string destinationPath)
+        {
+            try
+            {
+                if (!Directory.Exists(destinationPath))
+                {
+                    Directory.CreateDirectory(destinationPath);
+                }
+
+                foreach (string filePath in Directory.GetFiles(sourcePath))
+                {
+                    string fileName = Path.GetFileName(filePath);
+                    string destinationFilePath = Path.Combine(destinationPath, fileName);
+                    File.Copy(filePath, destinationFilePath, overwrite: true);
+                    GD.Print($"Скопирован файл: {fileName}");
+                }
+
+                foreach (string subDirPath in Directory.GetDirectories(sourcePath))
+                {
+                    string subDirName = Path.GetFileName(subDirPath);
+                    string destinationSubDirPath = Path.Combine(destinationPath, subDirName);
+                    CopyFolder(subDirPath, destinationSubDirPath);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                GD.PrintErr($"Ошибка при копировании папки: {ex.Message}");
+            }
+        }
+
+        private void OpenInExplorer(string path)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo()
+                {
+                    FileName = path,
+                    UseShellExecute = true
+                });
+            }
+            catch (System.Exception ex)
+            {
+                GD.PrintErr("Ошибка при открытии папки: ", ex.Message);
+            }
         }
 
         private async GDTask<Texture2D> _LoadPreviewImage(string path)

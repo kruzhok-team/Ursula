@@ -78,7 +78,7 @@ namespace Ursula.GameProjects.View
 
         private void ClickItem_SelectEvent(GameProjectAssetInfo asset)
         {
-            _commonLibrary.LoadProject(asset);
+            _commonLibrary.SetLoadProject(asset);
         }
     }
 }

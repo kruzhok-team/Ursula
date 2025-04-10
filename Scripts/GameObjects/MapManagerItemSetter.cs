@@ -44,6 +44,8 @@ namespace Ursula.MapManagers.Setters
         {
             base._Ready();
             _ = SubscribeEvent();
+
+            //_mapManager.AddChild(_mapManagerModel._mapManagerData.itemsGO);
         }
 
         private async GDTask SubscribeEvent()
@@ -75,6 +77,8 @@ namespace Ursula.MapManagers.Setters
 
             if (asset == null) return;
 
+            if (!_gameObjectLibraryManager.ContainsItem(asset.Id)) return;
+
             Vector3 positionNode = _gameObjectCreateItemsModel.PositionNode;
             float scaleNode = _gameObjectCreateItemsModel.ScaleNode;
             byte rotationNode = _gameObjectCreateItemsModel.RotationNode;
@@ -86,6 +90,10 @@ namespace Ursula.MapManagers.Setters
             int id = _x + _y * 256 + _z * 256 * 256;
 
             Node item = CreateGameItem(asset, rotationNode, scaleNode, _x, positionNode.Y, _z, 0, id, false);
+            Node3D node3D = item as Node3D;
+            //if (_mapManager.itemsGO == null) _mapManager.itemsGO = new Node3D();
+            //_mapManager.itemsGO.AddChild(node3D);
+            //VoxLib.mapManager.navigationRegion3D.AddChild(node3D);
         }
 
         private void DeleteItem()
@@ -112,6 +120,7 @@ namespace Ursula.MapManagers.Setters
 
             IGameObjectAsset asset;
             bool isTryGetItem = _gameObjectLibraryManager.TryGetItem(assetInfo.Id, out asset);
+            if (!isTryGetItem) return null;
             if (asset.Model3d == null) return null;
 
             Node3D node = asset.Model3d as Node3D;
@@ -163,7 +172,7 @@ namespace Ursula.MapManagers.Setters
                     io.xmlPath = assetInfo.Template.GraphXmlPath;
                     if (string.IsNullOrEmpty(AssetFoderPath))
                     {
-                        io.xmlPath = $"{_gameObjectLibraryManager.GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}/{io.xmlPath}";
+                        io.xmlPath = $"{assetInfo.GetAssetPath()}/{io.xmlPath}";
                     }
                     else
                     {
@@ -177,7 +186,7 @@ namespace Ursula.MapManagers.Setters
                     List<string> audios = new List<string>();
                     for (int j = 0; j < assetInfo.Template.Sources.Audios.Count; j++)
                     {
-                        audios.Add($"{_gameObjectLibraryManager.GetAssetCollectionPath(assetInfo.Id)}{assetInfo.Template.Folder}/{assetInfo.Template.Sources.Audios[j]}");
+                        audios.Add($"{assetInfo.GetAssetPath()}/{assetInfo.Template.Sources.Audios[j]}");
                     }
                     io.SetAudiosPathes(audios);
                 }

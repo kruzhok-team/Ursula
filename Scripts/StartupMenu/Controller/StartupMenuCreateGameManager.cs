@@ -69,11 +69,11 @@ namespace Ursula.StartupMenu.Model
             _ = SubscribeEvent();
         }
 
-        public void GeneratePlants()
+        public async GDTask GeneratePlants()
         {
             _mapManagerModel.RemoveAllGameItems();
-            GenerateTrees();
-            GenerateGrass();
+            await GenerateTrees();
+            await GenerateGrass();
         }
 
         private async GDTask SubscribeEvent()
@@ -93,7 +93,7 @@ namespace Ursula.StartupMenu.Model
             _startupMenuCreateGameViewModel.StartGeneratePlants_EventHandler += StartupMenuCreateGameViewModel_StartGeneratePlants_EventHandler;
         }
 
-        private void StartupMenuCreateGameViewModel_StartGenerateGame_EventHandler(object sender, EventArgs e)
+        private async void StartupMenuCreateGameViewModel_StartGenerateGame_EventHandler(object sender, EventArgs e)
         {
             GameProjectAssetInfo gameInfo = _gameProjectLibraryManager.currentProjectInfo;
 
@@ -111,7 +111,7 @@ namespace Ursula.StartupMenu.Model
             _gameProjectLibraryManager.SaveItem(gameInfoNew.Id, gameInfoNew.ProviderId);
 
             string fileName = Path.GetFileName(_startupMenuCreateGameViewModel._CreateGameSourceData.GameImagePath);
-            string destPath = $"{_gameProjectLibraryManager.currentProjectInfo.GetFolderPath()}/{fileName}";
+            string destPath = $"{_gameProjectLibraryManager.currentProjectInfo.GetProjectPath()}/{fileName}";
             CopyFile(_startupMenuCreateGameViewModel._CreateGameSourceData.GameImagePath, destPath);
 
             _terrainModel.SetScale(_startupMenuCreateGameViewModel._CreateGameSourceData.PowerValue);
@@ -132,12 +132,16 @@ namespace Ursula.StartupMenu.Model
             string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
             IReadOnlyCollection<GameObjectAssetInfo> assets = _commonLibrary.GetInfoOnGroup(gameObjectGroups[0], _startupMenuCreateGameViewModel._CreateGameSourceData.TreeProviderID);
 
-            GeneratePlants();
+            await GeneratePlants();
+
+            _gameProjectLibraryManager.SetCurrentProjectInfo(gameInfoNew);
+            gameInfoNew.SaveMap();
+
         }
 
         private void StartupMenuCreateGameViewModel_StartGeneratePlants_EventHandler(object sender, EventArgs e)
         {
-            GeneratePlants();
+            _= GeneratePlants();
         }
 
         private void CopyFile(string path, string destPath)
@@ -152,7 +156,7 @@ namespace Ursula.StartupMenu.Model
             }
         }
 
-        private async void GenerateTrees()
+        private async GDTask GenerateTrees()
         {
             float treesDensity = _startupMenuCreateGameViewModel._CreateGameSourceData.TreesDensity;
 
@@ -190,7 +194,7 @@ namespace Ursula.StartupMenu.Model
             //_mapManager.GenerateTrees(trees, amountTrees);
         }
 
-        private async void GenerateGrass()
+        private async GDTask GenerateGrass()
         {
             float grassDensity = _startupMenuCreateGameViewModel._CreateGameSourceData.TreesDensity;
 

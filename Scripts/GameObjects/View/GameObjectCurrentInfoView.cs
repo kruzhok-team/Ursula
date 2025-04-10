@@ -105,6 +105,7 @@ namespace Ursula.GameObjects.View
 
         private string itemId;
         private bool showInfo = true;
+        private bool isAssetDataChanged = false;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -116,11 +117,13 @@ namespace Ursula.GameObjects.View
             dialogTool = new FileDialogTool(GetNode("FileDialog") as FileDialog);
 
             TextEditModelName.MouseExited += TextEditModelName_TextChangedEventHandler;
+            TextEditModelName.TextChanged += AssetData_Changed;
 
             ButtonOpenPreviewImage.ButtonDown += ButtonOpenPreviewImage_DownEventHandler;
 
             OptionButtonGroupObject.ItemSelected += OptionButtonGroupObject_ItemSelectedEventHandler;
             TextEditSampleObject.MouseExited += TextEditSampleObject_TextChangedEventHandler;
+            TextEditSampleObject.TextChanged += AssetData_Changed;
 
             ButtonOpenGraphXmlPath.ButtonDown += ButtonOpenGraphXmlPath_DownEventHandler;
             ButtonEditGraphXmlPath.ButtonDown += ButtonEditGraphXmlPath_DownEventHandler;
@@ -146,6 +149,11 @@ namespace Ursula.GameObjects.View
             ContainerInfoVisible();
 
             _ = SubscribeEvent();
+        }
+
+        private void AssetData_Changed()
+        {
+            isAssetDataChanged = true;
         }
 
         public override void _Process(double delta)
@@ -184,6 +192,7 @@ namespace Ursula.GameObjects.View
             itemId = currentAssetInfo.Id;
             TextEditModelName.Text = currentAssetInfo.Name;
             bool isUserSource = currentAssetInfo.ProviderId == GameObjectAssetsUserSource.LibId;
+            isAssetDataChanged = false;
 
             if (isUserSource)
             {
@@ -270,6 +279,12 @@ namespace Ursula.GameObjects.View
 
         private void TextEditModelName_TextChangedEventHandler()
         {
+            if (!isAssetDataChanged)
+            {
+                return;
+            }
+
+            isAssetDataChanged = false;
             string newName = TextEditModelName.Text;
             string itemId = $"{_gameObjectCollectionModel.AssetSelected.ProviderId}.{newName}";
 
@@ -306,7 +321,9 @@ namespace Ursula.GameObjects.View
 
         private void DeleteFile(string itemId, string relativePath)
         {
-            string fullPath = _gameObjectLibraryManager.GetFullPath(itemId, relativePath);
+            if (_gameObjectCollectionModel.AssetSelected == null) return;
+
+            string fullPath = $"{_gameObjectCollectionModel.AssetSelected.GetAssetPath()}/{relativePath}";
             fullPath = ProjectSettings.GlobalizePath(fullPath);
             if (File.Exists(fullPath))
                 File.Delete(fullPath);
@@ -322,6 +339,13 @@ namespace Ursula.GameObjects.View
 
         private void TextEditSampleObject_TextChangedEventHandler()
         {
+            if (!isAssetDataChanged)
+            {
+                return;
+            }
+
+            isAssetDataChanged = false;
+
             _gameObjectAddGameObjectAssetModel.SetGameObjectSample(TextEditSampleObject.Text);
             _gameObjectAddGameObjectAssetModel.SetCurrentAssetToCollection();
 

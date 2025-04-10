@@ -4,6 +4,7 @@ using System;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 using Ursula.GameProjects.Model;
+using Ursula.StartupMenu.Model;
 
 namespace Ursula.GameProjects.View
 {
@@ -12,7 +13,15 @@ namespace Ursula.GameProjects.View
         [Inject]
         private ISingletonProvider<GameProjectLibraryManager> _commonLibraryProvider;
 
-        private GameProjectLibraryManager _commonLibrary;
+        [Inject]
+        private ISingletonProvider<GameObjectLibraryManager> _gameObjectLibraryManagerProvider;
+
+        [Inject]
+        private ISingletonProvider<StartupMenuModel> _startupMenuModelProvider;
+
+        private GameProjectLibraryManager _commonLibrary { get; set; }
+        private GameObjectLibraryManager _gameObjectLibraryManager { get; set; }
+        private StartupMenuModel _startupMenuModel { get; set; }
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -34,7 +43,24 @@ namespace Ursula.GameProjects.View
 
         private async GDTask SubscribeEvent()
         {
+            _startupMenuModel = await _startupMenuModelProvider.GetAsync();
 
+            _commonLibrary.GameProjectSetLoadProject_Event += GameProjectSetLoadProject_EventHandler;
+            _startupMenuModel.LoadLibrary_Event += StartupMenuModel_LoadLibrary_EventHandler;
+        }
+
+        private async void GameProjectSetLoadProject_EventHandler(object sender, EventArgs e)
+        {
+            _gameObjectLibraryManager = await _gameObjectLibraryManagerProvider.GetAsync();
+            await _gameObjectLibraryManager.Load(_commonLibrary.currentProjectInfo.GetProjectPath());
+            await _commonLibrary.currentProjectInfo.LoadMap();
+
+            _startupMenuModel?.SetVisibleView(false);
+        }
+
+        private void StartupMenuModel_LoadLibrary_EventHandler(object sender, EventArgs e)
+        {
+            _ = Load();
         }
     }
 }

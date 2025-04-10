@@ -83,7 +83,7 @@ namespace Ursula.ConstructorMenu.View
 
         private void ButtonExportProject_ButtonDownEvent()
         {
-            throw new NotImplementedException();
+            _commonLibrary.currentProjectInfo?.ExportProject();
         }
 
         private void ButtonAboutProgram_ButtonDownEvent()

@@ -1528,130 +1528,6 @@ grow_vertical = 2
 texture = ExtResource("8_4saec")
 expand_mode = 1
 
-[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants"]
-visible = false
-layout_mode = 1
-offset_top = 39.0
-offset_right = 268.0
-offset_bottom = 333.0
-
-[node name="Label5" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-layout_mode = 1
-offset_right = 268.0
-offset_bottom = 23.0
-text = "Плотность травы"
-
-[node name="HSliderGrassDensity" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-layout_mode = 1
-offset_top = 18.0
-offset_right = 268.0
-offset_bottom = 47.0
-focus_mode = 1
-max_value = 1.0
-step = 0.01
-
-[node name="Label7" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-layout_mode = 1
-offset_top = 39.0
-offset_right = 268.0
-offset_bottom = 62.0
-text = "Плотность растений"
-
-[node name="HSliderPlantsDensity2" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-layout_mode = 1
-offset_top = 56.0
-offset_right = 268.0
-offset_bottom = 85.0
-focus_mode = 1
-max_value = 1.0
-step = 0.01
-
-[node name="Label6" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-layout_mode = 1
-offset_top = 80.0
-offset_right = 268.0
-offset_bottom = 103.0
-text = "Плотность деревьев"
-
-[node name="HSliderTreesDensity" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-layout_mode = 1
-offset_top = 97.0
-offset_right = 268.0
-offset_bottom = 126.0
-focus_mode = 1
-max_value = 1.0
-step = 0.01
-
-[node name="Label9" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-layout_mode = 1
-offset_top = 122.0
-offset_right = 268.0
-offset_bottom = 145.0
-text = "Загружаемая растительность"
-
-[node name="ButtonOpenGrass" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-layout_mode = 1
-offset_left = 13.0
-offset_top = 149.0
-offset_right = 123.0
-offset_bottom = 174.0
-focus_mode = 1
-theme_override_font_sizes/font_size = 12
-text = "+ трава"
-
-[node name="ButtonOpenTrees" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-layout_mode = 1
-offset_left = 144.0
-offset_top = 149.0
-offset_right = 254.0
-offset_bottom = 174.0
-focus_mode = 1
-theme_override_font_sizes/font_size = 12
-text = "+ дерево"
-
-[node name="Label8" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 250.0
-offset_top = 414.0
-offset_right = 518.0
-offset_bottom = 437.0
-grow_horizontal = 0
-text = "Текстура поверхности"
-
-[node name="IdItemOptionCustom" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-layout_mode = 1
-offset_top = 178.0
-offset_right = 265.0
-offset_bottom = 217.0
-focus_mode = 1
-theme_override_font_sizes/font_size = 12
-alignment = 2
-autowrap_mode = 3
-clip_text = true
-
-[node name="CheckBoxUsedOnlyCustomItem" type="CheckBox" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-layout_mode = 1
-offset_top = 223.0
-offset_right = 258.0
-offset_bottom = 252.0
-focus_mode = 1
-theme_override_font_sizes/font_size = 10
-text = "Использовать только загруженные растения"
-
-[node name="ButtonGeneratePlants" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel"]
-layout_mode = 1
-offset_left = 29.0
-offset_top = 251.0
-offset_right = 240.0
-offset_bottom = 282.0
-focus_mode = 1
-theme_override_font_sizes/font_size = 13
-text = "Генерировать растительность"
-
 [node name="PanelConstructorFloraMenuView" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants" node_paths=PackedStringArray("ButtonPlants", "ButtonTrees", "ButtonGrass", "TabBarTrees", "LabelTreeDensity", "PanelTreeDensity", "GridContainerTrees", "TabBarGrass", "LabelGrassDensity", "PanelGrassDensity", "GridContainerGrass", "HSliderTreesDensity", "HSliderGrassDensity", "ButtonGenerateFlora")]
 visible = false
 layout_mode = 0
@@ -2078,8 +1954,9 @@ expand_mode = 1
 visible = false
 layout_mode = 1
 offset_top = 39.0
-offset_right = 393.0
+offset_right = 278.0
 offset_bottom = 234.0
+theme_override_styles/panel = ExtResource("51_qas0a")
 
 [node name="Label2" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel"]
 layout_mode = 1
@@ -2124,19 +2001,44 @@ grow_horizontal = 2
 text = "Чувствительность мыши"
 horizontal_alignment = 1
 
-[node name="HSliderMouseSence" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel"]
+[node name="HSliderMouseSence" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -116.0
-offset_top = 126.0
-offset_right = 116.0
-offset_bottom = 156.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 147.0
+offset_right = -9.0
+offset_bottom = -16.0
 grow_horizontal = 2
-focus_mode = 1
-max_value = 1.0
-step = 0.01
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("22_m1i1r")
+theme_override_icons/grabber_highlight = ExtResource("22_m1i1r")
+theme_override_styles/slider = ExtResource("23_8khbg")
+theme_override_styles/grabber_area = ExtResource("24_ux6rg")
+theme_override_styles/grabber_area_highlight = ExtResource("24_ux6rg")
+min_value = 1.0
+value = 50.0
+script = ExtResource("25_l6pvw")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/HSliderMouseSence"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -12.0
+offset_right = -3.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "50"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu"]
 layout_mode = 1
@@ -3002,14 +2904,13 @@ script = ExtResource("47_25wwj")
 [node name="MapManagerItemSetter" type="Node" parent="MapManagers"]
 script = ExtResource("36_r168r")
 
-[node name="MapManager" type="Node" parent="MapManagers" node_paths=PackedStringArray("buildControl", "gameControl", "IdItemOption", "IdItemOptionCustom", "CheckBoxCreateItem", "CheckBoxDeleteItem", "CreateMode", "navigationRegion3D", "fileDialog", "fileDialogLoad", "_mapManagerItemSetter", "sliderGrassTexID", "CheckBoxUsedOnlyCustomItem")]
+[node name="MapManager" type="Node" parent="MapManagers" node_paths=PackedStringArray("buildControl", "gameControl", "IdItemOption", "CheckBoxCreateItem", "CheckBoxDeleteItem", "CreateMode", "navigationRegion3D", "fileDialog", "fileDialogLoad", "_mapManagerItemSetter", "sliderGrassTexID")]
 script = ExtResource("27_5b8gm")
 buildControl = NodePath("../../Controls/ControlBuild")
 gameControl = NodePath("../../Controls/ControlGame")
 CameraFreeGO = ExtResource("28_hoa3c")
 PlayerGO = ExtResource("29_wh4fr")
 IdItemOption = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView/IdItemOption")
-IdItemOptionCustom = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/IdItemOptionCustom")
 CheckBoxCreateItem = NodePath("../../Controls/ControlBuild/Panel/CheckBoxCreateItem")
 CheckBoxDeleteItem = NodePath("../../Controls/ControlBuild/Panel/CheckBoxDeleteItem")
 CreateMode = NodePath("../../Controls/ControlBuild/Panel/ItemList")
@@ -3018,7 +2919,6 @@ fileDialog = NodePath("../../SaveFileDialog")
 fileDialogLoad = NodePath("../../LoadFileDialog")
 _mapManagerItemSetter = NodePath("../MapManagerItemSetter")
 sliderGrassTexID = NodePath("../../Controls/ControlBuild/Panel/HSliderGrassTexID")
-CheckBoxUsedOnlyCustomItem = NodePath("../../Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/CheckBoxUsedOnlyCustomItem")
 
 [node name="MapManagerView" type="Node" parent="MapManagers" node_paths=PackedStringArray("buildControl", "gameControl")]
 script = ExtResource("34_jfh7j")
@@ -3203,13 +3103,6 @@ clip_text = true
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonLandscape" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [0]]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonWater" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [1]]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [2]]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/HSliderGrassDensity" to="MapManagers/MapManager" method="ChangeGrassDensity"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/HSliderPlantsDensity2" to="MapManagers/MapManager" method="ChangePlantsDensity"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/HSliderTreesDensity" to="MapManagers/MapManager" method="ChangeTreesDensity"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/ButtonOpenGrass" to="ModelLoader" method="OpenModelGrass"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/ButtonOpenTrees" to="ModelLoader" method="OpenModelTrees"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/IdItemOptionCustom" to="MapManagers/MapManager" method="SetUsedCustomItemBuild"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants/Panel/ButtonGeneratePlants" to="MapManagers/MapManager" method="GenerateNewPlants"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" method="OnClick"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView/IdItemOption" to="MapManagers/MapManager" method="SetUsedStandartItemBuild"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" method="OnClick"]
