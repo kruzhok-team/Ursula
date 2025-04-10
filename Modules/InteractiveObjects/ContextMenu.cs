@@ -1,5 +1,6 @@
 ﻿using Godot;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Ursula.Core.DI;
 using Ursula.Environment.Settings;
@@ -156,7 +157,7 @@ public partial class ContextMenu : Control, IInjectable
     public void FileProcess(string path)
     {
         interactiveObject.LoadAlgorithm(path);
-        ShowMessage("Алгоритм успешно загружен");
+        HSMLogger.Print(interactiveObject, $"Алгоритм {Path.GetFileName(path)} успешно загружен");
         Close();
 
         lastDirectory = fileDialog.CurrentDir;

@@ -99,7 +99,9 @@ public partial class InteractiveObject : Node
                     hsmLogic.SubscribeLogger(_logger);
                 }
                 else
-                    ContextMenu.ShowMessageS($"[GML {this.GetParent().Name}] Ошибка: файл алгоритма не найден по пути {xmlPath}");
+                {
+                    HSMLogger.Print(this, $"Ошибка: файл алгоритма не найден по пути {xmlPath}");
+                }
             }
         }
     }

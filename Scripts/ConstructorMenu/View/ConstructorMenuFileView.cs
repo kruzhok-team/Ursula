@@ -93,10 +93,21 @@ namespace Ursula.ConstructorMenu.View
 
         private void ButtonSupport_ButtonDownEvent()
         {
-            throw new NotImplementedException();
+            OpenEmailClient(
+            to: "platform@kruzhok.org",
+            subject: "Тема письма",
+            body: "Это текст письма."
+        );
         }
 
+        private void OpenEmailClient(string to, string subject, string body)
+        {
+            // Создаем mailto URI
+            string mailtoUri = $"mailto:{to}?subject={System.Uri.EscapeDataString(subject)}&body={System.Uri.EscapeDataString(body)}";
 
+            // Открываем почтовый клиент
+            OS.ShellOpen(mailtoUri);
+        }
 
 
 

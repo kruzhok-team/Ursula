@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 public partial class InteractiveObjectAudio : Node3D
 {
@@ -22,6 +23,18 @@ public partial class InteractiveObjectAudio : Node3D
 
     private Dictionary<string, string> audios;
     private List<AudioStream> soundStreams = new List<AudioStream>();
+
+    private InteractiveObject _interactiveObject;
+    public InteractiveObject interactiveObject
+    {
+        get
+        {
+            if (_interactiveObject == null)
+                _interactiveObject = GetParent().GetNode("InteractiveObject") as InteractiveObject;
+
+            return _interactiveObject;
+        }
+    }
 
     public override void _Ready()
     {
@@ -152,6 +165,12 @@ public partial class InteractiveObjectAudio : Node3D
 
         CheckAudioStreamPlayer3D();
 
+        if (!audios.ContainsKey(index))
+        {
+            HSMLogger.Print(interactiveObject, $"Ошибка: звук с именем '{index}' не найден");
+            return;
+        }
+
         var audioStream = (AudioStream)AudioImporter.OpenAudioFile(audios[index]);
         if (audioStream is AudioStreamMP3 mp3Stream)
         {
@@ -174,6 +193,12 @@ public partial class InteractiveObjectAudio : Node3D
         isPlaying = true;
 
         CheckAudioStreamPlayer2D();
+
+        if (!audios.ContainsKey(audioName))
+        {
+            HSMLogger.Print(interactiveObject, $"Ошибка: звук с именем '{audioName}' не найден");
+            return;
+        }
 
         var audioStream = (AudioStream)AudioImporter.OpenAudioFile(audios[audioName]);
         if (audioStream is AudioStreamMP3 mp3Stream)
