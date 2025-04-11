@@ -52,6 +52,7 @@ namespace Ursula.Environment.Settings
             _environmentSettingsData = new EnvironmentSettingsData();
         }
 
+        public float _defaultSensitivity = 0.5f;
         public int ShadowEnabled => _environmentSettingsData.ShadowEnabled;
         public float Sensitivity => _environmentSettingsData.Sensitivity;
         public string LastMapDirectory => _environmentSettingsData.LastMapDirectory;

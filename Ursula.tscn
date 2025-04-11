@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://dgc042g3ej4rj"]
+[gd_scene load_steps=73 format=3 uid="uid://dgc042g3ej4rj"]
 
 [ext_resource type="PackedScene" uid="uid://dn1jem1nnefln" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/project_timer.tscn" id="1_wxxnd"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Core/Initialization/UrsulaEntryPoint.cs" id="1_xjqfu"]
@@ -53,6 +53,8 @@
 [ext_resource type="PackedScene" uid="uid://k0lv1i4q4csk" path="res://addons/Ursula/Prefabs/GameObjects/GameObjectAssetInfoViewPrefabMini.tscn" id="36_pl0m0"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/MapManagerItemSetter.cs" id="36_r168r"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCollectionView.cs" id="37_0m72d"]
+[ext_resource type="Texture2D" uid="uid://eqrbwllnrd24" path="res://addons/Ursula/Assets/Themes/Close.png" id="38_0acjv"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/Settings/View/ControlSettingsView.cs" id="38_0w2xm"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/GameObjectCollectionController.cs" id="42_rqra7"]
 [ext_resource type="Theme" uid="uid://dyddtywft2yrs" path="res://addons/Ursula/Assets/Themes/Controls.tres" id="43_cp4ec"]
 [ext_resource type="StyleBox" uid="uid://dqqcv0g4ml2fl" path="res://addons/Ursula/Assets/Themes/TextEdit.tres" id="46_h4d78"]
@@ -112,7 +114,7 @@ script = ExtResource("1_xjqfu")
 
 [node name="ModelLoader" parent="." instance=ExtResource("2_ayndh")]
 
-[node name="Controls" type="Control" parent="." node_paths=PackedStringArray("_labelFile", "_cross", "_labelCoordinates", "SettingsGO", "SliderMouseSence", "optionButtonShadow", "ControlProjectGO", "ControlGamesProjectGO", "CheckButtonAlgoritm")]
+[node name="Controls" type="Control" parent="." node_paths=PackedStringArray("_labelFile", "_cross", "_labelCoordinates", "ControlProjectGO", "ControlGamesProjectGO", "CheckButtonAlgoritm")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -123,9 +125,6 @@ script = ExtResource("3_lm8x0")
 _labelFile = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer/LabelFile")
 _cross = NodePath("Cross")
 _labelCoordinates = NodePath("LabelCoordinate")
-SettingsGO = NodePath("ControlSettings")
-SliderMouseSence = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/HSliderMouseSence")
-optionButtonShadow = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/OptionButtonShadow")
 ControlProjectGO = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonOpenControlProject/ControlProject")
 ControlGamesProjectGO = NodePath("../ControlGamesProject")
 CheckButtonAlgoritm = [NodePath("ControlGame/Panel/HBoxContainer/Algoritms/CheckButton"), NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/CheckButton")]
@@ -177,7 +176,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_8kw1n")
-contexPopupMenu = [NodePath("HBoxContainer/ButtonObject"), NodePath("HBoxContainer/ButtonSettings"), NodePath("HBoxContainer/ButtonFile"), NodePath("HBoxContainer/ButtonEnvironment")]
+contexPopupMenu = [NodePath("HBoxContainer/ButtonObject"), NodePath("HBoxContainer/ButtonFile"), NodePath("HBoxContainer/ButtonEnvironment")]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu"]
 layout_mode = 1
@@ -270,13 +269,13 @@ grow_vertical = 2
 texture = ExtResource("11_0tbdj")
 expand_mode = 1
 
-[node name="PanelMenuFile" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" node_paths=PackedStringArray("ButtonCreateNewProject", "ButtonLoadProject", "ButtonSaveProject", "ButtonExportProject", "ButtonAboutProgram", "ButtonSupport")]
+[node name="PanelMenuFile" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile" node_paths=PackedStringArray("ButtonCreateNewProject", "ButtonLoadProject", "ButtonSaveProject", "ButtonExportProject", "ButtonAboutProgram", "ButtonSupport", "ButtonSettings")]
 visible = false
 layout_mode = 1
 offset_left = -1.0
 offset_top = 40.0
 offset_right = 237.0
-offset_bottom = 304.0
+offset_bottom = 352.0
 theme_override_styles/panel = ExtResource("51_qas0a")
 script = ExtResource("13_lc8ex")
 ButtonCreateNewProject = NodePath("VBoxContainer/ButtonCreateNewProject")
@@ -285,6 +284,7 @@ ButtonSaveProject = NodePath("VBoxContainer/ButtonSaveProject")
 ButtonExportProject = NodePath("VBoxContainer/ButtonExportProject")
 ButtonAboutProgram = NodePath("VBoxContainer/ButtonAboutProgram")
 ButtonSupport = NodePath("VBoxContainer/ButtonSupport")
+ButtonSettings = NodePath("VBoxContainer/ButtonSettings")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile"]
 layout_mode = 1
@@ -363,6 +363,16 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/hover = ExtResource("51_ffq47")
 theme_override_styles/normal = ExtResource("51_qas0a")
 text = "Техподдержка"
+alignment = 0
+
+[node name="ButtonSettings" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/hover = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_qas0a")
+text = "Настройки"
 alignment = 0
 
 [node name="ButtonOpenProjectFolder" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
@@ -1889,157 +1899,6 @@ tab_count = 2
 tab_0/title = "Все объекты"
 tab_1/title = "Деревья"
 
-[node name="ButtonSettings" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer" node_paths=PackedStringArray("PanelMenu", "arrow1", "arrow2")]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-focus_mode = 1
-theme_override_font_sizes/font_size = 14
-theme_override_styles/focus = ExtResource("51_ffq47")
-theme_override_styles/hover_pressed = ExtResource("51_ffq47")
-theme_override_styles/pressed = ExtResource("51_ffq47")
-theme_override_styles/normal = ExtResource("51_qas0a")
-text = "Настройки"
-script = ExtResource("6_1h5ru")
-PanelMenu = NodePath("Panel")
-arrow1 = NodePath("Arrow1")
-arrow2 = NodePath("Arrow2")
-
-[node name="Icon" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 1.0
-offset_top = -10.5
-offset_right = 22.0
-offset_bottom = 10.5
-grow_vertical = 2
-expand_mode = 1
-flip_h = true
-
-[node name="Arrow1" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings"]
-visible = false
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -18.0
-offset_top = -4.0
-offset_right = -8.0
-offset_bottom = 6.0
-grow_horizontal = 0
-grow_vertical = 2
-texture = ExtResource("10_ymu3k")
-expand_mode = 1
-
-[node name="Arrow2" type="TextureRect" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -18.0
-offset_top = -4.0
-offset_right = -8.0
-offset_bottom = 6.0
-grow_horizontal = 0
-grow_vertical = 2
-texture = ExtResource("11_0tbdj")
-expand_mode = 1
-
-[node name="Panel" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings"]
-visible = false
-layout_mode = 1
-offset_top = 39.0
-offset_right = 278.0
-offset_bottom = 234.0
-theme_override_styles/panel = ExtResource("51_qas0a")
-
-[node name="Label2" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -102.5
-offset_right = 102.5
-offset_bottom = 28.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 22
-text = "Настройки"
-horizontal_alignment = 1
-
-[node name="OptionButtonShadow" type="OptionButton" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -98.5
-offset_top = 60.0
-offset_right = 98.5
-offset_bottom = 95.0
-grow_horizontal = 2
-focus_mode = 1
-selected = 0
-item_count = 2
-popup/item_0/text = "Тени отключены"
-popup/item_1/text = "Тени включены"
-popup/item_1/id = 1
-
-[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -102.5
-offset_top = 104.0
-offset_right = 102.5
-offset_bottom = 132.0
-grow_horizontal = 2
-text = "Чувствительность мыши"
-horizontal_alignment = 1
-
-[node name="HSliderMouseSence" type="HSlider" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel" node_paths=PackedStringArray("_hSlider")]
-custom_minimum_size = Vector2(100, 30)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 11.0
-offset_top = 147.0
-offset_right = -9.0
-offset_bottom = -16.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_icons/grabber = ExtResource("22_m1i1r")
-theme_override_icons/grabber_highlight = ExtResource("22_m1i1r")
-theme_override_styles/slider = ExtResource("23_8khbg")
-theme_override_styles/grabber_area = ExtResource("24_ux6rg")
-theme_override_styles/grabber_area_highlight = ExtResource("24_ux6rg")
-min_value = 1.0
-value = 50.0
-script = ExtResource("25_l6pvw")
-_hSlider = NodePath(".")
-
-[node name="Label" type="Label" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/HSliderMouseSence"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = -12.0
-offset_right = -3.0
-offset_bottom = 13.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "50"
-horizontal_alignment = 2
-vertical_alignment = 1
-
 [node name="HBoxContainer2" type="HBoxContainer" parent="Controls/ControlBuild/Panel/ControlPopupMenu"]
 layout_mode = 1
 anchors_preset = 6
@@ -2187,19 +2046,6 @@ offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ButtonSettings" type="Button" parent="Controls/ControlBuild"]
-visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -133.0
-offset_right = -2.0
-offset_bottom = 33.0
-grow_horizontal = 0
-focus_mode = 1
-text = "Настройки"
-
 [node name="ControlGame" type="Control" parent="Controls"]
 visible = false
 anchors_preset = 0
@@ -2271,32 +2117,40 @@ theme_override_font_sizes/font_size = 13
 text = "Алгоритмы"
 alignment = 2
 
-[node name="ControlSettings" type="Control" parent="Controls"]
+[node name="ControlSettingsView" type="Control" parent="Controls" node_paths=PackedStringArray("SliderMouseSence", "OptionButtonShadow", "ButtonClose")]
 visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("38_0w2xm")
+SliderMouseSence = NodePath("Panel/HSliderMouseSence")
+OptionButtonShadow = NodePath("Panel/OptionButtonShadow")
+ButtonClose = NodePath("Panel/ButtonClose")
+
+[node name="bg" type="Panel" parent="Controls/ControlSettingsView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Controls/ControlSettingsView"]
+custom_minimum_size = Vector2(500, 300)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -214.0
-offset_top = -136.5
-offset_right = 214.0
-offset_bottom = 136.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = ExtResource("51_qas0a")
 
-[node name="Panel" type="Panel" parent="Controls/ControlSettings"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -205.0
-offset_right = 188.0
-offset_bottom = 269.0
-grow_horizontal = 2
-
-[node name="Label2" type="Label" parent="Controls/ControlSettings/Panel"]
+[node name="Label2" type="Label" parent="Controls/ControlSettingsView/Panel"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -2309,109 +2163,105 @@ theme_override_font_sizes/font_size = 22
 text = "Настройки"
 horizontal_alignment = 1
 
-[node name="Labellengthofday" type="Label" parent="Controls/ControlSettings/Panel"]
+[node name="OptionButtonShadow" type="OptionButton" parent="Controls/ControlSettingsView/Panel"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -128.5
-offset_top = -95.5
-offset_right = 130.5
-offset_bottom = -67.5
+offset_left = -178.0
+offset_top = 98.0
+offset_right = 183.0
+offset_bottom = 133.0
 grow_horizontal = 2
-grow_vertical = 2
-text = "Продолжительность суток: 120с"
-horizontal_alignment = 1
-
-[node name="HSliderlengthofday" type="HSlider" parent="Controls/ControlSettings/Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -114.5
-offset_top = -70.5
-offset_right = 117.5
-offset_bottom = -40.5
-grow_horizontal = 2
-grow_vertical = 2
 focus_mode = 1
-min_value = 30.0
-max_value = 3600.0
-step = 10.0
-value = 480.0
-
-[node name="ButtonExit" type="Button" parent="Controls/ControlSettings/Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -68.5
-offset_top = 93.5
-offset_right = 62.5
-offset_bottom = 126.5
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 1
-text = "Закрыть"
-
-[node name="HSliderMouseSence" type="HSlider" parent="Controls/ControlSettings/Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -116.0
-offset_top = 45.0
-offset_right = 116.0
-offset_bottom = 75.0
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 1
-max_value = 1.0
-step = 0.01
-
-[node name="Label" type="Label" parent="Controls/ControlSettings/Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -102.5
-offset_top = 13.0
-offset_right = 102.5
-offset_bottom = 41.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Чувствительность мыши"
-horizontal_alignment = 1
-
-[node name="OptionButtonShadow" type="OptionButton" parent="Controls/ControlSettings/Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -97.5
-offset_top = -31.5
-offset_right = 99.5
-offset_bottom = 3.5
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 1
+theme_override_styles/normal = ExtResource("46_h4d78")
+alignment = 1
 selected = 0
 item_count = 2
 popup/item_0/text = "Тени отключены"
 popup/item_1/text = "Тени включены"
 popup/item_1/id = 1
+
+[node name="Label" type="Label" parent="Controls/ControlSettingsView/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -94.0
+offset_top = 184.0
+offset_right = 111.0
+offset_bottom = 212.0
+grow_horizontal = 2
+text = "Чувствительность мыши"
+horizontal_alignment = 1
+
+[node name="HSliderMouseSence" type="HSlider" parent="Controls/ControlSettingsView/Panel" node_paths=PackedStringArray("_hSlider")]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -179.0
+offset_top = -80.0
+offset_right = 181.0
+offset_bottom = -48.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_icons/grabber = ExtResource("22_m1i1r")
+theme_override_icons/grabber_highlight = ExtResource("22_m1i1r")
+theme_override_styles/slider = ExtResource("23_8khbg")
+theme_override_styles/grabber_area = ExtResource("24_ux6rg")
+theme_override_styles/grabber_area_highlight = ExtResource("24_ux6rg")
+min_value = 1.0
+value = 50.0
+script = ExtResource("25_l6pvw")
+_hSlider = NodePath(".")
+
+[node name="Label" type="Label" parent="Controls/ControlSettingsView/Panel/HSliderMouseSence"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -12.0
+offset_right = -3.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "50"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ButtonClose" type="Button" parent="Controls/ControlSettingsView/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.0
+offset_top = 1.0
+offset_bottom = 33.0
+grow_horizontal = 0
+focus_mode = 1
+flat = true
+icon_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Controls/ControlSettingsView/Panel/ButtonClose"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -25.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = 25.0
+grow_horizontal = 0
+texture = ExtResource("38_0acjv")
+expand_mode = 1
 
 [node name="ContextMenu" parent="Controls" instance=ExtResource("15_fjimb")]
 visible = true
@@ -3105,9 +2955,6 @@ clip_text = true
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab/HBoxContainer/ButtonPlants" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonEnvironment/PanelTab" method="OpenPanel" binds= [2]]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject" method="OnClick"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonObject/PanelGameObjectLibraryView/IdItemOption" to="MapManagers/MapManager" method="SetUsedStandartItemBuild"]
-[connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" to="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings" method="OnClick"]
-[connection signal="item_selected" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/OptionButtonShadow" to="Controls" method="SetShadowEnabled"]
-[connection signal="value_changed" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonSettings/Panel/HSliderMouseSence" to="Controls" method="SetSensitivity"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonOpenControlProject" to="Controls" method="OnOpenControlProject"]
 [connection signal="toggled" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/CheckButton" to="Controls" method="OnAlgoritmStartStopChange"]
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/ButtonReload" to="MapManagers/MapManager" method="OnReloadMap"]
@@ -3115,16 +2962,13 @@ clip_text = true
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ButtonSetTexure" to="MapManagers/MapManager" method="SetGrassTexture"]
 [connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxCreateItem" to="MapManagers/MapManager" method="SetCreateItem"]
 [connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxDeleteItem" to="MapManagers/MapManager" method="SetDeleteItem"]
-[connection signal="button_down" from="Controls/ControlBuild/ButtonSettings" to="Controls" method="OnOpenSettings"]
 [connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonHome" to="Controls" method="OnOpenControlGameProject"]
 [connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonExit" to="MapManagers/MapManager" method="PlayTest"]
 [connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonOpenGameMenu" to="Controls" method="OnOpenControlGameProject"]
 [connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonReload" to="MapManagers/MapManager" method="OnReloadMap"]
 [connection signal="toggled" from="Controls/ControlGame/Panel/HBoxContainer/Algoritms/CheckButton" to="Controls" method="OnAlgoritmStartStopChange"]
-[connection signal="value_changed" from="Controls/ControlSettings/Panel/HSliderlengthofday" to="Controls" method="SaveLengthOfDay"]
-[connection signal="button_down" from="Controls/ControlSettings/Panel/ButtonExit" to="Controls" method="OnCloseSettings"]
-[connection signal="value_changed" from="Controls/ControlSettings/Panel/HSliderMouseSence" to="Controls" method="SetSensitivity"]
-[connection signal="item_selected" from="Controls/ControlSettings/Panel/OptionButtonShadow" to="Controls" method="SetShadowEnabled"]
+[connection signal="item_selected" from="Controls/ControlSettingsView/Panel/OptionButtonShadow" to="Controls/ControlSettingsView" method="SetShadowEnabled"]
+[connection signal="value_changed" from="Controls/ControlSettingsView/Panel/HSliderMouseSence" to="Controls/ControlSettingsView" method="SetSensitivity"]
 [connection signal="button_down" from="Controls/ControlLog/Control/ClearLog" to="Controls/ControlLog" method="ClearLog"]
 [connection signal="button_down" from="Controls/ControlLog/Control/SaveLog" to="Controls/ControlLog" method="SaveLog"]
 [connection signal="focus_entered" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="LogEntered"]

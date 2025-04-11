@@ -6,7 +6,7 @@ public partial class CameraController : Camera3D
     public static CameraController instance;
 
     [Export] private Camera3D _camera;
-    private float sensitivity { get { return VoxLib.Sensitivity(); } }
+    private float sensitivity { get { return VoxLib.Sensitivity; } }
     private Vector2 _rotation = Vector2.Zero;
     private float MoveSpeed = 40f;
     private bool isRun;

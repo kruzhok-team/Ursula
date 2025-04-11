@@ -14,6 +14,7 @@ using Ursula.Terrain.Model;
 using Ursula.ConstructorMenu.Model;
 using Ursula.Water.Model;
 using Ursula.MapManagers.Setters;
+using Ursula.Settings.Model;
 
 
 namespace Ursula.Core.Initialization
@@ -48,6 +49,7 @@ namespace Ursula.Core.Initialization
         private void InstallModel(ServiceCollection services)
         {
             InstallSingleton<EnvironmentSettingsModel>(services);
+            InstallSingleton<ControlSettingsViewModel>(services);            
 
             InstallSingleton<MapManager>(services);
             InstallSingleton<MapManagerController>(services);

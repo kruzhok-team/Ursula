@@ -20,21 +20,6 @@ public partial class HUD : Control, IInjectable
     public Label _labelCoordinates;
 
     [Export]
-    public Control SettingsGO;
-
-    [Export]
-    public Slider SliderMouseSence;
-
-    [Export]
-    public OptionButton optionButtonShadow;
-
-    [Export]
-    public Label labelLengthOfDay;
-
-    [Export]
-    public Slider SliderLengthOfDay;
-
-    [Export]
     public Control ControlProjectGO;
 
     [Export]
@@ -57,34 +42,17 @@ public partial class HUD : Control, IInjectable
 
     private GameObjectCurrentInfoModel gameObjectCurrentInfoModel;
 
-    private float _defaultSensitivity = 0.5f;
-
     private Vector3 coord;
-
-
 
     void IInjectable.OnDependenciesInjected()
     {
-    }
-
-    public float sensitivity
-    {
-        get
-        {
-            if (!TryGetSettingsModel(out var settingsModel))
-                return _defaultSensitivity;
-            return settingsModel.Sensitivity;
-        }
     }
 
     public override void _Ready()
     {
         base._Ready();
 
-        ApplySettingsFromConfig();
-
         VoxLib.hud = this;
-        SettingsGO.Visible = false;
 
         _ = SubscribeEvent();
     }
@@ -120,18 +88,6 @@ public partial class HUD : Control, IInjectable
         _SetInfo(info);
     }
 
-    public void OnOpenSettings()
-    {
-        ControlPopupMenu.HideAllMenu();
-        SettingsGO.Visible = true;
-        SliderLengthOfDay.Value = LoadLengthOfDay();
-    }
-
-    public void OnCloseSettings()
-    {
-        SettingsGO.Visible = false;
-    }
-
     public void OnOpenControlProject()
     {
         ControlPopupMenu.HideAllMenu();
@@ -164,31 +120,6 @@ public partial class HUD : Control, IInjectable
         ControlGamesProjectGO.Visible = false;
 
         gameObjectCurrentInfoModel.SetAssetInfoView(null, true);
-    }
-
-    public void SetSensitivity(float sence)
-    {
-        if (TryGetSettingsModel(out var settingsModel))
-            settingsModel.SetSensitivity(sence/100).Save();
-    }
-
-    public void SaveLengthOfDay(float value)
-    {
-        DayNightCycle.instance.FullDayLength = value;
-        SliderLengthOfDay.Value = value;
-        labelLengthOfDay.Text = $"Длительность суток: {value}c";
-    }
-
-    private float LoadLengthOfDay()
-    {
-        labelLengthOfDay.Text = $"Длительность суток: {DayNightCycle.instance.FullDayLength}c";
-        return DayNightCycle.instance.FullDayLength;
-    }
-
-    public void SetShadowEnabled(int value)
-    {
-        if (TryGetSettingsModel(out var settingsModel))
-            settingsModel.SetShadowEnabled(value).Save();
     }
 
     public async void ShowCommonLibraryButton_DownEventHandler()
@@ -307,21 +238,6 @@ public partial class HUD : Control, IInjectable
     {
         ControlPopupMenu.instance._HideAllMenu();
         ObjectsCatalog.instance.OnOpenPanelLoadObject();
-    }
-
-
-    private async void ApplySettingsFromConfig()
-    {
-        var model = _settingsModelProvider != null ? await _settingsModelProvider.GetAsync() : null;
-
-        if (model == null)
-        {
-            GD.PrintErr($"{typeof(HUD).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
-            return;
-        }
-
-        SliderMouseSence.Value = model.Sensitivity * 100;
-        optionButtonShadow.Selected = model.ShadowEnabled;
     }
 
     private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist = false)

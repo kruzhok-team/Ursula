@@ -1,19 +1,22 @@
 ﻿using Godot;
 using System;
+using Ursula.Core.DI;
+using Ursula.Environment.Settings;
+using Ursula.Settings.View;
 using VoxLibExample;
 
 
-public partial class VoxLib : Node
+public partial class VoxLib : Node, IInjectable
 {
-	public static VoxLib instance;
+    public static VoxLib instance;
 
-	public static MapManager mapManager;
+    public static MapManager mapManager;
 
-	public static MapAssets mapAssets;
+    public static MapAssets mapAssets;
 
     public static HUD hud;
 
-	public static LogScript log;
+    public static LogScript log;
 
     public static GameManager GM;
 
@@ -21,13 +24,28 @@ public partial class VoxLib : Node
     public ControlGamesProject CGP;
 
     public static TerrainManager terrainManager;
-	public static WaterManager waterManager;
+    public static WaterManager waterManager;
 
-	public static string SETTINGPATH = "user://settings.cfg";
+    public static string SETTINGPATH = "user://settings.cfg";
+
+    [Inject]
+    private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
 
     Texture texture;
 
-	public override void _Ready()
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
+
+    public static float Sensitivity
+    {
+        get
+        {
+            return VoxLib.instance._Sensitivity;
+        }
+    }
+
+    public override void _Ready()
 	{
 		base._Ready();
         instance ??= this;
@@ -58,13 +76,30 @@ public partial class VoxLib : Node
 		 }
 	 }
 	
-	public static float Sensitivity()
-	{
-		return hud.sensitivity;
-    }
-
 	public static void ShowMessage(string message)
 	{
 		MessageBox.instance?.ShowMessage(message);
 	}
+
+    private float _Sensitivity
+    {
+        get
+        {
+            if (!TryGetSettingsModel(out var settingsModel))
+                return settingsModel._defaultSensitivity;
+            return settingsModel.Sensitivity;
+        }
+    }
+
+    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist = false)
+    {
+        model = null;
+
+        if (!(_settingsModelProvider?.TryGet(out model) ?? false))
+        {
+            if (errorIfNotExist)
+                GD.PrintErr($"{typeof(ControlSettingsView).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
+        }
+        return model != null;
+    }
 }

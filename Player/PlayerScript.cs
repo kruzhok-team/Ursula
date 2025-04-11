@@ -23,7 +23,7 @@ public partial class PlayerScript : CharacterBody3D, IInjectable
     [Export]
     public int FallAcceleration { get; set; } = 75;
 
-    private float sensitivity{ get { return VoxLib.Sensitivity(); } }
+    private float sensitivity{ get { return VoxLib.Sensitivity; } }
 
     private Vector3 _targetVelocity = Vector3.Zero;
 
