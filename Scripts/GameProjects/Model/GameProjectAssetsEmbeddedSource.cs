@@ -22,12 +22,12 @@ namespace Ursula.GameProjects.Model
 
         private void CheckExistDirectory()
         {
-#if !TOOLS
-            if (!Directory.Exists(ProjectSettings.GlobalizePath(FolderPath)))
-            {
-                Directory.CreateDirectory(FolderPath);
-            }
-#endif
+//#if !TOOLS
+//            if (!Directory.Exists(ProjectSettings.GlobalizePath(FolderPath)))
+//            {
+//                Directory.CreateDirectory(ProjectSettings.GlobalizePath(FolderPath));
+//            }
+//#endif
         }
     }
 }
