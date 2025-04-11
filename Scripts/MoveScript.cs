@@ -4,6 +4,7 @@ using static Godot.TextServer;
 using static MoveScript;
 using Modules.HSM;
 using System;
+using Fractural.Tasks;
 
 public partial class MoveScript : CharacterBody3D
 {
@@ -56,12 +57,14 @@ public partial class MoveScript : CharacterBody3D
     public Action onTargetLost;
     public Action onCollision;
 
-    public Action onMovementFinished ;
+    public Action onMovementFinished;
     public Action onStuckMoving;
     public Action onMovingDistanceFinished;
     public Action onChangeSurfaceType;
 
     float waterLevel = -1;
+
+    private Random random = new Random();
 
     public override void _Ready()
     {
@@ -197,23 +200,9 @@ public partial class MoveScript : CharacterBody3D
         else if (stateMashine == StateMashine.moveToPosition)
         {
             Vector3 currentAgentPosition = GlobalTransform.Origin;
-            float distanceToTarget = currentAgentPosition.DistanceTo(MovementPosition);// currentAgentPosition.DistanceTo(MovementPosition);
-            if (distanceToTarget >= _navigationAgent.TargetDesiredDistance)
+            float distanceToTarget = currentAgentPosition.DistanceTo(MovementPosition);
+            if (distanceToTarget >= _navigationAgent.TargetDesiredDistance && navPath != null)
             {
-                //var nextPathPosition = _navigationAgent.GetNextPathPosition();
-                //nextPathPosition.Y = 0;
-                //currentAgentPosition.Y = 0;
-                //float distanceToPosition = currentAgentPosition.DistanceTo(nextPathPosition);
-                //if (distanceToPosition <= _navigationAgent.TargetDesiredDistance)
-                //{
-                //    //_navigationAgent.SetProcessInternal
-                //    int current = _navigationAgent.GetCurrentNavigationPathIndex();
-                //    //int pathLenght = _navigationAgent.
-                //    Vector3[] navPath = _navigationAgent.GetCurrentNavigationPath();
-                //    GD.Print("Промежуточная точка");
-                //}
-                //_targetVelocity = GlobalPosition.DirectionTo(nextPathPosition) * _movementSpeed;
-
                 if (currentPath < navPath.Length)
                 {
                     Vector3 currentPathPos = navPath[currentPath];
@@ -237,13 +226,6 @@ public partial class MoveScript : CharacterBody3D
         }
         else if (stateMashine == StateMashine.moveToTarget)
         {
-            //if (MovementTarget == null || !IsInstanceValid(MovementTarget))
-            //{
-            //    stateMashine = StateMashine.idle;
-            //    onTargetLost.Invoke();
-            //    return;
-            //}
-
             Vector3 currentAgentPosition = GlobalTransform.Origin;
             float distanceToTarget = currentAgentPosition.DistanceTo(MovementTarget.GlobalPosition);
 
@@ -285,16 +267,6 @@ public partial class MoveScript : CharacterBody3D
 
             Vector3 direction = (currentAgentPosition - MovementTarget.Position).Normalized();
             _targetVelocity = direction * _movementSpeed;
-
-            //if (distanceToTarget < _navigationAgent.TargetDesiredDistance * 10)
-            //{
-            //    Vector3 direction = (currentAgentPosition - MovementTarget.Position).Normalized();
-            //    Velocity = direction * _movementSpeed;
-            //}
-            //else
-            //{
-            //    Velocity = Vector3.Zero;
-            //}
         }
         else if (stateMashine == StateMashine.findTarget)
         {
@@ -315,43 +287,46 @@ public partial class MoveScript : CharacterBody3D
             //moveDistance
         }
 
-        bool isMoving = (stateMashine == StateMashine.moveToRandom || stateMashine == StateMashine.moveToTarget
-            || stateMashine == StateMashine.moveToPosition || stateMashine == StateMashine.moveFromTarget);
-
-        if (oldPosition != Vector3.Zero && isMoving)
+        if (onStuckMoving != null || onMovingDistanceFinished != null)
         {
-            Vector3 vel = new Vector3(Velocity.X, 0, Velocity.Z);
-            float moveDistDelta = oldPosition.DistanceTo(GlobalTransform.Origin);
-            if (moveDistDelta > 0.01f && vel.Length() > 0.01f)
+            bool isMoving = (stateMashine == StateMashine.moveToRandom || stateMashine == StateMashine.moveToTarget
+                || stateMashine == StateMashine.moveToPosition || stateMashine == StateMashine.moveFromTarget);
+
+
+            if (oldPosition != Vector3.Zero && isMoving)
             {
-                moveDistance += oldPosition.DistanceTo(GlobalTransform.Origin);
-                moveDistanceOld = moveDistance;
-                timeStuckMoving = 0;
+                Vector3 vel = new Vector3(Velocity.X, 0, Velocity.Z);
+                float moveDistDelta = oldPosition.DistanceTo(GlobalTransform.Origin);
+                if (moveDistDelta > 0.01f && vel.Length() > 0.01f)
+                {
+                    moveDistance += oldPosition.DistanceTo(GlobalTransform.Origin);
+                    moveDistanceOld = moveDistance;
+                    timeStuckMoving = 0;
+                }
             }
-        }
-        oldPosition = GlobalTransform.Origin;
+            oldPosition = GlobalTransform.Origin;
 
-        if (moveDistanceOld == moveDistance && isMoving)
-        {
-            if (timeStuckMoving > 5)
+            if (onStuckMoving != null && moveDistanceOld == moveDistance && isMoving)
             {
-                onStuckMoving?.Invoke();
-                //onStuckMoving = null;
-                timeStuckMoving = 0;
+                if (timeStuckMoving > 5)
+                {
+                    onStuckMoving?.Invoke();
+                    //onStuckMoving = null;
+                    timeStuckMoving = 0;
+                }
+                else
+                    timeStuckMoving += delta;
             }
-            else
-                timeStuckMoving += delta;
-        }
 
-        //if (signalMashine == SignalMashine.checkMoveDistance)
-        if (checkMoveDistance > 0)
-        {
-            if (moveDistance > checkMoveDistance)
+            if (onMovingDistanceFinished != null && checkMoveDistance > 0)
             {
-                if (interactiveObjectMove != null) interactiveObjectMove.moveDistance.Value = checkMoveDistance;
-                onMovingDistanceFinished?.Invoke();        
-                signalMashine = SignalMashine.none;
-                checkMoveDistance = 0;
+                if (moveDistance > checkMoveDistance)
+                {
+                    if (interactiveObjectMove != null) interactiveObjectMove.moveDistance.Value = checkMoveDistance;
+                    onMovingDistanceFinished?.Invoke();
+                    signalMashine = SignalMashine.none;
+                    checkMoveDistance = 0;
+                }
             }
         }
 
@@ -424,18 +399,18 @@ public partial class MoveScript : CharacterBody3D
         stateMashine = StateMashine.moveToPosition;
         moveDistance = 0;
 
-        int X = (int)newPosition.X;
+        int X = Math.Clamp((int)newPosition.X, 0, VoxLib.mapManager.sizeX);
         float Y = VoxLib.terrainManager.positionOffset.Y;
-        int Z = (int)newPosition.Z;
+        int Z = Math.Clamp((int)newPosition.Z, 0, VoxLib.mapManager.sizeX);
 
-        if (X > 0 && Z > 0)
-            Y = VoxLib.terrainManager.mapHeight[(int)newPosition.X, (int)newPosition.Z] + VoxLib.terrainManager.positionOffset.Y;
+        Y = VoxLib.terrainManager.mapHeight[X, Z] + VoxLib.terrainManager.positionOffset.Y;
 
         MovementPosition = new Vector3(X, Y, Z);
 
         PlayRunAnimation();
 
-        SetupPath();
+        _= SetupPath();
+
     }
 
     public Vector3 SetPositionRight(float n)
@@ -618,10 +593,17 @@ public partial class MoveScript : CharacterBody3D
         PlayIdleAnimation();
     }
 
-    private void SetupPath()
+    private async GDTask SetupPath()
     {
+        int delay = random.Next(5, 20);
+        await GDTask.Delay(delay);
         var nextPathPosition = _navigationAgent.GetNextPathPosition();
+        delay = random.Next(5, 20);
+        await GDTask.Delay(delay);
         navPath = _navigationAgent.GetCurrentNavigationPath();
+        delay = random.Next(5, 20);
+        await GDTask.Delay(delay);
         currentPath = _navigationAgent.GetCurrentNavigationPathIndex();
     }
+
 }
