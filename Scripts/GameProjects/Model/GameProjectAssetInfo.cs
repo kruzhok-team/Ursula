@@ -45,6 +45,8 @@ namespace Ursula.GameProjects.Model
         {
             if (previewImage != null) return previewImage;
 
+            if (Template.PreviewImageFilePath == null) return null;
+
             string path = Template.PreviewImageFilePath;
 
             path = $"{GameProjectAssetsUserSource.CollectionPath}{Template.Folder}/{Template.PreviewImageFilePath}";
