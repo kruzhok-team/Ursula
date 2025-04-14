@@ -7,6 +7,7 @@ using System.IO;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 using Ursula.GameObjects.View;
+using Ursula.GameProjects.Model;
 using VoxLibExample;
 
 namespace Ursula.GameObjects.View
@@ -85,7 +86,12 @@ namespace Ursula.GameObjects.View
         [Inject]
         private ISingletonProvider<GameObjectAddGameObjectAssetModel> _addGameObjectAssetProvider;
 
+        [Inject]
+        private ISingletonProvider<GameProjectLibraryManager> _gameProjectLibraryManagerProvider;
+
         private GameObjectAddGameObjectAssetModel _addGameObjectAssetModel;
+        private GameProjectLibraryManager _gameProjectLibraryManager;
+
         private FileDialogTool dialogTool;
 
         private string modelPath;
@@ -129,6 +135,7 @@ namespace Ursula.GameObjects.View
         private async GDTask SubscribeEvent()
         {
             _addGameObjectAssetModel = await _addGameObjectAssetProvider.GetAsync();
+            _gameProjectLibraryManager = await _gameProjectLibraryManagerProvider.GetAsync();
             _addGameObjectAssetModel.GameObjectAddAssetToCollection_EventHandler += AddGameObjectAssetModel_GameObjectAddAssetToCollection_EventHandler;
         }
 
@@ -206,7 +213,7 @@ namespace Ursula.GameObjects.View
             string gameObjectGroup = gameObjectGroups[OptionButtonGroupObject.Selected];
             string gameObjectSample = TextEditSampleObject.Text;
 
-            destPath = GameObjectAssetsUserSource.ProjectPath + "/" + GameObjectAssetsUserSource.CollectionPath + TextEditModelName.Text + "/";
+            destPath = _gameProjectLibraryManager.currentProjectInfo.GetProjectPath() + "/" + GameObjectAssetsUserSource.CollectionPath + TextEditModelName.Text + "/";
             model.SetDestPath(destPath);
             model.SetGraphXmlPath(graphXmlPath);
             model.Provider = GameObjectAssetsUserSource.LibId;

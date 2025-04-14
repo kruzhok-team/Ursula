@@ -170,6 +170,7 @@ namespace Ursula.GameObjects.View
                 );
 
             if (assetInfo != null) Provider = assetInfo.ProviderId;
+            else Provider = GameObjectAssetsUserSource.LibId;
 
             InvokeGameObjectAddGameObjectAssetToCollectionEvent();
 
