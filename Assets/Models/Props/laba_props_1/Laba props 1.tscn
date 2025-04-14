@@ -1,34 +1,26 @@
-[gd_scene load_steps=7 format=3 uid="uid://07qtrxoujjkg"]
+[gd_scene load_steps=5 format=3 uid="uid://07qtrxoujjkg"]
 
-[ext_resource type="PackedScene" uid="uid://ccx4ys5boy426" path="res://addons/Ursula/Assets/Models/Props/laba_props_1/laba_props_1.fbx" id="1_hjxbm"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_48djo"]
-[ext_resource type="Material" uid="uid://cgoq2blmk3sja" path="res://addons/Ursula/Assets/Models/Props/laba_props_1/laba_props_1_mat.tres" id="2_jxk2q"]
-[ext_resource type="Material" uid="uid://bho48tauktn43" path="res://addons/Ursula/Assets/Models/Buildings/Build2/Glass_mat.tres" id="2_s87me"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_bcabc"]
+[ext_resource type="PackedScene" uid="uid://2ljd8qvecq75" path="res://addons/Ursula/Assets/Models/Props/laba_props_1/laba_props_1_base.tscn" id="3_msn11"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_dnq4p"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_0uocr"]
 size = Vector3(0.585449, 0.746826, 0.632568)
 
-[node name="laba_props_1" instance=ExtResource("1_hjxbm")]
+[node name="Node3D" type="Node3D"]
 
-[node name="ItemPropsScript" type="Node3D" parent="." index="0"]
+[node name="ItemPropsScript" type="Node3D" parent="."]
 script = ExtResource("2_48djo")
 
-[node name="InteractiveObject" type="Node" parent="." index="1"]
+[node name="InteractiveObject" type="Node" parent="."]
 script = ExtResource("3_bcabc")
 
-[node name="RootNode" parent="." index="2"]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
-
-[node name="laba_props_1_002" parent="RootNode" index="0"]
-material_override = ExtResource("2_s87me")
-
-[node name="laba_props_1" parent="RootNode" index="1"]
-material_override = ExtResource("2_jxk2q")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="." index="3"]
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_layer = 3
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0226135, 0.373847, -0.0157471)
-shape = SubResource("BoxShape3D_dnq4p")
+shape = SubResource("BoxShape3D_0uocr")
+
+[node name="laba_props_1" parent="." instance=ExtResource("3_msn11")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)

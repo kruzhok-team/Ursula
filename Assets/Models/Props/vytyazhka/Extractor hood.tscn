@@ -1,39 +1,25 @@
-[gd_scene load_steps=6 format=3 uid="uid://cavdgvh1goyss"]
+[gd_scene load_steps=5 format=3 uid="uid://cavdgvh1goyss"]
 
-[ext_resource type="PackedScene" uid="uid://c7hq5k022pmta" path="res://addons/Ursula/Assets/Models/Props/vytyazhka/vytyazhka.fbx" id="1_oymsy"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_subst"]
+[ext_resource type="PackedScene" uid="uid://by1p0a0o17q18" path="res://addons/Ursula/Assets/Models/Props/vytyazhka/Extractor_hood_base.tscn" id="3_emoma"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_nvovx"]
-[ext_resource type="Material" uid="uid://doex3ah31gyau" path="res://addons/Ursula/Assets/Models/Props/vytyazhka/vytyazhka_mat.tres" id="4_nw5iu"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_gvm67"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_8ii23"]
 size = Vector3(1, 1, 2.35834)
 
-[node name="vytyazhka" instance=ExtResource("1_oymsy")]
+[node name="Node3D" type="Node3D"]
 
-[node name="ItemPropsScript" type="Node3D" parent="." index="0"]
+[node name="ItemPropsScript" type="Node3D" parent="."]
 script = ExtResource("2_subst")
 
-[node name="InteractiveObject" type="Node" parent="." index="1"]
+[node name="InteractiveObject" type="Node" parent="."]
 script = ExtResource("3_nvovx")
 
-[node name="RootNode" parent="." index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.301261, 0.589955, 0)
-
-[node name="vytyazhka_002" parent="RootNode" index="0"]
-material_override = ExtResource("4_nw5iu")
-
-[node name="vytyazhka_001" parent="RootNode" index="1"]
-material_override = ExtResource("4_nw5iu")
-
-[node name="vytyazhka_004" parent="RootNode" index="2"]
-material_override = ExtResource("4_nw5iu")
-
-[node name="vytyazhka_005" parent="RootNode" index="3"]
-material_override = ExtResource("4_nw5iu")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="." index="3"]
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_layer = 3
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.00741577)
-shape = SubResource("BoxShape3D_gvm67")
+shape = SubResource("BoxShape3D_8ii23")
+
+[node name="vytyazhka" parent="." instance=ExtResource("3_emoma")]

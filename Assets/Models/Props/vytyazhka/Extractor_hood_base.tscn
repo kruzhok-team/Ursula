@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://by1p0a0o17q18"]
+
+[ext_resource type="PackedScene" uid="uid://bxrokvljwsaoq" path="res://addons/Ursula/Assets/Models/Props/vytyazhka/vytyazhka.fbx" id="1_iintq"]
+[ext_resource type="Material" uid="uid://doex3ah31gyau" path="res://addons/Ursula/Assets/Models/Props/vytyazhka/vytyazhka_mat.tres" id="2_huuvk"]
+
+[node name="vytyazhka" instance=ExtResource("1_iintq")]
+
+[node name="vytyazhka_002" parent="." index="0"]
+material_override = ExtResource("2_huuvk")
+
+[node name="vytyazhka_001" parent="." index="1"]
+material_override = ExtResource("2_huuvk")
+
+[node name="vytyazhka_004" parent="." index="2"]
+material_override = ExtResource("2_huuvk")
+
+[node name="vytyazhka_005" parent="." index="3"]
+material_override = ExtResource("2_huuvk")

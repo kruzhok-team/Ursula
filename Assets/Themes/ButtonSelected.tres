@@ -1,6 +1,6 @@
 [gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://c073n7hbygote"]
 
-[ext_resource type="Texture2D" uid="uid://dse2vi5qjpb5n" path="res://addons/Ursula/Assets/Themes/ButtonSelected.png" id="1_kw8la"]
+[ext_resource type="Texture2D" uid="uid://biystr67qh7x5" path="res://addons/Ursula/Assets/Themes/ButtonSelected.png" id="1_kw8la"]
 
 [resource]
 texture = ExtResource("1_kw8la")

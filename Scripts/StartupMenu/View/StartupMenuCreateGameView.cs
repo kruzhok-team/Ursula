@@ -171,7 +171,7 @@ namespace Ursula.StartupMenu.View
             base.Dispose();
         }
 
-        private void ShowView()
+        private async void ShowView()
         {
             Visible = _startupMenuCreateGameViewModel.Visible;
 
@@ -197,7 +197,12 @@ namespace Ursula.StartupMenu.View
                     var info = _gameProjectLibraryManager.SetItem(_startupMenuCreateNewProjectViewModel.GameName, projectTemplate, GameProjectAssetsUserSource.LibId);
                     _gameProjectLibraryManager.SaveItem(info.Id, GameProjectAssetsUserSource.LibId);
                     _gameProjectLibraryManager.SetCurrentProjectInfo(info);
-                }              
+                }
+
+                string projectPath = _gameProjectLibraryManager.currentProjectInfo.GetProjectPath();
+                await _commonLibrary.Load(projectPath);
+
+                Redraw();
             }
 
         }

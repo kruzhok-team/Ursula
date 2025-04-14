@@ -1,12 +1,12 @@
 [gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://n5amgnjxr8ti"]
 
 [ext_resource type="Shader" path="res://addons/Ursula/Shaders/TerrainBlend.gdshader" id="1_dfjjk"]
-[ext_resource type="Texture2D" uid="uid://dci21pwbltqr" path="res://addons/Ursula/Assets/Textures/Terrain/Grass3.png" id="2_uw5p0"]
-[ext_resource type="Texture2D" uid="uid://bel13s3yttj4y" path="res://addons/Ursula/Assets/Textures/Terrain/Snow.png" id="2_x5584"]
-[ext_resource type="Texture2D" uid="uid://blj1wpjqyyvbu" path="res://addons/Ursula/Assets/Textures/Terrain/5 (2).png" id="3_owwxt"]
-[ext_resource type="Texture2D" uid="uid://cxsweia7q41l1" path="res://addons/Ursula/Assets/Textures/Terrain/Lava.png" id="4_v5apq"]
-[ext_resource type="Texture2D" uid="uid://dqlcduqx2osq" path="res://addons/Ursula/Assets/Textures/Terrain/Stone2.png" id="6_e8u8i"]
-[ext_resource type="Texture2D" uid="uid://dul1mriupka8w" path="res://addons/Ursula/Assets/Textures/Terrain/Sand.png" id="6_hk7ev"]
+[ext_resource type="Texture2D" uid="uid://dga6iq4duhls4" path="res://addons/Ursula/Assets/Textures/Terrain/Grass3.png" id="2_uw5p0"]
+[ext_resource type="Texture2D" uid="uid://dsnmo6bs23l3j" path="res://addons/Ursula/Assets/Textures/Terrain/Snow.png" id="2_x5584"]
+[ext_resource type="Texture2D" uid="uid://ci3xic03lfdnn" path="res://addons/Ursula/Assets/Textures/Terrain/5 (2).png" id="3_owwxt"]
+[ext_resource type="Texture2D" uid="uid://df6n6s4wi00fi" path="res://addons/Ursula/Assets/Textures/Terrain/Lava.png" id="4_v5apq"]
+[ext_resource type="Texture2D" uid="uid://bumd5ur6rlvah" path="res://addons/Ursula/Assets/Textures/Terrain/Stone2.png" id="6_e8u8i"]
+[ext_resource type="Texture2D" uid="uid://povafyx021ak" path="res://addons/Ursula/Assets/Textures/Terrain/Sand.png" id="6_hk7ev"]
 
 [resource]
 render_priority = 0

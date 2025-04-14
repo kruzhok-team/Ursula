@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6t7q16vga7x2"]
+
+[ext_resource type="PackedScene" uid="uid://cfrp4u4sd55dr" path="res://addons/Ursula/Assets/Models/Buildings/Build1/building_2_single_input.fbx" id="1_hfvhv"]
+[ext_resource type="Material" uid="uid://bwdd7272o4h2e" path="res://addons/Ursula/Assets/Models/Buildings/Build1/Build_1_mat.tres" id="2_ffnqm"]
+
+[node name="building_2_single_input" instance=ExtResource("1_hfvhv")]
+
+[node name="building_2_single_input_001" parent="." index="0"]
+transform = Transform3D(0, 100, 2.98023e-06, 2.98023e-06, 0, 100, 100, 2.98023e-06, 0, -0.00837874, 2.10713, 0.00308156)
+material_override = ExtResource("2_ffnqm")
+
+[node name="building_2_single_input_002" parent="." index="1"]
+transform = Transform3D(0, 100, 2.98023e-06, 2.98023e-06, 0, 100, 100, 2.98023e-06, 0, -0.00837684, -0.525963, 0.00308156)
+material_override = ExtResource("2_ffnqm")
+
+[node name="building_2_single_input_003" parent="." index="2"]
+transform = Transform3D(0, 100, 2.98023e-06, 2.98023e-06, 0, 100, 100, 2.98023e-06, 0, -0.00837874, 2.10713, 0.00308156)
+material_override = ExtResource("2_ffnqm")
+
+[node name="building_2_single_input" parent="." index="3"]
+transform = Transform3D(1.78814e-05, -1.19209e-05, 100, -100, -1.19209e-05, 2.08616e-05, 8.9407e-06, -100, -2.38419e-05, 5.39892, 0.0283614, 0.00308156)
+material_override = ExtResource("2_ffnqm")

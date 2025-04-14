@@ -46,7 +46,8 @@ public partial class Bootstrapper : Node
         GD.Print("Загрузка ассетов...");
 
         // Загрузка ассетов
-        var mapAssets = ResourceLoader.Load<MapAssets>("res://addons/Ursula/Assets/MapAssets.tres");
+        string path = ProjectSettings.GlobalizePath("res://addons/Ursula/Assets/MapAssets.tres");
+        var mapAssets = ResourceLoader.Load<MapAssets>(path);
         VoxLib.mapAssets = mapAssets;
 
         GD.Print("Ассеты загружены.");
@@ -57,7 +58,8 @@ public partial class Bootstrapper : Node
         GD.Print("Загрузка сцен...");
 
         // Загрузка сцены главного меню
-        var mainMenuScene = ResourceLoader.Load<PackedScene>("res://addons/Ursula/Ursula.tscn");
+        string path = ProjectSettings.GlobalizePath("res://addons/Ursula/Ursula.tscn");
+        var mainMenuScene = ResourceLoader.Load<PackedScene>(path);
         if (mainMenuScene != null)
         {
             var mainMenu = mainMenuScene.Instantiate();
@@ -71,7 +73,8 @@ public partial class Bootstrapper : Node
         }
 
         // Загрузка сцены окружения
-        var environmentScene = ResourceLoader.Load<PackedScene>("res://addons/Ursula/Environment.tscn");
+        path = ProjectSettings.GlobalizePath("res://addons/Ursula/Environment.tscn");
+        var environmentScene = ResourceLoader.Load<PackedScene>(path);
         if (environmentScene != null)
         {
             var scene = environmentScene.Instantiate();
@@ -84,7 +87,8 @@ public partial class Bootstrapper : Node
             GD.PrintErr("Сцена окружения не найдена.");
         }
 
-        var startupMenu = ResourceLoader.Load<PackedScene>("res://addons/Ursula/StartupMenu.tscn");
+        path = ProjectSettings.GlobalizePath("res://addons/Ursula/StartupMenu.tscn");
+        var startupMenu = ResourceLoader.Load<PackedScene>(path);
         if (startupMenu != null)
         {
             var scene = startupMenu.Instantiate();
@@ -97,7 +101,8 @@ public partial class Bootstrapper : Node
             GD.PrintErr("Сцена начала проекта не найдена.");
         }
 
-        var assetManager = ResourceLoader.Load<PackedScene>("res://addons/Ursula/GameObjectCollectionAssetManager.tscn");
+        path = ProjectSettings.GlobalizePath("res://addons/Ursula/GameObjectCollectionAssetManager.tscn");
+        var assetManager = ResourceLoader.Load<PackedScene>(path);
         if (assetManager != null)
         {
             var scene = assetManager.Instantiate();

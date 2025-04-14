@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=4 uid="uid://bhjp24tuojmp8"]
 
-[ext_resource type="PackedScene" uid="uid://ce8fskqjwwai7" path="res://addons/Ursula/Assets/Models/Buildings/angar_laboratory/angar_laboratory.fbx" id="1_tj76e"]
+[ext_resource type="PackedScene" uid="uid://1av1yh173kw1" path="res://addons/Ursula/Assets/Models/Buildings/angar_laboratory/angar_laboratory.fbx" id="1_tj76e"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_6gmve"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_cjgl2"]
 [ext_resource type="Material" uid="uid://cy207av2u2nkp" path="res://addons/Ursula/Assets/Models/Buildings/angar_laboratory/angar_laboratory_mat.tres" id="4_8ccl6"]

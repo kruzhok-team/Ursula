@@ -31,10 +31,16 @@ namespace Ursula.Core.Model
             {
                 _cachedConfigFile = new ConfigFile();
                 LastFileError = _cachedConfigFile.Load(_filePath);
+                string path = ProjectSettings.GlobalizePath(_filePath);
 
                 if (LastFileError != Godot.Error.Ok)
                 {
-                    GD.PrintErr($"{GetType().Name} Settings file '{_filePath}' loading error: \r\n{LastFileError.ToString()}");
+                    GD.Print($"{GetType().Name} Settings file '{_filePath}' loading error: \r\n{LastFileError.ToString()}");
+                    _cachedConfigFile.Save(path);
+                }
+                else
+                {
+                    //_cachedConfigFile.Save(ProjectSettings.GlobalizePath(_filePath));
                 }
             }
             return _cachedConfigFile;

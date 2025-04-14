@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://d4krypfxpyycs"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Modules/ModelsCatalog/ObjectsCatalog.cs" id="1_bi263"]
-[ext_resource type="Texture2D" uid="uid://eo45vsj5rtgg" path="res://addons/Ursula/Assets/Textures/UI/Close.png" id="2_ked3h"]
+[ext_resource type="Texture2D" uid="uid://dytlgx2rjdgt" path="res://addons/Ursula/Assets/Textures/UI/Close.png" id="2_ked3h"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/ModelsCatalog/ObjectsCatalogLoadObject.cs" id="2_wro5l"]
 [ext_resource type="PackedScene" uid="uid://dpwcf74rci8i6" path="res://addons/Ursula/Prefabs/GameObjects/ItemLibraryObjectDataPrefab.tscn" id="4_nclfh"]
 

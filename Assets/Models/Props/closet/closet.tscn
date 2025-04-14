@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://dqe3p2rdxs4r2"]
 
-[ext_resource type="PackedScene" uid="uid://c63us1mntdkcu" path="res://addons/Ursula/Assets/Models/Props/closet/closet.fbx" id="1_bqmf7"]
+[ext_resource type="PackedScene" uid="uid://c886c2qc8lcs4" path="res://addons/Ursula/Assets/Models/Props/closet/closet.fbx" id="1_bqmf7"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_16qks"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_vkagy"]
-[ext_resource type="Material" uid="uid://cduvvq7q7wy1d" path="res://addons/Ursula/Assets/Models/Props/closet/closet_mat.tres" id="4_ptefk"]
+[ext_resource type="PackedScene" uid="uid://bfpnxvqa0vdxr" path="res://addons/Ursula/Assets/Models/Props/closet/closet_base.tscn" id="4_amf1i"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lacgy"]
 size = Vector3(1.7636, 1.94807, 0.422852)
@@ -16,27 +16,12 @@ script = ExtResource("2_16qks")
 [node name="InteractiveObject" type="Node" parent="." index="1"]
 script = ExtResource("3_vkagy")
 
-[node name="RootNode" parent="." index="2"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-
-[node name="closet_002" parent="RootNode" index="0"]
-material_override = ExtResource("4_ptefk")
-
-[node name="closet_001" parent="RootNode" index="1"]
-material_override = ExtResource("4_ptefk")
-
-[node name="closet_006" parent="RootNode" index="2"]
-material_override = ExtResource("4_ptefk")
-
-[node name="closet_003" parent="RootNode" index="3"]
-material_override = ExtResource("4_ptefk")
-
-[node name="closet_004" parent="RootNode" index="4"]
-material_override = ExtResource("4_ptefk")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="." index="3"]
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="2"]
 collision_layer = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.023613, 0.996734, 0.0151367)
 shape = SubResource("BoxShape3D_lacgy")
+
+[node name="closet" parent="." index="3" instance=ExtResource("4_amf1i")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)

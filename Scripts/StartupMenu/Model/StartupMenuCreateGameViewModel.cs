@@ -300,8 +300,10 @@ namespace Ursula.StartupMenu.Model
 
         public void SetCreateGameViewCreateFolderGame()
         {
-            string DestPath = GameProjectAssetsUserSource.CollectionPath + _CreateGameSourceData.GameName;
-            Directory.CreateDirectory(ProjectSettings.GlobalizePath(DestPath));
+            string gamePath = ProjectSettings.GlobalizePath(GameProjectAssetsUserSource.CollectionPath);
+            if (!Directory.Exists(gamePath)) Directory.CreateDirectory(gamePath);
+            string destPath = gamePath + _CreateGameSourceData.GameName;
+            if (!Directory.Exists(destPath)) Directory.CreateDirectory(ProjectSettings.GlobalizePath(destPath));
         }
 
 

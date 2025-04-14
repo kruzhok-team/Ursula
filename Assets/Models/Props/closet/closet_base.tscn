@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfpnxvqa0vdxr"]
+
+[ext_resource type="PackedScene" uid="uid://c886c2qc8lcs4" path="res://addons/Ursula/Assets/Models/Props/closet/closet.fbx" id="1_vfij5"]
+[ext_resource type="Material" uid="uid://cduvvq7q7wy1d" path="res://addons/Ursula/Assets/Models/Props/closet/closet_mat.tres" id="2_2lfjc"]
+
+[node name="closet" instance=ExtResource("1_vfij5")]
+
+[node name="closet_002" parent="." index="0"]
+material_override = ExtResource("2_2lfjc")
+
+[node name="closet_001" parent="." index="1"]
+material_override = ExtResource("2_2lfjc")
+
+[node name="closet_006" parent="." index="2"]
+material_override = ExtResource("2_2lfjc")
+
+[node name="closet_003" parent="." index="3"]
+material_override = ExtResource("2_2lfjc")
+
+[node name="closet_004" parent="." index="4"]
+material_override = ExtResource("2_2lfjc")
