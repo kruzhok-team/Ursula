@@ -70,8 +70,8 @@ namespace Ursula.GameObjects.Model
         public IReadOnlyCollection<GameObjectAssetInfo> GetInfoOnGroup(string nameGroup, string LibId = null)
         {
             var mergedList = new List<GameObjectAssetInfo>();
-            if (LibId == null || LibId == GameObjectAssetsUserSource.LibId) mergedList.AddRange(_userLib.GetAllInfo());
-            if (LibId == null || LibId == GameObjectAssetsEmbeddedSource.LibId) mergedList.AddRange(_embeddedLib.GetAllInfo());
+            if ((LibId == null || LibId == GameObjectAssetsUserSource.LibId) && _userLib != null) mergedList.AddRange(_userLib.GetAllInfo());
+            if ((LibId == null || LibId == GameObjectAssetsEmbeddedSource.LibId && _embeddedLib != null)) mergedList.AddRange(_embeddedLib.GetAllInfo());
 
             var collectionList = new List<GameObjectAssetInfo>();
 

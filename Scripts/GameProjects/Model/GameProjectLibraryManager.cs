@@ -57,8 +57,9 @@ namespace Ursula.GameProjects.Model
 
         public IReadOnlyCollection<GameProjectAssetInfo> GetAllInfo()
         {
-            var mergedList = new List<GameProjectAssetInfo>(_userLib.GetAllInfo());
-            mergedList.AddRange(_embeddedLib.GetAllInfo());
+            var mergedList = new List<GameProjectAssetInfo>();
+            if (_userLib != null) mergedList.AddRange(_userLib.GetAllInfo());
+            if (_embeddedLib != null) mergedList.AddRange(_embeddedLib.GetAllInfo());
 
             return mergedList;
         }

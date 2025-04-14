@@ -169,7 +169,7 @@ namespace Ursula.GameObjects.View
                 Path.GetFileName(PreviewImageFilePathFrom)
                 );
 
-            Provider = assetInfo.ProviderId;
+            if (assetInfo != null) Provider = assetInfo.ProviderId;
 
             InvokeGameObjectAddGameObjectAssetToCollectionEvent();
 
