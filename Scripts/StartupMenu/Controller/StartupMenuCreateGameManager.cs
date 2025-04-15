@@ -1,4 +1,4 @@
-using Fractural.Tasks;
+﻿using Fractural.Tasks;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -169,6 +169,11 @@ namespace Ursula.StartupMenu.Model
             int amountTrees = Mathf.Min((int)(_size * _size * treesDensity / 64)
                 , _size * _size / 64);
 
+            if (amountTrees > 0)
+            {
+                VoxLib.ShowMessage("Генерация деревьев...");
+            }
+
             for (int i = 0; i < amountTrees; i++)
             {
                 int x = Mathf.RoundToInt(GD.Randi() % (_size - 1));
@@ -206,6 +211,11 @@ namespace Ursula.StartupMenu.Model
 
             int amountGrass = Mathf.Min((int)(_size * _size * grassDensity / 64)
                 , _size * _size / 64);
+
+            if (amountGrass > 0)
+            {
+                VoxLib.ShowMessage("Генерация травы...");
+            }
 
             for (int i = 0; i < amountGrass; i++)
             {

@@ -6,7 +6,6 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xpfyq"]
 resource_name = "palm_ver3"
 vertex_color_use_as_albedo = true
-albedo_color = Color(1, 1, 1, 1)
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.0
@@ -51,3 +50,6 @@ shadow_mesh = SubResource("ArrayMesh_ij8a2")
 material_override = ExtResource("2_lgxix")
 mesh = SubResource("ArrayMesh_jbar6")
 skeleton = NodePath("")
+
+[node name="palm_ver3" parent="." index="1"]
+visible = false

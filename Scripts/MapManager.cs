@@ -933,7 +933,8 @@ public partial class MapManager : Node, IInjectable
 
     public void SaveMapToFile(string file)
     {
-        fileDialog.Disconnect("file_selected", new Callable(this, nameof(SaveMapToFile)));
+        if (fileDialog.IsConnected("file_selected", new Callable(this, nameof(SaveMapToFile))))
+            fileDialog.Disconnect("file_selected", new Callable(this, nameof(SaveMapToFile)));
 
         string savePath = file;
         if (savePath.Contains("user://Project")) savePath = ProjectSettings.GlobalizePath(savePath);

@@ -197,10 +197,12 @@ namespace Ursula.StartupMenu.View
                     var info = _gameProjectLibraryManager.SetItem(_startupMenuCreateNewProjectViewModel.GameName, projectTemplate, GameProjectAssetsUserSource.LibId);
                     _gameProjectLibraryManager.SaveItem(info.Id, GameProjectAssetsUserSource.LibId);
                     _gameProjectLibraryManager.SetCurrentProjectInfo(info);
+                    await GDTask.Delay(100);
                 }
 
                 string projectPath = _gameProjectLibraryManager.currentProjectInfo.GetProjectPath();
                 await _commonLibrary.Load(projectPath);
+                await GDTask.Delay(100);
 
                 Redraw();
             }
