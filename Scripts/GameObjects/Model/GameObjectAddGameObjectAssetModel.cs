@@ -322,16 +322,18 @@ namespace Ursula.GameObjects.View
                 _gameObjectUserSourceData.AnimationsTo.Add($"{MapManager.PATHANIMATION}/{Path.GetFileName(pathTo)}");
             }
 
-            if (File.Exists(GraphXmlPathFrom)
-                && GraphXmlPathFrom != ProjectSettings.GlobalizePath(GraphXmlPathTo))
+            string _graphXmlPathFrom = ProjectSettings.GlobalizePath(GraphXmlPathFrom);
+            if (File.Exists(_graphXmlPathFrom)
+                && _graphXmlPathFrom != ProjectSettings.GlobalizePath(GraphXmlPathTo))
             {
-                File.Copy(GraphXmlPathFrom, ProjectSettings.GlobalizePath(GraphXmlPathTo), true);
+                File.Copy(_graphXmlPathFrom, ProjectSettings.GlobalizePath(GraphXmlPathTo), true);
             }
 
-            if (File.Exists(PreviewImageFilePathFrom)
-                && PreviewImageFilePathFrom != ProjectSettings.GlobalizePath(PreviewImageFilePathTo))
+            string _previewImageFilePathFrom = ProjectSettings.GlobalizePath(PreviewImageFilePathFrom);
+            if (File.Exists(_previewImageFilePathFrom)
+                && _previewImageFilePathFrom != ProjectSettings.GlobalizePath(PreviewImageFilePathTo))
             {
-                File.Copy(PreviewImageFilePathFrom, ProjectSettings.GlobalizePath(PreviewImageFilePathTo), true);
+                File.Copy(_previewImageFilePathFrom, ProjectSettings.GlobalizePath(PreviewImageFilePathTo), true);
             }
         }
 
