@@ -27,7 +27,7 @@ namespace Ursula.GameObjects.Controller
         private GameObjectCurrentInfoModel _gameObjectCurrentInfoModel;
         private GameObjectLibraryManager _gameObjectLibraryManager;
         private GameObjectCollectionModel _gameObjectCollectionModel;
-        private GameObjectAddGameObjectAssetModel _AddGameObjectAssetModel;
+        private GameObjectAddGameObjectAssetModel _addGameObjectAssetModel;
 
         void IInjectable.OnDependenciesInjected()
         {
@@ -44,10 +44,10 @@ namespace Ursula.GameObjects.Controller
             _gameObjectCurrentInfoModel = await _gameObjectCurrentInfoModelProvider.GetAsync();
             _gameObjectLibraryManager = await _gameObjectLibraryManagerProvider.GetAsync();
             _gameObjectCollectionModel = await _gameObjectCollectionModelProvider.GetAsync();
-            _AddGameObjectAssetModel = await _AddGameObjectAssetProvider.GetAsync();
+            _addGameObjectAssetModel = await _AddGameObjectAssetProvider.GetAsync();
 
             _gameObjectCollectionModel.GameObjectAssetSelectedEvent += GameObjectCollectionModel_GameObjectAssetSelected_EventHandler;           
-            _AddGameObjectAssetModel.GameObjectAddAssetToCollection_EventHandler += AddGameObjectAssetModel_GameObjectAddAssetToCollection_EventHandler;
+            _addGameObjectAssetModel.GameObjectAddAssetToCollection_EventHandler += AddGameObjectAssetModel_GameObjectAddAssetToCollection_EventHandler;
         }
 
         public void RemoveGraphXml(string path)
@@ -57,6 +57,7 @@ namespace Ursula.GameObjects.Controller
 
         private void GameObjectCollectionModel_GameObjectAssetSelected_EventHandler(object sender, EventArgs e)
         {
+            _addGameObjectAssetModel.ProviderId = _gameObjectCollectionModel.AssetSelected.ProviderId;
             _gameObjectCurrentInfoModel.SetAssetInfoView(_gameObjectCollectionModel.AssetSelected, true);
             GameObjectCurrentInfoView.SetAssetInfoView(_gameObjectCollectionModel.AssetSelected);
         }

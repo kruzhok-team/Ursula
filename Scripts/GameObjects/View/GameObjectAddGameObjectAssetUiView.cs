@@ -216,7 +216,8 @@ namespace Ursula.GameObjects.View
             destPath = _gameProjectLibraryManager.currentProjectInfo.GetProjectPath() + "/" + GameObjectAssetsUserSource.CollectionPath + TextEditModelName.Text + "/";
             model.SetDestPath(destPath);
             model.SetGraphXmlPath(graphXmlPath);
-            model.Provider = GameObjectAssetsUserSource.LibId;
+            model.SetPreviewImageFilePath(previewImagePath);
+            model.ProviderId = GameObjectAssetsUserSource.LibId;
 
             model.SetAddGameObjectAssetToCollection(TextEditModelName.Text, gameObjectGroup, OptionButtonClassObject.Selected, gameObjectSample);
 

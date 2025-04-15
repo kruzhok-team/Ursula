@@ -108,7 +108,7 @@ namespace Ursula.GameObjects.View
     {
         public bool IsGameObjectAddUserSourceVisible { get; private set; } = false;
         public bool IsEditMode { get; private set; } = false;
-        public string Provider { get; set; } = GameObjectAssetsUserSource.LibId;
+        public string ProviderId { get; set; } = GameObjectAssetsUserSource.LibId;
 
         public GameObjectAssetInfo assetInfo;
         public GameObjectTemplate template;
@@ -169,8 +169,8 @@ namespace Ursula.GameObjects.View
                 Path.GetFileName(PreviewImageFilePathFrom)
                 );
 
-            if (assetInfo != null) Provider = assetInfo.ProviderId;
-            else Provider = GameObjectAssetsUserSource.LibId;
+            //if (assetInfo != null) Provider = assetInfo.ProviderId;
+            //else Provider = GameObjectAssetsUserSource.LibId;
 
             InvokeGameObjectAddGameObjectAssetToCollectionEvent();
 
@@ -181,7 +181,7 @@ namespace Ursula.GameObjects.View
         {
             IsGameObjectAddUserSourceVisible = value;
             this.IsEditMode = isEditMode;
-            Provider = GameObjectAssetsUserSource.LibId;
+            ProviderId = GameObjectAssetsUserSource.LibId;
             EventArgs eventArgs = new EventArgs();
             InvokeGameObjectAddUserSourceVisibleEvent(eventArgs);
             return this;
@@ -290,7 +290,7 @@ namespace Ursula.GameObjects.View
         {
             MapManager.CreateDir(DestPath);
 
-            if (Provider == GameObjectAssetsUserSource.LibId)
+            if (ProviderId == GameObjectAssetsUserSource.LibId)
                 ModelLoader.CopyModel(ModelPath, DestPath);
 
             _gameObjectUserSourceData.AudiosTo = new List<string>();
