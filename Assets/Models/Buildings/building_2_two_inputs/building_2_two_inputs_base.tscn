@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://u0xn8h3ds0pw"]
+
+[ext_resource type="PackedScene" uid="uid://djf61rlidi12" path="res://addons/Ursula/Assets/Models/Buildings/building_2_two_inputs/building_2_two_inputs.fbx" id="1_klt4o"]
+[ext_resource type="Material" uid="uid://bqf5vnc6ihhub" path="res://addons/Ursula/Assets/Models/Buildings/building_2_two_inputs/building_2_two_inputs_mat.tres" id="2_7t8kr"]
+
+[node name="building_2_two_inputs" instance=ExtResource("1_klt4o")]
+
+[node name="building_2_single_input_005" parent="building_2_single_input_004" index="0"]
+material_override = ExtResource("2_7t8kr")
+
+[node name="building_2_single_input_006" parent="building_2_single_input_004" index="1"]
+material_override = ExtResource("2_7t8kr")
+
+[node name="building_2_single_input_007" parent="building_2_single_input_004" index="2"]
+material_override = ExtResource("2_7t8kr")
+
+[node name="building_2_single_input_008" parent="building_2_single_input_004" index="3"]
+material_override = ExtResource("2_7t8kr")

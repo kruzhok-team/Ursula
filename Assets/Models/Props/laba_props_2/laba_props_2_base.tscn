@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://j7fdwe4gj0ow"]
+
+[ext_resource type="PackedScene" uid="uid://dx1in8b672nib" path="res://addons/Ursula/Assets/Models/Props/laba_props_2/laba_props_2.fbx" id="1_ngywd"]
+[ext_resource type="Material" uid="uid://7fjbbutcdd32" path="res://addons/Ursula/Assets/Models/Props/laba_props_2/laba_props_2_glass_mat.tres" id="2_vckxv"]
+[ext_resource type="Material" uid="uid://bd242s0blim74" path="res://addons/Ursula/Assets/Models/Props/laba_props_2/laba_props_2_mat.tres" id="3_mc7jk"]
+
+[node name="laba_props_2" instance=ExtResource("1_ngywd")]
+
+[node name="laba_props_2" parent="." index="0"]
+material_override = ExtResource("2_vckxv")
+
+[node name="laba_props_2_005" parent="." index="1"]
+material_override = ExtResource("3_mc7jk")

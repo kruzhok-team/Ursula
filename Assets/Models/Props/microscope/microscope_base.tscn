@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://2s0af4pjrdf8"]
+
+[ext_resource type="PackedScene" uid="uid://csfneeepydbt2" path="res://addons/Ursula/Assets/Models/Props/microscope/microscope.fbx" id="1_metmr"]
+[ext_resource type="Material" uid="uid://cog2yo3uurbcp" path="res://addons/Ursula/Assets/Models/Props/microscope/microscope_mat.tres" id="2_2l355"]
+
+[node name="microscope" instance=ExtResource("1_metmr")]
+
+[node name="microscope" parent="." index="0"]
+material_override = ExtResource("2_2l355")
