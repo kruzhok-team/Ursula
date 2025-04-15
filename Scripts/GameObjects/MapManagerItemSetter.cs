@@ -117,7 +117,6 @@ namespace Ursula.MapManagers.Setters
             string AssetFoderPath = ""
             )
         {
-
             IGameObjectAsset asset;
             bool isTryGetItem = _gameObjectLibraryManager.TryGetItem(assetInfo.Id, out asset);
             if (!isTryGetItem) return null;
@@ -163,7 +162,7 @@ namespace Ursula.MapManagers.Setters
             if (isTryGetItem)
             {
                 _mapManagerModel.SetItemToMap(node, ips);
-                GD.Print($"Create item={assetInfo.Id}, position={node.Position}");
+                //GD.Print($"Create item={assetInfo.Id}, position={node.Position}");
 
                 var obj = node.GetNode("InteractiveObject");
                 var io = obj as InteractiveObject;

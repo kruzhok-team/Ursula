@@ -57,7 +57,7 @@ public partial class CustomObject : Node
 		}
 		else
 		{
-			modelInstance = ModelLoader.LoadModelByPath(objPath);
+            modelInstance = ModelLoader.LoadModelByPath(objPath);
 			this.AddChild(modelInstance);
 		}
 	}

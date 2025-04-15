@@ -110,6 +110,8 @@ namespace Ursula.StartupMenu.Model
             _gameProjectLibraryManager.SetItem(gameInfoNew.Name, template, gameInfoNew.ProviderId);
             _gameProjectLibraryManager.SaveItem(gameInfoNew.Id, gameInfoNew.ProviderId);
 
+            await GDTask.DelayFrame(1);
+
             string fileName = Path.GetFileName(_startupMenuCreateGameViewModel._CreateGameSourceData.GameImagePath);
             string destPath = $"{_gameProjectLibraryManager.currentProjectInfo.GetProjectPath()}/{fileName}";
             CopyFile(_startupMenuCreateGameViewModel._CreateGameSourceData.GameImagePath, destPath);
@@ -134,7 +136,7 @@ namespace Ursula.StartupMenu.Model
 
             await GeneratePlants();
 
-            _gameProjectLibraryManager.SetCurrentProjectInfo(gameInfoNew);
+            _gameProjectLibraryManager.SetLoadProject(gameInfoNew);
             gameInfoNew.SaveMap();
 
         }
