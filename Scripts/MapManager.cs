@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using Ursula.Core.DI;
 using Ursula.Environment.Settings;
 using Ursula.GameObjects.Model;
+using Ursula.GameProjects.Model;
 using Ursula.MapManagers.Controller;
 using Ursula.MapManagers.Model;
 using Ursula.MapManagers.Setters;
@@ -232,15 +233,16 @@ public partial class MapManager : Node, IInjectable
     public void GenerateProjectFolder()
     {
         var path = GetProjectFolderPath();
-		CreateDir(path);
-		CreateDir(path + "/Audio/");
-		CreateDir(path + "/Models/");
-		CreateDir(path + "/Graphs/");
-        CreateDir(path + PATHCUSTOMGRASS);
-        CreateDir(path + PATHCUSTOMTREES);
-        CreateDir(path + PATHCATALOG);
-        CreateDir(GameObjectAssetsUserSource.CollectionPath);
-        CreateDir(GameObjectAssetsEmbeddedSource.CollectionPath);
+        CreateDir(path);
+        CreateDir(ProjectSettings.GlobalizePath(GameProjectAssetsUserSource.CollectionPath));
+        //CreateDir(path + "/Audio/");
+        //CreateDir(path + "/Models/");
+        //CreateDir(path + "/Graphs/");
+        //CreateDir(path + PATHCUSTOMGRASS);
+        //CreateDir(path + PATHCUSTOMTREES);
+        //CreateDir(path + PATHCATALOG);
+        //CreateDir(GameObjectAssetsUserSource.CollectionPath);
+        //CreateDir(GameObjectAssetsEmbeddedSource.CollectionPath);
     }
 
 	public static void CreateDir(string path)

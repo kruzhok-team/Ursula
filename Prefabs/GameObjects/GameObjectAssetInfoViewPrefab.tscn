@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://ccpqmgm2c1jtt"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAssetInfoView.cs" id="1_0agk0"]
-[ext_resource type="Texture2D" uid="uid://c07i448r3l1c0" path="res://addons/Ursula/Assets/Textures/UI/NewGame.png" id="2_1d433"]
-[ext_resource type="Texture2D" uid="uid://dsv331ol4chmh" path="res://addons/Ursula/Assets/Themes/AssetBG.png" id="2_kunws"]
+[ext_resource type="Texture2D" uid="uid://5u8tii1fiwbc" path="res://addons/Ursula/Assets/Textures/UI/NewGame.png" id="2_1d433"]
+[ext_resource type="Texture2D" uid="uid://cnndy2mvq2m8o" path="res://addons/Ursula/Assets/Themes/AssetBG.png" id="2_kunws"]
 [ext_resource type="StyleBox" uid="uid://dqqcv0g4ml2fl" path="res://addons/Ursula/Assets/Themes/TextEdit.tres" id="2_nugwy"]
-[ext_resource type="Texture2D" uid="uid://blshedacnfxq" path="res://addons/Ursula/Assets/Themes/Load.png" id="5_uoflf"]
+[ext_resource type="Texture2D" uid="uid://j8rbceeugwoc" path="res://addons/Ursula/Assets/Themes/Load.png" id="5_uoflf"]
 
 [node name="GameObjectAssetInfoViewPrefab" type="Control" node_paths=PackedStringArray("LabelNameAsset", "ButtonClickAsset", "PreviewImageRect", "LoadObjectImageRect")]
 custom_minimum_size = Vector2(120, 140)

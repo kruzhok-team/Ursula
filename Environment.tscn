@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://c1y47k01wo4w7"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/DayNightCycle.cs" id="1_ut2wg"]
-[ext_resource type="Texture2D" uid="uid://b2h3g1waqkvdp" path="res://addons/Ursula/Assets/Textures/Skybox/skybox_night_sky_2.png" id="2_okbeu"]
+[ext_resource type="Texture2D" uid="uid://b3pxw48j6h1s0" path="res://addons/Ursula/Assets/Textures/Skybox/skybox_night_sky_2.png" id="2_okbeu"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Environment/Lighting/ShadowSetter.cs" id="3_h1bib"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_37jg0"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://w8vsbbx5hkj0"]
 
-[ext_resource type="PackedScene" uid="uid://dqcauvm66qnaa" path="res://addons/Ursula/Assets/Models/Plants_new/Plant_7/plant_7.fbx" id="1_hmqxu"]
+[ext_resource type="PackedScene" uid="uid://br7okfqnokowm" path="res://addons/Ursula/Assets/Models/Plants_new/Plant_7/plant_7.fbx" id="1_hmqxu"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_vab4o"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_a8qkq"]
 

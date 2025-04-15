@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ctfqbsr1r2d7k"
+path="res://.godot/imported/lowpoly sheep.obj-1fc4e58456828a240349eece3a3aacbd.mesh"
+
+[deps]
+
+files=["res://.godot/imported/lowpoly sheep.obj-1fc4e58456828a240349eece3a3aacbd.mesh"]
+
+source_file="res://addons/Ursula/Assets/Models/Animals/Sheep/lowpoly sheep.obj"
+dest_files=["res://.godot/imported/lowpoly sheep.obj-1fc4e58456828a240349eece3a3aacbd.mesh", "res://.godot/imported/lowpoly sheep.obj-1fc4e58456828a240349eece3a3aacbd.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

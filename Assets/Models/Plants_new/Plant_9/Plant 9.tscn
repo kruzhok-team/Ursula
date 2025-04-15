@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="1_8ep0s"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="2_hqcbh"]
-[ext_resource type="PackedScene" uid="uid://c5ecje1ju1lw7" path="res://addons/Ursula/Assets/Models/Plants_new/Plant_9/plant_9.fbx" id="3_nl02u"]
+[ext_resource type="PackedScene" uid="uid://do1ok8gaxlv6q" path="res://addons/Ursula/Assets/Models/Plants_new/Plant_9/plant_9.fbx" id="3_nl02u"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_2slxo"]
 height = 0.750382

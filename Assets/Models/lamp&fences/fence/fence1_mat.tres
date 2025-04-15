@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bamgyg2vgbnni"]
 
-[ext_resource type="Texture2D" uid="uid://bkd7rwqarfyak" path="res://addons/Ursula/Assets/Models/lamp&fences/fence/fence_tex.png" id="1_gf7w1"]
+[ext_resource type="Texture2D" uid="uid://dryfy45tmxx3f" path="res://addons/Ursula/Assets/Models/lamp&fences/fence/fence_tex.png" id="1_gf7w1"]
 
 [resource]
 albedo_texture = ExtResource("1_gf7w1")

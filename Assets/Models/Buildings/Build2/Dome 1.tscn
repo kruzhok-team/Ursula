@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://34p15yvjpntr"]
 
-[ext_resource type="PackedScene" uid="uid://cmvqcscjwyxn0" path="res://addons/Ursula/Assets/Models/Buildings/Build2/building_dome_two_inputs.fbx" id="1_05yl8"]
+[ext_resource type="PackedScene" uid="uid://bqktggruxa326" path="res://addons/Ursula/Assets/Models/Buildings/Build2/building_dome_two_inputs.fbx" id="1_05yl8"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_a57hf"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="2_qgmls"]
 [ext_resource type="Material" uid="uid://bho48tauktn43" path="res://addons/Ursula/Assets/Models/Buildings/Build2/Glass_mat.tres" id="3_utssp"]

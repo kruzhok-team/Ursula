@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://dtpeauwenjokr"]
 
-[ext_resource type="PackedScene" uid="uid://1ctd6um62c37" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_connect/tunnel_connect.fbx" id="1_hl8wt"]
+[ext_resource type="PackedScene" uid="uid://bj084jvctcagg" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_connect/tunnel_connect.fbx" id="1_hl8wt"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_44mxp"]
 [ext_resource type="Material" uid="uid://co186q4nyqkur" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_connect/tunnel_connect_mat.tres" id="2_bi0uj"]
 [ext_resource type="Material" uid="uid://bho48tauktn43" path="res://addons/Ursula/Assets/Models/Buildings/Build2/Glass_mat.tres" id="3_0nmsu"]
