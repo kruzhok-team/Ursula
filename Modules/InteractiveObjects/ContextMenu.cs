@@ -67,7 +67,7 @@ public partial class ContextMenu : Control, IInjectable
     {
         var print = $"[{DateTime.Now.ToString("HH:mm:ss.fff")}] > " + message;
         VoxLib.log.ShowMessage(print);
-        GD.Print(print);
+        //GD.Print(print);
     }
 
     public async void ShowMessage(string message)
