@@ -162,10 +162,16 @@ namespace Ursula.GameProjects.Model
 
             for (int i = 0; i < folders.Count; i++)
             {
-                string path = $"{folders[i]}/{ProjectJson}";
+                string folder = folders[i];
+                string path = $"{folder}/{ProjectJson}";
+
+                if (!File.Exists(path)) continue;
+
                 string json = File.ReadAllText(path);
                 GameProjectAssetInfo projectInfo = JsonSerializer.Deserialize<GameProjectAssetInfo>(json, options);
-                _infoMap.Add(projectInfo.Id, projectInfo);
+                projectInfo.Name = Path.GetFileName(folder);
+                string id = $"{projectInfo.ProviderId}.{projectInfo.Name}";
+                if (!_infoMap.ContainsKey(id)) _infoMap.Add(id, projectInfo);
             }
 
 

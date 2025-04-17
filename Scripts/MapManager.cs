@@ -1229,6 +1229,7 @@ public partial class MapManager : Node, IInjectable
         if (waterOffset == 1)
         {
             VoxLib.waterManager.DeleteWater();
+            _waterModel.SetWaterLevel(-1000);
         }
         else
         {

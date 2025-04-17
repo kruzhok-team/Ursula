@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://dgc042g3ej4rj"]
+[gd_scene load_steps=74 format=3 uid="uid://dgc042g3ej4rj"]
 
 [ext_resource type="PackedScene" uid="uid://dn1jem1nnefln" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/project_timer.tscn" id="1_wxxnd"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Core/Initialization/UrsulaEntryPoint.cs" id="1_xjqfu"]
@@ -55,6 +55,7 @@
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCollectionView.cs" id="37_0m72d"]
 [ext_resource type="Texture2D" uid="uid://bqggx5f00mjv7" path="res://addons/Ursula/Assets/Themes/Close.png" id="38_0acjv"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Settings/View/ControlSettingsView.cs" id="38_0w2xm"]
+[ext_resource type="Texture2D" uid="uid://cceh2ccis1t63" path="res://addons/Ursula/Assets/Themes/ArrowLeft.png" id="38_544k6"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/GameObjectCollectionController.cs" id="42_rqra7"]
 [ext_resource type="Theme" uid="uid://dyddtywft2yrs" path="res://addons/Ursula/Assets/Themes/Controls.tres" id="43_cp4ec"]
 [ext_resource type="StyleBox" uid="uid://dqqcv0g4ml2fl" path="res://addons/Ursula/Assets/Themes/TextEdit.tres" id="46_h4d78"]
@@ -2053,8 +2054,9 @@ anchors_preset = 0
 offset_right = 1154.0
 offset_bottom = 648.0
 
-[node name="Panel" type="Panel" parent="Controls/ControlGame"]
+[node name="Panel" type="Control" parent="Controls/ControlGame"]
 layout_mode = 1
+anchors_preset = 0
 offset_right = 412.0
 offset_bottom = 40.0
 
@@ -2064,6 +2066,7 @@ offset_right = 740.0
 offset_bottom = 40.0
 
 [node name="ButtonHome" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 focus_mode = 1
@@ -2082,10 +2085,27 @@ texture = ExtResource("5_i1qgd")
 expand_mode = 1
 
 [node name="ButtonExit" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(230, 0)
 layout_mode = 2
 focus_mode = 1
-text = "Редактор"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_qas0a")
+text = "Вернуться к редактированию"
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlGame/Panel/HBoxContainer/ButtonExit"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -10.0
+offset_right = 26.0
+offset_bottom = 10.0
+grow_vertical = 2
+texture = ExtResource("38_544k6")
+expand_mode = 1
 
 [node name="ButtonOpenGameMenu" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
 visible = false
@@ -2095,6 +2115,7 @@ focus_mode = 1
 text = "Игры"
 
 [node name="ButtonReload" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 focus_mode = 1
@@ -2103,6 +2124,7 @@ text = "Рестарт"
 [node name="Algoritms" type="Panel" parent="Controls/ControlGame/Panel/HBoxContainer"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+theme_override_styles/panel = ExtResource("51_qas0a")
 
 [node name="CheckButton" type="CheckButton" parent="Controls/ControlGame/Panel/HBoxContainer/Algoritms"]
 layout_mode = 1
