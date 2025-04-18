@@ -66,13 +66,13 @@ public partial class ContextMenu : Control, IInjectable
     public static void ShowMessageS(string message)
     {
         var print = $"[{DateTime.Now.ToString("HH:mm:ss.fff")}] > " + message;
-        VoxLib.log.ShowMessage(print);
+        VoxLib.Log(print);
         //GD.Print(print);
     }
 
     public async void ShowMessage(string message)
     {
-        VoxLib.log.ShowMessage(message);
+        VoxLib.Log(message);
         await Task.Delay(0);
     }
 

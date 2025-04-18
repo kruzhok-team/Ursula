@@ -4,3 +4,4 @@
 
 [resource]
 texture = ExtResource("1_kw8la")
+expand_margin_right = 5.0

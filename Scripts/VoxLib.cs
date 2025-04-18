@@ -2,6 +2,7 @@
 using System;
 using Ursula.Core.DI;
 using Ursula.Environment.Settings;
+using Ursula.Log.Model;
 using Ursula.Settings.View;
 using VoxLibExample;
 
@@ -30,6 +31,9 @@ public partial class VoxLib : Node, IInjectable
 
     [Inject]
     private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
+
+    [Inject]
+    private ISingletonProvider<LogModel> _LogModelProvider;
 
     Texture texture;
 
@@ -81,6 +85,28 @@ public partial class VoxLib : Node, IInjectable
 		MessageBox.instance?.ShowMessage(message);
 	}
 
+    public static void Log(string message)
+    {
+        VoxLib.instance?._Log(message);
+    }
+
+    public void _Log(string message)
+    {
+        if (TryGetLogModel(out var logModel))
+            logModel.SetLogMessage(message);
+    }
+
+    public static void SetVisibleLog(bool value)
+    {
+        VoxLib.instance?._SetVisibleLog(value);
+    }
+
+    public void _SetVisibleLog(bool value)
+    {
+        if (TryGetLogModel(out var logModel))
+            logModel.SetVisibleView(value);
+    }
+
     private float _Sensitivity
     {
         get
@@ -98,7 +124,19 @@ public partial class VoxLib : Node, IInjectable
         if (!(_settingsModelProvider?.TryGet(out model) ?? false))
         {
             if (errorIfNotExist)
-                GD.PrintErr($"{typeof(ControlSettingsView).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
+                GD.PrintErr($"{typeof(VoxLib).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
+        }
+        return model != null;
+    }
+
+    private bool TryGetLogModel(out LogModel model, bool errorIfNotExist = false)
+    {
+        model = null;
+
+        if (!(_LogModelProvider?.TryGet(out model) ?? false))
+        {
+            if (errorIfNotExist)
+                GD.PrintErr($"{typeof(VoxLib).Name}: {typeof(LogModel).Name} is not instantiated!");
         }
         return model != null;
     }

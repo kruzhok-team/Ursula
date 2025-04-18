@@ -9,7 +9,7 @@ using Ursula.StartupMenu.Model;
 
 namespace Ursula.StartupMenu.View
 {
-    public partial class StartupMenuManager : Node, IInjectable
+    public partial class StartupMenuManager : Control, IInjectable
     {
         [Inject]
         private ISingletonProvider<StartupMenuModel> _startupMenuModelProvider;

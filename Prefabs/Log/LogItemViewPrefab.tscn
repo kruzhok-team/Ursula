@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://dw6db5l0e6pjq"]
+
+[ext_resource type="Texture2D" uid="uid://c2aj2gucim0vq" path="res://addons/Ursula/Assets/Themes/ic_sharp-info.png" id="1_5qnih"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/Log/View/LogItemView.cs" id="1_psmnj"]
+[ext_resource type="Texture2D" uid="uid://7cdca4km6nyj" path="res://addons/Ursula/Assets/Themes/tabler_info-triangle-filled.png" id="2_qfrbp"]
+
+[node name="LogItemViewPrefab" type="Panel" node_paths=PackedStringArray("imgWarning", "imgError", "LabelLog")]
+custom_minimum_size = Vector2(0, 25)
+size_flags_horizontal = 3
+script = ExtResource("1_psmnj")
+imgWarning = NodePath("HBoxContainer/ImgWarning")
+imgError = NodePath("HBoxContainer/ImgError")
+LabelLog = NodePath("HBoxContainer/LabelLog")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ImgWarning" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ImgWarning"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = -7.5
+offset_right = 7.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_5qnih")
+expand_mode = 1
+
+[node name="ImgError" type="Control" parent="HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/ImgError"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = -7.5
+offset_right = 7.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qfrbp")
+expand_mode = 1
+
+[node name="LabelLog" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/line_spacing = -3
+theme_override_font_sizes/font_size = 8
+text = "[01:11:33] OlimpiGo console log. Timer (0:0:7) Message number: 7
+OlimpiGo.Debug:Log (object)"
