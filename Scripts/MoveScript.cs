@@ -6,6 +6,7 @@ using Modules.HSM;
 using System;
 using Fractural.Tasks;
 using System.Diagnostics;
+using static Godot.TileSet;
 
 public partial class MoveScript : CharacterBody3D
 {
@@ -126,11 +127,11 @@ public partial class MoveScript : CharacterBody3D
         stateMashine = StateMashine.idle;
         PlayIdleAnimation();
 
-        //Profiler.BeginSample("FinishPositionMoveState");
+
 
         onMovementFinished?.Invoke();  // ! 5 - 40 ms
 
-        //Profiler.EndLastSample(false);
+
 
         Vector3 targetPosition = MovementPosition;
         float distanceToTarget = GlobalTransform.Origin.DistanceTo(targetPosition);
@@ -165,6 +166,9 @@ public partial class MoveScript : CharacterBody3D
 
     void NextPositionInPositionMove()
     {
+        
+
+
         Vector3 currentAgentPosition = GlobalTransform.Origin;
         float distanceToTarget = currentAgentPosition.DistanceTo(MovementPosition);
         if (distanceToTarget >= _navigationAgent.TargetDesiredDistance && navPath != null)
@@ -172,7 +176,10 @@ public partial class MoveScript : CharacterBody3D
             if (currentPath < navPath.Length)
             {
                 Vector3 currentPathPos = navPath[currentPath];
-                currentPathPos.Y = currentAgentPosition.Y;
+                //currentPathPos.Y = currentAgentPosition.Y;
+
+                currentPathPos.Y = GetTerrainHeight((int)currentPathPos.X, (int)currentPathPos.Z);
+
                 _targetVelocity = GlobalPosition.DirectionTo(currentPathPos) * _movementSpeed;
                 if (currentAgentPosition.DistanceTo(currentPathPos) < _navigationAgent.TargetDesiredDistance)
                 {
@@ -316,7 +323,13 @@ public partial class MoveScript : CharacterBody3D
 
     bool isMoving;
 
-    bool inFrustum = true;        
+    bool inFrustum = true;
+
+    //bool useGravity = true;
+
+    enum PhysicsLod { Lod0, Lod1 }
+
+    PhysicsLod physicsLod = PhysicsLod.Lod0;
 
     void SetFlags()
     {
@@ -342,13 +355,23 @@ public partial class MoveScript : CharacterBody3D
         }
     }
 
-    void SetRotation()
+    public float TurnSpeed = 5f; // радиан в секунду
+
+    public float TurnSharpness = 10f; 
+
+    void SetRotation(double delta)
     {
         if (Velocity.Length() > 0)
         {
-            Vector3 forwardDir = Velocity.Normalized();
-            float targetAngle = Mathf.Atan2(forwardDir.X, forwardDir.Z);
-            Rotation = new Vector3(0, targetAngle, 0);
+            Vector3 dir = Velocity.Normalized();
+            float targetAngle = Mathf.Atan2(dir.X, dir.Z);
+            float currentAngle = Rotation.Y;
+
+            // плавная интерполяция угла
+            var t = 1f - Math.Exp(-TurnSharpness * delta);
+            var newAngle = Mathf.LerpAngle(currentAngle, targetAngle, t);
+
+            Rotation = new Vector3(0, (float)newAngle, 0);
         }
     }
 
@@ -357,10 +380,25 @@ public partial class MoveScript : CharacterBody3D
         if (!isMoving)
             _targetVelocity = Vector3.Zero;
 
-        _targetVelocity.Y = 0;
-        //_targetVelocity = _targetVelocity.Normalized();
-        //_targetVelocity *= _movementSpeed;
+        if (physicsLod == PhysicsLod.Lod0)
+            AddGravity(delta);
 
+        ////_targetVelocity.Y = 0;
+
+        //////_targetVelocity = _targetVelocity.Normalized();
+        //////_targetVelocity *= _movementSpeed;
+
+        //if (!isOnFloor)
+        //{
+        //    //_targetVelocity.Y -= (float)9.8 * (float)delta * 20;
+        //}
+
+        Velocity = _targetVelocity;
+    }
+
+    void AddGravity(double delta)
+    {
+        _targetVelocity.Y = 0;
         if (!isOnFloor)
         {
             _targetVelocity.Y -= (float)9.8 * (float)delta * 20;
@@ -375,15 +413,100 @@ public partial class MoveScript : CharacterBody3D
     {
         base._Process(delta);
 
+
+        
         processAccumulator += (float)delta;
 
-        //Profiler.BeginSample("FrustumProcess");
         if (processAccumulator >= 1f)
         {
             processAccumulator = 0;
+
+            // PhysicsLod
+
             inFrustum = Frustum.In(this);
+
+            var distance = Frustum.GetDistance(this);
+
+            //GD.Print(distance);
+
+            if (distance < 200 && inFrustum)
+            {
+                SetPhysicsLod0();
+            }
+            else
+            {
+                SetPhysicsLod1();
+            }
+
         }
-        //Profiler.EndLastSample(false);
+    }
+
+    const int TerrainLayerIndex = 0; // террейн — слой 1 → бит 0
+    const int FenceLayerIndex = 1; // забор   — слой 2 → бит 1
+    const int OtherLayerIndex = 2; // прочее  — слой 3 → бит 2
+
+    public void DisableTerrainCollision()
+    {
+        CollisionMask &= ~(1u << TerrainLayerIndex);
+
+        CollisionMask |= (1u << FenceLayerIndex)
+                       | (1u << OtherLayerIndex);
+    }
+
+    public void EnableTerrainCollision()
+    {
+        CollisionMask |= (1u << TerrainLayerIndex);
+    }
+
+    void SetPhysicsLod0()
+    {
+        
+
+        //_navigationAgent.PathDesiredDistance = 1.5f;
+        //_navigationAgent.TargetDesiredDistance = 0.5f;
+        EnableTerrainCollision();
+
+        //if (physicsLod == PhysicsLod.Lod1)
+        //{
+
+        //}
+
+        physicsLod = PhysicsLod.Lod0;
+
+    }
+
+    void SetPhysicsLod1()
+    {
+        //_navigationAgent.PathDesiredDistance = 3.5f;
+        //_navigationAgent.TargetDesiredDistance = 2f;
+        DisableTerrainCollision();
+
+        physicsLod = PhysicsLod.Lod1;
+    }
+
+    void CheckAndFixFallen()
+    {
+        var terrainHeight = GetTerrainHeightByCurrentPos();
+        if (Position.Y - terrainHeight < -0.3f)
+        {
+            Position = new Vector3(Position.X, terrainHeight + 0.1f, Position.Z);
+        }
+    }
+
+    //void PhysicsTestLodSettings()
+    //{
+    //    physicsLod = PhysicsLod.Lod1;
+    //    // Оставим по стандарту
+
+    //    //_navigationAgent.PathDesiredDistance = 1.5f;
+    //    //_navigationAgent.TargetDesiredDistance = 0.5f;
+
+    //    DisableTerrainCollision(); 
+    //}
+
+    void CorrectPositionByTerrainHeight(float upOffset = 0.0f)
+    {
+        Position = new Vector3(Position.X, GetTerrainHeightByCurrentPos() + upOffset, Position.Z);
     }
 
     private float accumulator = 0f;
@@ -393,17 +516,32 @@ public partial class MoveScript : CharacterBody3D
 
         if (isBlocked) return;
 
-        if (!inFrustum)
-            return;
+        //if (!inFrustum)
+        //    return;
 
-
-        base._PhysicsProcess(delta);
-
+        if (inFrustum)
+        {
+            base._PhysicsProcess(delta);
+        }
 
         accumulator += (float)delta;
 
         if (accumulator >= 0.3f)
         {
+
+            if (physicsLod == PhysicsLod.Lod0)
+                CheckAndFixFallen();
+
+            //if (inFrustum)
+            //{
+            //    PhysicsLod0Settings();
+            //}
+            //else
+            //{
+            //    PhysicsLod1Settings();
+            //}
+
+
             accumulator = 0f;
 
             SetFlags();
@@ -488,15 +626,19 @@ public partial class MoveScript : CharacterBody3D
         //    }
         //}
 
-        SetRotation();
+        SetRotation(delta);
 
         SetVelocity(delta);
+
+        if (physicsLod == PhysicsLod.Lod1)
+            CorrectPositionByTerrainHeight();
 
         //Profiler.EndLastSample(false);
 
         //if (inFrustum)
+        //Profiler.BeginSample("MoveAndSlide");
         MoveAndSlide();
-
+        //Profiler.EndLastSample(false);
     }
 
     public async void MoveToRandomSetup()
@@ -511,7 +653,7 @@ public partial class MoveScript : CharacterBody3D
 
         int posX = _rng.RandiRange(0, VoxLib.mapManager.sizeX);
         int posZ = _rng.RandiRange(0, VoxLib.mapManager.sizeZ);
-        float posY = VoxLib.terrainManager.mapHeight[posX, posZ] + VoxLib.terrainManager.positionOffset.Y;
+        float posY = GetTerrainHeight(posX, posZ);
 
         // Now that the navigation map is no longer empty, set the movement target.
         MovementPosition = new Vector3(posX, posY, posZ);
@@ -532,7 +674,7 @@ public partial class MoveScript : CharacterBody3D
         float Y = VoxLib.terrainManager.positionOffset.Y;
         int Z = Math.Clamp((int)newPosition.Z, 0, VoxLib.mapManager.sizeX);
 
-        Y = VoxLib.terrainManager.mapHeight[X, Z] + VoxLib.terrainManager.positionOffset.Y;
+        Y = GetTerrainHeight(X, Z);
 
         MovementPosition = new Vector3(X, Y, Z);
 
@@ -542,6 +684,45 @@ public partial class MoveScript : CharacterBody3D
 
     }
 
+    public float GetTerrainHeight(int X, int Z)
+    {
+        return VoxLib.terrainManager.mapHeight[X, Z] + VoxLib.terrainManager.positionOffset.Y;
+    }
+
+    public float GetTerrainHeightByCurrentPos()
+    {
+        // the whole part of the coordinates
+        int x0 = Mathf.FloorToInt(GlobalPosition.X);
+        int z0 = Mathf.FloorToInt(GlobalPosition.Z);
+        // fractional part
+        float fx = GlobalPosition.X - x0;
+        float fz = GlobalPosition.Z - z0;
+
+        // array boundaries
+        int maxX = VoxLib.terrainManager.mapHeight.GetLength(0) - 1;
+        int maxZ = VoxLib.terrainManager.mapHeight.GetLength(1) - 1;
+
+        // if we go abroad, we return the offset
+        if (x0 < 0 || z0 < 0 || x0 >= maxX || z0 >= maxZ)
+            return VoxLib.terrainManager.positionOffset.Y;
+
+        // four adjacent values
+        float h00 = VoxLib.terrainManager.mapHeight[x0, z0];
+        float h10 = VoxLib.terrainManager.mapHeight[x0 + 1, z0];
+        float h01 = VoxLib.terrainManager.mapHeight[x0, z0 + 1];
+        float h11 = VoxLib.terrainManager.mapHeight[x0 + 1, z0 + 1];
+
+        // linear interpolation by X
+        float h0 = Mathf.Lerp(h00, h10, fx);
+        float h1 = Mathf.Lerp(h01, h11, fx);
+        // linear interpolation by Z
+        float h = Mathf.Lerp(h0, h1, fz);
+
+        // adding offset
+        return h + VoxLib.terrainManager.positionOffset.Y;
+    }
+
+
     public Vector3 SetPositionRight(float n)
     {
         int X = (int)(GlobalPosition.X + n);
@@ -549,7 +730,7 @@ public partial class MoveScript : CharacterBody3D
         int Z = (int)GlobalPosition.Z;
 
         if (X > 0 && Z > 0)
-            Y = VoxLib.terrainManager.mapHeight[(int)X, (int)Z] + VoxLib.terrainManager.positionOffset.Y;
+            Y = GetTerrainHeight(X, Z);
 
         PlayRunAnimation();
 
@@ -564,7 +745,7 @@ public partial class MoveScript : CharacterBody3D
         int Z = (int)(GlobalPosition.Z);
 
         if (X > 0 && Z > 0)
-            Y = VoxLib.terrainManager.mapHeight[(int)X, (int)Z] + VoxLib.terrainManager.positionOffset.Y;
+            Y = GetTerrainHeight(X, Z);
 
         PlayRunAnimation();
 

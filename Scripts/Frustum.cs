@@ -21,4 +21,10 @@ public static class Frustum
 
         return cam.IsPositionInFrustum(position);
     }
+
+    public static float GetDistance(Node3D obj)
+    {
+        var cam = GetCamera(obj);
+        return obj.GlobalTransform.Origin.DistanceSquaredTo(cam.GlobalTransform.Origin);
+    }
 }
