@@ -535,7 +535,8 @@ public partial class MapManager : Node, IInjectable
         VoxLib.terrainManager.BakeNavMesh();
         await ToSignal(GetTree().CreateTimer(0.2f), "timeout");
         InstancePlayer();
-        VoxLib.log.HideLog();
+
+        VoxLib.SetVisibleLog(false);
 
         await ToSignal(GetTree().CreateTimer(5.0f), "timeout");
         VoxLib.hud.RunAllObjects();
@@ -1229,6 +1230,7 @@ public partial class MapManager : Node, IInjectable
         if (waterOffset == 1)
         {
             VoxLib.waterManager.DeleteWater();
+            _waterModel.SetWaterLevel(-1000);
         }
         else
         {

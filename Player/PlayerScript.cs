@@ -255,12 +255,14 @@ public partial class PlayerScript : CharacterBody3D, IInjectable
         }
 
         // Moving the character
-        if (!LogScript.isLogEntered && !VoxLib.mapManager.isDialogsOpen && !VoxLib.log.isDialogOpen)
+        if (Raycaster.HoverUI(_camera))
         {
-            Velocity = _targetVelocity;
-            MoveAndSlide();
-
+            _targetVelocity.X = 0;
+            _targetVelocity.Z = 0;
         }
+
+        Velocity = _targetVelocity;
+        MoveAndSlide();
     }
 
 }

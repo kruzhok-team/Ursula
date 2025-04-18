@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://dgc042g3ej4rj"]
+[gd_scene load_steps=83 format=3 uid="uid://dgc042g3ej4rj"]
 
 [ext_resource type="PackedScene" uid="uid://dn1jem1nnefln" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/project_timer.tscn" id="1_wxxnd"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Core/Initialization/UrsulaEntryPoint.cs" id="1_xjqfu"]
@@ -55,10 +55,20 @@
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCollectionView.cs" id="37_0m72d"]
 [ext_resource type="Texture2D" uid="uid://bqggx5f00mjv7" path="res://addons/Ursula/Assets/Themes/Close.png" id="38_0acjv"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Settings/View/ControlSettingsView.cs" id="38_0w2xm"]
+[ext_resource type="Texture2D" uid="uid://cceh2ccis1t63" path="res://addons/Ursula/Assets/Themes/ArrowLeft.png" id="38_544k6"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/GameObjectCollectionController.cs" id="42_rqra7"]
+[ext_resource type="StyleBox" uid="uid://ccj7ltfpijtug" path="res://addons/Ursula/Assets/Themes/ButtonStartup.tres" id="43_0nvn3"]
 [ext_resource type="Theme" uid="uid://dyddtywft2yrs" path="res://addons/Ursula/Assets/Themes/Controls.tres" id="43_cp4ec"]
+[ext_resource type="PackedScene" uid="uid://dw6db5l0e6pjq" path="res://addons/Ursula/Prefabs/Log/LogItemViewPrefab.tscn" id="43_l6wei"]
+[ext_resource type="Texture2D" uid="uid://chy1hgoe250ua" path="res://addons/Ursula/Assets/Themes/mingcute_delete-fill.png" id="44_xf707"]
+[ext_resource type="Texture2D" uid="uid://dlwwjyw56rlay" path="res://addons/Ursula/Assets/Themes/solar_pause-bold.png" id="45_vohne"]
+[ext_resource type="Texture2D" uid="uid://cun8fj7if47xg" path="res://addons/Ursula/Assets/Themes/mdi_download.png" id="46_4i5h6"]
 [ext_resource type="StyleBox" uid="uid://dqqcv0g4ml2fl" path="res://addons/Ursula/Assets/Themes/TextEdit.tres" id="46_h4d78"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Water/Controller/WaterManager.cs" id="47_25wwj"]
+[ext_resource type="Texture2D" uid="uid://bsuflvvfn131k" path="res://addons/Ursula/Assets/Themes/icon-park-solid_down-one.png" id="47_qm8aa"]
+[ext_resource type="Texture2D" uid="uid://chjmuxrgims11" path="res://addons/Ursula/Assets/Themes/iconamoon_search-bold.png" id="48_258ex"]
+[ext_resource type="Texture2D" uid="uid://c2aj2gucim0vq" path="res://addons/Ursula/Assets/Themes/ic_sharp-info.png" id="49_7cwti"]
+[ext_resource type="Texture2D" uid="uid://7cdca4km6nyj" path="res://addons/Ursula/Assets/Themes/tabler_info-triangle-filled.png" id="50_rujal"]
 [ext_resource type="StyleBox" uid="uid://c06y7nq7pqiyd" path="res://addons/Ursula/Assets/Themes/ButtonStandart.tres" id="51_ffq47"]
 [ext_resource type="StyleBox" uid="uid://bwkxycn6p1ew0" path="res://addons/Ursula/Assets/Themes/Panel.tres" id="51_qas0a"]
 [ext_resource type="Texture2D" uid="uid://mn7avqdknfbk" path="res://addons/Ursula/Assets/Themes/File.png" id="56_qj0h5"]
@@ -84,12 +94,12 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_3bpv4"]
+
 [sub_resource type="LabelSettings" id="LabelSettings_cm8h7"]
 line_spacing = -5.0
 font_size = 14
 font_color = Color(0, 0, 0, 1)
-
-[sub_resource type="ButtonGroup" id="ButtonGroup_3bpv4"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fxdwa"]
 texture = ExtResource("21_ejwl8")
@@ -2053,8 +2063,9 @@ anchors_preset = 0
 offset_right = 1154.0
 offset_bottom = 648.0
 
-[node name="Panel" type="Panel" parent="Controls/ControlGame"]
+[node name="Panel" type="Control" parent="Controls/ControlGame"]
 layout_mode = 1
+anchors_preset = 0
 offset_right = 412.0
 offset_bottom = 40.0
 
@@ -2064,6 +2075,7 @@ offset_right = 740.0
 offset_bottom = 40.0
 
 [node name="ButtonHome" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 focus_mode = 1
@@ -2082,10 +2094,27 @@ texture = ExtResource("5_i1qgd")
 expand_mode = 1
 
 [node name="ButtonExit" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(230, 0)
 layout_mode = 2
 focus_mode = 1
-text = "Редактор"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_qas0a")
+text = "Вернуться к редактированию"
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlGame/Panel/HBoxContainer/ButtonExit"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -10.0
+offset_right = 26.0
+offset_bottom = 10.0
+grow_vertical = 2
+texture = ExtResource("38_544k6")
+expand_mode = 1
 
 [node name="ButtonOpenGameMenu" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
 visible = false
@@ -2095,6 +2124,7 @@ focus_mode = 1
 text = "Игры"
 
 [node name="ButtonReload" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 focus_mode = 1
@@ -2103,6 +2133,7 @@ text = "Рестарт"
 [node name="Algoritms" type="Panel" parent="Controls/ControlGame/Panel/HBoxContainer"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+theme_override_styles/panel = ExtResource("51_qas0a")
 
 [node name="CheckButton" type="CheckButton" parent="Controls/ControlGame/Panel/HBoxContainer/Algoritms"]
 layout_mode = 1
@@ -2316,184 +2347,121 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gln1k")
 
-[node name="ControlLog" type="Control" parent="Controls" node_paths=PackedStringArray("LogControl", "fileDialog", "messageLabel", "filterText", "optionFilterButton", "FilterMenuButton")]
+[node name="ControlLog" type="Control" parent="Controls" node_paths=PackedStringArray("LogControl", "fileDialog", "filterText", "optionFilterButton", "FilterMenuButton", "PauseButton", "VBoxContainerLogItemViews")]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 0
 grow_vertical = 0
 script = ExtResource("16_i08yk")
 LogControl = NodePath("Control")
 fileDialog = NodePath("../../SaveLogDialog")
-messageLabel = NodePath("Control/MessageLabel")
-filterText = NodePath("Control/TextEdit")
+filterText = NodePath("Control/HBoxContainer/TextEdit")
 optionFilterButton = NodePath("Control/OptionFilterButton")
-FilterMenuButton = NodePath("Control/MenuButton")
+FilterMenuButton = NodePath("Control/HBoxContainer/MenuButton")
+PauseButton = NodePath("Control/HBoxContainer/Pause")
+LogItemViewPrefab = ExtResource("43_l6wei")
+VBoxContainerLogItemViews = NodePath("Control/ScrollContainer/VBoxContainer")
 
-[node name="Control" type="Control" parent="Controls/ControlLog"]
+[node name="Control" type="Panel" parent="Controls/ControlLog"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -375.0
+offset_top = -145.0
+offset_right = 729.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="MessageLabel" type="Label" parent="Controls/ControlLog/Control"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls/ControlLog/Control"]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -840.0
-offset_top = -412.0
-offset_right = -2.0
-offset_bottom = -32.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "Текст
-1"
-label_settings = SubResource("LabelSettings_cm8h7")
-vertical_alignment = 2
-autowrap_mode = 3
+offset_bottom = 32.0
+grow_horizontal = 2
 
-[node name="ClearLog" type="Button" parent="Controls/ControlLog/Control"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -87.0
-offset_top = -36.0
-grow_horizontal = 0
-grow_vertical = 0
+[node name="ClearLog" type="Button" parent="Controls/ControlLog/Control/HBoxContainer"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
 focus_mode = 1
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = ExtResource("43_0nvn3")
 text = "Очистить"
+alignment = 2
 
-[node name="SaveLog" type="Button" parent="Controls/ControlLog/Control"]
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlLog/Control/HBoxContainer/ClearLog"]
+custom_minimum_size = Vector2(15, 15)
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -184.0
-offset_top = -36.0
-offset_right = -89.0
-grow_horizontal = 0
-grow_vertical = 0
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = -5.0
+offset_right = 11.0
+offset_bottom = 5.0
+grow_vertical = 2
+texture = ExtResource("44_xf707")
+expand_mode = 1
+
+[node name="Pause" type="Button" parent="Controls/ControlLog/Control/HBoxContainer"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
 focus_mode = 1
-text = "Сохранить"
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = ExtResource("43_0nvn3")
+toggle_mode = true
+text = "Пауза"
+alignment = 2
 
-[node name="MenuBar" type="MenuBar" parent="Controls/ControlLog/Control"]
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlLog/Control/HBoxContainer/Pause"]
+custom_minimum_size = Vector2(15, 15)
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -427.0
-offset_top = -31.0
-offset_right = -187.0
-grow_horizontal = 0
-grow_vertical = 0
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = -5.0
+offset_right = 11.0
+offset_bottom = 5.0
+grow_vertical = 2
+texture = ExtResource("45_vohne")
+expand_mode = 1
+
+[node name="SaveLog" type="Button" parent="Controls/ControlLog/Control/HBoxContainer"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
 focus_mode = 1
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = ExtResource("43_0nvn3")
+text = "Скачать"
+alignment = 2
 
-[node name="OptionFilterButton" type="OptionButton" parent="Controls/ControlLog/Control"]
-visible = false
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlLog/Control/HBoxContainer/SaveLog"]
+custom_minimum_size = Vector2(15, 15)
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -616.0
-offset_top = -35.0
-offset_right = -430.0
-offset_bottom = -1.0
-grow_horizontal = 0
-grow_vertical = 0
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = -5.0
+offset_right = 11.0
+offset_bottom = 5.0
+grow_vertical = 2
+texture = ExtResource("46_4i5h6")
+expand_mode = 1
+
+[node name="MenuButton" type="MenuButton" parent="Controls/ControlLog/Control/HBoxContainer"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
 focus_mode = 1
-toggle_mode = false
-selected = 0
-item_count = 4
-popup/item_0/text = "Нет фильтра"
-popup/item_1/text = "ИгрокОбнаружен"
-popup/item_1/id = 1
-popup/item_2/text = "ОбъектОбнаружен"
-popup/item_2/id = 2
-popup/item_3/text = "ЗвукОбнаружен"
-popup/item_3/id = 3
-
-[node name="TextEditBg" type="Button" parent="Controls/ControlLog/Control"]
-visible = false
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -428.0
-offset_top = -37.0
-offset_right = -186.0
-grow_horizontal = 0
-grow_vertical = 0
-focus_mode = 1
-
-[node name="TextEdit" type="TextEdit" parent="Controls/ControlLog/Control"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -427.0
-offset_top = -36.0
-offset_right = -187.0
-grow_horizontal = 0
-grow_vertical = 0
-focus_mode = 1
-
-[node name="Label" type="Label" parent="Controls/ControlLog/Control"]
-visible = false
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -641.0
-offset_top = -34.0
-offset_right = -573.0
-offset_bottom = -1.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "Фильтр"
-
-[node name="MenuButton" type="MenuButton" parent="Controls/ControlLog/Control"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -578.0
-offset_top = -34.0
-offset_right = -429.0
-offset_bottom = -3.0
-grow_horizontal = 0
-grow_vertical = 0
-focus_mode = 1
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = ExtResource("43_0nvn3")
 button_group = SubResource("ButtonGroup_3bpv4")
-text = "Выбор фильтра"
+text = "Фильтры"
 flat = false
+alignment = 0
 switch_on_hover = true
 item_count = 36
 popup/item_0/text = "Нет фильтров"
@@ -2604,6 +2572,437 @@ popup/item_34/id = 34
 popup/item_35/text = "ТаймерСброс"
 popup/item_35/checkable = 1
 popup/item_35/id = 35
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlLog/Control/HBoxContainer/MenuButton"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -7.5
+offset_bottom = 7.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("47_qm8aa")
+expand_mode = 1
+
+[node name="MenuBar" type="MenuBar" parent="Controls/ControlLog/Control/HBoxContainer/MenuButton"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+offset_right = 280.0
+offset_bottom = -33.0
+grow_vertical = 0
+focus_mode = 1
+
+[node name="TextEdit" type="TextEdit" parent="Controls/ControlLog/Control/HBoxContainer"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+focus_mode = 1
+theme_override_font_sizes/font_size = 12
+placeholder_text = "Поиск..."
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlLog/Control/HBoxContainer/TextEdit"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -7.5
+offset_bottom = 7.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("48_258ex")
+expand_mode = 1
+
+[node name="ButtonWarnings" type="Button" parent="Controls/ControlLog/Control/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+focus_mode = 1
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = ExtResource("43_0nvn3")
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlLog/Control/HBoxContainer/ButtonWarnings"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.5
+offset_right = 15.0
+offset_bottom = 7.5
+grow_vertical = 2
+texture = ExtResource("49_7cwti")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Controls/ControlLog/Control/HBoxContainer/ButtonWarnings"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -15.0
+offset_bottom = 15.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 11
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonErrors" type="Button" parent="Controls/ControlLog/Control/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+focus_mode = 1
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = ExtResource("43_0nvn3")
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlLog/Control/HBoxContainer/ButtonErrors"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.5
+offset_right = 15.0
+offset_bottom = 7.5
+grow_vertical = 2
+texture = ExtResource("50_rujal")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Controls/ControlLog/Control/HBoxContainer/ButtonErrors"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -15.0
+offset_bottom = 15.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 11
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="Controls/ControlLog/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -204.0
+offset_bottom = -146.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Текст
+1"
+label_settings = SubResource("LabelSettings_cm8h7")
+autowrap_mode = 3
+
+[node name="OptionFilterButton" type="OptionButton" parent="Controls/ControlLog/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -616.0
+offset_top = -35.0
+offset_right = -430.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 1
+toggle_mode = false
+selected = 0
+item_count = 4
+popup/item_0/text = "Нет фильтра"
+popup/item_1/text = "ИгрокОбнаружен"
+popup/item_1/id = 1
+popup/item_2/text = "ОбъектОбнаружен"
+popup/item_2/id = 2
+popup/item_3/text = "ЗвукОбнаружен"
+popup/item_3/id = 3
+
+[node name="TextEditBg" type="Button" parent="Controls/ControlLog/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -428.0
+offset_top = -37.0
+offset_right = -186.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 1
+
+[node name="Label" type="Label" parent="Controls/ControlLog/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -641.0
+offset_top = -34.0
+offset_right = -573.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Фильтр"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Controls/ControlLog/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Controls/ControlLog/Control/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LogItemViewPrefab" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer" instance=ExtResource("43_l6wei")]
+layout_mode = 2
+
+[node name="Control3" type="Panel" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="Control" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control3/HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control3/HBoxContainer/Icon"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = -7.5
+offset_right = 7.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("49_7cwti")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control3/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/line_spacing = -3
+theme_override_font_sizes/font_size = 10
+text = "[01:11:33] OlimpiGo console log. Timer (0:0:7) Message number: 7
+OlimpiGo.Debug:Log (object)"
+
+[node name="Control4" type="Panel" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="Control" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control4/HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control4/HBoxContainer/Icon"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = -7.5
+offset_right = 7.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("49_7cwti")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control4/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/line_spacing = -3
+theme_override_font_sizes/font_size = 10
+text = "[01:11:33] OlimpiGo console log. Timer (0:0:7) Message number: 7
+OlimpiGo.Debug:Log (object)"
+
+[node name="Control5" type="Panel" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="Control" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control5/HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control5/HBoxContainer/Icon"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = -7.5
+offset_right = 7.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("49_7cwti")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control5/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/line_spacing = -3
+theme_override_font_sizes/font_size = 10
+text = "[01:11:33] OlimpiGo console log. Timer (0:0:7) Message number: 7
+OlimpiGo.Debug:Log (object)"
+
+[node name="Control6" type="Panel" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="Control" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control6/HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control6/HBoxContainer/Icon"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = -7.5
+offset_right = 7.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("49_7cwti")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Controls/ControlLog/Control/ScrollContainer/VBoxContainer/Control6/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/line_spacing = -3
+theme_override_font_sizes/font_size = 10
+text = "[01:11:33] OlimpiGo console log. Timer (0:0:7) Message number: 7
+OlimpiGo.Debug:Log (object)"
+
+[node name="Control" type="Panel" parent="Controls/ControlLog/Control"]
+visible = false
+layout_mode = 2
+offset_left = 3.0
+offset_top = 34.0
+offset_right = 578.0
+offset_bottom = 63.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls/ControlLog/Control/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="Control" parent="Controls/ControlLog/Control/Control/HBoxContainer"]
+custom_minimum_size = Vector2(15, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlLog/Control/Control/HBoxContainer/Icon"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = -7.5
+offset_right = 7.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("49_7cwti")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Controls/ControlLog/Control/Control/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="AlgControl" parent="." instance=ExtResource("18_uus1o")]
 visible = false
@@ -2970,12 +3369,14 @@ clip_text = true
 [connection signal="toggled" from="Controls/ControlGame/Panel/HBoxContainer/Algoritms/CheckButton" to="Controls" method="OnAlgoritmStartStopChange"]
 [connection signal="item_selected" from="Controls/ControlSettingsView/Panel/OptionButtonShadow" to="Controls/ControlSettingsView" method="SetShadowEnabled"]
 [connection signal="value_changed" from="Controls/ControlSettingsView/Panel/HSliderMouseSence" to="Controls/ControlSettingsView" method="SetSensitivity"]
-[connection signal="button_down" from="Controls/ControlLog/Control/ClearLog" to="Controls/ControlLog" method="ClearLog"]
-[connection signal="button_down" from="Controls/ControlLog/Control/SaveLog" to="Controls/ControlLog" method="SaveLog"]
-[connection signal="focus_entered" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="LogEntered"]
-[connection signal="focus_exited" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="LogExited"]
-[connection signal="mouse_entered" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="LogEntered"]
-[connection signal="mouse_exited" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="LogExited"]
-[connection signal="text_changed" from="Controls/ControlLog/Control/TextEdit" to="Controls/ControlLog" method="SetFilterText"]
+[connection signal="button_down" from="Controls/ControlLog/Control/HBoxContainer/ClearLog" to="Controls/ControlLog" method="ClearLog"]
+[connection signal="button_down" from="Controls/ControlLog/Control/HBoxContainer/SaveLog" to="Controls/ControlLog" method="SaveLog"]
+[connection signal="focus_entered" from="Controls/ControlLog/Control/HBoxContainer/TextEdit" to="Controls/ControlLog" method="LogEntered"]
+[connection signal="focus_exited" from="Controls/ControlLog/Control/HBoxContainer/TextEdit" to="Controls/ControlLog" method="LogExited"]
+[connection signal="mouse_entered" from="Controls/ControlLog/Control/HBoxContainer/TextEdit" to="Controls/ControlLog" method="LogEntered"]
+[connection signal="mouse_exited" from="Controls/ControlLog/Control/HBoxContainer/TextEdit" to="Controls/ControlLog" method="LogExited"]
+[connection signal="text_changed" from="Controls/ControlLog/Control/HBoxContainer/TextEdit" to="Controls/ControlLog" method="SetFilterText"]
+[connection signal="button_down" from="Controls/ControlLog/Control/HBoxContainer/ButtonWarnings" to="Controls/ControlLog" method="ClearLog"]
+[connection signal="button_down" from="Controls/ControlLog/Control/HBoxContainer/ButtonErrors" to="Controls/ControlLog" method="ClearLog"]
 [connection signal="button_down" from="ControlGamesProject/Panel/ButtonExit" to="Controls" method="OnCloseControlGameProject"]
 [connection signal="button_down" from="ControlGamesProject/Panel/ButtonImportGame" to="Controls" method="OnImportProject"]

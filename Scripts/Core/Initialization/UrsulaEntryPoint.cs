@@ -15,6 +15,7 @@ using Ursula.ConstructorMenu.Model;
 using Ursula.Water.Model;
 using Ursula.MapManagers.Setters;
 using Ursula.Settings.Model;
+using Ursula.Log.Model;
 
 
 namespace Ursula.Core.Initialization
@@ -98,7 +99,7 @@ namespace Ursula.Core.Initialization
 
             InstallSingleton<ConstructorFloraMenuViewModel>(services);
 
-
+            InstallSingleton<LogModel>(services);
 
         }
 

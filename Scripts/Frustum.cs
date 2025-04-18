@@ -19,7 +19,14 @@ public static class Frustum
 
         var position = obj.GlobalTransform.Origin;
 
-        return cam.IsPositionInFrustum(position);
+        if (cam != null)
+        {
+            return cam.IsPositionInFrustum(position);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public static float GetDistance(Node3D obj)

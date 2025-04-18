@@ -22,7 +22,7 @@ namespace Ursula.GameProjects.Model
             Template = template;
         }
 
-        public string Name { get; }
+        public string Name { get; set; }
         public string ProviderId { get; }
         public GameProjectTemplate Template { get; set; }
         public string Id => ProviderId + "." + Name;

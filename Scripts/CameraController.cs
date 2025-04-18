@@ -147,7 +147,7 @@ public partial class CameraController : Camera3D
             if (Position.Y < 0 && direction.Y < 0) direction.Y = 0;
             if (Position.Y > VoxLib.mapManager.sizeY && direction.Y > 0) direction.Y = 0;
 
-            if (!LogScript.isLogEntered && !VoxLib.mapManager.isDialogsOpen && !VoxLib.log.isDialogOpen)
+            if (!Raycaster.HoverUI(_camera))
                 Position += direction * speed * (float)delta; // Перемещаем камеру
         }
 

@@ -52,13 +52,13 @@ public class Raycaster
         return false;
     }
 
-    private static bool HoverUI(Camera3D camera)
+    public static bool HoverUI(Camera3D camera)
     {
         var viewport = camera.GetViewport();
         var hover = viewport.GuiGetHoveredControl();
         if (hover != null)
         {
-            if (hover is Control or Button or Panel or Slider or Label or OptionButton or ItemList or ScrollContainer or GridContainer && !hover.Name.ToString().Contains("Cross") && !hover.Name.ToString().Contains("ControlBuild"))
+            if (hover is Control or Button or Panel or Slider or Label or OptionButton or ItemList or ScrollContainer or GridContainer && !hover.Name.ToString().Contains("Cross") && !hover.Name.ToString().Contains("ControlBuild") && !hover.Name.ToString().Contains("ControlGame"))
             {
                 return true;
             }
