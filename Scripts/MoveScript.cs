@@ -128,9 +128,9 @@ public partial class MoveScript : CharacterBody3D
         PlayIdleAnimation();
 
 
-
+        //Profiler.BeginSample("onMovementFinished?.Invoke()");
         onMovementFinished?.Invoke();  // ! 5 - 40 ms
-
+        //Profiler.EndLastSample();
 
 
         Vector3 targetPosition = MovementPosition;
