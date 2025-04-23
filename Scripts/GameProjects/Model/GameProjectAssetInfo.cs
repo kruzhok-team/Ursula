@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 
-namespace Ursula.GameProjects.Model
+namespace Ursula.EmbeddedGames.Model
 {
     [Serializable]
     public partial class GameProjectAssetInfo: IInjectable
@@ -23,7 +23,7 @@ namespace Ursula.GameProjects.Model
         }
 
         public string Name { get; set; }
-        public string ProviderId { get; }
+        public string ProviderId { get; set; }
         public GameProjectTemplate Template { get; set; }
         public string Id => ProviderId + "." + Name;
 
@@ -32,6 +32,15 @@ namespace Ursula.GameProjects.Model
             get
             {
                 return GetDirectorySize(GetProjectPath());
+            }
+        }
+
+        public string ProjectSizeMb
+        {
+            get
+            {
+                float sizeInBytes = (float)(ProjectSize / (1024.0 * 1024.0));
+                return $"{sizeInBytes:F2} mb";
             }
         }
 
@@ -49,7 +58,7 @@ namespace Ursula.GameProjects.Model
 
             string path = Template.PreviewImageFilePath;
 
-            path = $"{GameProjectAssetsUserSource.CollectionPath}{Template.Folder}/{Template.PreviewImageFilePath}";
+            path = $"{GetProjectPath()}/{Template.PreviewImageFilePath}";
 
             previewImage = await _LoadPreviewImage(path);
 
@@ -63,9 +72,18 @@ namespace Ursula.GameProjects.Model
 
         public string GetProjectPath()
         {
-            string path = ProviderId == GameProjectAssetsUserSource.LibId
-                ? $"{GameProjectAssetsUserSource.FolderPath}{Name}"
-                : $"{GameProjectAssetsEmbeddedSource.FolderPath}{Name}";
+            string path = "";
+            if (ProviderId == GameProjectAssetsUserSource.LibId)
+            {
+                path = $"{GameProjectAssetsUserSource.FolderPath}{Name}";
+            }
+            else if (ProviderId == GameProjectAssetsEmbeddedSource.LibId)
+            {
+                string executablePath = OS.GetExecutablePath();
+                string executableDirectory = Path.GetDirectoryName(executablePath);
+                path = $"{executableDirectory}{GameProjectAssetsEmbeddedSource.CollectionPath}{Name}";
+            }
+
             return ProjectSettings.GlobalizePath(path);
         }
 
@@ -87,6 +105,13 @@ namespace Ursula.GameProjects.Model
             VoxLib.mapManager.SaveMapToFile(pathMap);
 
             return true;
+        }
+
+        public async GDTask PlayGame()
+        {
+            _= LoadMap();
+
+            VideoPlayer.instance.PlayVideo(GetProjectPath(), _PlayGame);
         }
 
         public async GDTask ExportProject()
@@ -214,6 +239,11 @@ namespace Ursula.GameProjects.Model
             }
 
             return totalSize;
+        }
+
+        private void _PlayGame()
+        {
+            VoxLib.mapManager.PlayGame();
         }
     }
 }

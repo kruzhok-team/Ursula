@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace Ursula.GameProjects.Model
+namespace Ursula.EmbeddedGames.Model
 {
     [Serializable]
     public partial class GameProjectTemplate

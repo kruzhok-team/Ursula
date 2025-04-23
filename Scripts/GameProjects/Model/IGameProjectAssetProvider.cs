@@ -1,7 +1,7 @@
 ﻿using Fractural.Tasks;
 using System.Collections.Generic;
 
-namespace Ursula.GameProjects.Model
+namespace Ursula.EmbeddedGames.Model
 {
     public interface IGameProjectAssetProvider // Provide read only data here
     {

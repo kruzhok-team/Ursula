@@ -55,7 +55,7 @@ namespace Ursula.GameObjects.View
             _commonLibrary.GameObjectLibraryLoadLibraryEvent += CommonLibrary_GameObjectLibraryLoadLibrary_EventHandler;
 
             _hudModel = await _hudModelProvider.GetAsync();
-            _hudModel.GameObjectLibraryVisibleEvent += HUDViewModel_ShowLibrary_EventHandler;
+            _hudModel.GameObjectLibraryVisibleEvent += GameObjectLibrary_ShowLibrary_EventHandler;
 
             _gameObjectCollectionModel = await _gameObjectCollectionModelProvider.GetAsync();
             _gameObjectCollectionModel.GameObjectCollectionVisibleChangeEvent += GameObjectCollectionModel_GameObjectCollectionVisibleChange_EventHandler;
@@ -74,7 +74,7 @@ namespace Ursula.GameObjects.View
             _collectionView?.Draw(commonLib.GetInfoOnGroup(_gameObjectCollectionModel.NameGameObjectGroup));
         }
 
-        private void HUDViewModel_ShowLibrary_EventHandler(object sender, EventArgs e)
+        private void GameObjectLibrary_ShowLibrary_EventHandler(object sender, EventArgs e)
         {
             OnShow();
         }

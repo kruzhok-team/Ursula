@@ -3,9 +3,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using Ursula.Core.DI;
-using Ursula.GameProjects.Model;
+using Ursula.EmbeddedGames.Model;
 
-namespace Ursula.GameProjects.View
+namespace Ursula.EmbeddedGames.View
 {
     public partial class GameProjectCollectionView : Control, IInjectable
     {
@@ -47,15 +47,15 @@ namespace Ursula.GameProjects.View
         private async void GameProjectCollectionViewModel_ViewVisible_EventHandler(object sender, EventArgs e)
         {
             Visible = _gameProjectCollectionViewModel.Visible;
-            if (Visible == true) await Show();
+            if (Visible == true) await OnShow();
         }
 
-        public async GDTask Show()
+        public async GDTask OnShow()
         {
-            await Draw(_commonLibrary.GetAllInfo());
+            await OnDraw(_commonLibrary.GetUserInfo());
         }
 
-        private async GDTask Draw(IReadOnlyCollection<GameProjectAssetInfo> assets)
+        private async GDTask OnDraw(IReadOnlyCollection<GameProjectAssetInfo> assets)
         {
             VoxLib.RemoveAllChildren(VBoxContainerCollectionView);
 

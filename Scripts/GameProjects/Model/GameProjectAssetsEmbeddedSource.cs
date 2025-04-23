@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using Ursula.Core.DI;
 
-namespace Ursula.GameProjects.Model
+namespace Ursula.EmbeddedGames.Model
 {
     public partial class GameProjectAssetsEmbeddedSource : GameProjectAssetJsonCollection, IInjectable
     {

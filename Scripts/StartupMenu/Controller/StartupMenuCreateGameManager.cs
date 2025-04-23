@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
-using Ursula.GameProjects.Model;
+using Ursula.EmbeddedGames.Model;
 using Ursula.MapManagers.Model;
 using Ursula.MapManagers.Setters;
 using Ursula.Terrain.Model;

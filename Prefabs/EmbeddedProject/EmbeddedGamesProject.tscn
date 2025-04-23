@@ -1,0 +1,161 @@
+[gd_scene load_steps=9 format=3 uid="uid://brxw3i5j5tss"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/EmbeddedProject/View/ControlEmbeddedGamesProjectView.cs" id="1_by7in"]
+[ext_resource type="Texture2D" uid="uid://bya5gamkkjm82" path="res://addons/Ursula/BackgroundB.png" id="3_nqmcx"]
+[ext_resource type="StyleBox" uid="uid://bwkxycn6p1ew0" path="res://addons/Ursula/Assets/Themes/Panel.tres" id="4_o0apo"]
+[ext_resource type="Texture2D" uid="uid://bqggx5f00mjv7" path="res://addons/Ursula/Assets/Themes/Close.png" id="5_yt72g"]
+[ext_resource type="StyleBox" uid="uid://ca8j25xkojl73" path="res://addons/Ursula/Assets/Themes/PanelLight.tres" id="6_sus1j"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/EmbeddedProject/Controller/ControlEmbeddedGamesProjectManager.cs" id="7_dqoa4"]
+[ext_resource type="PackedScene" uid="uid://cpys565e3fwhb" path="res://addons/Ursula/Prefabs/UI/ImportGameItemPrefab.tscn" id="7_ow5jf"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6tqwv"]
+texture = ExtResource("3_nqmcx")
+
+[node name="ControlEmbeddedGamesProjectManager" type="Node"]
+script = ExtResource("7_dqoa4")
+
+[node name="ControlEmbeddedGamesProjectView" type="Control" parent="." node_paths=PackedStringArray("container", "ButtonClose")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_by7in")
+importGameItemPrefab = ExtResource("7_ow5jf")
+container = NodePath("Panel/Panel/PanelBottom/ScrollContainer/VBoxContainer")
+ButtonClose = NodePath("Panel/Panel/ButtonClose")
+
+[node name="Panel" type="Panel" parent="ControlEmbeddedGamesProjectView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_6tqwv")
+
+[node name="ButtonExit" type="Button" parent="ControlEmbeddedGamesProjectView/Panel"]
+visible = false
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 1
+offset_right = 131.0
+offset_bottom = 40.0
+focus_mode = 1
+theme_override_styles/normal = ExtResource("4_o0apo")
+text = "Проекты"
+
+[node name="Panel" type="Panel" parent="ControlEmbeddedGamesProjectView/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -273.0
+offset_top = -257.0
+offset_right = 281.0
+offset_bottom = 258.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_o0apo")
+
+[node name="Label2" type="Label" parent="ControlEmbeddedGamesProjectView/Panel/Panel"]
+layout_mode = 1
+offset_left = 12.0
+offset_top = 5.0
+offset_right = 205.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 14
+text = "Запустить игру"
+
+[node name="ButtonClose" type="Button" parent="ControlEmbeddedGamesProjectView/Panel/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.0
+offset_top = 1.0
+offset_bottom = 33.0
+grow_horizontal = 0
+focus_mode = 1
+flat = true
+icon_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="ControlEmbeddedGamesProjectView/Panel/Panel/ButtonClose"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -25.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = 25.0
+grow_horizontal = 0
+texture = ExtResource("5_yt72g")
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="ControlEmbeddedGamesProjectView/Panel/Panel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -227.5
+offset_bottom = -224.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("6_sus1j")
+
+[node name="PanelBottom" type="Panel" parent="ControlEmbeddedGamesProjectView/Panel/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 35.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ImportGameItemPrefab" parent="ControlEmbeddedGamesProjectView/Panel/Panel/PanelBottom" instance=ExtResource("7_ow5jf")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 0.0
+offset_right = 8.0
+offset_bottom = 130.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ControlEmbeddedGamesProjectView/Panel/Panel/PanelBottom"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlEmbeddedGamesProjectView/Panel/Panel/PanelBottom/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ImportGameItemPrefab2" parent="ControlEmbeddedGamesProjectView/Panel/Panel/PanelBottom/ScrollContainer/VBoxContainer" instance=ExtResource("7_ow5jf")]
+layout_mode = 2
+
+[node name="ImportGameItemPrefab3" parent="ControlEmbeddedGamesProjectView/Panel/Panel/PanelBottom/ScrollContainer/VBoxContainer" instance=ExtResource("7_ow5jf")]
+layout_mode = 2
+
+[node name="ImportGameItemPrefab4" parent="ControlEmbeddedGamesProjectView/Panel/Panel/PanelBottom/ScrollContainer/VBoxContainer" instance=ExtResource("7_ow5jf")]
+layout_mode = 2
+
+[node name="ImportGameItemPrefab5" parent="ControlEmbeddedGamesProjectView/Panel/Panel/PanelBottom/ScrollContainer/VBoxContainer" instance=ExtResource("7_ow5jf")]
+layout_mode = 2
+
+[node name="ImportGameItemPrefab6" parent="ControlEmbeddedGamesProjectView/Panel/Panel/PanelBottom/ScrollContainer/VBoxContainer" instance=ExtResource("7_ow5jf")]
+layout_mode = 2

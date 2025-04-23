@@ -316,7 +316,7 @@ namespace Ursula.GameObjects.Model
 
         private async GDTask CheckEmbeddedAssets()
         {
-            string path = $"{GameObjectAssetsEmbeddedSource.ProjectFolderPath}/{GameObjectAssetsEmbeddedSource.JsonDataPath}";
+            string path = $"{GameObjectAssetsEmbeddedSource.ProjectFolderPath}{GameObjectAssetsEmbeddedSource.JsonDataPath}";
             if (!File.Exists(path))
             {
                 var mapAssets = ResourceLoader.Load<MapAssets>(MapManagerData.MapManagerAssetPath);

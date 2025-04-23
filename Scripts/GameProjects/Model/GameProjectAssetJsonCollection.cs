@@ -7,7 +7,7 @@ using System.Text.Json;
 using Talent.Graphs;
 using Ursula.GameObjects.Model;
 
-namespace Ursula.GameProjects.Model
+namespace Ursula.EmbeddedGames.Model
 {
     public partial class GameProjectAssetJsonCollection : IGameProjectAssetManager
     {
@@ -169,8 +169,12 @@ namespace Ursula.GameProjects.Model
 
                 string json = File.ReadAllText(path);
                 GameProjectAssetInfo projectInfo = JsonSerializer.Deserialize<GameProjectAssetInfo>(json, options);
+
                 projectInfo.Name = Path.GetFileName(folder);
-                string id = $"{projectInfo.ProviderId}.{projectInfo.Name}";
+                projectInfo.ProviderId = Id;
+
+                string id = $"{Id}.{projectInfo.Name}";
+
                 if (!_infoMap.ContainsKey(id)) _infoMap.Add(id, projectInfo);
             }
 

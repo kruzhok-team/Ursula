@@ -12,7 +12,7 @@ using System.Xml.Linq;
 using Ursula.Core.DI;
 using Ursula.Environment.Settings;
 using Ursula.GameObjects.Model;
-using Ursula.GameProjects.Model;
+using Ursula.EmbeddedGames.Model;
 using Ursula.MapManagers.Controller;
 using Ursula.MapManagers.Model;
 using Ursula.MapManagers.Setters;
@@ -1630,8 +1630,6 @@ public partial class MapManager : Node, IInjectable
         VoxLib.ShowMessage($"Проект {Path.GetFileName(fileName)} распакован в папку {pathImportProject}");
 
         fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(ImportProject)));
-
-        VoxLib.instance.CGP.Instantiate();
     }
 
 

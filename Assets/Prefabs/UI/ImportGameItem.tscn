@@ -1,6 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bf4yqi8xraxte"]
 
-[ext_resource type="Script" path="res://addons/Ursula/Scripts/ControlGameItem.cs" id="1_0thgq"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/EmbeddedProject/View/ControlGameItemView.cs" id="1_0thgq"]
+
 
 [sub_resource type="ImageTexture" id="ImageTexture_fdbx7"]
 

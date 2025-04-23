@@ -3,7 +3,7 @@ using Godot;
 using System.IO;
 using Ursula.Core.DI;
 
-namespace Ursula.GameProjects.Model
+namespace Ursula.EmbeddedGames.Model
 {
     public partial class GameProjectAssetsUserSource : GameProjectAssetJsonCollection, IInjectable
     {

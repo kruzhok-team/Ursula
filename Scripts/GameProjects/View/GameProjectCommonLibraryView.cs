@@ -3,10 +3,10 @@ using Godot;
 using System;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
-using Ursula.GameProjects.Model;
+using Ursula.EmbeddedGames.Model;
 using Ursula.StartupMenu.Model;
 
-namespace Ursula.GameProjects.View
+namespace Ursula.EmbeddedGames.View
 {
     public partial class GameProjectCommonLibraryView : Node, IInjectable
     {

@@ -1,7 +1,7 @@
 ﻿using Godot;
 using System;
 
-namespace Ursula.GameProjects.Model
+namespace Ursula.EmbeddedGames.Model
 {
     public interface IGameProjectLibraryManager : IGameProjectAssetManager
     {

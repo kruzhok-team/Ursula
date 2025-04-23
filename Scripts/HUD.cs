@@ -20,12 +20,6 @@ public partial class HUD : Control, IInjectable
     public Label _labelCoordinates;
 
     [Export]
-    public Control ControlProjectGO;
-
-    [Export]
-    public Control ControlGamesProjectGO;
-
-    [Export]
     public CheckButton[] CheckButtonAlgoritm;
 
     [Inject]
@@ -86,40 +80,6 @@ public partial class HUD : Control, IInjectable
     public void SetInfo(string info)
     {
         _SetInfo(info);
-    }
-
-    public void OnOpenControlProject()
-    {
-        ControlPopupMenu.HideAllMenu();
-        ControlProjectGO.Visible = true;
-    }
-
-    public void OnCloseControlProject()
-    {
-        ControlProjectGO.Visible = false;
-    }
-
-    public void OnOpenControlGameProject()
-    {
-        ControlPopupMenu.HideAllMenu();
-        ControlGamesProjectGO.Visible = true;
-        VoxLib.instance.CGP.Instantiate();
-
-        gameObjectCurrentInfoModel.SetAssetInfoView(null, false);
-
-    }
-
-    public void HideAllControls()
-    {
-        OnCloseControlProject();
-        OnCloseControlGameProject();
-    }
-
-    public void OnCloseControlGameProject()
-    {
-        ControlGamesProjectGO.Visible = false;
-
-        gameObjectCurrentInfoModel.SetAssetInfoView(null, true);
     }
 
     public async void ShowCommonLibraryButton_DownEventHandler()

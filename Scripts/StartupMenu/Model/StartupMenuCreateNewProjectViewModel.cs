@@ -6,7 +6,7 @@ using System.IO;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 using Ursula.GameObjects.View;
-using Ursula.GameProjects.Model;
+using Ursula.EmbeddedGames.Model;
 
 namespace Ursula.StartupMenu.Model
 {

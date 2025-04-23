@@ -4,7 +4,7 @@ using System;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 using Ursula.GameObjects.View;
-using Ursula.GameProjects.Model;
+using Ursula.EmbeddedGames.Model;
 using Ursula.StartupMenu.Model;
 
 namespace Ursula.StartupMenu.View

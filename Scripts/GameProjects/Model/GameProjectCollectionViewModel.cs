@@ -3,7 +3,7 @@ using Godot;
 using System;
 using Ursula.Core.DI;
 
-namespace Ursula.GameProjects.Model
+namespace Ursula.EmbeddedGames.Model
 {
     public partial class GameProjectCollectionViewModel : ConstructorViewModel, IInjectable
     {
