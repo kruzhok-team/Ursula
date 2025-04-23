@@ -1,4 +1,4 @@
-﻿namespace Ursula.EmbeddedGames.Model
+﻿namespace Ursula.GameProjects.Model
 {
     public interface IGameProjectAsset // Provide read only data here
     {

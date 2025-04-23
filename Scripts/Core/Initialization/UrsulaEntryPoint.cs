@@ -9,7 +9,7 @@ using Ursula.MapManagers.Controller;
 using Ursula.MapManagers.Model;
 using Ursula.GameObjects.Controller;
 using Ursula.StartupMenu.Model;
-using Ursula.EmbeddedGames.Model;
+using Ursula.GameProjects.Model;
 using Ursula.Terrain.Model;
 using Ursula.ConstructorMenu.Model;
 using Ursula.Water.Model;
@@ -17,6 +17,7 @@ using Ursula.MapManagers.Setters;
 using Ursula.Settings.Model;
 using Ursula.Log.Model;
 using Ursula.EmbeddedGames.Manager;
+using Ursula.EmbeddedGames.Model;
 
 
 namespace Ursula.Core.Initialization

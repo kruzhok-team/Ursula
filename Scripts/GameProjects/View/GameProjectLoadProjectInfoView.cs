@@ -1,8 +1,8 @@
 ﻿using Godot;
 using System;
-using Ursula.EmbeddedGames.Model;
+using Ursula.GameProjects.Model;
 
-namespace Ursula.EmbeddedGames.View
+namespace Ursula.GameProjects.View
 {
     public partial class GameProjectLoadProjectInfoView : Node
     {

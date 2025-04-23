@@ -4,6 +4,7 @@ using System;
 using Ursula.ConstructorMenu.Model;
 using Ursula.Core.DI;
 using Ursula.EmbeddedGames.Model;
+using Ursula.GameProjects.Model;
 using Ursula.Settings.Model;
 using Ursula.StartupMenu.Model;
 

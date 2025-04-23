@@ -3,7 +3,7 @@ using Godot;
 using System;
 using System.Xml.Linq;
 
-namespace Ursula.EmbeddedGames.Model
+namespace Ursula.GameProjects.Model
 {
     public partial class GameProjectAsset : IGameProjectAsset
     {

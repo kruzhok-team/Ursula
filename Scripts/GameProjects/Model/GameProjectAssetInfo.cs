@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 
-namespace Ursula.EmbeddedGames.Model
+namespace Ursula.GameProjects.Model
 {
     [Serializable]
     public partial class GameProjectAssetInfo: IInjectable

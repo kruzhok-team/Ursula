@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace Ursula.EmbeddedGames.Model
+namespace Ursula.GameProjects.Model
 {
     public partial class CommonGameProjectLibraryItem : IEquatable<IGameProjectAsset>, IEquatable<GameProjectAssetInfo>, IEquatable<CommonGameProjectLibraryItem>
     {

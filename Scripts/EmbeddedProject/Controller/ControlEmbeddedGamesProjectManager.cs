@@ -2,9 +2,10 @@
 using Godot;
 using System;
 using Ursula.Core.DI;
-using Ursula.EmbeddedGames.Model;
+using Ursula.GameProjects.Model;
 using Ursula.GameObjects.Model;
 using Ursula.StartupMenu.Model;
+using Ursula.EmbeddedGames.Model;
 
 namespace Ursula.EmbeddedGames.Manager
 {

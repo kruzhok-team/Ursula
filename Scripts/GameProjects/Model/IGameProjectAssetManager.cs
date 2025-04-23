@@ -1,6 +1,6 @@
 ﻿using Fractural.Tasks;
 
-namespace Ursula.EmbeddedGames.Model
+namespace Ursula.GameProjects.Model
 {
     public interface IGameProjectAssetManager : IGameProjectAssetProvider // Provide full data control here
     {

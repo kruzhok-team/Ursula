@@ -3,9 +3,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using Ursula.Core.DI;
-using Ursula.EmbeddedGames.Model;
+using Ursula.GameProjects.Model;
 
-namespace Ursula.EmbeddedGames.View
+namespace Ursula.GameProjects.View
 {
     public partial class GameProjectCollectionView : Control, IInjectable
     {

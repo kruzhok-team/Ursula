@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Ursula.Core.DI;
-using Ursula.EmbeddedGames.Manager;
-using Ursula.EmbeddedGames.Model;
-using Ursula.EmbeddedGames.View;
+using Ursula.GameProjects.Model;
 using Ursula.GameObjects.Model;
 using Ursula.StartupMenu.Model;
+using Ursula.EmbeddedGames.Model;
+using Ursula.EmbeddedGames.Manager;
 
 namespace Ursula.EmbeddedGames.View
 {

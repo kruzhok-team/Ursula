@@ -1,7 +1,7 @@
 ﻿using Godot;
 using System;
 using System.IO;
-using Ursula.EmbeddedGames.Model;
+using Ursula.GameProjects.Model;
 
 public partial class ControlGameItemView : Control
 {

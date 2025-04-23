@@ -7,7 +7,7 @@ using System.IO;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 using Ursula.GameObjects.View;
-using Ursula.EmbeddedGames.Model;
+using Ursula.GameProjects.Model;
 using VoxLibExample;
 
 namespace Ursula.GameObjects.View

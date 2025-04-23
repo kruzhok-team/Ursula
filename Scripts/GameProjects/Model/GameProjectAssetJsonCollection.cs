@@ -7,7 +7,7 @@ using System.Text.Json;
 using Talent.Graphs;
 using Ursula.GameObjects.Model;
 
-namespace Ursula.EmbeddedGames.Model
+namespace Ursula.GameProjects.Model
 {
     public partial class GameProjectAssetJsonCollection : IGameProjectAssetManager
     {

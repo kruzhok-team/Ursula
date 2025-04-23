@@ -7,7 +7,7 @@ using Ursula.GameObjects.Model;
 
 
 
-namespace Ursula.EmbeddedGames.Model
+namespace Ursula.GameProjects.Model
 {
     public partial class GameProjectLibraryManager : IGameProjectLibraryManager, IInjectable
     {
