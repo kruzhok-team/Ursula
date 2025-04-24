@@ -119,7 +119,7 @@ script = ExtResource("1_xjqfu")
 
 [node name="ModelLoader" parent="." instance=ExtResource("2_ayndh")]
 
-[node name="Controls" type="Control" parent="." node_paths=PackedStringArray("_labelFile", "_cross", "_labelCoordinates", "CheckButtonAlgoritm")]
+[node name="Controls" type="Control" parent="." node_paths=PackedStringArray("_labelFile", "_cross", "_labelCoordinates", "CheckButtonAlgoritm", "ButtonOpenGameProjectView")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -130,7 +130,8 @@ script = ExtResource("3_lm8x0")
 _labelFile = NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer/LabelFile")
 _cross = NodePath("Cross")
 _labelCoordinates = NodePath("LabelCoordinate")
-CheckButtonAlgoritm = [NodePath("ControlGame/Panel/HBoxContainer/Algoritms/CheckButton"), NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/CheckButton")]
+CheckButtonAlgoritm = [NodePath("ControlTest/Panel/HBoxContainer/Algoritms/CheckButton"), NodePath("ControlBuild/Panel/ControlPopupMenu/HBoxContainer2/CheckButton")]
+ButtonOpenGameProjectView = NodePath("ControlGame/Panel/HBoxContainer/ButtonOpenGameProjectView")
 
 [node name="HUDViewModel" type="Node" parent="Controls"]
 
@@ -279,7 +280,7 @@ layout_mode = 1
 offset_left = -1.0
 offset_top = 40.0
 offset_right = 237.0
-offset_bottom = 352.0
+offset_bottom = 392.0
 theme_override_styles/panel = ExtResource("51_qas0a")
 script = ExtResource("13_lc8ex")
 ButtonCreateNewProject = NodePath("VBoxContainer/ButtonCreateNewProject")
@@ -2061,6 +2062,98 @@ offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="ControlTest" type="Control" parent="Controls"]
+visible = false
+anchors_preset = 0
+offset_right = 1154.0
+offset_bottom = 648.0
+
+[node name="Panel" type="Control" parent="Controls/ControlTest"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 412.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls/ControlTest/Panel"]
+layout_mode = 1
+offset_right = 740.0
+offset_bottom = 40.0
+
+[node name="ButtonHome" type="Button" parent="Controls/ControlTest/Panel/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+focus_mode = 1
+
+[node name="Icon" type="TextureRect" parent="Controls/ControlTest/Panel/HBoxContainer/ButtonHome"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -16.0
+offset_right = 37.0
+offset_bottom = 16.0
+grow_vertical = 2
+texture = ExtResource("5_i1qgd")
+expand_mode = 1
+
+[node name="ButtonExit" type="Button" parent="Controls/ControlTest/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+focus_mode = 1
+theme_override_font_sizes/font_size = 13
+theme_override_styles/pressed = ExtResource("51_ffq47")
+theme_override_styles/normal = ExtResource("51_qas0a")
+text = "Вернуться к редактированию"
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Controls/ControlTest/Panel/HBoxContainer/ButtonExit"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -10.0
+offset_right = 26.0
+offset_bottom = 10.0
+grow_vertical = 2
+texture = ExtResource("38_544k6")
+expand_mode = 1
+
+[node name="ButtonOpenGameMenu" type="Button" parent="Controls/ControlTest/Panel/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+focus_mode = 1
+text = "Игры"
+
+[node name="ButtonReload" type="Button" parent="Controls/ControlTest/Panel/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+focus_mode = 1
+text = "Рестарт"
+
+[node name="Algoritms" type="Panel" parent="Controls/ControlTest/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("51_qas0a")
+
+[node name="CheckButton" type="CheckButton" parent="Controls/ControlTest/Panel/HBoxContainer/Algoritms"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 13
+text = "Алгоритмы"
+alignment = 2
+
 [node name="ControlGame" type="Control" parent="Controls"]
 visible = false
 anchors_preset = 0
@@ -2078,80 +2171,24 @@ layout_mode = 1
 offset_right = 740.0
 offset_bottom = 40.0
 
-[node name="ButtonHome" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(40, 0)
+[node name="ButtonOpenGameProjectView" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 focus_mode = 1
-
-[node name="Icon" type="TextureRect" parent="Controls/ControlGame/Panel/HBoxContainer/ButtonHome"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 3.0
-offset_top = -16.0
-offset_right = 37.0
-offset_bottom = 16.0
-grow_vertical = 2
-texture = ExtResource("5_i1qgd")
-expand_mode = 1
-
-[node name="ButtonExit" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
-custom_minimum_size = Vector2(230, 0)
-layout_mode = 2
-focus_mode = 1
-theme_override_font_sizes/font_size = 13
-theme_override_styles/pressed = ExtResource("51_ffq47")
 theme_override_styles/normal = ExtResource("51_qas0a")
-text = "Вернуться к редактированию"
-alignment = 2
 
-[node name="TextureRect" type="TextureRect" parent="Controls/ControlGame/Panel/HBoxContainer/ButtonExit"]
+[node name="Icon" type="TextureRect" parent="Controls/ControlGame/Panel/HBoxContainer/ButtonOpenGameProjectView"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 6.0
-offset_top = -10.0
-offset_right = 26.0
-offset_bottom = 10.0
+offset_left = 2.0
+offset_top = -16.0
+offset_right = 36.0
+offset_bottom = 16.0
 grow_vertical = 2
 texture = ExtResource("38_544k6")
 expand_mode = 1
-
-[node name="ButtonOpenGameMenu" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-focus_mode = 1
-text = "Игры"
-
-[node name="ButtonReload" type="Button" parent="Controls/ControlGame/Panel/HBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-focus_mode = 1
-text = "Рестарт"
-
-[node name="Algoritms" type="Panel" parent="Controls/ControlGame/Panel/HBoxContainer"]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-theme_override_styles/panel = ExtResource("51_qas0a")
-
-[node name="CheckButton" type="CheckButton" parent="Controls/ControlGame/Panel/HBoxContainer/Algoritms"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -1.0
-offset_right = 2.0
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 0
-theme_override_font_sizes/font_size = 13
-text = "Алгоритмы"
-alignment = 2
 
 [node name="ControlSettingsView" type="Control" parent="Controls" node_paths=PackedStringArray("SliderMouseSence", "OptionButtonShadow", "ButtonClose")]
 visible = false
@@ -3077,9 +3114,10 @@ script = ExtResource("47_25wwj")
 [node name="MapManagerItemSetter" type="Node" parent="MapManagers"]
 script = ExtResource("36_r168r")
 
-[node name="MapManager" type="Node" parent="MapManagers" node_paths=PackedStringArray("buildControl", "gameControl", "IdItemOption", "CheckBoxCreateItem", "CheckBoxDeleteItem", "CreateMode", "navigationRegion3D", "fileDialog", "fileDialogLoad", "_mapManagerItemSetter", "sliderGrassTexID")]
+[node name="MapManager" type="Node" parent="MapManagers" node_paths=PackedStringArray("buildControl", "testControl", "gameControl", "IdItemOption", "CheckBoxCreateItem", "CheckBoxDeleteItem", "CreateMode", "navigationRegion3D", "fileDialog", "fileDialogLoad", "_mapManagerItemSetter", "sliderGrassTexID")]
 script = ExtResource("27_5b8gm")
 buildControl = NodePath("../../Controls/ControlBuild")
+testControl = NodePath("../../Controls/ControlTest")
 gameControl = NodePath("../../Controls/ControlGame")
 CameraFreeGO = ExtResource("28_hoa3c")
 PlayerGO = ExtResource("29_wh4fr")
@@ -3096,7 +3134,7 @@ sliderGrassTexID = NodePath("../../Controls/ControlBuild/Panel/HSliderGrassTexID
 [node name="MapManagerView" type="Node" parent="MapManagers" node_paths=PackedStringArray("buildControl", "gameControl")]
 script = ExtResource("34_jfh7j")
 buildControl = NodePath("../../Controls/ControlBuild")
-gameControl = NodePath("../../Controls/ControlGame")
+gameControl = NodePath("../../Controls/ControlTest")
 
 [node name="MapManagerController" type="Node" parent="MapManagers" node_paths=PackedStringArray("_mapManagerView")]
 script = ExtResource("34_n8jam")
@@ -3285,11 +3323,11 @@ clip_text = true
 [connection signal="button_down" from="Controls/ControlBuild/Panel/ButtonSetTexure" to="MapManagers/MapManager" method="SetGrassTexture"]
 [connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxCreateItem" to="MapManagers/MapManager" method="SetCreateItem"]
 [connection signal="toggled" from="Controls/ControlBuild/Panel/CheckBoxDeleteItem" to="MapManagers/MapManager" method="SetDeleteItem"]
-[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonHome" to="Controls" method="OnOpenControlGameProject"]
-[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonExit" to="MapManagers/MapManager" method="PlayTest"]
-[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonOpenGameMenu" to="Controls" method="OnOpenControlGameProject"]
-[connection signal="button_down" from="Controls/ControlGame/Panel/HBoxContainer/ButtonReload" to="MapManagers/MapManager" method="OnReloadMap"]
-[connection signal="toggled" from="Controls/ControlGame/Panel/HBoxContainer/Algoritms/CheckButton" to="Controls" method="OnAlgoritmStartStopChange"]
+[connection signal="button_down" from="Controls/ControlTest/Panel/HBoxContainer/ButtonHome" to="Controls" method="OnOpenControlGameProject"]
+[connection signal="button_down" from="Controls/ControlTest/Panel/HBoxContainer/ButtonExit" to="MapManagers/MapManager" method="PlayTest"]
+[connection signal="button_down" from="Controls/ControlTest/Panel/HBoxContainer/ButtonOpenGameMenu" to="Controls" method="OnOpenControlGameProject"]
+[connection signal="button_down" from="Controls/ControlTest/Panel/HBoxContainer/ButtonReload" to="MapManagers/MapManager" method="OnReloadMap"]
+[connection signal="toggled" from="Controls/ControlTest/Panel/HBoxContainer/Algoritms/CheckButton" to="Controls" method="OnAlgoritmStartStopChange"]
 [connection signal="item_selected" from="Controls/ControlSettingsView/Panel/OptionButtonShadow" to="Controls/ControlSettingsView" method="SetShadowEnabled"]
 [connection signal="value_changed" from="Controls/ControlSettingsView/Panel/HSliderMouseSence" to="Controls/ControlSettingsView" method="SetSensitivity"]
 [connection signal="button_down" from="Controls/ControlLog/Control/HBoxContainer/ClearLog" to="Controls/ControlLog" method="ClearLog"]

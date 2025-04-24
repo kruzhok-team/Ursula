@@ -6,6 +6,7 @@ using Ursula.GameObjects.Model;
 using Ursula.GameObjects.View;
 using System.Threading.Tasks;
 using System;
+using Ursula.EmbeddedGames.Model;
 
 
 public partial class HUD : Control, IInjectable
@@ -22,6 +23,9 @@ public partial class HUD : Control, IInjectable
     [Export]
     public CheckButton[] CheckButtonAlgoritm;
 
+    [Export]
+    public Button ButtonOpenGameProjectView;
+
     [Inject]
     private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
 
@@ -33,6 +37,9 @@ public partial class HUD : Control, IInjectable
 
     [Inject]
     private ISingletonProvider<GameObjectCurrentInfoModel> _GameObjectCurrentInfoModelProvider;
+
+    [Inject]
+    private ISingletonProvider<ControlEmbeddedGamesProjectViewModel> _controlEmbeddedGamesProjectViewModelProvider;
 
     private GameObjectCurrentInfoModel gameObjectCurrentInfoModel;
 
@@ -54,7 +61,8 @@ public partial class HUD : Control, IInjectable
     private async GDTask SubscribeEvent()
     {
         gameObjectCurrentInfoModel = await _GameObjectCurrentInfoModelProvider.GetAsync();
-        
+
+        ButtonOpenGameProjectView.ButtonDown += ButtonOpenGameProjectView_ButtonDownEvent;
     }
 
     public override void _ExitTree()
@@ -212,4 +220,9 @@ public partial class HUD : Control, IInjectable
         return model != null;
     }
 
+    private async void ButtonOpenGameProjectView_ButtonDownEvent()
+    {
+        ControlEmbeddedGamesProjectViewModel _controlEmbeddedGamesProjectViewModel = await _controlEmbeddedGamesProjectViewModelProvider.GetAsync();
+        _controlEmbeddedGamesProjectViewModel.SetVisibleView(true);
+    }
 }

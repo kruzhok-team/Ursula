@@ -27,6 +27,8 @@ namespace Ursula.GameProjects.Model
                 string path = Path.GetDirectoryName(OS.GetExecutablePath());
                 path = ProjectSettings.GlobalizePath($"{path}{GameProjectAssetsEmbeddedSource.CollectionPath}");
                 _folderPath = path;
+
+                if (!Directory.Exists(_folderPath)) Directory.CreateDirectory(_folderPath);
             }
             _cachedAssetMap = new();
             _infoMap = new();

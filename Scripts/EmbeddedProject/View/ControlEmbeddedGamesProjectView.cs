@@ -101,6 +101,8 @@ namespace Ursula.EmbeddedGames.View
 
                 container.AddChild(instance);
             }
+
+            if (result.Count == 0) _SetVisibleView(false);
         }
 
         private async void ClickItem_PlayGameEvent(string itemId)
@@ -122,7 +124,12 @@ namespace Ursula.EmbeddedGames.View
 
         private void ButtonClose_ButtonDownEvent()
         {
-            _controlEmbeddedGamesProjectViewModel.SetVisibleView(false);
+            _SetVisibleView(false);
+        }
+
+        private void _SetVisibleView(bool value)
+        {
+            _controlEmbeddedGamesProjectViewModel.SetVisibleView(value);
         }
     }
 }

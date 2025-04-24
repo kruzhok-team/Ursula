@@ -52,9 +52,12 @@ public partial class MapManager : Node, IInjectable
 	public Control buildControl;
 
 	[Export]
-	public Control gameControl;
+	public Control testControl;
 
-	[Export]
+    [Export]
+    public Control gameControl;
+
+    [Export]
 	public PackedScene CameraFreeGO { get; set; }
 
 	[Export]
@@ -507,7 +510,7 @@ public partial class MapManager : Node, IInjectable
             CustomObject.SetVisibleIndicators(true);
         }
 
-		VoxLib.terrainManager.BakeNavMesh();
+		//VoxLib.terrainManager.BakeNavMesh();
 
 		InstancePlayer();
 
@@ -532,7 +535,7 @@ public partial class MapManager : Node, IInjectable
 
         playMode = PlayMode.playGameMode;
         CustomObject.SetVisibleIndicators(false);
-        VoxLib.terrainManager.BakeNavMesh();
+        //VoxLib.terrainManager.BakeNavMesh();
         await ToSignal(GetTree().CreateTimer(0.2f), "timeout");
         InstancePlayer();
 
@@ -820,18 +823,24 @@ public partial class MapManager : Node, IInjectable
         base._Process(delta);
 
         buildControl.Visible = playMode == PlayMode.buildingMode;
-        gameControl.Visible = playMode == PlayMode.testMode;
+        testControl.Visible = playMode == PlayMode.testMode;
+        gameControl.Visible = playMode == PlayMode.playGameMode;
 
         if (playMode == PlayMode.buildingMode)
         {
             buildControl.Show();
-            gameControl.Hide();
+            testControl.Hide();
         }
         else
         {
             buildControl.Hide();
 
             if (playMode == PlayMode.testMode)
+                testControl.Show();
+            else
+                testControl.Hide();
+
+            if (playMode == PlayMode.playGameMode)
                 gameControl.Show();
             else
                 gameControl.Hide();
