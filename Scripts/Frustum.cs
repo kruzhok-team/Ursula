@@ -7,7 +7,7 @@ public static class Frustum
 
     public static Camera3D GetCamera(Node3D node3D)
     {
-        if (_camera == null)
+        if (_camera == null || !Node.IsInstanceValid(_camera))
             _camera = node3D.GetViewport().GetCamera3D();
 
         return _camera;
@@ -15,9 +15,10 @@ public static class Frustum
 
     public static bool In(Node3D obj)
     {
-        var cam = GetCamera(obj);
+        Camera3D cam = GetCamera(obj);
 
         var position = obj.GlobalTransform.Origin;
+
 
         if (cam != null)
         {
