@@ -535,13 +535,15 @@ public partial class MapManager : Node, IInjectable
 
         playMode = PlayMode.playGameMode;
         CustomObject.SetVisibleIndicators(false);
+        VoxLib.hud.StopAllObjects();
         //VoxLib.terrainManager.BakeNavMesh();
         await ToSignal(GetTree().CreateTimer(0.2f), "timeout");
         InstancePlayer();
 
         VoxLib.SetVisibleLog(false);
 
-        await ToSignal(GetTree().CreateTimer(5.0f), "timeout");
+        await ToSignal(GetTree().CreateTimer(10.0f), "timeout");
+        
         VoxLib.hud.RunAllObjects();
 
         _gameObjectCurrentInfoModel.SetAssetInfoView(null, false);
