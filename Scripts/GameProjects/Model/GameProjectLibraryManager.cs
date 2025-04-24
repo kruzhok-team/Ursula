@@ -76,6 +76,20 @@ namespace Ursula.GameProjects.Model
             return result;
         }
 
+        public IReadOnlyCollection<GameProjectAssetInfo> GetUserInfo()
+        {
+            var mergedList = new List<GameProjectAssetInfo>();
+            if (_userLib != null) mergedList.AddRange(_userLib.GetAllInfo());
+            return mergedList;
+        }
+
+        public IReadOnlyCollection<GameProjectAssetInfo> GetEmbeddedInfo()
+        {
+            var mergedList = new List<GameProjectAssetInfo>();
+            if (_embeddedLib != null) mergedList.AddRange(_embeddedLib.GetAllInfo());
+            return mergedList;
+        }
+
         public bool ContainsItem(string itemId)
         {
             if (!CheckLoaded())
@@ -249,7 +263,7 @@ namespace Ursula.GameProjects.Model
         public void SetLoadProject(GameProjectAssetInfo info)
         {
             SetCurrentProjectInfo(info);
-            GameObjectAssetsUserSource.ProjectPath = info.GetProjectPath();
+            GameObjectAssetsUserSource.ProjectFolderPath = info.GetProjectPath();
             GameObjectAssetsEmbeddedSource.ProjectFolderPath = info.GetProjectPath();
 
             InvokeSetLoadProjectEvent();

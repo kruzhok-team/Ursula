@@ -1,0 +1,109 @@
+[gd_scene load_steps=7 format=3 uid="uid://cpys565e3fwhb"]
+
+[ext_resource type="StyleBox" uid="uid://c073n7hbygote" path="res://addons/Ursula/Assets/Themes/ButtonSelected.tres" id="1_xgxni"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/EmbeddedProject/View/ControlGameItemView.cs" id="2_ly86c"]
+[ext_resource type="Texture2D" uid="uid://dco017ib6n8ju" path="res://addons/Ursula/Assets/Themes/Object.png" id="3_r3rug"]
+[ext_resource type="StyleBox" uid="uid://dx1y20m058p13" path="res://addons/Ursula/Assets/Themes/ButtonWhite.tres" id="4_yrbby"]
+[ext_resource type="StyleBox" uid="uid://dh4pdqyswum5a" path="res://addons/Ursula/Assets/Themes/ButtonBlue.tres" id="5_y1lw2"]
+[ext_resource type="Texture2D" uid="uid://dcbimwb1cq50h" path="res://addons/Ursula/Assets/Themes/Play.png" id="6_3bera"]
+
+[node name="ImportGameItemPrefab" type="Button" node_paths=PackedStringArray("NameGame", "SizeGame", "TextureGame", "ButtonPlayGame")]
+custom_minimum_size = Vector2(0, 120)
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -241.0
+offset_bottom = -111.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = ExtResource("1_xgxni")
+theme_override_styles/hover = ExtResource("1_xgxni")
+script = ExtResource("2_ly86c")
+NameGame = NodePath("LabelNameGame")
+SizeGame = NodePath("LabelSizeGame")
+TextureGame = NodePath("TextureRect")
+ButtonPlayGame = NodePath("ButtonPlayGame")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 28.0
+offset_top = -56.0
+offset_right = 146.0
+offset_bottom = 57.0
+grow_vertical = 2
+texture = ExtResource("3_r3rug")
+expand_mode = 1
+
+[node name="LabelNameGame" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 200.0
+offset_top = -42.0
+offset_right = 541.0
+offset_bottom = -19.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 16
+text = "Приключения дровосека"
+vertical_alignment = 1
+
+[node name="LabelSizeGame" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 200.0
+offset_top = -14.0
+offset_right = 391.0
+offset_bottom = 9.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "18.2 mb"
+vertical_alignment = 1
+
+[node name="ButtonPlayGame" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 201.0
+offset_top = 14.0
+offset_right = 337.0
+offset_bottom = 51.0
+grow_vertical = 2
+theme_override_styles/pressed = ExtResource("4_yrbby")
+theme_override_styles/normal = ExtResource("5_y1lw2")
+
+[node name="TextureRect" type="TextureRect" parent="ButtonPlayGame"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 33.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 8.5
+grow_vertical = 2
+texture = ExtResource("6_3bera")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="ButtonPlayGame"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -84.0
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 14
+text = "Играть"
+vertical_alignment = 1

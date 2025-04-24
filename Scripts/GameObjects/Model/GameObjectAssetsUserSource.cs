@@ -6,8 +6,8 @@ namespace Ursula.GameObjects.Model
     {
         public const string LibId = "UserGameObjectAssets";
         public const string NameSource = "UserSource.json";
-        public static string AssetPath = ProjectPath + CollectionPath;
-        public static string ProjectPath;
+        public static string AssetPath = ProjectFolderPath + CollectionPath;
+        public static string ProjectFolderPath;
         public const string CollectionPath = "/UserCollection/";
         public const string JsonDataPath = CollectionPath + NameSource;
 

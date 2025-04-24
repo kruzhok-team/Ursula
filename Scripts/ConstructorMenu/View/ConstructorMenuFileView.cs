@@ -3,6 +3,7 @@ using Godot;
 using System;
 using Ursula.ConstructorMenu.Model;
 using Ursula.Core.DI;
+using Ursula.EmbeddedGames.Model;
 using Ursula.GameProjects.Model;
 using Ursula.Settings.Model;
 using Ursula.StartupMenu.Model;
@@ -33,6 +34,9 @@ namespace Ursula.ConstructorMenu.View
         [Export]
         Button ButtonSettings;
 
+        [Export]
+        Button ButtonGames;
+
         [Inject]
         private ISingletonProvider<ConstructorMenuFileModel> _constructorMenuFileModelProvider;
 
@@ -45,10 +49,14 @@ namespace Ursula.ConstructorMenu.View
         [Inject]
         private ISingletonProvider<ControlSettingsViewModel> _controlSettingsViewModelProvider;
 
+        [Inject]
+        private ISingletonProvider<ControlEmbeddedGamesProjectViewModel> _controlEmbeddedGamesProjectViewModelProvider;
+
         private ConstructorMenuFileModel _constructorMenuFileModel { get; set; }
         private StartupMenuModel _startupMenuModel { get; set; }
         private GameProjectLibraryManager _commonLibrary { get; set; }
         private ControlSettingsViewModel _controlSettingsViewModel { get; set; }
+        private ControlEmbeddedGamesProjectViewModel _controlEmbeddedGamesProjectViewModel { get; set; }
 
         public override void _Ready()
         {
@@ -62,6 +70,7 @@ namespace Ursula.ConstructorMenu.View
             _startupMenuModel = await _startupMenuModelProvider.GetAsync();
             _commonLibrary = await _commonLibraryProvider.GetAsync();
             _controlSettingsViewModel = await _controlSettingsViewModelProvider.GetAsync();
+            _controlEmbeddedGamesProjectViewModel = await _controlEmbeddedGamesProjectViewModelProvider.GetAsync();
 
             ButtonCreateNewProject.ButtonDown += ButtonCreateNewProject_ButtonDownEvent;
             ButtonLoadProject.ButtonDown += ButtonLoadProject_ButtonDownEvent;
@@ -70,6 +79,7 @@ namespace Ursula.ConstructorMenu.View
             ButtonAboutProgram.ButtonDown += ButtonAboutProgram_ButtonDownEvent;
             ButtonSupport.ButtonDown += ButtonSupport_ButtonDownEvent;
             ButtonSettings.ButtonDown += ButtonSettings_ButtonDownEvent;
+            ButtonGames.ButtonDown += ButtonGames_ButtonDownEvent;
         }
 
         private void ButtonCreateNewProject_ButtonDownEvent()
@@ -97,6 +107,11 @@ namespace Ursula.ConstructorMenu.View
         private void ButtonAboutProgram_ButtonDownEvent()
         {
             throw new NotImplementedException();
+        }
+
+        private void ButtonGames_ButtonDownEvent()
+        {
+            _controlEmbeddedGamesProjectViewModel.SetVisibleView(true);
         }
 
         private void ButtonSupport_ButtonDownEvent()

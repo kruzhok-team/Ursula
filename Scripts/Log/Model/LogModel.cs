@@ -37,6 +37,7 @@ namespace Ursula.Log.Model
         public LogModel SetLogMessage(string message)
         {
             _logQueue.Enqueue(message);
+            GD.Print(message);
 
             if (_logQueue.Count > LOG_MAX_LINE_COUNT)
             {

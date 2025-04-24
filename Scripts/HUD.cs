@@ -6,6 +6,7 @@ using Ursula.GameObjects.Model;
 using Ursula.GameObjects.View;
 using System.Threading.Tasks;
 using System;
+using Ursula.EmbeddedGames.Model;
 
 
 public partial class HUD : Control, IInjectable
@@ -20,13 +21,10 @@ public partial class HUD : Control, IInjectable
     public Label _labelCoordinates;
 
     [Export]
-    public Control ControlProjectGO;
-
-    [Export]
-    public Control ControlGamesProjectGO;
-
-    [Export]
     public CheckButton[] CheckButtonAlgoritm;
+
+    [Export]
+    public Button ButtonOpenGameProjectView;
 
     [Inject]
     private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
@@ -39,6 +37,9 @@ public partial class HUD : Control, IInjectable
 
     [Inject]
     private ISingletonProvider<GameObjectCurrentInfoModel> _GameObjectCurrentInfoModelProvider;
+
+    [Inject]
+    private ISingletonProvider<ControlEmbeddedGamesProjectViewModel> _controlEmbeddedGamesProjectViewModelProvider;
 
     private GameObjectCurrentInfoModel gameObjectCurrentInfoModel;
 
@@ -60,7 +61,8 @@ public partial class HUD : Control, IInjectable
     private async GDTask SubscribeEvent()
     {
         gameObjectCurrentInfoModel = await _GameObjectCurrentInfoModelProvider.GetAsync();
-        
+
+        ButtonOpenGameProjectView.ButtonDown += ButtonOpenGameProjectView_ButtonDownEvent;
     }
 
     public override void _ExitTree()
@@ -86,40 +88,6 @@ public partial class HUD : Control, IInjectable
     public void SetInfo(string info)
     {
         _SetInfo(info);
-    }
-
-    public void OnOpenControlProject()
-    {
-        ControlPopupMenu.HideAllMenu();
-        ControlProjectGO.Visible = true;
-    }
-
-    public void OnCloseControlProject()
-    {
-        ControlProjectGO.Visible = false;
-    }
-
-    public void OnOpenControlGameProject()
-    {
-        ControlPopupMenu.HideAllMenu();
-        ControlGamesProjectGO.Visible = true;
-        VoxLib.instance.CGP.Instantiate();
-
-        gameObjectCurrentInfoModel.SetAssetInfoView(null, false);
-
-    }
-
-    public void HideAllControls()
-    {
-        OnCloseControlProject();
-        OnCloseControlGameProject();
-    }
-
-    public void OnCloseControlGameProject()
-    {
-        ControlGamesProjectGO.Visible = false;
-
-        gameObjectCurrentInfoModel.SetAssetInfoView(null, true);
     }
 
     public async void ShowCommonLibraryButton_DownEventHandler()
@@ -252,4 +220,9 @@ public partial class HUD : Control, IInjectable
         return model != null;
     }
 
+    private async void ButtonOpenGameProjectView_ButtonDownEvent()
+    {
+        ControlEmbeddedGamesProjectViewModel _controlEmbeddedGamesProjectViewModel = await _controlEmbeddedGamesProjectViewModelProvider.GetAsync();
+        _controlEmbeddedGamesProjectViewModel.SetVisibleView(true);
+    }
 }

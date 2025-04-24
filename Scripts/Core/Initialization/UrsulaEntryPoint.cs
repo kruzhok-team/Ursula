@@ -16,6 +16,8 @@ using Ursula.Water.Model;
 using Ursula.MapManagers.Setters;
 using Ursula.Settings.Model;
 using Ursula.Log.Model;
+using Ursula.EmbeddedGames.Manager;
+using Ursula.EmbeddedGames.Model;
 
 
 namespace Ursula.Core.Initialization
@@ -101,6 +103,9 @@ namespace Ursula.Core.Initialization
 
             InstallSingleton<LogModel>(services);
 
+            InstallSingleton<ControlEmbeddedGamesProjectViewModel>(services);
+            InstallSingleton<ControlEmbeddedGamesProjectManager>(services);
+            
         }
 
         private void InstallSingleton<T>(ServiceCollection services) where T : class 

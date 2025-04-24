@@ -28,9 +28,9 @@ namespace Ursula.GameObjects.Model
         public string GetAssetPath()
         {
             if (ProviderId == GameObjectAssetsUserSource.LibId)
-                return $"{GameObjectAssetsUserSource.ProjectPath}{GameObjectAssetsUserSource.CollectionPath}{Name}";
+                return $"{GameObjectAssetsUserSource.ProjectFolderPath}{GameObjectAssetsUserSource.CollectionPath}{Name}";
             else if (ProviderId == GameObjectAssetsEmbeddedSource.LibId)
-                return $"{GameObjectAssetsUserSource.ProjectPath}{GameObjectAssetsEmbeddedSource.CollectionPath}{Name}";
+                return $"{GameObjectAssetsUserSource.ProjectFolderPath}{GameObjectAssetsEmbeddedSource.CollectionPath}{Name}";
             return null;
         }
 

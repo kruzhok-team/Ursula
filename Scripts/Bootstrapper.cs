@@ -115,6 +115,19 @@ public partial class Bootstrapper : Node
             GD.PrintErr("Сцена менеджера коллекции не найдена.");
         }
 
+        path = ProjectSettings.GlobalizePath("res://addons/Ursula/Prefabs/EmbeddedProject/EmbeddedGamesProject.tscn");
+        var assetEmbeddedProject = ResourceLoader.Load<PackedScene>(path);
+        if (assetEmbeddedProject != null)
+        {
+            var scene = assetEmbeddedProject.Instantiate();
+            AddChild(scene);
+
+            GD.Print("Сцена менеджера игр загружена.");
+        }
+        else
+        {
+            GD.PrintErr("Сцена менеджера игр не найдена.");
+        }
     }
 
 

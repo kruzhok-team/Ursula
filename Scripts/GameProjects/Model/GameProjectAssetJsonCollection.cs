@@ -27,6 +27,8 @@ namespace Ursula.GameProjects.Model
                 string path = Path.GetDirectoryName(OS.GetExecutablePath());
                 path = ProjectSettings.GlobalizePath($"{path}{GameProjectAssetsEmbeddedSource.CollectionPath}");
                 _folderPath = path;
+
+                if (!Directory.Exists(_folderPath)) Directory.CreateDirectory(_folderPath);
             }
             _cachedAssetMap = new();
             _infoMap = new();
@@ -169,8 +171,12 @@ namespace Ursula.GameProjects.Model
 
                 string json = File.ReadAllText(path);
                 GameProjectAssetInfo projectInfo = JsonSerializer.Deserialize<GameProjectAssetInfo>(json, options);
+
                 projectInfo.Name = Path.GetFileName(folder);
-                string id = $"{projectInfo.ProviderId}.{projectInfo.Name}";
+                projectInfo.ProviderId = Id;
+
+                string id = $"{Id}.{projectInfo.Name}";
+
                 if (!_infoMap.ContainsKey(id)) _infoMap.Add(id, projectInfo);
             }
 

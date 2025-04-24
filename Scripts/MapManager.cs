@@ -52,9 +52,12 @@ public partial class MapManager : Node, IInjectable
 	public Control buildControl;
 
 	[Export]
-	public Control gameControl;
+	public Control testControl;
 
-	[Export]
+    [Export]
+    public Control gameControl;
+
+    [Export]
 	public PackedScene CameraFreeGO { get; set; }
 
 	[Export]
@@ -507,7 +510,7 @@ public partial class MapManager : Node, IInjectable
             CustomObject.SetVisibleIndicators(true);
         }
 
-		VoxLib.terrainManager.BakeNavMesh();
+		//VoxLib.terrainManager.BakeNavMesh();
 
 		InstancePlayer();
 
@@ -532,7 +535,7 @@ public partial class MapManager : Node, IInjectable
 
         playMode = PlayMode.playGameMode;
         CustomObject.SetVisibleIndicators(false);
-        VoxLib.terrainManager.BakeNavMesh();
+        //VoxLib.terrainManager.BakeNavMesh();
         await ToSignal(GetTree().CreateTimer(0.2f), "timeout");
         InstancePlayer();
 
@@ -820,11 +823,13 @@ public partial class MapManager : Node, IInjectable
         base._Process(delta);
 
         buildControl.Visible = playMode == PlayMode.buildingMode;
-        gameControl.Visible = playMode == PlayMode.testMode;
+        testControl.Visible = playMode == PlayMode.testMode;
+        gameControl.Visible = playMode == PlayMode.playGameMode;
 
         if (playMode == PlayMode.buildingMode)
         {
             buildControl.Show();
+            testControl.Hide();
             gameControl.Hide();
         }
         else
@@ -832,6 +837,11 @@ public partial class MapManager : Node, IInjectable
             buildControl.Hide();
 
             if (playMode == PlayMode.testMode)
+                testControl.Show();
+            else
+                testControl.Hide();
+
+            if (playMode == PlayMode.playGameMode)
                 gameControl.Show();
             else
                 gameControl.Hide();
@@ -1630,8 +1640,6 @@ public partial class MapManager : Node, IInjectable
         VoxLib.ShowMessage($"Проект {Path.GetFileName(fileName)} распакован в папку {pathImportProject}");
 
         fileDialogLoad.Disconnect("file_selected", new Callable(this, nameof(ImportProject)));
-
-        VoxLib.instance.CGP.Instantiate();
     }
 
 

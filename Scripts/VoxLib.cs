@@ -21,9 +21,6 @@ public partial class VoxLib : Node, IInjectable
 
     public static GameManager GM;
 
-    [Export]
-    public ControlGamesProject CGP;
-
     public static TerrainManager terrainManager;
     public static WaterManager waterManager;
 
