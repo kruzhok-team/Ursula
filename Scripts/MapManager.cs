@@ -830,6 +830,7 @@ public partial class MapManager : Node, IInjectable
         {
             buildControl.Show();
             testControl.Hide();
+            gameControl.Hide();
         }
         else
         {
