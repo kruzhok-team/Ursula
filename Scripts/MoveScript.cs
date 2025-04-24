@@ -10,12 +10,10 @@ using static Godot.TileSet;
 
 public partial class MoveScript : CharacterBody3D
 {
+
+    #region PublicFields
+
     public InteractiveObjectMove interactiveObjectMove;
-
-    private const int IgnoredLayers = 2; // Игнорируемые слои для коллизий
-
-    [Export]
-    private RayCast3D raycastForward;
 
     public enum StateMashine
     {
@@ -35,13 +33,6 @@ public partial class MoveScript : CharacterBody3D
     }
     public SignalMashine signalMashine = SignalMashine.none;
 
-    private AnimationTree _animationTree;
-    private NavigationAgent3D _navigationAgent;
-
-    private float _movementSpeed = 2.0f;
-    private Vector3 _TargetPosition;
-    private float radiusSearh;
-
     public Vector3 MovementPosition
     {
         get { return _navigationAgent.TargetPosition; }
@@ -55,7 +46,6 @@ public partial class MoveScript : CharacterBody3D
         set { nodeTarget = value; }
     }
 
-    private Variant gravity = ProjectSettings.GetSetting("physics/3d/default_gravity", -9.8f);
     public Action onTargetLost;
     public Action onCollision;
 
@@ -64,35 +54,29 @@ public partial class MoveScript : CharacterBody3D
     public Action onMovingDistanceFinished;
     public Action onChangeSurfaceType;
 
+    #endregion
+
+    #region PrivateFields
+
+    private const int IgnoredLayers = 2; // Игнорируемые слои для коллизий
+
+    [Export]
+    private RayCast3D raycastForward;
+
+    private AnimationTree _animationTree;
+    private NavigationAgent3D _navigationAgent;
+
+    private float _movementSpeed = 2.0f;
+    private Vector3 _TargetPosition;
+    private float radiusSearh;
+
+
+    private Variant gravity = ProjectSettings.GetSetting("physics/3d/default_gravity", -9.8f);
+
     float waterLevel = -1;
 
     private Random random = new Random();
 
-    public override void _Ready()
-    {
-        base._Ready();
-        stateMashine = StateMashine.idle;
-
-        //SetCollisionLayerValue(IgnoredLayers, false);
-        //SetCollisionMaskValue(IgnoredLayers, false);
-
-
-        _animationTree = GetNodeOrNull<AnimationTree>("AnimationTree");
-        _navigationAgent = GetNodeOrNull<NavigationAgent3D>("NavigationAgent3D");
-
-        // These values need to be adjusted for the actor's speed
-        // and the navigation layout.
-        _navigationAgent.PathDesiredDistance = 1.5f;
-        _navigationAgent.TargetDesiredDistance = 0.5f;
-
-        // Make sure to not await during _Ready.
-        //Callable.From(MoveToRandomSetup).CallDeferred();
-        waterLevel = VoxLib.mapManager.WaterLevel;
-    }
-
-    private float timeAccumulator = 0f;
-    private float timeCheckPath = 0f;
-    private const float INTERVAL = 2f;
 
     Vector3 oldPathPosition = Vector3.Zero;
     Vector3 oldTargetPosition = Vector3.Zero;
@@ -108,46 +92,33 @@ public partial class MoveScript : CharacterBody3D
 
     private Vector3 _targetVelocity = Vector3.Zero;
 
+    #endregion
 
-    void FinishTargetMoveState()
+    #region Init
+    public override void _Ready()
     {
-        if (MovementTarget != null)
-        {
-            Vector3 targetPosition = MovementTarget.GlobalPosition;
-            float distanceToTarget = GlobalTransform.Origin.DistanceTo(targetPosition);
-            if (distanceToTarget > _navigationAgent.TargetDesiredDistance * 2)
-            {
-                onStuckMoving?.Invoke();
-            }
-        }
-    }
-
-    void FinishPositionMoveState()
-    {
+        base._Ready();
         stateMashine = StateMashine.idle;
-        PlayIdleAnimation();
 
+        //SetCollisionLayerValue(IgnoredLayers, false);
+        //SetCollisionMaskValue(IgnoredLayers, false);
 
-        //Profiler.BeginSample("onMovementFinished?.Invoke()");
-        onMovementFinished?.Invoke();  // ! 5 - 40 ms
-        //Profiler.EndLastSample();
+        _animationTree = GetNodeOrNull<AnimationTree>("AnimationTree");
+        _navigationAgent = GetNodeOrNull<NavigationAgent3D>("NavigationAgent3D");
 
+        // These values need to be adjusted for the actor's speed
+        // and the navigation layout.
+        _navigationAgent.PathDesiredDistance = 1.5f;
+        _navigationAgent.TargetDesiredDistance = 0.5f;
 
-        Vector3 targetPosition = MovementPosition;
-        float distanceToTarget = GlobalTransform.Origin.DistanceTo(targetPosition);
-        if (distanceToTarget > _navigationAgent.TargetDesiredDistance * 2)
-        {
-            onStuckMoving?.Invoke();
-        }
-
-        if (MovementPosition.X < 0 || MovementPosition.Z < 0 || MovementPosition.X > VoxLib.mapManager.sizeX || MovementPosition.Z > VoxLib.mapManager.sizeZ)
-        {
-            //onMovementFinished = null;
-            isBlocked = true;
-            ContextMenu.ShowMessageS($"{/*onMovementFinished.guid*/""} Достигнут предел карты: перемещение остановлено.");
-        }
-
+        // Make sure to not await during _Ready.
+        //Callable.From(MoveToRandomSetup).CallDeferred();
+        waterLevel = VoxLib.mapManager.WaterLevel;
     }
+
+    #endregion
+
+    #region NextPosition
 
     void NextPositionRandomMove()
     {
@@ -199,6 +170,14 @@ public partial class MoveScript : CharacterBody3D
 
     void NextPositionToTargetMove()
     {
+        if (MovementTarget == null || !IsInstanceValid(MovementTarget))
+        {
+            stateMashine = StateMashine.idle;
+            PlayIdleAnimation();
+            onTargetLost.Invoke();
+            return;
+        }
+
         Vector3 currentAgentPosition = GlobalTransform.Origin;
         float distanceToTarget = currentAgentPosition.DistanceTo(MovementTarget.GlobalPosition);
 
@@ -226,11 +205,13 @@ public partial class MoveScript : CharacterBody3D
             oldPathPosition = Vector3.Zero;
         }
     }
+
     void FromTargetMoveState()
     {
         if (MovementTarget == null || !IsInstanceValid(MovementTarget))
         {
             stateMashine = StateMashine.idle;
+            PlayIdleAnimation();
             onTargetLost.Invoke();
             return;
         }
@@ -247,6 +228,7 @@ public partial class MoveScript : CharacterBody3D
         if (MovementTarget == null)
         {
             stateMashine = StateMashine.idle;
+            PlayIdleAnimation();
             onTargetLost.Invoke();
             return;
         }
@@ -257,63 +239,53 @@ public partial class MoveScript : CharacterBody3D
             stateMashine = StateMashine.moveToTarget;
     }
 
+    #endregion
 
-    void MovingCheck(double delta)
+    #region FinishMove
+
+    void FinishTargetMoveState()
     {
-        float moveDistDelta = oldPosition.DistanceTo(GlobalTransform.Origin);
-
-        if (oldPosition != Vector3.Zero && isMoving)
+        if (MovementTarget != null && Node.IsInstanceValid(MovementTarget))
         {
-            Vector3 vel = new Vector3(Velocity.X, 0, Velocity.Z);
-            
-            if (moveDistDelta > 0.01f && vel.Length() > 0.01f)
-            {
-                moveDistance += oldPosition.DistanceTo(GlobalTransform.Origin);
-                moveDistanceOld = moveDistance;
-                timeStuckMoving = 0;
-            }
-        }
-        oldPosition = GlobalTransform.Origin;
-
-        if (onStuckMoving != null && Math.Abs(moveDistanceOld - moveDistance) < 1 && isMoving || (moveDistDelta == 0 && isMoving))
-        {
-            if (timeStuckMoving > 0.5f)
+            Vector3 targetPosition = MovementTarget.GlobalPosition;
+            float distanceToTarget = GlobalTransform.Origin.DistanceTo(targetPosition);
+            if (distanceToTarget > _navigationAgent.TargetDesiredDistance * 2)
             {
                 onStuckMoving?.Invoke();
-                //onStuckMoving = null;
-                timeStuckMoving = 0;
-            }
-            else
-                timeStuckMoving += delta;
-        }
-
-        if (onMovingDistanceFinished != null && checkMoveDistance > 0)
-        {
-            if (moveDistance > checkMoveDistance)
-            {
-                if (interactiveObjectMove != null)
-                    interactiveObjectMove.moveDistance.Value = checkMoveDistance;
-                onMovingDistanceFinished?.Invoke();
-                signalMashine = SignalMashine.none;
-                checkMoveDistance = 0;
             }
         }
     }
 
-
-    void UpdateNavAgentTargetPosition(double delta)
+    void FinishPositionMoveState()
     {
-        timeAccumulator += (float)delta;
-        if (timeAccumulator >= INTERVAL)
-        {
-            timeAccumulator = 0f;
+        stateMashine = StateMashine.idle;
+        PlayIdleAnimation();
 
-            if (stateMashine == StateMashine.moveToTarget)
-                if (MovementTarget != null)
-                    _navigationAgent.TargetPosition = MovementTarget.GlobalPosition;
+
+        //Profiler.BeginSample("onMovementFinished?.Invoke()");
+        onMovementFinished?.Invoke();  // ! 5 - 40 ms
+        //Profiler.EndLastSample();
+
+
+        Vector3 targetPosition = MovementPosition;
+        float distanceToTarget = GlobalTransform.Origin.DistanceTo(targetPosition);
+        if (distanceToTarget > _navigationAgent.TargetDesiredDistance * 2)
+        {
+            onStuckMoving?.Invoke();
         }
+
+        if (MovementPosition.X < 0 || MovementPosition.Z < 0 || MovementPosition.X > VoxLib.mapManager.sizeX || MovementPosition.Z > VoxLib.mapManager.sizeZ)
+        {
+            //onMovementFinished = null;
+            isBlocked = true;
+            ContextMenu.ShowMessageS($"{/*onMovementFinished.guid*/""} Достигнут предел карты: перемещение остановлено.");
+        }
+
     }
 
+    #endregion
+
+    #region Flags
 
     bool isOnFloor;
     bool isOnFloorOnly;
@@ -355,71 +327,21 @@ public partial class MoveScript : CharacterBody3D
         }
     }
 
-    public float TurnSpeed = 5f; // радиан в секунду
+    #endregion
 
-    public float TurnSharpness = 10f; 
+    #region Process
 
-    void SetRotation(double delta)
-    {
-        if (Velocity.Length() > 0)
-        {
-            Vector3 dir = Velocity.Normalized();
-            float targetAngle = Mathf.Atan2(dir.X, dir.Z);
-            float currentAngle = Rotation.Y;
-
-            // плавная интерполяция угла
-            var t = 1f - Math.Exp(-TurnSharpness * delta);
-            var newAngle = Mathf.LerpAngle(currentAngle, targetAngle, t);
-
-            Rotation = new Vector3(0, (float)newAngle, 0);
-        }
-    }
-
-    void SetVelocity(double delta)
-    {
-        if (!isMoving)
-            _targetVelocity = Vector3.Zero;
-
-        if (physicsLod == PhysicsLod.Lod0)
-            AddGravity(delta);
-
-        ////_targetVelocity.Y = 0;
-
-        //////_targetVelocity = _targetVelocity.Normalized();
-        //////_targetVelocity *= _movementSpeed;
-
-        //if (!isOnFloor)
-        //{
-        //    //_targetVelocity.Y -= (float)9.8 * (float)delta * 20;
-        //}
-
-        Velocity = _targetVelocity;
-    }
-
-    void AddGravity(double delta)
-    {
-        _targetVelocity.Y = 0;
-        if (!isOnFloor)
-        {
-            _targetVelocity.Y -= (float)9.8 * (float)delta * 20;
-        }
-
-        Velocity = _targetVelocity;
-    }
-
-    private float processAccumulator = 0f;
+    private float transformProcessTimer = 0f;
 
     public override void _Process(double delta)
     {
         base._Process(delta);
 
+        transformProcessTimer += (float)delta;
 
-        
-        processAccumulator += (float)delta;
-
-        if (processAccumulator >= 1f)
+        if (transformProcessTimer >= 1f)
         {
-            processAccumulator = 0;
+            transformProcessTimer = 0;
 
             // PhysicsLod
 
@@ -437,112 +359,32 @@ public partial class MoveScript : CharacterBody3D
             {
                 SetPhysicsLod1();
             }
-
         }
     }
 
-    const int TerrainLayerIndex = 0; // террейн — слой 1 → бит 0
-    const int FenceLayerIndex = 1; // забор   — слой 2 → бит 1
-    const int OtherLayerIndex = 2; // прочее  — слой 3 → бит 2
-
-    public void DisableTerrainCollision()
-    {
-        CollisionMask &= ~(1u << TerrainLayerIndex);
-
-        CollisionMask |= (1u << FenceLayerIndex)
-                       | (1u << OtherLayerIndex);
-    }
-
-    public void EnableTerrainCollision()
-    {
-        CollisionMask |= (1u << TerrainLayerIndex);
-    }
-
-    void SetPhysicsLod0()
-    {
-        
-
-        //_navigationAgent.PathDesiredDistance = 1.5f;
-        //_navigationAgent.TargetDesiredDistance = 0.5f;
-        EnableTerrainCollision();
-
-        //if (physicsLod == PhysicsLod.Lod1)
-        //{
-
-        //}
-
-        physicsLod = PhysicsLod.Lod0;
-
-    }
-
-    void SetPhysicsLod1()
-    {
-        //_navigationAgent.PathDesiredDistance = 3.5f;
-        //_navigationAgent.TargetDesiredDistance = 2f;
-        DisableTerrainCollision();
-
-        physicsLod = PhysicsLod.Lod1;
-    }
-
-    void CheckAndFixFallen()
-    {
-        var terrainHeight = GetTerrainHeightByCurrentPos();
-        if (Position.Y - terrainHeight < -0.3f)
-        {
-            Position = new Vector3(Position.X, terrainHeight + 0.1f, Position.Z);
-        }
-    }
-
-    //void PhysicsTestLodSettings()
-    //{
-    //    physicsLod = PhysicsLod.Lod1;
-    //    // Оставим по стандарту
-
-    //    //_navigationAgent.PathDesiredDistance = 1.5f;
-    //    //_navigationAgent.TargetDesiredDistance = 0.5f;
-
-    //    DisableTerrainCollision(); 
-    //}
-
-    void CorrectPositionByTerrainHeight(float upOffset = 0.0f)
-    {
-        Position = new Vector3(Position.X, GetTerrainHeightByCurrentPos() + upOffset, Position.Z);
-    }
-
-    private float accumulator = 0f;
+    private float navigationProcessTimer = 0f;
     public override void _PhysicsProcess(double delta)
     {
-        //Profiler.CycleSample("MoveScript_PhysicsProcess", out _);
-
         if (isBlocked) return;
 
-        //if (!inFrustum)
-        //    return;
+        //Profiler.BeginSample("_PhysicsProcess");
+
 
         if (inFrustum)
         {
             base._PhysicsProcess(delta);
         }
 
-        accumulator += (float)delta;
+        UpdateNavAgentTargetPosition(delta);
 
-        if (accumulator >= 0.3f)
+        navigationProcessTimer += (float)delta;
+        if (navigationProcessTimer >= 0.3f)
         {
 
             if (physicsLod == PhysicsLod.Lod0)
                 CheckAndFixFallen();
 
-            //if (inFrustum)
-            //{
-            //    PhysicsLod0Settings();
-            //}
-            //else
-            //{
-            //    PhysicsLod1Settings();
-            //}
-
-
-            accumulator = 0f;
+            navigationProcessTimer = 0f;
 
             SetFlags();
 
@@ -553,7 +395,10 @@ public partial class MoveScript : CharacterBody3D
             if (isNavigationFinished)
             {
                 if (stateMashine == StateMashine.moveToRandom)
+                {
                     MoveToRandomSetup();
+                }
+
 
                 if (stateMashine == StateMashine.moveToTarget || stateMashine == StateMashine.moveFromTarget)
                 {
@@ -565,14 +410,15 @@ public partial class MoveScript : CharacterBody3D
                 }
                 else
                 {
+                    //Profiler.EndLastSample(false);
                     return;
                 }
             }
 
-            UpdateNavAgentTargetPosition(delta);
-
             if (stateMashine == StateMashine.idle)
             {
+                //Profiler.EndLastSample(false);
+
                 //Profiler.EndLastSample(false);
                 return;
             }
@@ -633,12 +479,171 @@ public partial class MoveScript : CharacterBody3D
         if (physicsLod == PhysicsLod.Lod1)
             CorrectPositionByTerrainHeight();
 
-        //Profiler.EndLastSample(false);
-
-        //if (inFrustum)
-        //Profiler.BeginSample("MoveAndSlide");
         MoveAndSlide();
+
         //Profiler.EndLastSample(false);
+    }
+
+    #endregion
+
+    #region Transform
+
+    void SetPhysicsLod0()
+    {
+        EnableTerrainCollision();
+
+        physicsLod = PhysicsLod.Lod0;
+    }
+
+    void SetPhysicsLod1()
+    {
+        DisableTerrainCollision();
+
+        physicsLod = PhysicsLod.Lod1;
+    }
+
+    void MovingCheck(double delta)
+    {
+        float moveDistDelta = oldPosition.DistanceTo(GlobalTransform.Origin);
+
+        if (oldPosition != Vector3.Zero && isMoving)
+        {
+            Vector3 vel = new Vector3(Velocity.X, 0, Velocity.Z);
+
+            if (moveDistDelta > 0.01f && vel.Length() > 0.01f)
+            {
+                moveDistance += oldPosition.DistanceTo(GlobalTransform.Origin);
+                moveDistanceOld = moveDistance;
+                timeStuckMoving = 0;
+            }
+        }
+        oldPosition = GlobalTransform.Origin;
+
+        if (onStuckMoving != null && Math.Abs(moveDistanceOld - moveDistance) < 1 && isMoving || (moveDistDelta == 0 && isMoving))
+        {
+            if (timeStuckMoving > 0.5f)
+            {
+                onStuckMoving?.Invoke();
+                //onStuckMoving = null;
+                timeStuckMoving = 0;
+            }
+            else
+                timeStuckMoving += delta;
+        }
+
+        if (onMovingDistanceFinished != null && checkMoveDistance > 0)
+        {
+            if (moveDistance > checkMoveDistance)
+            {
+                if (interactiveObjectMove != null)
+                    interactiveObjectMove.moveDistance.Value = checkMoveDistance;
+                onMovingDistanceFinished?.Invoke();
+                signalMashine = SignalMashine.none;
+                checkMoveDistance = 0;
+            }
+        }
+    }
+
+    private float timeAccumulator = 0f;
+    private float timeCheckPath = 0f;
+    private const float INTERVAL = 2f;
+
+    void UpdateNavAgentTargetPosition(double delta)
+    {
+        timeAccumulator += (float)delta;
+        if (timeAccumulator >= INTERVAL)
+        {
+            timeAccumulator = 0f;
+
+            if (stateMashine == StateMashine.moveToTarget)
+                if (MovementTarget != null && Node.IsInstanceValid(MovementTarget))
+                    _navigationAgent.TargetPosition = MovementTarget.GlobalPosition;
+        }
+    }
+
+
+    public float TurnSpeed = 5f; // радиан в секунду
+    public float TurnSharpness = 10f;
+
+    void SetRotation(double delta)
+    {
+        if (Velocity.Length() > 0)
+        {
+            Vector3 dir = Velocity.Normalized();
+            float targetAngle = Mathf.Atan2(dir.X, dir.Z);
+            float currentAngle = Rotation.Y;
+
+            // плавная интерполяция угла
+            var t = 1f - Math.Exp(-TurnSharpness * delta);
+            var newAngle = Mathf.LerpAngle(currentAngle, targetAngle, t);
+
+            Rotation = new Vector3(0, (float)newAngle, 0);
+        }
+    }
+
+    void SetVelocity(double delta)
+    {
+        if (!isMoving)
+            _targetVelocity = Vector3.Zero;
+
+        if (physicsLod == PhysicsLod.Lod0)
+            AddGravity(delta);
+
+        ////_targetVelocity.Y = 0;
+
+        //////_targetVelocity = _targetVelocity.Normalized();
+        //////_targetVelocity *= _movementSpeed;
+
+        Velocity = _targetVelocity;
+    }
+
+    void AddGravity(double delta)
+    {
+        _targetVelocity.Y = 0;
+        if (!isOnFloor)
+        {
+            _targetVelocity.Y -= (float)9.8 * (float)delta * 20;
+        }
+
+        Velocity = _targetVelocity;
+    }
+
+    #endregion
+
+    #region Setups
+
+    int currentPath;
+    Vector3[] navPath;
+
+    void MovementFinished()
+    {
+        onMovementFinished.Invoke();
+        stateMashine = StateMashine.idle;
+        _targetVelocity = Vector3.Zero;
+        oldPathPosition = Vector3.Zero;
+        PlayIdleAnimation();
+    }
+
+    private async GDTask SetupPath()
+    {
+        int delay = random.Next(5, 20);
+        await GDTask.Delay(delay);
+        var nextPathPosition = _navigationAgent.GetNextPathPosition();
+        delay = random.Next(5, 20);
+        await GDTask.Delay(delay);
+        navPath = _navigationAgent.GetCurrentNavigationPath();
+        delay = random.Next(5, 20);
+        await GDTask.Delay(delay);
+        currentPath = _navigationAgent.GetCurrentNavigationPathIndex();
+    }
+
+
+    bool isCollisionDetected = false;
+    string nameCollisionDetected;
+    private void CollisionDetectedSetup(string nameCollisionDetected)
+    {
+        this.nameCollisionDetected = nameCollisionDetected;
+        isCollisionDetected = true;
     }
 
     public async void MoveToRandomSetup()
@@ -683,45 +688,6 @@ public partial class MoveScript : CharacterBody3D
         _= SetupPath();
 
     }
-
-    public float GetTerrainHeight(int X, int Z)
-    {
-        return VoxLib.terrainManager.mapHeight[X, Z] + VoxLib.terrainManager.positionOffset.Y;
-    }
-
-    public float GetTerrainHeightByCurrentPos()
-    {
-        // the whole part of the coordinates
-        int x0 = Mathf.FloorToInt(GlobalPosition.X);
-        int z0 = Mathf.FloorToInt(GlobalPosition.Z);
-        // fractional part
-        float fx = GlobalPosition.X - x0;
-        float fz = GlobalPosition.Z - z0;
-
-        // array boundaries
-        int maxX = VoxLib.terrainManager.mapHeight.GetLength(0) - 1;
-        int maxZ = VoxLib.terrainManager.mapHeight.GetLength(1) - 1;
-
-        // if we go abroad, we return the offset
-        if (x0 < 0 || z0 < 0 || x0 >= maxX || z0 >= maxZ)
-            return VoxLib.terrainManager.positionOffset.Y;
-
-        // four adjacent values
-        float h00 = VoxLib.terrainManager.mapHeight[x0, z0];
-        float h10 = VoxLib.terrainManager.mapHeight[x0 + 1, z0];
-        float h01 = VoxLib.terrainManager.mapHeight[x0, z0 + 1];
-        float h11 = VoxLib.terrainManager.mapHeight[x0 + 1, z0 + 1];
-
-        // linear interpolation by X
-        float h0 = Mathf.Lerp(h00, h10, fx);
-        float h1 = Mathf.Lerp(h01, h11, fx);
-        // linear interpolation by Z
-        float h = Mathf.Lerp(h0, h1, fz);
-
-        // adding offset
-        return h + VoxLib.terrainManager.positionOffset.Y;
-    }
-
 
     public Vector3 SetPositionRight(float n)
     {
@@ -811,6 +777,45 @@ public partial class MoveScript : CharacterBody3D
         PlayIdleAnimation();
     }
 
+    #endregion
+
+    #region Collision
+
+    const int TerrainLayerIndex = 0; // террейн — слой 1 -> бит 0
+    const int FenceLayerIndex = 1; // забор   — слой 2 -> бит 1
+    const int OtherLayerIndex = 2; // прочее  — слой 3 -> бит 2
+
+    public void DisableTerrainCollision()
+    {
+        CollisionMask &= ~(1u << TerrainLayerIndex);
+
+        CollisionMask |= (1u << FenceLayerIndex)
+                       | (1u << OtherLayerIndex);
+    }
+
+    public void EnableTerrainCollision()
+    {
+        CollisionMask |= (1u << TerrainLayerIndex);
+    }
+
+    #endregion
+
+    #region Utils
+
+    void CheckAndFixFallen()
+    {
+        var terrainHeight = GetTerrainHeightByCurrentPos();
+        if (Position.Y - terrainHeight < -0.3f)
+        {
+            Position = new Vector3(Position.X, terrainHeight + 0.1f, Position.Z);
+        }
+    }
+
+    void CorrectPositionByTerrainHeight(float upOffset = 0.0f)
+    {
+        Position = new Vector3(Position.X, GetTerrainHeightByCurrentPos() + upOffset, Position.Z);
+    }
+
     public void CheckMoveDistance(float distance)
     {
         signalMashine = SignalMashine.checkMoveDistance;
@@ -833,36 +838,52 @@ public partial class MoveScript : CharacterBody3D
         return (int)TypeSurface;
     }
 
+    public float GetTerrainHeight(int X, int Z)
+    {
+        return VoxLib.terrainManager.mapHeight[X, Z] + VoxLib.terrainManager.positionOffset.Y;
+    }
+
+    public float GetTerrainHeightByCurrentPos()
+    {
+        // the whole part of the coordinates
+        int x0 = Mathf.FloorToInt(GlobalPosition.X);
+        int z0 = Mathf.FloorToInt(GlobalPosition.Z);
+        // fractional part
+        float fx = GlobalPosition.X - x0;
+        float fz = GlobalPosition.Z - z0;
+
+        // array boundaries
+        int maxX = VoxLib.terrainManager.mapHeight.GetLength(0) - 1;
+        int maxZ = VoxLib.terrainManager.mapHeight.GetLength(1) - 1;
+
+        // if we go abroad, we return the offset
+        if (x0 < 0 || z0 < 0 || x0 >= maxX || z0 >= maxZ)
+            return VoxLib.terrainManager.positionOffset.Y;
+
+        // four adjacent values
+        float h00 = VoxLib.terrainManager.mapHeight[x0, z0];
+        float h10 = VoxLib.terrainManager.mapHeight[x0 + 1, z0];
+        float h01 = VoxLib.terrainManager.mapHeight[x0, z0 + 1];
+        float h11 = VoxLib.terrainManager.mapHeight[x0 + 1, z0 + 1];
+
+        // linear interpolation by X
+        float h0 = Mathf.Lerp(h00, h10, fx);
+        float h1 = Mathf.Lerp(h01, h11, fx);
+        // linear interpolation by Z
+        float h = Mathf.Lerp(h0, h1, fz);
+
+        // adding offset
+        return h + VoxLib.terrainManager.positionOffset.Y;
+    }
+
     public void ReloadAlgorithm()
     {
         isBlocked = false;
     }
 
-    bool isCollisionDetected = false;
-    string nameCollisionDetected;
-    private void CollisionDetectedSetup(string nameCollisionDetected)
-    {
-        this.nameCollisionDetected = nameCollisionDetected;
-        isCollisionDetected = true;
-    }
+    #endregion
 
-    private void _on_Player_body_entered(Node3D node)
-    {
-        Node3D my = this as Node3D;
-        if (my == node) return;
-
-        GD.Print("Столкновение с: " + node.Name);
-        onCollision?.Invoke();
-
-        //node.EmitSignal("ApplyImpulse");
-    }
-
-    public void ApplyImpulse()
-    {
-        GD.Print("");
-        // Это может быть использовано для применения силы к персонажу
-        //Velocity += impulse;
-    }
+    #region MoveAnimations
 
     BaseAnimation _baseAnimation;
     private BaseAnimation baseAnimation 
@@ -891,29 +912,29 @@ public partial class MoveScript : CharacterBody3D
         baseAnimation?.PlayJumpAnimation();
     }
 
-    int currentPath;
-    Vector3[] navPath;
+    #endregion
 
-    void MovementFinished()
+    #region Other
+
+    private void _on_Player_body_entered(Node3D node)
     {
-        onMovementFinished.Invoke();
-        stateMashine = StateMashine.idle;
-        _targetVelocity = Vector3.Zero;
-        oldPathPosition = Vector3.Zero;
-        PlayIdleAnimation();
+        Node3D my = this as Node3D;
+        if (my == node)
+            return;
+
+        GD.Print("Столкновение с: " + node.Name);
+        onCollision?.Invoke();
+
+        //node.EmitSignal("ApplyImpulse");
     }
 
-    private async GDTask SetupPath()
+    public void ApplyImpulse()
     {
-        int delay = random.Next(5, 20);
-        await GDTask.Delay(delay);
-        var nextPathPosition = _navigationAgent.GetNextPathPosition();
-        delay = random.Next(5, 20);
-        await GDTask.Delay(delay);
-        navPath = _navigationAgent.GetCurrentNavigationPath();
-        delay = random.Next(5, 20);
-        await GDTask.Delay(delay);
-        currentPath = _navigationAgent.GetCurrentNavigationPathIndex();
+        GD.Print("");
+        // Это может быть использовано для применения силы к персонажу
+        //Velocity += impulse;
     }
+
+    #endregion
 
 }
