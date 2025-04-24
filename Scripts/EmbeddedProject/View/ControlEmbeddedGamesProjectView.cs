@@ -9,6 +9,7 @@ using Ursula.GameObjects.Model;
 using Ursula.StartupMenu.Model;
 using Ursula.EmbeddedGames.Model;
 using Ursula.EmbeddedGames.Manager;
+using static Godot.HttpRequest;
 
 namespace Ursula.EmbeddedGames.View
 {
@@ -53,6 +54,9 @@ namespace Ursula.EmbeddedGames.View
             base._Ready();
             _ = SubscribeEvent();
             _ = OnShow();
+
+            IReadOnlyCollection<GameProjectAssetInfo> assets = _commonLibrary.GetEmbeddedInfo();
+            if (assets.Count == 0) _SetVisibleView(false);
         }
 
         private async GDTask SubscribeEvent()
@@ -101,8 +105,6 @@ namespace Ursula.EmbeddedGames.View
 
                 container.AddChild(instance);
             }
-
-            if (result.Count == 0) _SetVisibleView(false);
         }
 
         private async void ClickItem_PlayGameEvent(string itemId)

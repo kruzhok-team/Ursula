@@ -58,7 +58,12 @@ public class Raycaster
         var hover = viewport.GuiGetHoveredControl();
         if (hover != null)
         {
-            if (hover is Control or Button or Panel or Slider or Label or OptionButton or ItemList or ScrollContainer or GridContainer && !hover.Name.ToString().Contains("Cross") && !hover.Name.ToString().Contains("ControlBuild") && !hover.Name.ToString().Contains("ControlGame") && !hover.Name.ToString().Contains("ControlTest") && !hover.Name.ToString().Contains("Controls"))
+            if (hover is Control or Button or Panel or Slider or Label or OptionButton or ItemList or ScrollContainer or GridContainer && 
+                !hover.Name.ToString().Contains("Cross") && 
+                !hover.Name.ToString().Contains("ControlBuild") && 
+                !hover.Name.ToString().Contains("ControlGame") && 
+                !hover.Name.ToString().Contains("ControlTest") && 
+                !hover.Name.ToString().Contains("Controls"))
             {
                 return true;
             }
