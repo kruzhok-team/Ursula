@@ -45,19 +45,5 @@ namespace Ursula.EmbeddedGames.Manager
             _startupMenuModel = await _startupMenuModelProvider.GetAsync();
             _gameObjectLibraryManager = await _gameObjectLibraryManagerProvider.GetAsync();
         }
-
-        public async void PlayGame(string itemId)
-        {
-            GameProjectAssetInfo game = _commonLibrary?.GetItemInfo(itemId);
-
-            if (game == null) return;
-
-            _commonLibrary.SetLoadProject(game);
-            await _gameObjectLibraryManager.Load(game.GetProjectPath());
-            game?.PlayGame();
-
-            _controlEmbeddedGamesProjectViewModel.SetVisibleView(false);
-            _startupMenuModel.SetVisibleView(false);
-        }
     }
 }

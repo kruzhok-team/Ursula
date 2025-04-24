@@ -109,8 +109,7 @@ namespace Ursula.GameProjects.Model
 
         public async GDTask PlayGame()
         {
-            _= LoadMap();
-
+            //await LoadMap();
             VideoPlayer.instance.PlayVideo(GetProjectPath(), _PlayGame);
         }
 

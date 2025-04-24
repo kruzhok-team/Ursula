@@ -131,9 +131,9 @@ public partial class TerrainManager : TerrainModel, IInjectable
 		}
 	}
 
-    public async void BakeNavMesh()
+    public void BakeNavMesh()
     {
-		await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+		//await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
 		VoxLib.mapManager.navigationRegion3D.NavigationMesh	= navMesh;
 		VoxLib.mapManager.navigationRegion3D.Position = positionOffset;
