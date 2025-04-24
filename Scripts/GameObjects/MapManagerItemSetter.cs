@@ -89,6 +89,8 @@ namespace Ursula.MapManagers.Setters
 
             int id = _x + _y * 256 + _z * 256 * 256;
 
+            rotationNode = VoxLib.mapManager.tempRotation;
+
             Node item = CreateGameItem(asset, rotationNode, scaleNode, _x, positionNode.Y, _z, 0, id, false);
             Node3D node3D = item as Node3D;
             //if (_mapManager.itemsGO == null) _mapManager.itemsGO = new Node3D();

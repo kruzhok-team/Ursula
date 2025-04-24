@@ -165,11 +165,18 @@ public partial class CameraController : Camera3D
             {
                 if (isRotate)
                 {
-                    ips.rotation++;
+                    //ips.rotation++;
 
-                    if (ips.rotation > 3) ips.rotation = 0;
+                    //if (ips.rotation > 3) ips.rotation = 0;
 
-                    VoxLib.mapManager.tempRotation = ips.rotation;
+                    //VoxLib.mapManager.tempRotation = ips.rotation;
+
+                    VoxLib.mapManager.tempRotation++;
+
+                    if (VoxLib.mapManager.tempRotation > 3)
+                        VoxLib.mapManager.tempRotation = 0;
+
+                     ips.rotation = VoxLib.mapManager.tempRotation;
 
                     (parent as Node3D).Quaternion = VoxLib.mapManager.GetRotation(ips.rotation);
                 }
