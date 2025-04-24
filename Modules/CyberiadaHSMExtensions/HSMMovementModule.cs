@@ -96,6 +96,7 @@ public class HSMMovementModule
 
     bool MoveToPosition(List<Tuple<string, string>> value)
     {
+        //Profiler.EndSample("MoveToPosition");
         _object.move.MoveToPosition();
 
         return true;

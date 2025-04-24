@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using System;
 using System.Collections.Generic;
 
@@ -6,14 +6,14 @@ public class HSMSoundModule
 {
     InteractiveObject _object;
 
-    const string ModuleName = "��������������������";
+    const string ModuleName = "ВоспроизведениеЗвука";
 
     // Command keys
-    const string SetMaxDistanceCommandKey = $"{ModuleName}.��������������������������";
-    const string PlaySoundCommandKey = $"{ModuleName}.�����������������";
-    const string PlayRandomSoundCommandKey = $"{ModuleName}.��������������������������";
-    const string StopSoundCommandKey = $"{ModuleName}.����";
-    const string PauseSoundCommandKey = $"{ModuleName}.�����";
+    const string SetMaxDistanceCommandKey = $"{ModuleName}.УстановитьРадиусСлышимости";
+    const string PlaySoundCommandKey = $"{ModuleName}.ВоспроизвестиЗвук";
+    const string PlayRandomSoundCommandKey = $"{ModuleName}.ВоспроизвестиСлучайныйЗвук";
+    const string StopSoundCommandKey = $"{ModuleName}.Стоп";
+    const string PauseSoundCommandKey = $"{ModuleName}.Пауза";
 
     public HSMSoundModule(CyberiadaLogic logic, InteractiveObject interactiveObject)
     {
@@ -36,6 +36,12 @@ public class HSMSoundModule
 
     bool Play2D(List<Tuple<string, string>> value)
     {
+        if (value.Count != 2)
+        {
+            ContextMenu.ShowMessageS($"[HSM Error] Получены неверные аргументы функции при попытке воспроизведения звука. Проверьте корректность установленных параметров в графе.");
+            return true;
+        }
+        
         _object.audio.Play2D(HSMUtils.GetValue<string>(value[0]), HSMUtils.GetValue<string>(value[1]));
 
         return true;

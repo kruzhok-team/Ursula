@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Godot;
+
 namespace Talent.Logic.Bus
 {
     /// <summary>
@@ -199,17 +201,29 @@ namespace Talent.Logic.Bus
 
         private void Invoke(IDictionary<string, List<Listener>> container, string name, List<Tuple<string, string>> value)
         {
-            if (container.ContainsKey(name) == false)
+            try
             {
-                return;
-            }
+                //if (name == "МодульДвижения.ДвигатьсяПоКоординатам")
+                //    Profiler.BeginSample("MoveToPosition");
 
-            foreach (Listener listener in container[name])
-            {
-                if (listener.Invoke(value))
+                if (container.ContainsKey(name) == false)
                 {
-                    break;
+                    return;
                 }
+
+                foreach (Listener listener in container[name])
+                {
+                    if (listener.Invoke(value))
+                    {
+                        break;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                var errorMessage = $"[HSM Internal invoke error] {ex.Message}";
+                GD.PrintErr(errorMessage);
+                ContextMenu.ShowMessageS(errorMessage);
             }
         }
     }

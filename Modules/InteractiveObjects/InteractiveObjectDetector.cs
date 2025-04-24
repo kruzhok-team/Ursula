@@ -109,7 +109,7 @@ public partial class InteractiveObjectDetector : Area3D
                 //else
                 //    onAnyObjectsNotDetected.Invoke();
                 Node3D player = PlayerScript.instance as Node3D;
-                if (player != null)
+                if (player != null && Node.IsInstanceValid(player))
                 {
                     float distance = GlobalTransform.Origin.DistanceSquaredTo(player.GlobalTransform.Origin);
                     if (distance < scanRadius * scanRadius)
@@ -123,7 +123,7 @@ public partial class InteractiveObjectDetector : Area3D
                 break;
             case ScanType.Object:
                 detectedObject = FindNodeInRadius<ItemPropsScript>(scanRadius, ips => ips.GameObjectSampleHash == targetObjectNameHash);
-                if (detectedObject != null)
+                if (detectedObject != null && Node.IsInstanceValid(detectedObject))
                 {
                     //ContextMenu.ShowMessageS($"Модуль сканирования. {onObjectDetected} Выполнен поиск объекта по радиусу {scanRadius} -> обнаружен объект {targetObjectName}");
                     onObjectDetected?.Invoke();
@@ -133,7 +133,7 @@ public partial class InteractiveObjectDetector : Area3D
                 break;
             case ScanType.Sound:
                 detectedObject = FindNodeInRadius<InteractiveObjectAudio>(scanRadius, IOAudio => IOAudio.currentAudioKey == targetSoundName && IOAudio.isPlaying)?.GetParent();
-                if (detectedObject != null)
+                if (detectedObject != null && Node.IsInstanceValid(detectedObject))
                 {
                     //ContextMenu.ShowMessageS($"Модуль сканирования. {onSoundDetected} Выполнен поиск звука по радиусу {scanRadius} -> обнаружен звук {targetSoundName}");
                     onSoundDetected?.Invoke();
