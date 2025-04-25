@@ -180,6 +180,10 @@ namespace Ursula.StartupMenu.Model
             {
                 VoxLib.ShowMessage("Генерация деревьев...");
             }
+            else
+            {
+                return;
+            }
 
             for (int i = 0; i < amountTrees; i++)
             {
@@ -192,7 +196,7 @@ namespace Ursula.StartupMenu.Model
 
                 if (positionY < _waterModel._WaterData.WaterLevel) continue;
 
-                int rnd = (int)(GD.Randi() % (trees.Count - 1));
+                int rnd = (int)(GD.Randi() % (trees.Count));
 
                 GameObjectAssetInfo assetInfo = trees[rnd];
 
@@ -201,9 +205,6 @@ namespace Ursula.StartupMenu.Model
                 _gameObjectCreateItemsModel.SetGameObjectCreateItem(pos, 1f, 0);
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             }
-
-            //_gameObjectCollectionModel.SetGameObjectAssetSelected(null);
-            //_mapManager.GenerateTrees(trees, amountTrees);
         }
 
         private async GDTask GenerateGrass()
@@ -223,6 +224,10 @@ namespace Ursula.StartupMenu.Model
             {
                 VoxLib.ShowMessage("Генерация травы...");
             }
+            else
+            {
+                return;
+            }
 
             for (int i = 0; i < amountGrass; i++)
             {
@@ -235,7 +240,7 @@ namespace Ursula.StartupMenu.Model
 
                 if (positionY < _waterModel._WaterData.WaterLevel) continue;
 
-                int rnd = (int)(GD.Randi() % (grass.Count - 1));
+                int rnd = (int)(GD.Randi() % (grass.Count));
 
                 GameObjectAssetInfo assetInfo = grass[rnd];
 
@@ -244,8 +249,6 @@ namespace Ursula.StartupMenu.Model
                 _gameObjectCreateItemsModel.SetGameObjectCreateItem(pos, 1f, 0);
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             }
-
-            //_gameObjectCollectionModel.SetGameObjectAssetSelected(null);
         }
     }
 }
