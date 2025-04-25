@@ -116,8 +116,8 @@ namespace Ursula.StartupMenu.Model
             string destPath = $"{_gameProjectLibraryManager.currentProjectInfo.GetProjectPath()}/{fileName}";
             CopyFile(_startupMenuCreateGameViewModel._CreateGameSourceData.GameImagePath, destPath);
 
-            _terrainModel.SetScale(_startupMenuCreateGameViewModel._CreateGameSourceData.PowerValue);
             _terrainModel.SetPower(_startupMenuCreateGameViewModel._CreateGameSourceData.PowerValue);
+            _terrainModel.SetScale(_startupMenuCreateGameViewModel._CreateGameSourceData.ScaleValue);
             _terrainModel.SetReplaceTexID(_startupMenuCreateGameViewModel._CreateGameSourceData.ReplaceTextureID);
             _terrainModel.SetPlatoSize(_startupMenuCreateGameViewModel._CreateGameSourceData.PlatoSize);
             _terrainModel.SetPlatoOffsetX(_startupMenuCreateGameViewModel._CreateGameSourceData.PlatoPlatoOffsetX);
@@ -134,7 +134,11 @@ namespace Ursula.StartupMenu.Model
             string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
             IReadOnlyCollection<GameObjectAssetInfo> assets = _commonLibrary.GetInfoOnGroup(gameObjectGroups[0], _startupMenuCreateGameViewModel._CreateGameSourceData.TreeProviderID);
 
+            await GDTask.DelayFrame(1);
+
             await GeneratePlants();
+
+            await GDTask.DelayFrame(1);
 
             _gameProjectLibraryManager.SetLoadProject(gameInfoNew);
             gameInfoNew.SaveMap();

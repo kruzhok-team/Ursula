@@ -193,22 +193,21 @@ namespace Ursula.StartupMenu.Model
 
         public StartupMenuCreateGameViewModel SetPlatoSizeValue(int value)
         {
-            //float scale = MapRange(value, 1, 100, 1, 5);
             _CreateGameSourceData.SetPlatoSizeValue(value);
             return this;
         }
 
         public StartupMenuCreateGameViewModel SetPlatoPlatoOffsetX(int value)
         {
-            float scale = MapRange(value, 1, 100, 1, 256);
-            _CreateGameSourceData.SetPlatoPlatoOffsetX((int)scale);
+            float offset = MapRange(value, 1, 100, 1, 256);
+            _CreateGameSourceData.SetPlatoPlatoOffsetX((int)offset);
             return this;
         }
 
         public StartupMenuCreateGameViewModel SetPlatoPlatoOffsetZ(int value)
         {
-            float scale = MapRange(value, 1, 100, 1, 256);
-            _CreateGameSourceData.SetPlatoPlatoOffsetZ((int)scale);
+            float offset = MapRange(value, 1, 100, 1, 256);
+            _CreateGameSourceData.SetPlatoPlatoOffsetZ((int)offset);
             return this;
         }
 
@@ -236,7 +235,7 @@ namespace Ursula.StartupMenu.Model
             return this;
         }
 
-        public StartupMenuCreateGameViewModel SetWaterOffset(float value)
+        public StartupMenuCreateGameViewModel  SetWaterOffset(float value)
         {
             float offset = MapRange(value, 0, 100, 0, 1);
             offset = 1 - offset;

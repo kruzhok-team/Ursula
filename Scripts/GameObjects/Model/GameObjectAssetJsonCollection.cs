@@ -133,17 +133,9 @@ namespace Ursula.GameObjects.Model
 
         public async GDTask Load(string _jsonFilePath)
         {
-            //if (IsDataLoaded)
-            //{
-            //    //TODO: Log a data already loaded warning here
-            //    return;
-            //}
-
             this._jsonFilePath = _jsonFilePath;
 
             IsDataLoaded = true;
-            // TODO: Implement _sources deserialization from a json file by _jsonFilePath
-            //throw new NotImplementedException();
 
             if (string.IsNullOrEmpty(_jsonFilePath) || !File.Exists(ProjectSettings.GlobalizePath(_jsonFilePath)))
             {
@@ -165,11 +157,8 @@ namespace Ursula.GameObjects.Model
 
         public async GDTask Save()
         {
-            //if (!CheckLoaded())
-            //    return;
-
-            // TODO: Implement sources serialization to a json file by _jsonFilePath
-            //throw new NotImplementedException();
+            if (string.IsNullOrEmpty(_jsonFilePath))
+                return;
 
             string pathDir = Path.GetDirectoryName(_jsonFilePath);
             if (!Directory.Exists(pathDir)) Directory.CreateDirectory(pathDir);
@@ -210,8 +199,6 @@ namespace Ursula.GameObjects.Model
 
         private IGameObjectAsset BuildAssetImplementation(GameObjectAssetInfo assetInfo) 
         {
-            //TODO: asset building implementation
-
             string model3dFilePath = assetInfo.Template.Sources.Model3dFilePath;
 
             PackedScene prefab = null;
@@ -225,12 +212,7 @@ namespace Ursula.GameObjects.Model
             }
             else if (assetInfo.ProviderId == GameObjectAssetsUserSource.LibId)
             {
-                // :TODO fix build paths
-//#if TOOLS
                 model3dFilePath = $"{assetInfo.GetAssetPath()}/{model3dFilePath}";
-//#else
-//                model3dFilePath = $"{VoxLib.mapManager.GetCurrentProjectFolderPath()}{assetInfo.Template.Folder}/{model3dFilePath}";
-//#endif
 
                 if (assetInfo.Template.GameObjectClass == 1)
                     prefab = VoxLib.mapAssets.customObjectPrefab;

@@ -38,6 +38,9 @@ public partial class ConstructorWaterMenuView : ConstructorWaterMenuViewModel, I
     {
         base._Ready();
         _ = SubscribeEvent();
+
+        Control control = this as Control;
+        if (control != null) control.VisibilityChanged += Control_VisibilityChangedEvent;
     }
 
     private async GDTask SubscribeEvent()
@@ -46,6 +49,19 @@ public partial class ConstructorWaterMenuView : ConstructorWaterMenuViewModel, I
         _startupMenuCreateGameViewModel = await _startupMenuCreateGameViewModelProvider.GetAsync();
 
         ButtonCreateWater.ButtonDown += ButtonCreateWater_ButtonDownEvent;
+    }
+
+    private void Control_VisibilityChangedEvent()
+    {
+        SetWaterData();
+    }
+
+    private void SetWaterData()
+    {
+        float offset = 1 - _waterModel._WaterData.WaterOffset;
+        HSliderWaterLevel.Value = MapRange(offset, 0, 1, 0, 100);
+        CheckButtonWaterStatic.ButtonPressed = _waterModel._WaterData.IsStaticWater;
+        TypeWaterOption.Selected = _waterModel._WaterData.TypeWaterID;
     }
 
     private void ButtonCreateWater_ButtonDownEvent()
@@ -58,5 +74,10 @@ public partial class ConstructorWaterMenuView : ConstructorWaterMenuViewModel, I
         _waterModel.SetWaterOffset(_startupMenuCreateGameViewModel._CreateGameSourceData.WaterOffset);
         _waterModel.SetTypeWaterID(_startupMenuCreateGameViewModel._CreateGameSourceData.TypeWaterID + 1);
         _waterModel.StartGenerateWater();
+    }
+
+    private float MapRange(float value, float min1, float max1, float min2, float max2)
+    {
+        return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
     }
 }

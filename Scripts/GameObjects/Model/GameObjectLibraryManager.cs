@@ -163,8 +163,6 @@ namespace Ursula.GameObjects.Model
 
         public void SetItem(string name, GameObjectTemplate template, string libId)
         {
-            if (!CheckLoaded())
-                return;
             if (string.IsNullOrEmpty(name) || template == null)
                 return;
 
@@ -200,12 +198,6 @@ namespace Ursula.GameObjects.Model
 
         public async GDTask Load(string _projectPath)
         {
-            //if (IsDataLoaded)
-            //{
-            //    //TODO: Log an error or warning due to data already loaded
-            //    return;
-            //}
-
             _userLib = await _userLibraryProvider.GetAsync();
             _embeddedLib = await _embeddedLibraryProvider.GetAsync();
 
@@ -222,16 +214,21 @@ namespace Ursula.GameObjects.Model
                 return;
             }
 
-            //if (!_userLib.IsDataLoaded)
-            await _userLib.Load(_projectPath + "/" + GameObjectAssetsUserSource.JsonDataPath);
-            //if (!_embeddedLib.IsDataLoaded)
-            await _embeddedLib.Load(_projectPath + "/" + GameObjectAssetsEmbeddedSource.JsonDataPath);
+            string pathUserJson = $"{_projectPath}/{GameObjectAssetsUserSource.JsonDataPath}";
+            string pathEmbeddedJson = $"{_projectPath}/{GameObjectAssetsEmbeddedSource.JsonDataPath}";
 
             _commonAssetMap = LoadCommonAssetsInfo();
+
+            await CheckEmbeddedAssets(pathEmbeddedJson);
+
+            await GDTask.Delay(100);
+
+            await _userLib.Load(pathUserJson);
+
+            await _embeddedLib.Load(pathEmbeddedJson);
+
             _exclusions = LoadExclusions();
             IsDataLoaded = true;
-
-            await CheckEmbeddedAssets();
 
             _ = SyncEmbeddedAssets();
 
@@ -314,9 +311,10 @@ namespace Ursula.GameObjects.Model
 
         }
 
-        private async GDTask CheckEmbeddedAssets()
+        private async GDTask CheckEmbeddedAssets(string path)
         {
-            string path = $"{GameObjectAssetsEmbeddedSource.ProjectFolderPath}{GameObjectAssetsEmbeddedSource.JsonDataPath}";
+            _embeddedLib._jsonFilePath = path;
+
             if (!File.Exists(path))
             {
                 var mapAssets = ResourceLoader.Load<MapAssets>(MapManagerData.MapManagerAssetPath);
@@ -355,9 +353,6 @@ namespace Ursula.GameObjects.Model
 
         private async GDTask SyncEmbeddedAssets()
         {
-            if (!CheckLoaded())
-                return;
-
             var countBefore = _commonAssetMap.Count;
 
             foreach (var asset in _embeddedLib.GetAll())

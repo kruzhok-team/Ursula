@@ -1928,6 +1928,7 @@ offset_right = -0.0799561
 offset_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 2
+theme_override_constants/separation = 1
 
 [node name="ButtonOpenControlProject" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2"]
 visible = false
@@ -1952,13 +1953,20 @@ custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 10
+theme_override_styles/focus = ExtResource("51_ffq47")
+theme_override_styles/hover_pressed = ExtResource("51_ffq47")
+theme_override_styles/hover = ExtResource("51_ffq47")
+theme_override_styles/pressed = ExtResource("51_ffq47")
 theme_override_styles/normal = ExtResource("51_qas0a")
 text = "Тестирование"
 alignment = 2
+text_overrun_behavior = 4
+autowrap_mode = 2
+clip_text = true
 
 [node name="Algoritms" type="Panel" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2"]
 visible = false
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
 
 [node name="ButtonReload" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer2"]
@@ -2155,6 +2163,7 @@ text = "Алгоритмы"
 alignment = 2
 
 [node name="ControlGame" type="Control" parent="Controls"]
+visible = false
 anchors_preset = 0
 offset_right = 1154.0
 offset_bottom = 648.0

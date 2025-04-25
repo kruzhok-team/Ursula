@@ -986,6 +986,11 @@ public partial class MapManager : Node, IInjectable
         mapData.Add("sizeX", sizeX.ToString());
         mapData.Add("sizeY", sizeY.ToString());
         mapData.Add("sizeZ", sizeZ.ToString());
+        mapData.Add("power", _terrainModel._TerrainData.Power.ToString());
+        mapData.Add("scale", _terrainModel._TerrainData.Scale.ToString());
+        mapData.Add("platoSize", _terrainModel._TerrainData.PlatoSize.ToString());
+        mapData.Add("platoOffsetX", _terrainModel._TerrainData.PlatoOffsetX.ToString());
+        mapData.Add("platoOffsetZ", _terrainModel._TerrainData.PlatoOffsetZ.ToString());
         mapData.Add("skybox", skybox.ToString());
         mapData.Add("grassTexID", _terrainModel._TerrainData.ReplaceTexID.ToString());
         mapData.Add("waterOffset", _waterModel._WaterData.WaterOffset.ToString());
@@ -1194,6 +1199,26 @@ public partial class MapManager : Node, IInjectable
         if (mapData.ContainsKey("sizeTerrain")) sizeTerrain = int.Parse(mapData["sizeTerrain"]);
         _terrainModel.SetSize(sizeTerrain);
 
+        float power = 30f;
+        if (mapData.ContainsKey("power")) power = float.Parse(mapData["power"]);
+        _terrainModel.SetPower(power);
+
+        float scale = 50f;
+        if (mapData.ContainsKey("scale")) scale = float.Parse(mapData["scale"]);
+        _terrainModel.SetScale(scale);
+      
+        int platoSize = 30;
+        if (mapData.ContainsKey("platoSize")) platoSize = int.Parse(mapData["platoSize"]);
+        _terrainModel.SetPlatoSize(platoSize);
+
+        int platoOffsetX = 50;
+        if (mapData.ContainsKey("platoOffsetX")) platoOffsetX = int.Parse(mapData["platoOffsetX"]);
+        _terrainModel.SetPlatoOffsetX(platoOffsetX);
+
+        int platoOffsetZ = 50;
+        if (mapData.ContainsKey("platoOffsetX")) platoOffsetZ = int.Parse(mapData["platoOffsetZ"]);
+        _terrainModel.SetPlatoOffsetZ(platoOffsetZ);
+
         float[,] mapHeight = new float[sizeTerrain, sizeTerrain];
         if (mapData.ContainsKey("mapHeight"))
         {
@@ -1268,7 +1293,7 @@ public partial class MapManager : Node, IInjectable
                     int y = int.Parse(itemData["y"]);
                     int z = int.Parse(itemData["z"]);
 
-                    float scale = itemData.ContainsKey("scale") ? float.Parse(itemData["scale"]) : 1f;
+                    float scaleItem = itemData.ContainsKey("scale") ? float.Parse(itemData["scale"]) : 1f;
 
                     float positionY = y;
                     if (itemData.ContainsKey("positionY"))
@@ -1277,46 +1302,6 @@ public partial class MapManager : Node, IInjectable
                     }
 
                     int id = x + z * 256 + y * 256 * 256;
-
-                    //Node item = CreateGameItem(numItem, rotation, scale, x, positionY, z, state, id);
-
-                    //var obj = item.GetNode("InteractiveObject");
-                    //var io = obj as InteractiveObject;
-
-                    //if (io != null && itemData.ContainsKey("xmlPath"))
-                    //{
-                    //    {
-                    //        io.xmlPath = itemData["xmlPath"];
-                    //        if (isImport) io.xmlPath = dirMap + "/" + io.xmlPath;
-                    //        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-                    //        io.ReloadAlgorithm();
-                    //        //io.StartAlgorithm();
-                    //    }
-                    //}
-
-                    ////await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
-                    //var custom = item.GetNodeOrNull("CustomObjectScript");
-                    //if (custom == null) custom = item.GetParent().FindChild("CustomObjectScript", true, true);
-                    //var co = custom as CustomObject;
-                    //if (co != null && itemData.ContainsKey("objPath"))
-                    //{
-                    //    co.objPath = itemData["objPath"];
-                    //    if (isImport) co.objPath = dirMap + "/" + co.objPath;
-                    //    co.InitModel();
-                    //}
-
-                    //var customItem = item.GetNodeOrNull("CustomItemScript");
-                    //if (customItem == null) customItem = item.GetParent().FindChild("CustomItemScript", true, true);
-                    //var ci = customItem as CustomItem;
-                    //if (ci != null && itemData.ContainsKey("objPath"))
-                    //{
-                    //    ci.objPath = itemData["objPath"];
-                    //    if (isImport) ci.objPath = dirMap + "/" + ci.objPath;
-                    //    ci.InitModel();
-                    //}
-
-
 
                     if (itemData.ContainsKey("AssetInfoId"))
                     {
@@ -1332,7 +1317,7 @@ public partial class MapManager : Node, IInjectable
                         (
                             assetInfo,
                             rotation,
-                            scale,
+                            scaleItem,
                             x,
                             y,
                             z,

@@ -6,6 +6,7 @@ using Ursula.Core.DI;
 using Ursula.StartupMenu.Model;
 using Ursula.Terrain.Model;
 using Ursula.Water.Model;
+using static Godot.TileSet;
 
 namespace Ursula.ConstructorMenu.View
 {
@@ -53,7 +54,6 @@ namespace Ursula.ConstructorMenu.View
         [Inject]
         private ISingletonProvider<StartupMenuCreateGameViewModel> _startupMenuCreateGameViewModelProvider;
 
-
         private ConstructorLandscapeMenuViewModel _constructorLandscapeMenuViewModel { get; set; }
         private TerrainModel _terrainModel { get; set; }
         private StartupMenuCreateGameViewModel _startupMenuCreateGameViewModel { get; set; }
@@ -83,6 +83,9 @@ namespace Ursula.ConstructorMenu.View
                 TabBarReplaceTexture.AddTab();
                 TabBarReplaceTexture.SetTabIcon(i, resizedTexture);
             }
+
+            Control control = this as Control;
+            if (control != null) control.VisibilityChanged += Control_VisibilityChangedEvent; 
         }
 
         private async GDTask SubscribeEvent()
@@ -91,6 +94,22 @@ namespace Ursula.ConstructorMenu.View
             _startupMenuCreateGameViewModel = await _startupMenuCreateGameViewModelProvider.GetAsync();
 
             ButtonCreateLandscape.ButtonDown += ButtonCreateLandscape_ButtonDownEvent;
+        }
+        private void Control_VisibilityChangedEvent()
+        {
+            SetLandscapeData();
+        }
+
+        private void SetLandscapeData()
+        {
+            HSliderPower.Value = MapRange(_terrainModel._TerrainData.Power, 0, 30, 0, 100);
+            HSliderScale.Value = MapRange(_terrainModel._TerrainData.Scale, 1, 5, 1, 100);
+            HSliderPlatoSize.Value = _terrainModel._TerrainData.PlatoSize;
+            HSliderPlatoOffsetX.Value = MapRange(_terrainModel._TerrainData.PlatoOffsetX, 1, 256, 1, 100);
+            HSliderPlatoOffsetZ.Value = MapRange(_terrainModel._TerrainData.PlatoOffsetZ, 1, 256, 1, 100);
+            TabBarReplaceTexture.CurrentTab = _terrainModel._TerrainData.ReplaceTexID;
+            TypeSkyOption.Selected = _terrainModel._TerrainData.TypeSkyID;
+            HSliderFullDayLength.Value = _terrainModel._TerrainData.FullDayLength;
         }
 
         private void ButtonCreateLandscape_ButtonDownEvent()
@@ -110,10 +129,15 @@ namespace Ursula.ConstructorMenu.View
             _terrainModel.SetPlatoSize(_startupMenuCreateGameViewModel._CreateGameSourceData.PlatoSize);
             _terrainModel.SetPlatoOffsetX(_startupMenuCreateGameViewModel._CreateGameSourceData.PlatoPlatoOffsetX);
             _terrainModel.SetPlatoOffsetZ(_startupMenuCreateGameViewModel._CreateGameSourceData.PlatoPlatoOffsetZ);
+            _terrainModel.SetReplaceTexID(_startupMenuCreateGameViewModel._CreateGameSourceData.ReplaceTextureID);
             _terrainModel.SetTypeSkyID(_startupMenuCreateGameViewModel._CreateGameSourceData.TypeSkyID);
             _terrainModel.SetFullDayLength(_startupMenuCreateGameViewModel._CreateGameSourceData.FullDayLength);
 
             _terrainModel.StartGenerateTerrain(true);
+        }
+        private float MapRange(float value, float min1, float max1, float min2, float max2)
+        {
+            return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
         }
     }
 }

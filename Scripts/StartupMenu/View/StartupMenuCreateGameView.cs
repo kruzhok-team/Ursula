@@ -181,13 +181,14 @@ namespace Ursula.StartupMenu.View
                 _startupMenuCreateGameViewModel.SetGameName(_startupMenuCreateNewProjectViewModel.GameName);
                 _startupMenuCreateGameViewModel.SetCreateGameViewCreateFolderGame();
 
+                await GDTask.Delay(100);
+
                 GameProjectTemplate projectTemplate = new GameProjectTemplate
                 (
                     _startupMenuCreateNewProjectViewModel.GameName,
                     null,
                     null
                 );
-
 
                 string id = $"{GameProjectAssetsUserSource.LibId}.{_startupMenuCreateNewProjectViewModel.GameName}";
                 bool isExist = _gameProjectLibraryManager.ContainsItem(id);
