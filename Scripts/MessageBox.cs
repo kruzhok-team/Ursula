@@ -6,6 +6,8 @@ public partial class MessageBox : Control
     public static MessageBox instance;
     [Export] Label label;
 
+    private double timer = 0f;
+
     public override void _Ready()
     {
         instance = this;
@@ -19,7 +21,8 @@ public partial class MessageBox : Control
 
         this.Visible = true;
 
-        HideMessage(5f);
+        //HideMessage(5f);
+        timer = 5f;
     }
 
     public override void _Input(InputEvent @event)
@@ -30,9 +33,25 @@ public partial class MessageBox : Control
         }
     }
 
-    public async void HideMessage(float delay)
+    public override void _Process(double delta)
+    {
+        if (timer > 0 && this.Visible == true)
+            timer -= delta;
+
+        if (timer < 0 && this.Visible == true)
+        {
+            HideMessage();
+        }
+    }
+
+    private async void HideMessage(float delay)
     {
         await ToSignal(GetTree().CreateTimer(delay), "timeout");
+        HideMessage();
+    }
+
+    private void HideMessage()
+    {
         this.Visible = false;
     }
 }

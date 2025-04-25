@@ -165,8 +165,8 @@ namespace Ursula.GameObjects.Model
 
         public async GDTask Save()
         {
-            if (!CheckLoaded())
-                return;
+            //if (!CheckLoaded())
+            //    return;
 
             // TODO: Implement sources serialization to a json file by _jsonFilePath
             //throw new NotImplementedException();

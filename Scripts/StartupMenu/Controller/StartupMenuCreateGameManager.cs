@@ -164,6 +164,7 @@ namespace Ursula.StartupMenu.Model
 
             string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
             IReadOnlyCollection<GameObjectAssetInfo> assets = _commonLibrary.GetInfoOnGroup(gameObjectGroups[0], _startupMenuCreateGameViewModel._CreateGameSourceData.TreeProviderID);
+
             List<GameObjectAssetInfo> trees = new List<GameObjectAssetInfo>(assets);
 
             int _size = _terrainModel._TerrainData.Size;
