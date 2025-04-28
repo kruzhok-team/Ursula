@@ -51,6 +51,7 @@ public partial class TerrainManager : TerrainModel, IInjectable
     private bool isNavMeshUpdater = false;
     private MeshInstance3D meshInstance;
     private NavigationMesh navMesh;
+    private StaticBody3D staticBody;
 
     private FastNoiseLite noise;
     private float plateauHeight;
@@ -93,7 +94,9 @@ public partial class TerrainManager : TerrainModel, IInjectable
 	
 	public void _ProcCreateTerrain(bool randomHeight)
 	{
-		instance ??= this;
+        ClearNavMesh();
+
+        instance ??= this;
 		VoxLib.terrainManager ??= this;
 
 		navMesh = new NavigationMesh();
@@ -105,7 +108,7 @@ public partial class TerrainManager : TerrainModel, IInjectable
 		navMesh.AgentMaxSlope = 85f;
 		navMesh.AgentHeight = 1.5f;
 		//navMesh.AgentRadius = 0.25f;
-		navMesh.CellSize = 0.5f;
+		//navMesh.CellSize = 0.5f;
 		//navMesh.CellHeight = 0.5f;
 
 		navMesh.RegionMergeSize = 5;
@@ -459,7 +462,7 @@ public partial class TerrainManager : TerrainModel, IInjectable
         mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
         mesh.RegenNormalMaps();
 
-        StaticBody3D staticBody = new StaticBody3D();
+        staticBody = new StaticBody3D();
         staticBody.Name = NAMETERRAIN;
 
         // Создаем MeshInstance
@@ -643,4 +646,18 @@ public partial class TerrainManager : TerrainModel, IInjectable
         }
     }
 
+    private void ClearNavMesh()
+    {
+        if (navMesh != null)
+        {
+            navMesh.Clear();
+            navMesh = null;
+        }
+        if (meshInstance != null)
+        {
+            if (meshInstance.Mesh != null) meshInstance.Mesh.Free();
+            meshInstance.Free();
+        }
+        if (staticBody != null) staticBody.Free();
+    }
 }
