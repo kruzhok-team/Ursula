@@ -24,22 +24,22 @@ public partial class TerrainManager : TerrainModel, IInjectable
     private ISingletonProvider<MapManagerModel> _mapManagerModelProvider;
 
     public int countChunk = 1;
-	public int countBlock = 256;
-	
-	public float[,] mapHeight;
-	
-	public Vector3 positionOffset = new Vector3(-0.5f, 36.0f, -0.5f); // new Vector3(0f, 0f, 0f);// 
+    public int countBlock = 256;
 
-	public Vector3 startPoint = new Vector3(0f, 0f, 0f);
+    public float[,] mapHeight;
+
+    public Vector3 positionOffset = new Vector3(-0.5f, 36.0f, -0.5f); // new Vector3(0f, 0f, 0f);// 
+
+    public Vector3 startPoint = new Vector3(0f, 0f, 0f);
 
     public struct Chunk
-	{
+    {
         //public GameObject go;
         //public MeshRenderer mr;
         //public MeshFilter mf;
         //public MeshCollider mc;
     }
-	public Chunk[,] _chunks;
+    public Chunk[,] _chunks;
 
 
     private TerrainModel _terrainModel { get; set; }
@@ -49,6 +49,7 @@ public partial class TerrainManager : TerrainModel, IInjectable
     private bool isNavMeshUpdater = false;
     private MeshInstance3D meshInstance;
     private NavigationMesh navMesh;
+    private StaticBody3D staticBody;
 
     private FastNoiseLite noise;
     private float plateauHeight;
@@ -61,86 +62,100 @@ public partial class TerrainManager : TerrainModel, IInjectable
     }
 
     public override void _Ready()
-	{
-		VoxLib.terrainManager ??= this;
+    {
+        VoxLib.terrainManager ??= this;
 
         base._Ready();
         _ = SubscribeEvent();
     }
 
-	public int size 
-	{ 
-		get 
-		{ 
-			return countChunk * countBlock + 1;
-		} 
-	}
+    public int size
+    {
+        get
+        {
+            return countChunk * countBlock + 1;
+        }
+    }
 
     public void ProcCreateTerrainRandom(bool randomHeight)
-	{
-		ProcCreateTerrain(randomHeight);
-	}
-	
-	public void ProcCreateTerrain(bool randomHeight)
-	{
+    {
+        ProcCreateTerrain(randomHeight);
+    }
+
+    public void ProcCreateTerrain(bool randomHeight)
+    {
         VoxLib.RemoveAllChildren(VoxLib.mapManager.navigationRegion3D);
         _mapManagerModel.RemoveAllGameItems();
 
         _ProcCreateTerrain(randomHeight);
     }
-	
-	public void _ProcCreateTerrain(bool randomHeight)
-	{
-		instance ??= this;
-		VoxLib.terrainManager ??= this;
 
-		navMesh = new NavigationMesh();
+    public void _ProcCreateTerrain(bool randomHeight)
+    {
+        instance ??= this;
+        VoxLib.terrainManager ??= this;
 
-		//VoxLib.mapManager.navigationRegion3D.NavigationMesh.ClearPolygons();
-		//navMesh = VoxLib.mapManager.navigationRegion3D.NavigationMesh;
+        //if (navMesh != null)
+        //{
+        //    navMesh.Clear();
+        //    navMesh.Free();
+        //}
 
-		navMesh.AgentMaxClimb = 1f;
-		navMesh.AgentMaxSlope = 85f;
-		navMesh.AgentHeight = 1.5f;
-		//navMesh.AgentRadius = 0.25f;
-		//navMesh.CellSize = 0.5f;
-		//navMesh.CellHeight = 0.5f;
+        //if (VoxLib.mapManager.navigationRegion3D.NavigationMesh != null)
+        //{
+        //    VoxLib.mapManager.navigationRegion3D.NavigationMesh.Clear();
+        //}
 
-		navMesh.RegionMergeSize = 5;
+        ClearNavMesh();
+
+        navMesh = new NavigationMesh();
+
+        //VoxLib.mapManager.navigationRegion3D.NavigationMesh.ClearPolygons();
+        //navMesh = VoxLib.mapManager.navigationRegion3D.NavigationMesh;
+
+        navMesh.AgentMaxClimb = 1f;
+        navMesh.AgentMaxSlope = 85f;
+        navMesh.AgentHeight = 1.5f;
+
+        //navMesh.AgentRadius = 0.25f;
+        navMesh.CellSize = 0.5f;
+        //navMesh.CellHeight = 1.0f;
+
+        navMesh.RegionMergeSize = 5;
         navMesh.DetailSampleDistance = 2;
-		navMesh.EdgeMaxLength = 2;
+        navMesh.EdgeMaxLength = 2;
 
         if (randomHeight)
-		{
-			Vector2 rnd = new Vector2(0, 0);
-			GenerateMapHeight(rnd);
-		}
-		
-		_chunks = new Chunk[countChunk, countChunk];
-		
-		for (int x = 0; x < countChunk; x++)
-		{
-			for (int z = 0; z < countChunk; z++)
-			{
-				startPoint[0] = (x == positionOffset[0]) ? 0 : x * countBlock + positionOffset[0];
-				startPoint[2] = (z == positionOffset[2]) ? 0 : z * countBlock + positionOffset[2];
-				startPoint[1] = positionOffset[1];
-				
-				Generate(startPoint, x, z);				
-			}
-		}
-	}
+        {
+            Vector2 rnd = new Vector2(0, 0);
+            GenerateMapHeight(rnd);
+        }
+
+        _chunks = new Chunk[countChunk, countChunk];
+
+        for (int x = 0; x < countChunk; x++)
+        {
+            for (int z = 0; z < countChunk; z++)
+            {
+                startPoint[0] = (x == positionOffset[0]) ? 0 : x * countBlock + positionOffset[0];
+                startPoint[2] = (z == positionOffset[2]) ? 0 : z * countBlock + positionOffset[2];
+                startPoint[1] = positionOffset[1];
+
+                Generate(startPoint, x, z);
+            }
+        }
+    }
 
     public void BakeNavMesh()
     {
-		//await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        //await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
-		VoxLib.mapManager.navigationRegion3D.NavigationMesh	= navMesh;
-		VoxLib.mapManager.navigationRegion3D.Position = positionOffset;
+        VoxLib.mapManager.navigationRegion3D.NavigationMesh = navMesh;
+        VoxLib.mapManager.navigationRegion3D.Position = positionOffset;
 
         Rid map = VoxLib.mapManager.navigationRegion3D.GetNavigationMap();
 
-		VoxLib.mapManager.navigationRegion3D.BakeNavigationMesh();
+        VoxLib.mapManager.navigationRegion3D.BakeNavigationMesh();
 
         //for (int i = 0; i < VoxLib.mapManager.gameItems.Count; i++)
         //{
@@ -166,26 +181,26 @@ public partial class TerrainManager : TerrainModel, IInjectable
         GD.Print($"NavMesh {navMesh} baked.");
     }
 
-	public float MaxHeightTerrain
-	{
-		get
-		{
-			int size = VoxLib.terrainManager.size;
+    public float MaxHeightTerrain
+    {
+        get
+        {
+            int size = VoxLib.terrainManager.size;
 
-			if (VoxLib.terrainManager.mapHeight == null) return 0;
+            if (VoxLib.terrainManager.mapHeight == null) return 0;
 
-			float height = 0;
-			for (int i = 0; i < size; i++)
-			{
-				for (int j = 0; j < size; j++)
-				{
-					height = (height > VoxLib.terrainManager.mapHeight[i, j]) ? height : VoxLib.terrainManager.mapHeight[i, j];
-				}
-			}
-			height += VoxLib.terrainManager.positionOffset.Y;
-			return height;
-		}
-	}
+            float height = 0;
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    height = (height > VoxLib.terrainManager.mapHeight[i, j]) ? height : VoxLib.terrainManager.mapHeight[i, j];
+                }
+            }
+            height += VoxLib.terrainManager.positionOffset.Y;
+            return height;
+        }
+    }
 
     private async GDTask SubscribeEvent()
     {
@@ -198,7 +213,7 @@ public partial class TerrainManager : TerrainModel, IInjectable
 
     private void TerrainModel_StartGenerateTerrain_EventHandler(object sender, EventArgs e)
     {
-		ProcCreateTerrainRandom(_terrainModel._TerrainData.RandomHeight);
+        ProcCreateTerrainRandom(_terrainModel._TerrainData.RandomHeight);
     }
 
     // Генерация карты высот
@@ -422,7 +437,7 @@ public partial class TerrainManager : TerrainModel, IInjectable
         mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
         mesh.RegenNormalMaps();
 
-        StaticBody3D staticBody = new StaticBody3D();
+        staticBody = new StaticBody3D();
         staticBody.Name = NAMETERRAIN;
 
         // Создаем MeshInstance
@@ -606,4 +621,18 @@ public partial class TerrainManager : TerrainModel, IInjectable
         }
     }
 
+    private void ClearNavMesh()
+    {
+        if (navMesh != null)
+        {
+            navMesh.Clear();
+            navMesh = null;
+        }
+        if (meshInstance != null)
+        {
+            if (meshInstance.Mesh != null) meshInstance.Mesh.Free();
+            meshInstance.Free();
+        }
+        if (staticBody != null) staticBody.Free();
+    }
 }

@@ -895,7 +895,7 @@ vertical_alignment = 1
 
 [node name="LabelGrass" type="Label" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "Деревья"
+text = "Трава"
 
 [node name="TabBarGrass" type="TabBar" parent="RightPanel/StartupMenuCreateGameView/ScrollContainer/VBoxContainer"]
 layout_mode = 2
