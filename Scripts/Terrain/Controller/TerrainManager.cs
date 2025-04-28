@@ -1,6 +1,8 @@
 ﻿using Fractural.Tasks;
 using Godot;
 using System;
+using System.Diagnostics;
+
 using Ursula.Core.DI;
 using Ursula.MapManagers.Model;
 using Ursula.Terrain.Model;
@@ -103,7 +105,7 @@ public partial class TerrainManager : TerrainModel, IInjectable
 		navMesh.AgentMaxSlope = 85f;
 		navMesh.AgentHeight = 1.5f;
 		//navMesh.AgentRadius = 0.25f;
-		//navMesh.CellSize = 0.5f;
+		navMesh.CellSize = 0.5f;
 		//navMesh.CellHeight = 0.5f;
 
 		navMesh.RegionMergeSize = 5;
@@ -131,6 +133,27 @@ public partial class TerrainManager : TerrainModel, IInjectable
 		}
 	}
 
+    public event Action TerrainNavMeshBaked;
+    public event Action TerrainNavMeshBakeStated;
+    Stopwatch _bakeWatch;
+
+
+    public void OnTerrainNavMeshBacked()
+    {
+        GD.Print($"NavMesh {navMesh} successfully baked in {_bakeWatch.ElapsedMilliseconds} ms.");
+        TerrainNavMeshBaked?.Invoke();
+        _bakeWatch = null;
+    }
+
+    public void OnTerrainNavMeshBakeStated()
+    {
+        TerrainNavMeshBakeStated?.Invoke();
+
+        _bakeWatch = Stopwatch.StartNew();
+        GD.Print($"The baking of the NavMesh {navMesh} has begun...");
+    }
+
+    bool _bakeProcess = false;
     public void BakeNavMesh()
     {
 		//await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
@@ -140,7 +163,21 @@ public partial class TerrainManager : TerrainModel, IInjectable
 
         Rid map = VoxLib.mapManager.navigationRegion3D.GetNavigationMap();
 
-		VoxLib.mapManager.navigationRegion3D.BakeNavigationMesh();
+        _bakeProcess = true;
+
+        VoxLib.mapManager.navigationRegion3D.BakeNavigationMesh();
+
+        OnTerrainNavMeshBakeStated();
+
+        VoxLib.mapManager.navigationRegion3D.NavigationMeshChanged += () =>
+        {
+            if (_bakeProcess)
+            {
+                
+                OnTerrainNavMeshBacked();
+                _bakeProcess = false;
+            }
+        };
 
         //for (int i = 0; i < VoxLib.mapManager.gameItems.Count; i++)
         //{
@@ -163,7 +200,7 @@ public partial class TerrainManager : TerrainModel, IInjectable
         //var obstacles = NavigationServer3D.MapGetObstacles(map);
         //GD.Print($"Added nav mesh obstacles: count= {obstacles.Count}");
 
-        GD.Print($"NavMesh {navMesh} baked.");
+        //GD.Print($"NavMesh {navMesh} baked.");
     }
 
 	public float MaxHeightTerrain
