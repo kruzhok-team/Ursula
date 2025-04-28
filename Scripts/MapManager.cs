@@ -542,11 +542,15 @@ public partial class MapManager : Node, IInjectable
 
         VoxLib.SetVisibleLog(false);
 
-        await ToSignal(GetTree().CreateTimer(10.0f), "timeout");
-        
-        VoxLib.hud.RunAllObjects();
+        //await ToSignal(GetTree().CreateTimer(10.0f), "timeout");
 
-        _gameObjectCurrentInfoModel.SetAssetInfoView(null, false);
+
+        VoxLib.terrainManager.TerrainNavMeshBaked += () =>
+        {
+            VoxLib.hud.RunAllObjects();
+
+            _gameObjectCurrentInfoModel.SetAssetInfoView(null, false);
+        };
     }
 
     public Camera3D GetPlayerCamera()
