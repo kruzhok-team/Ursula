@@ -14,6 +14,7 @@ namespace Ursula.StartupMenu.Model
         public string GameName { get; private set; }
         public string GameNameAlias { get; private set; }
         public string GameImagePath { get; private set; }
+        public string GameVideoPath { get; private set; }
         public float PowerValue { get; private set; }
         public float ScaleValue { get; private set; }
         public int PlatoSize { get; private set; }
@@ -45,6 +46,12 @@ namespace Ursula.StartupMenu.Model
         public CreateGameSourceData SetGameImagePath(string value)
         {
             GameImagePath = value;
+            return this;
+        }
+
+        public CreateGameSourceData SetGameVideoPath(string value)
+        {
+            GameVideoPath = value;
             return this;
         }
 
@@ -174,6 +181,12 @@ namespace Ursula.StartupMenu.Model
         public StartupMenuCreateGameViewModel SetGameImagePath(string path)
         {
             _CreateGameSourceData.SetGameImagePath(path);
+            return this;
+        }
+
+        public StartupMenuCreateGameViewModel SetGameVideoPath(string path)
+        {
+            _CreateGameSourceData.SetGameVideoPath(path);
             return this;
         }
 
