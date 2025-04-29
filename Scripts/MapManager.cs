@@ -1221,6 +1221,9 @@ public partial class MapManager : Node, IInjectable
         if (mapData.ContainsKey("platoOffsetX")) platoOffsetZ = int.Parse(mapData["platoOffsetZ"]);
         _terrainModel.SetPlatoOffsetZ(platoOffsetZ);
 
+        if (mapData.ContainsKey("grassTexID")) replaceTexID = int.Parse(mapData["grassTexID"]);
+        _terrainModel.SetReplaceTexID(replaceTexID);
+
         float[,] mapHeight = new float[sizeTerrain, sizeTerrain];
         if (mapData.ContainsKey("mapHeight"))
         {
@@ -1246,9 +1249,6 @@ public partial class MapManager : Node, IInjectable
             await StartCoroutineCreateTerrain(false);
             await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         }
-
-        if (mapData.ContainsKey("grassTexID")) replaceTexID = int.Parse(mapData["grassTexID"]);
-        _terrainModel.SetReplaceTexID(replaceTexID);
 
         if (mapData.ContainsKey("waterOffset")) waterOffset = float.Parse(mapData["waterOffset"]);
         _waterModel.SetWaterOffset(waterOffset);

@@ -635,6 +635,11 @@ public partial class MoveScript : CharacterBody3D
         delay = random.Next(5, 20);
         await GDTask.Delay(delay);
         currentPath = _navigationAgent.GetCurrentNavigationPathIndex();
+
+        if (currentPath == 0)
+        {
+            GD.Print("Path is null");
+        }
     }
 
 
@@ -672,9 +677,6 @@ public partial class MoveScript : CharacterBody3D
 
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
-        stateMashine = StateMashine.moveToPosition;
-        moveDistance = 0;
-
         int X = Math.Clamp((int)newPosition.X, 0, VoxLib.mapManager.sizeX);
         float Y = VoxLib.terrainManager.positionOffset.Y;
         int Z = Math.Clamp((int)newPosition.Z, 0, VoxLib.mapManager.sizeX);
@@ -683,10 +685,11 @@ public partial class MoveScript : CharacterBody3D
 
         MovementPosition = new Vector3(X, Y, Z);
 
+        await SetupPath();
+
         PlayRunAnimation();
-
-        _= SetupPath();
-
+        stateMashine = StateMashine.moveToPosition;
+        moveDistance = 0;
     }
 
     public Vector3 SetPositionRight(float n)
