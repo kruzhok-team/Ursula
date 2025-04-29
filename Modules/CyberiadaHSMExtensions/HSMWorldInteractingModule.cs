@@ -1,20 +1,31 @@
-using Godot;
+ï»¿using Godot;
 using System;
 
 public class HSMWorldInteractingModule
 {
     InteractiveObject _object;
 
-    const string ModuleName = "ÂçàèìîäåéñòâèåÑÌèðîì";
+    const string ModuleName = "Ð’Ð·Ð°Ð¸Ð¼Ð¾Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸ÐµÐ¡ÐœÐ¸Ñ€Ð¾Ð¼";
+
+    // Event keys
+    const string ChangeSurfaceTypeKey = $"{ModuleName}.Ð¡Ð¼ÐµÐ½Ð°Ð¢Ð¸Ð¿Ð°ÐŸÐ¾Ð²ÐµÑ€Ñ…Ð½Ð¾ÑÑ‚Ð¸";
 
     // Variable keys
-    const string DayTimeVariableKey = $"{ModuleName}.ÂðåìÿÑóòîê";
-    const string SurfaceTypeVariableKey = $"{ModuleName}.ÒèïÏîâåðõíîñòè";
-    const string HeightAboveSurfaceVariableKey = $"{ModuleName}.ÂûñîòàÍàäÏîâåðõíîñòüþ";
+    const string DayTimeVariableKey = $"{ModuleName}.Ð’Ñ€ÐµÐ¼ÑÐ¡ÑƒÑ‚Ð¾Ðº";
+    const string SurfaceTypeVariableKey = $"{ModuleName}.Ð¢Ð¸Ð¿ÐŸÐ¾Ð²ÐµÑ€Ñ…Ð½Ð¾ÑÑ‚Ð¸";
+    const string HeightAboveSurfaceVariableKey = $"{ModuleName}.Ð’Ñ‹ÑÐ¾Ñ‚Ð°ÐÐ°Ð´ÐŸÐ¾Ð²ÐµÑ€Ñ…Ð½Ð¾ÑÑ‚ÑŒÑŽ";
 
     public HSMWorldInteractingModule(CyberiadaLogic logic, InteractiveObject interactiveObject)
     {
         _object = interactiveObject;
+
+        // Events
+        if (_object.move.moveScript != null)
+        {
+            _object.move.moveScript.onChangeSurfaceType += () => logic.localBus.InvokeEvent(ChangeSurfaceTypeKey);
+        }
+        else
+            HSMLogger.PrintMoveScriptError(interactiveObject);
 
         // Variables
         logic.localBus.AddVariableGetter(DayTimeVariableKey, () => _object.move.timesOfDay.Value);

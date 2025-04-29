@@ -55,6 +55,15 @@ public partial class InteractiveObjectAudio : Node3D
         }
     }
 
+    public string GetRandomAudioKey()
+    {
+        var keys = new List<string>(audios.Keys);
+        Random random = new Random();
+        string randomKey = keys[random.Next(keys.Count)];
+
+        return randomKey;
+    }
+
     public object Play3D(string soundKey, string cycle)
     {
         currentAudioKey = soundKey;
@@ -67,11 +76,9 @@ public partial class InteractiveObjectAudio : Node3D
 
     public object PlayRandom3D(string cycle)
     {
-        var values = new List<string>(audios.Values);
-        Random random = new Random();
-        string randomValue = values[random.Next(values.Count)];
+        string randomKey = GetRandomAudioKey();
 
-        Play3D(randomValue, cycle);
+        Play3D(randomKey, cycle);
 
         return null;
     }
@@ -80,12 +87,10 @@ public partial class InteractiveObjectAudio : Node3D
     {
         bool isCicle = cycle.IndexOf("False") != -1 ? false : true;
 
-        var values = new List<string>(audios.Values);
-        Random random = new Random();
-        string randomValue = values[random.Next(values.Count)];
+        string randomKey = GetRandomAudioKey();
 
-        if (audioStreamPlayer3D.MaxDistance > 0) Play3D(randomValue, cycle);
-        else Play2D(randomValue, cycle);
+        if (audioStreamPlayer3D.MaxDistance > 0) Play3D(randomKey, cycle);
+        else Play2D(randomKey, cycle);
 
         return null;
     }
