@@ -94,6 +94,12 @@ namespace Ursula.StartupMenu.View
         [Export]
         private HSlider HSliderGrassDensity;
 
+        [Export]
+        private TextEdit TextEditPreviewVideo;
+
+        [Export]
+        private Button ButtonOpenPreviewVideoPath;
+
 
 
 
@@ -180,6 +186,7 @@ namespace Ursula.StartupMenu.View
                 TextEditGameName.Text = _startupMenuCreateNewProjectViewModel.GameName;
                 _startupMenuCreateGameViewModel.SetGameName(_startupMenuCreateNewProjectViewModel.GameName);
                 _startupMenuCreateGameViewModel.SetCreateGameViewCreateFolderGame();
+                TextEditPreviewVideo.Text = "";
 
                 await GDTask.Delay(100);
 
@@ -226,7 +233,10 @@ namespace Ursula.StartupMenu.View
             ButtonOpenGameImagePath.ButtonDown += ButtonOpenGameImagePath_ButtonDownEvent;
             TabBarTrees.TabClicked += TabBarTrees_TabClickedEvent;
             TabBarGrass.TabClicked += TabBarGrass_TabClickedEvent;
+            ButtonOpenPreviewVideoPath.ButtonDown += ButtonOpenPreviewVideoPath_ButtonDownEvent;
         }
+
+
 
         public void DrawItemsSky(int id)
         {
@@ -306,6 +316,20 @@ namespace Ursula.StartupMenu.View
 , FileDialog.AccessEnum.Filesystem);
         }
 
+        private void ButtonOpenPreviewVideoPath_ButtonDownEvent()
+        {
+            dialogTool.Open(new string[] { "*.ogv ; Файл ogv с кодеком THEORA" }, async (path) =>
+            {
+                if (!string.IsNullOrEmpty(path))
+                {
+                    TextEditPreviewVideo.Text = Path.GetFileName(path);
+                    _startupMenuCreateGameViewModel.SetGameVideoPath(path);
+                }
+                else
+                    GD.PrintErr($"Ошибка  открытия файла {path}");
+            }
+, FileDialog.AccessEnum.Filesystem);
+        }
 
         private void ClickItem_SelectItemSkyEventHandler(int obj)
         {

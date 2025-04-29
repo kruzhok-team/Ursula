@@ -655,7 +655,7 @@ public partial class TerrainManager : TerrainModel, IInjectable
         }
         if (meshInstance != null)
         {
-            if (meshInstance.Mesh != null) meshInstance.Mesh.Free();
+            //if (meshInstance.Mesh != null) meshInstance.Mesh.Free();
             meshInstance.Free();
         }
         if (staticBody != null) staticBody.Free();

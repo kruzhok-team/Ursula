@@ -116,6 +116,10 @@ namespace Ursula.StartupMenu.Model
             string destPath = $"{_gameProjectLibraryManager.currentProjectInfo.GetProjectPath()}/{fileName}";
             CopyFile(_startupMenuCreateGameViewModel._CreateGameSourceData.GameImagePath, destPath);
 
+            string fileNameVideo = Path.GetFileName(_startupMenuCreateGameViewModel._CreateGameSourceData.GameVideoPath);
+            string destPathVideo = $"{_gameProjectLibraryManager.currentProjectInfo.GetProjectPath()}/{fileNameVideo}";
+            CopyFile(_startupMenuCreateGameViewModel._CreateGameSourceData.GameVideoPath, destPathVideo);
+
             _terrainModel.SetPower(_startupMenuCreateGameViewModel._CreateGameSourceData.PowerValue);
             _terrainModel.SetScale(_startupMenuCreateGameViewModel._CreateGameSourceData.ScaleValue);
             _terrainModel.SetReplaceTexID(_startupMenuCreateGameViewModel._CreateGameSourceData.ReplaceTextureID);
