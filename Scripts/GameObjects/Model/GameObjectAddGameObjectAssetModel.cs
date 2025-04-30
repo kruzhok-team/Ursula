@@ -298,8 +298,8 @@ namespace Ursula.GameObjects.View
             MapManager.CreateDir(pathAudio);
             for (int i = 0; i < _gameObjectUserSourceData.AudiosFrom.Count; i++)
             {
-                string pathFrom = _gameObjectUserSourceData.AudiosFrom[i];
-                string pathTo = $"{pathAudio}/{Path.GetFileName(_gameObjectUserSourceData.AudiosFrom[i])}";
+                string pathFrom = ProjectSettings.GlobalizePath(_gameObjectUserSourceData.AudiosFrom[i]);
+                string pathTo = ProjectSettings.GlobalizePath($"{pathAudio}/{Path.GetFileName(_gameObjectUserSourceData.AudiosFrom[i])}");
                 if (File.Exists(pathFrom) && pathFrom != pathTo)
                 {
                     File.Copy(pathFrom, ProjectSettings.GlobalizePath(pathTo), true);               
