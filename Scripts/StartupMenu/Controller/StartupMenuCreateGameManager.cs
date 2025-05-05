@@ -168,7 +168,7 @@ namespace Ursula.StartupMenu.Model
 
         private async GDTask GenerateTrees()
         {
-            float treesDensity = _startupMenuCreateGameViewModel._CreateGameSourceData.TreesDensity;
+            float treesDensity = _startupMenuCreateGameViewModel._CreateGameSourceData.TreesDensity * 0.01f;
 
             string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
             IReadOnlyCollection<GameObjectAssetInfo> assets = _commonLibrary.GetInfoOnGroup(gameObjectGroups[0], _startupMenuCreateGameViewModel._CreateGameSourceData.TreeProviderID);
@@ -213,7 +213,7 @@ namespace Ursula.StartupMenu.Model
 
         private async GDTask GenerateGrass()
         {
-            float grassDensity = _startupMenuCreateGameViewModel._CreateGameSourceData.TreesDensity;
+            float grassDensity = _startupMenuCreateGameViewModel._CreateGameSourceData.TreesDensity * 0.01f;
 
             string[] gameObjectGroups = MapAssets.GameObjectGroups.Split(',');
             IReadOnlyCollection<GameObjectAssetInfo> assets = _commonLibrary.GetInfoOnGroup(gameObjectGroups[1], _startupMenuCreateGameViewModel._CreateGameSourceData.TreeProviderID);
