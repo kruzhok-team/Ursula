@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://w0s75hsei1wf"]
+[gd_scene load_steps=9 format=3 uid="uid://w0s75hsei1wf"]
 
-[ext_resource type="Material" uid="uid://cp1dtkuup32kk" path="res://addons/Ursula/Assets/Prefabs/CheckPoint/CheckPoint_mat.tres" id="1_ddw31"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="1_cjlm1"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="2_eg48o"]
 
 [sub_resource type="Curve" id="Curve_uwxi1"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.728813, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -8.8045, 0.0, 0, 0]
@@ -29,8 +30,8 @@ material = SubResource("StandardMaterial3D_srchu")
 top_radius = 0.1
 bottom_radius = 0.0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_g5m3x"]
-size = Vector3(1, 2.09402, 1)
+[sub_resource type="BoxShape3D" id="BoxShape3D_vroeo"]
+size = Vector3(0.585449, 0.746826, 0.632568)
 
 [node name="Sparks" type="Node3D"]
 
@@ -42,13 +43,15 @@ fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_7cpgd")
 draw_pass_1 = SubResource("CylinderMesh_mw86r")
 
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("1_cjlm1")
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("2_eg48o")
+
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02431, 0)
-shape = SubResource("BoxShape3D_g5m3x")
-
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="StaticBody3D/CollisionShape3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0356303, 0)
-visible = false
-material = ExtResource("1_ddw31")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0226135, 0.373847, -0.0157471)
+shape = SubResource("BoxShape3D_vroeo")
