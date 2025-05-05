@@ -315,10 +315,19 @@ namespace Ursula.GameObjects.Model
         {
             _embeddedLib._jsonFilePath = path;
 
-            if (!File.Exists(path))
-            {
-                var mapAssets = ResourceLoader.Load<MapAssets>(MapManagerData.MapManagerAssetPath);
+            bool isExist = File.Exists(path);
+            bool isCreateNew = false;
 
+            var mapAssets = ResourceLoader.Load<MapAssets>(MapManagerData.MapManagerAssetPath);
+
+            if (isExist)
+            {
+                await _embeddedLib.Load(path);
+                if (_embeddedLib.ItemCount != mapAssets.gameItemsGO.Length) isCreateNew = true;
+            }
+
+            if (!isExist || isCreateNew)
+            {
                 for (int i = 0; i < mapAssets.gameItemsGO.Length; i++)
                 {
                     string modelName = Path.GetFileNameWithoutExtension( mapAssets.gameItemsGO[i].ResourcePath );
