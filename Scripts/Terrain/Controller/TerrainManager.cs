@@ -58,6 +58,8 @@ public partial class TerrainManager : TerrainModel, IInjectable
 
     private float exponent = 2;
 
+    private Callable _onNavMeshChangedCb;
+
     void IInjectable.OnDependenciesInjected()
     {
 
@@ -69,6 +71,8 @@ public partial class TerrainManager : TerrainModel, IInjectable
 
         base._Ready();
         _ = SubscribeEvent();
+
+        _onNavMeshChangedCb = new Callable(this, nameof(OnNavMeshChanged));
     }
 
 	public int size 
@@ -156,6 +160,16 @@ public partial class TerrainManager : TerrainModel, IInjectable
         GD.Print($"The baking of the NavMesh {navMesh} has begun...");
     }
 
+    public void OnNavMeshChanged()
+    {
+        if (_bakeProcess)
+        {
+
+            OnTerrainNavMeshBacked();
+            _bakeProcess = false;
+        }
+    }
+
     bool _bakeProcess = false;
     public void BakeNavMesh()
     {
@@ -172,15 +186,16 @@ public partial class TerrainManager : TerrainModel, IInjectable
 
         OnTerrainNavMeshBakeStated();
 
-        VoxLib.mapManager.navigationRegion3D.NavigationMeshChanged += () =>
+        var region = VoxLib.mapManager.navigationRegion3D;
+
+        if (!region.IsConnected(
+                NavigationRegion3D.SignalName.NavigationMeshChanged,
+                _onNavMeshChangedCb))
         {
-            if (_bakeProcess)
-            {
-                
-                OnTerrainNavMeshBacked();
-                _bakeProcess = false;
-            }
-        };
+            region.Connect(
+                NavigationRegion3D.SignalName.NavigationMeshChanged,
+                _onNavMeshChangedCb);
+        }
 
         //for (int i = 0; i < VoxLib.mapManager.gameItems.Count; i++)
         //{

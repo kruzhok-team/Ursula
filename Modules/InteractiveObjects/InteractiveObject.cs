@@ -37,6 +37,7 @@ public partial class InteractiveObject : Node
     public HSMTimerModule hsmTimerModule;
     public HSMCounterOneModule hsmCounterOneModule;
     public HSMCounterTwoModule hsmCounterTwoModule;
+    public HSMWorldInteractingModule hsmWorldInteractingModule;
 
     HSMLogger _logger;
 
@@ -72,6 +73,7 @@ public partial class InteractiveObject : Node
         hsmTimerModule = new HSMTimerModule(hsmLogic, this);
         hsmCounterOneModule = new HSMCounterOneModule(hsmLogic, this);
         hsmCounterTwoModule = new HSMCounterTwoModule(hsmLogic, this);
+        hsmWorldInteractingModule = new HSMWorldInteractingModule(hsmLogic, this);
     }
 
     public void ReloadAlgorithm()
