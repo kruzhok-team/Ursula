@@ -27,8 +27,9 @@ emission_energy_multiplier = 10.0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_mw86r"]
 material = SubResource("StandardMaterial3D_srchu")
-top_radius = 0.1
+top_radius = 0.01
 bottom_radius = 0.0
+height = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vroeo"]
 size = Vector3(0.585449, 0.746826, 0.632568)
@@ -36,10 +37,10 @@ size = Vector3(0.585449, 0.746826, 0.632568)
 [node name="Sparks" type="Node3D"]
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-amount = 24
-lifetime = 0.5
-speed_scale = 2.0
+amount = 36
+lifetime = 0.2
 fixed_fps = 60
+trail_lifetime = 0.1
 process_material = SubResource("ParticleProcessMaterial_7cpgd")
 draw_pass_1 = SubResource("CylinderMesh_mw86r")
 
