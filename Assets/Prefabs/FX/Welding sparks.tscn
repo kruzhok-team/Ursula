@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://w0s75hsei1wf"]
+
+[ext_resource type="Material" uid="uid://cp1dtkuup32kk" path="res://addons/Ursula/Assets/Prefabs/CheckPoint/CheckPoint_mat.tres" id="1_ddw31"]
+
+[sub_resource type="Curve" id="Curve_uwxi1"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.728813, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -8.8045, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mrodq"]
+curve = SubResource("Curve_uwxi1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7cpgd"]
+particle_flag_align_y = true
+spread = 180.0
+initial_velocity_min = 12.0
+initial_velocity_max = 14.0
+scale_min = 0.5
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_mrodq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_srchu"]
+albedo_color = Color(0.992157, 0.403922, 0, 1)
+emission_enabled = true
+emission = Color(0.992157, 0.403922, 0, 1)
+emission_energy_multiplier = 10.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mw86r"]
+material = SubResource("StandardMaterial3D_srchu")
+top_radius = 0.1
+bottom_radius = 0.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g5m3x"]
+size = Vector3(1, 2.09402, 1)
+
+[node name="Sparks" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+amount = 24
+lifetime = 0.5
+speed_scale = 2.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_7cpgd")
+draw_pass_1 = SubResource("CylinderMesh_mw86r")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02431, 0)
+shape = SubResource("BoxShape3D_g5m3x")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="StaticBody3D/CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0356303, 0)
+visible = false
+material = ExtResource("1_ddw31")
