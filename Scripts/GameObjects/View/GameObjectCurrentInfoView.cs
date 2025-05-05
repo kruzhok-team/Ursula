@@ -339,6 +339,8 @@ namespace Ursula.GameObjects.View
 
         private void TextEditSampleObject_TextChangedEventHandler()
         {
+            TextEditSampleObject.ReleaseFocus();
+
             if (!isAssetDataChanged)
             {
                 return;
@@ -348,9 +350,7 @@ namespace Ursula.GameObjects.View
 
             _gameObjectAddGameObjectAssetModel.SetGameObjectSample(TextEditSampleObject.Text);
             _gameObjectAddGameObjectAssetModel.SetCurrentAssetToCollection();
-
-            TextEditSampleObject.ReleaseFocus();
-
+          
             RepaintSelectedAsset();
         }
 
