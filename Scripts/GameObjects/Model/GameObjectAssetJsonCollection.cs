@@ -171,7 +171,14 @@ namespace Ursula.GameObjects.Model
             };
 
             string json = JsonSerializer.Serialize(_infoMap, options);
-            File.WriteAllText(ProjectSettings.GlobalizePath(_jsonFilePath), json);
+            try
+            {
+                File.WriteAllText(ProjectSettings.GlobalizePath(_jsonFilePath), json);
+            }
+            catch
+            {
+
+            }
         }
 
         private bool CheckLoaded()
