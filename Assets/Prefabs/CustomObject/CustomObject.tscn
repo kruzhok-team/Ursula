@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://irdy25ggjy7h"]
+[gd_scene load_steps=8 format=3 uid="uid://irdy25ggjy7h"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/MoveScript.cs" id="1_kfc3d"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="1_td44l"]
@@ -13,18 +13,11 @@ height = 2.55869
 radius = 1.21736
 height = 2.85116
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ej84r"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m8ela"]
-height = 1.83733
-
 [node name="CustomObject" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43002, 0)
 collision_layer = 3
 script = ExtResource("1_kfc3d")
 
 [node name="CustomObjectScript" parent="." node_paths=PackedStringArray("Indicator") instance=ExtResource("2_sd66u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.422544, 0)
 Indicator = NodePath("../CSGCylinder3D")
 
 [node name="InteractiveObject" type="Node" parent="."]
@@ -33,14 +26,14 @@ script = ExtResource("2_il3s1")
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.870224, 0.0490571)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.316, 0.049)
 shape = SubResource("CapsuleShape3D_asd6c")
 
 [node name="ItemPropsScript" type="Node3D" parent="."]
 script = ExtResource("1_td44l")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.867505, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.31594, 0)
 height = 2.60652
 material = ExtResource("2_2dy8s")
 
@@ -52,15 +45,5 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0101013, -0.0420668, 0.0450207)
 shape = SubResource("CapsuleShape3D_qpoly")
-
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
-visible = false
-mass = 10.0
-physics_material_override = SubResource("PhysicsMaterial_ej84r")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.918446, 0)
-visible = false
-shape = SubResource("CapsuleShape3D_m8ela")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_Player_body_entered"]

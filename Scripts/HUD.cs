@@ -1,7 +1,15 @@
-﻿using Godot;
+﻿using Fractural.Tasks;
+using Godot;
+using Ursula.Core.DI;
+using Ursula.Environment.Settings;
+using Ursula.GameObjects.Model;
+using Ursula.GameObjects.View;
+using System.Threading.Tasks;
 using System;
+using Ursula.EmbeddedGames.Model;
 
-public partial class HUD : Control
+
+public partial class HUD : Control, IInjectable
 {
     [Export]
     public Label _labelFile;
@@ -13,54 +21,55 @@ public partial class HUD : Control
     public Label _labelCoordinates;
 
     [Export]
-    public Control SettingsGO;
-
-    [Export]
-    public Slider SliderMouseSence;
-    public float sensitivity = 0.5f;
-
-    [Export]
-    public OptionButton optionButtonShadow;
-    int shadowEnabled = 0;
-
-    [Export]
-    public Label labelLengthOfDay;
-
-    [Export]
-    public Slider SliderLengthOfDay;
-
-    [Export]
-    public Control ControlProjectGO;
-
-    [Export]
-    public Control ControlGamesProjectGO;
-
-    [Export]
     public CheckButton[] CheckButtonAlgoritm;
 
     [Export]
-    public Slider SliderPlatoSize;
+    public Button ButtonOpenGameProjectView;
 
-    [Export]
-    public Slider SliderPlatoOffsetX;
+    [Inject]
+    private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
 
-    [Export]
-    public Slider SliderPlatoOffsetZ;
+    [Inject]
+    private ISingletonProvider<HUDViewModel> _hudModelProvider;
+
+    [Inject]
+    private ISingletonProvider<GameObjectAddGameObjectAssetModel> _gameObjectAddUserSourceViewProvider;
+
+    [Inject]
+    private ISingletonProvider<GameObjectCurrentInfoModel> _GameObjectCurrentInfoModelProvider;
+
+    [Inject]
+    private ISingletonProvider<ControlEmbeddedGamesProjectViewModel> _controlEmbeddedGamesProjectViewModelProvider;
+
+    private GameObjectCurrentInfoModel gameObjectCurrentInfoModel;
+
+    private Vector3 coord;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
 
     public override void _Ready()
     {
         base._Ready();
-        VoxLib.hud = this;
-        sensitivity = LoadSensitivity();
-        SliderMouseSence.Value = sensitivity;
-        SettingsGO.Visible = false;
 
-        shadowEnabled = LoadShadowEnabled();
-        optionButtonShadow.Selected = shadowEnabled;
-        SetShadow();
+        VoxLib.hud = this;
+
+        _ = SubscribeEvent();
     }
 
-    Vector3 coord;
+    private async GDTask SubscribeEvent()
+    {
+        gameObjectCurrentInfoModel = await _GameObjectCurrentInfoModelProvider.GetAsync();
+
+        ButtonOpenGameProjectView.ButtonDown += ButtonOpenGameProjectView_ButtonDownEvent;
+    }
+
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+    }
+
     public void SetCoordinate(Vector3 coord)
     {
         if (this.coord != coord)
@@ -70,131 +79,29 @@ public partial class HUD : Control
         }
     }
 
-    public void SetInfo(string info)
+    public void _SetInfo(string info)
     {
         if (_labelCoordinates.Text != info)
             _labelCoordinates.Text = info;
     }
 
-    public void OnOpenSettings()
+    public void SetInfo(string info)
     {
-        ControlPopupMenu.HideAllMenu();
-        SettingsGO.Visible = true;
-        SliderLengthOfDay.Value = LoadLengthOfDay();
+        _SetInfo(info);
     }
 
-    public void OnCloseSettings()
+    public async void ShowCommonLibraryButton_DownEventHandler()
     {
-        SettingsGO.Visible = false;
+        ControlPopupMenu.instance._HideAllMenu();
+        var viewModel = _hudModelProvider != null ? await _hudModelProvider.GetAsync() : null;
+        viewModel?.SetGameObjectLibraryVisible(true);
     }
 
-    public void OnOpenControlProject()
+    public async void ShowAddUserSourceUiButton_DownEventHandler()
     {
-        ControlPopupMenu.HideAllMenu();
-        ControlProjectGO.Visible = true;
-    }
-
-    public void OnCloseControlProject()
-    {
-        ControlProjectGO.Visible = false;
-    }
-
-    public void OnOpenControlGameProject()
-    {
-        ControlPopupMenu.HideAllMenu();
-        ControlGamesProjectGO.Visible = true;
-        VoxLib.instance.CGP.Instantiate();
-    }
-
-    public void OnCloseControlGameProject()
-    {
-        ControlGamesProjectGO.Visible = false;
-    }
-
-    public void SetSensitivity(float sence)
-    {
-        sensitivity = sence;
-        SaveSensitivity();
-    }
-
-    private void SaveSensitivity()
-    {
-        ConfigFile config = new ConfigFile();
-        config.Load(VoxLib.SETTINGPATH);
-        config.SetValue("Settings", "MouseSence", sensitivity);
-        config.Save(VoxLib.SETTINGPATH);
-    }
-
-    private float LoadSensitivity()
-    {
-        ConfigFile config = new ConfigFile();
-        Error err = config.Load(VoxLib.SETTINGPATH);
-        if (err == Error.Ok)
-        {
-            return (float)config.GetValue("Settings", "MouseSence", 0.5f);
-        }
-        return 0.5f;
-    }
-
-    public void SaveLengthOfDay(float value)
-    {
-        DayNightCycle.instance.FullDayLength = value;
-        SliderLengthOfDay.Value = value;
-        labelLengthOfDay.Text = $"Длительность суток: {value}c";
-    }
-
-    private float LoadLengthOfDay()
-    {
-        labelLengthOfDay.Text = $"Длительность суток: {DayNightCycle.instance.FullDayLength}c";
-        return DayNightCycle.instance.FullDayLength;
-    }
-
-    public void SetShadowEnabled(int value)
-    {
-        shadowEnabled = value;
-        SaveShadowEnabled();
-        SetShadow();
-    }
-
-    private void SetShadow()
-    {
-        var scene = GetTree().CurrentScene;
-        var directionalLight = FindDirectionalLight(scene);
-        directionalLight.ShadowEnabled = shadowEnabled > 0;
-    }
-
-    private DirectionalLight3D FindDirectionalLight(Node node)
-    {
-        if (node is DirectionalLight3D directionalLight)
-            return directionalLight;
-
-        foreach (Node child in node.GetChildren())
-        {
-            var light = FindDirectionalLight(child);
-            if (light != null)
-                return light;
-        }
-
-        return null;
-    }
-
-    private void SaveShadowEnabled()
-    {
-        ConfigFile config = new ConfigFile();
-        config.Load(VoxLib.SETTINGPATH);
-        config.SetValue("Settings", "ShadowEnabled", shadowEnabled);
-        config.Save(VoxLib.SETTINGPATH);
-    }
-
-    private int LoadShadowEnabled()
-    {
-        ConfigFile config = new ConfigFile();
-        Error err = config.Load(VoxLib.SETTINGPATH);
-        if (err == Error.Ok)
-        {
-            return (int)config.GetValue("Settings", "ShadowEnabled", 0);
-        }
-        return 0;
+        ControlPopupMenu.instance._HideAllMenu();
+        var model = _gameObjectAddUserSourceViewProvider != null ? await _gameObjectAddUserSourceViewProvider.GetAsync() : null;
+        model?.SetGameObjectAddGameObjectAssetVisible(true);
     }
 
     public static void ItemProcessing(Node collider, Vector3 raycastPos, out ItemPropsScript itemPropS, out Node parent)
@@ -217,7 +124,7 @@ public partial class HUD : Control
                 parent = ips.GetParent();
             }
         }
-    }    
+    }
 
     public static string GetCordsInfo(Node collider, Vector3 raycastPos, ItemPropsScript itemPropS, Node parent)
     {
@@ -226,7 +133,7 @@ public partial class HUD : Control
         if (itemPropS != null)
         {
             name = (parent != null) ? parent.Name : collider.Name;
-            info = $"Имя={name}, Координаты: x={(int)itemPropS.x} y={(int)itemPropS.z} z={(int)itemPropS.y}";
+            info = $"Имя={name}, Координаты: x={(int)itemPropS.x} y={(int)itemPropS.z} z={(int)itemPropS.y}, Шаблон={itemPropS.GameObjectSample}";
         }
         else
         {
@@ -285,8 +192,37 @@ public partial class HUD : Control
         VoxLib.mapManager.OpenGameImage();
     }
 
+    public void OnOpenGameVideo()
+    {
+        VoxLib.mapManager.OpenGameVideo();
+    }
+
     public void SetNameMap(string nameMap)
     {
         _labelFile.Text = "Игра: " + nameMap;
+    }
+
+    public void OnOpenPanelLoadObject()
+    {
+        ControlPopupMenu.instance._HideAllMenu();
+        ObjectsCatalog.instance.OnOpenPanelLoadObject();
+    }
+
+    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist = false)
+    {
+        model = null;
+
+        if (!(_settingsModelProvider?.TryGet(out model) ?? false))
+        {
+            if (errorIfNotExist)
+                GD.PrintErr($"{typeof(HUD).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
+        }
+        return model != null;
+    }
+
+    private async void ButtonOpenGameProjectView_ButtonDownEvent()
+    {
+        ControlEmbeddedGamesProjectViewModel _controlEmbeddedGamesProjectViewModel = await _controlEmbeddedGamesProjectViewModelProvider.GetAsync();
+        _controlEmbeddedGamesProjectViewModel.SetVisibleView(true);
     }
 }

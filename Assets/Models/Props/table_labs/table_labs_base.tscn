@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://4pooywip5cbc"]
+
+[ext_resource type="PackedScene" uid="uid://cytdt3auc7fub" path="res://addons/Ursula/Assets/Models/Props/table_labs/table_labs.fbx" id="1_mutbs"]
+[ext_resource type="Material" uid="uid://dcicrvhtdiscx" path="res://addons/Ursula/Assets/Models/Props/table_labs/table_labs_mat.tres" id="2_5pog8"]
+
+[node name="table_labs" instance=ExtResource("1_mutbs")]
+
+[node name="table_labs_001" parent="." index="0"]
+material_override = ExtResource("2_5pog8")
+
+[node name="table_labs" parent="." index="1"]
+material_override = ExtResource("2_5pog8")
+
+[node name="table_labs_002" parent="." index="2"]
+material_override = ExtResource("2_5pog8")

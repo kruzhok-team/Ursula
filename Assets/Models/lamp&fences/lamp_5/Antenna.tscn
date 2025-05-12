@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/MoveScript.cs" id="1_p4pum"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="2_oeqt1"]
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="3_gxe8y"]
-[ext_resource type="Texture2D" uid="uid://dmbecj3utf2wx" path="res://addons/Ursula/Assets/Models/lamp&fences/lamp_5/lamp_5_tex.png" id="4_squ4b"]
+[ext_resource type="Texture2D" uid="uid://b5j5mju1jby00" path="res://addons/Ursula/Assets/Models/lamp&fences/lamp_5/lamp_5_tex.png" id="4_squ4b"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y8yyw"]
 radius = 0.40271

@@ -1,15 +1,18 @@
-﻿using Godot;
+﻿using Fractural.Tasks;
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Ursula.Core.DI;
+using Ursula.Log.Model;
+using Ursula.Log.View;
+using Ursula.StartupMenu.Model;
 
 
-public partial class LogScript : Node
+public partial class LogScript : LogModel, IInjectable
 {
-    static int LINECOUNT = 20;
-
     [Export]
     public Control LogControl;
 
@@ -17,96 +20,108 @@ public partial class LogScript : Node
     public FileDialog fileDialog;
 
     [Export]
-    public Label messageLabel;
-    private string logTXT;
-
-    [Export]
     public TextEdit filterText;
 
     [Export]
     public OptionButton optionFilterButton;
-    private string optionFilter;
 
     [Export]
     public MenuButton FilterMenuButton;
-    System.Collections.Generic.Dictionary<int, bool> FilterItems = new System.Collections.Generic.Dictionary<int, bool>();
 
-    public bool isVisibleLog = true;
+    [Export]
+    private Button PauseButton;
 
-    private List<int> selectedItems = new List<int>();
-    PopupMenu popupMenu;
+    [Export]
+    PackedScene LogItemViewPrefab;
+
+    [Export]
+    private VBoxContainer VBoxContainerLogItemViews;
+
+    [Inject]
+    private ISingletonProvider<LogModel> _LogModelProvider;
 
     public static bool isLogEntered = false;
 
+    private string optionFilter;
+    private List<int> selectedItems = new List<int>();
+    private PopupMenu popupMenu;
+
+    private List<LogItemView> _cachedLogItemsView = new List<LogItemView>();
+
+    private string currentFile = "";
+
+    private LogModel _logModel { get; set; }
+
+    private List<string> filteredLogTXT = new List<string>();
+
+    private float accumulator = 0f;
+
+    private bool isPaused = false;
+    private bool isUpdatedLog = false;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
+
     public override void _Ready()
     {
+        base._Ready();
         Init();
+        _ = SubscribeEvent();
+    }
+
+    private async GDTask SubscribeEvent()
+    {
+        _logModel = await _LogModelProvider.GetAsync();
+        _logModel.ViewVisible_EventHandler += LogModel_ViewVisible_EventHandler;
+        _logModel.SetMessage_EventHandler += LogModel_SetMessage_EventHandler;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+
+        if (isPaused) return;
+
+        accumulator += (float)delta;
+
+        if (accumulator >= 0.3f)
+        {
+            accumulator = 0f;
+
+            _= SetFilterText();
+        }
     }
 
     private void Init()
     {
         VoxLib.log = this;
 
-        messageLabel.Visible = false;
-        messageLabel.Text = "";
+        VoxLib.RemoveAllChildren(VBoxContainerLogItemViews);
+
+        filteredLogTXT = new List<string>();
 
         popupMenu = optionFilterButton.GetPopup();
-
-        //optionFilterButton.Clear();
-        //optionFilterButton.AddItem("Нет фильтров");
-        //optionFilterButton.AddItem("ИгрокОбнаружен");
 
         popupMenu = FilterMenuButton.GetPopup();
         popupMenu.Connect("id_pressed", new Callable(this, nameof(ChangeFilter)));
         selectedItems.Add(0);
+
+        PauseButton.ButtonDown += PauseButton_ButtonDownEvent;
     }
 
     public void ClearLog()
     {
-        messageLabel.Text = "";
-        logTXT = "";
+        SetClearLogs();
+        VoxLib.RemoveAllChildren(VBoxContainerLogItemViews);
     }
 
     public override void _Input(InputEvent @event)
     {
         if ((Input.IsKeyPressed(Key.Asciitilde) || Input.IsKeyPressed(Key.Quoteleft)) && @event.IsPressed())
         {
-            isVisibleLog = !isVisibleLog;
-            LogControl.Visible = isVisibleLog;
+             _logModel?.SetVisibleView(!_logModel.isVisibleLog);
         }
-
-        //foreach (Key key in Enum.GetValues(typeof(Key)))
-        //{
-        //    if (Input.IsKeyPressed(key))
-        //    {
-        //        GD.Print("Key pressed: " + key.ToString());
-        //    }
-        //}
-    }
-
-    public void HideLog()
-    {
-        isVisibleLog = false;
-        LogControl.Visible = isVisibleLog;
-    }
-
-    public void ShowMessage(string message)
-    {
-        messageLabel.Visible = true;
-        messageLabel.Text += message + "\n";
-        logTXT += message + "\n";
-
-        //if (messageLabel.GetLineCount() > LINECOUNT)
-        //{
-        //    int newLinePosition = messageLabel.Text.IndexOf("\n");
-        //    if (newLinePosition != -1)
-        //    {
-        //        string currentText = messageLabel.Text.Substring(newLinePosition + 1);
-        //        messageLabel.Text = currentText;
-        //    }
-        //}
-
-        SetFilterText();
     }
 
     public void ChangeFilter(int value)
@@ -138,32 +153,97 @@ public partial class LogScript : Node
             popupMenu.SetItemChecked(i, isChecked);
         }
 
-        SetFilterText();
+        _= SetFilterText();
     }
 
-    void ResetFilter()
+    public async GDTask SetFilterText()
     {
-        for (int i = 0; i < popupMenu.ItemCount; i++)
+        if (isPaused) return;
+        if (!isUpdatedLog) return;
+
+        await GetFilterLog();
+
+        if (filteredLogTXT == null) return;
+
+        if (_logModel.isVisibleLog)
         {
-            popupMenu.SetItemChecked(i, false);
+            VoxLib.RemoveAllChildren(VBoxContainerLogItemViews);
+            SetItemsLog(filteredLogTXT);
         }
-        popupMenu.SetItemChecked(0, true);
+
+        isUpdatedLog = false;
     }
 
-    public void SetFilterText()
+    public void OnSelectFilterMenuButton()
     {
-        messageLabel.Text = GetFilterLog();
+
     }
 
-    private string GetFilterLog()
+    public void SaveLog()
+    {
+        fileDialog.Filters = new string[] { "*.csv ; csv" };
+
+        fileDialog.CurrentFile = currentFile;
+
+        VoxLib.mapManager.lastDirectory = VoxLib.mapManager.LoadLastDirectory;
+
+        if (!string.IsNullOrEmpty(VoxLib.mapManager.lastDirectory))
+        {
+            fileDialog.CurrentDir = VoxLib.mapManager.lastDirectory;
+        }
+
+        if (!fileDialog.IsConnected("file_selected", new Callable(this, nameof(SaveToFile))))
+        {
+            fileDialog.Connect("file_selected", new Callable(this, nameof(SaveToFile)));
+        }
+
+        fileDialog.Show();
+    }
+
+    public void LogEntered()
+    {
+        isLogEntered = true;
+    }
+
+    public void LogExited()
+    {
+        isLogEntered = false;
+        filterText.ReleaseFocus();
+    }
+
+    public bool isDialogOpen
+    {
+        get
+        {
+            return fileDialog.Visible;
+        }
+    }
+
+
+
+
+
+
+    private async GDTask GetFilterLog()
     {
         string log = "";
         int count = 0;
 
-        if (string.IsNullOrEmpty(logTXT)) return "";
+        if (_logModel == null) _logModel = await _LogModelProvider.GetAsync();
+
+        if (_logModel == null)
+        {
+            GD.PrintErr($"{typeof(LogScript).Name}: {typeof(LogModel).Name} is not instantiated!");
+            return;
+        }
+
+        string logTXT = _logModel?.GetLogs();
+
+        filteredLogTXT = new List<string>();
 
         using (StringReader reader = new StringReader(logTXT))
         {
+            int id = 0;
             foreach (string line in logTXT.Split('\n').Reverse())
             {
                 bool isAdd = false;
@@ -182,76 +262,41 @@ public partial class LogScript : Node
                 {
                     if (line.Contains(filterText.Text)) isAdd = true;
                 }
+                id++;
 
                 if (isAdd)
                 {
                     log += line + "\n";
                     count++;
-                    if (count > LINECOUNT) break;
+
+                    filteredLogTXT.Add(line);
+
+                    if (count > LOG_LINE_COUNT_VISIBLE) break;
                 }
-
-                //if (line.Contains(filterText.Text))
-                //{
-                //    if (optionFilterButton.Selected > 0)
-                //    {
-                //        if (line.Contains(optionFilter))
-                //        {
-                //            log += line + "\n";
-                //            count++;
-                //            if (count > LINECOUNT) break;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        log += line + "\n";
-                //        count++;
-                //        if (count > LINECOUNT) break;
-                //    }
-                //}
-
-
             }
         }
-
-        string log2 = "";
-        foreach (string line in log.Split('\n').Reverse())
-        {
-            log2 += line + "\n";
-        }
-
-        return log2;
     }
 
-    public void OnSelectFilterMenuButton()
+
+    private void ResetFilter()
     {
-
-    }
-
-    string currentFile = "";
-    public void SaveLog()
-    {
-        fileDialog.Filters = new string[] { "*.csv ; csv" };
-
-        fileDialog.CurrentFile = currentFile;
-
-        VoxLib.mapManager.lastDirectory = VoxLib.mapManager.LoadLastDirectory();
-
-        if (!string.IsNullOrEmpty(VoxLib.mapManager.lastDirectory))
+        for (int i = 0; i < popupMenu.ItemCount; i++)
         {
-            fileDialog.CurrentDir = VoxLib.mapManager.lastDirectory;
+            popupMenu.SetItemChecked(i, false);
         }
-
-        if (!fileDialog.IsConnected("file_selected", new Callable(this, nameof(SaveToFile))))
-        {
-            fileDialog.Connect("file_selected", new Callable(this, nameof(SaveToFile)));
-        }
-
-        fileDialog.Show();
+        popupMenu.SetItemChecked(0, true);
     }
 
     private void SaveToFile(string file)
     {
+        if (_logModel == null)
+        {
+            GD.PrintErr($"{typeof(LogScript).Name}: {typeof(LogModel).Name} is not instantiated!");
+            return;
+        }
+
         string savePath = file;
+        string logTXT = _logModel?.GetLogs();
 
         using (StreamWriter writer = new StreamWriter(savePath, false, Encoding.UTF8))
         {
@@ -264,23 +309,46 @@ public partial class LogScript : Node
         GD.Print("Log saved to: " + savePath);
     }
 
-    public void LogEntered()
+    private void SetItemsLog(List<string> logs)
     {
-        isLogEntered = true;
-    }
-
-    public void LogExited()
-    {
-        isLogEntered = false;
-        //filterText.DeselectOnFocusLossEnabled = true;
-        filterText.ReleaseFocus();
-    }
-
-    public bool isDialogOpen
-    {
-        get
+        for (int i = 0; i < logs.Count; i++)
         {
-            return fileDialog.Visible;
+            DrawItem(logs[i]);
         }
     }
+
+    private void DrawItem(string logText, int type = 0)
+    {
+        if (string.IsNullOrEmpty(logText)) return;
+
+        Node instance = LogItemViewPrefab.Instantiate();
+        LogItemView item = instance as LogItemView;
+
+        if (item == null)
+            return;
+
+        item.SetTextLog(logText, type);
+
+        VBoxContainerLogItemViews.AddChild(instance);
+    }
+
+    private void PauseButton_ButtonDownEvent()
+    {
+        isPaused = !isPaused;
+    }
+
+
+
+    private void LogModel_ViewVisible_EventHandler(object sender, EventArgs e)
+    {
+        if (_logModel == null) return;
+        LogControl.Visible = _logModel.isVisibleLog;
+    }
+
+    private void LogModel_SetMessage_EventHandler(object sender, EventArgs e)
+    {
+        isUpdatedLog = true;
+    }
+
+
 }

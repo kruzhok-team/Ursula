@@ -7,7 +7,7 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ymlvs"]
 radius = 0.47427
-height = 2.00477
+height = 1.53383
 
 [node name="Cow" type="CharacterBody3D" node_paths=PackedStringArray("raycastForward")]
 collision_layer = 3
@@ -29,7 +29,7 @@ avoidance_enabled = true
 height = 1.5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.0103147, -0.999947, 0, 0.999947, 0.0103147, -0.00439453, 0.765369, 0.168538)
+transform = Transform3D(1, 0, 0, 0, 0.0103147, -0.999947, 0, 0.999947, 0.0103147, -0.00439453, 0.476484, -0.0413417)
 shape = SubResource("CapsuleShape3D_ymlvs")
 
 [node name="ItemPropsScript" type="Node3D" parent="."]

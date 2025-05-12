@@ -1,0 +1,8 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://ccj7ltfpijtug"]
+
+[ext_resource type="Texture2D" uid="uid://c64du01um6c2u" path="res://addons/Ursula/Assets/Themes/Rectangle 3.png" id="1_5t43l"]
+
+[resource]
+content_margin_left = 5.0
+content_margin_right = 5.0
+texture = ExtResource("1_5t43l")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bgu0mtktuicwe"]
 
-[ext_resource type="PackedScene" uid="uid://b65mxw7c8wpn4" path="res://addons/Ursula/Assets/Models/Trees/palm_1/palm_ver1.fbx" id="1_et8l8"]
+[ext_resource type="PackedScene" uid="uid://c1be7fp14tx3d" path="res://addons/Ursula/Assets/Models/Trees/palm_1/palm_ver1.fbx" id="1_et8l8"]
 [ext_resource type="Material" uid="uid://ffor11uxlqno" path="res://addons/Ursula/Assets/Models/Trees/palm_1/palm_ver1_mat.tres" id="2_v7j0j"]
 
 [node name="palm_ver1" instance=ExtResource("1_et8l8")]

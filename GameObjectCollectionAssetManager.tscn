@@ -1,0 +1,1065 @@
+[gd_scene load_steps=20 format=3 uid="uid://bg82i3b78gwtp"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAddGameObjectAssetView.cs" id="1_a4tr8"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAddGameObjectAssetUiView.cs" id="2_aaucf"]
+[ext_resource type="PackedScene" uid="uid://dpwcf74rci8i6" path="res://addons/Ursula/Prefabs/GameObjects/ItemLibraryObjectDataPrefab.tscn" id="3_lkxva"]
+[ext_resource type="StyleBox" uid="uid://bwkxycn6p1ew0" path="res://addons/Ursula/Assets/Themes/Panel.tres" id="4_6416e"]
+[ext_resource type="StyleBox" uid="uid://dyq85c5w0hltk" path="res://addons/Ursula/Assets/Themes/Line.tres" id="5_k0o5n"]
+[ext_resource type="Texture2D" uid="uid://bqggx5f00mjv7" path="res://addons/Ursula/Assets/Themes/Close.png" id="6_mm6t3"]
+[ext_resource type="StyleBox" uid="uid://dqqcv0g4ml2fl" path="res://addons/Ursula/Assets/Themes/TextEdit.tres" id="7_85tg5"]
+[ext_resource type="StyleBox" uid="uid://c06y7nq7pqiyd" path="res://addons/Ursula/Assets/Themes/ButtonStandart.tres" id="8_g5135"]
+[ext_resource type="Texture2D" uid="uid://bwo403sj6hxpr" path="res://addons/Ursula/Assets/Themes/Vector.png" id="9_4k5qj"]
+[ext_resource type="Theme" uid="uid://dyddtywft2yrs" path="res://addons/Ursula/Assets/Themes/Controls.tres" id="10_x13mv"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/GameObjectCurrentInfoManager.cs" id="11_ieysk"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/GameObjectCurrentInfoController.cs" id="12_681k2"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectCurrentInfoView.cs" id="13_ey2ml"]
+[ext_resource type="Texture2D" uid="uid://beq5ixkukoaw7" path="res://addons/Ursula/Assets/Themes/Settings.png" id="14_8bx1w"]
+[ext_resource type="Texture2D" uid="uid://dhyxuelsulwq8" path="res://addons/Ursula/Assets/Themes/Vector (1).png" id="15_c0sdo"]
+[ext_resource type="StyleBox" uid="uid://dh4pdqyswum5a" path="res://addons/Ursula/Assets/Themes/ButtonBlue.tres" id="16_t6u2g"]
+[ext_resource type="Texture2D" uid="uid://mn7avqdknfbk" path="res://addons/Ursula/Assets/Themes/File.png" id="17_78xvn"]
+[ext_resource type="Texture2D" uid="uid://cebdvfgfisby7" path="res://addons/Ursula/Assets/Themes/Alg.png" id="18_jpbh3"]
+[ext_resource type="Texture2D" uid="uid://l6c5qctwgj70" path="res://addons/Ursula/Assets/Themes/WhiteArrowUp.png" id="19_o5i0r"]
+
+[node name="GameObjectCollectionAssetManager" type="Node"]
+
+[node name="GameObjectAddGameObjectAssetView" type="Node" parent="." node_paths=PackedStringArray("gameObjectAddUserSourceUI")]
+script = ExtResource("1_a4tr8")
+gameObjectAddUserSourceUI = NodePath("GameObjectAddGameObjectAssetUiView")
+
+[node name="GameObjectAddGameObjectAssetUiView" type="Control" parent="GameObjectAddGameObjectAssetView" node_paths=PackedStringArray("LabelTittle", "ButtonOpen3DModel", "TextEditModelName", "TextEditPath3DModel", "OptionButtonGroupObject", "OptionButtonClassObject", "TextEditSampleObject", "ButtonOpenPathSound", "TextEditPathSound", "VBoxContainerSound", "ButtonOpenPathAnimation", "TextEditPathAnimation", "VBoxContainerAnimation", "ButtonSaveEditModel", "ButtonRemoveModel", "ButtonAddUserSource", "ButtonClose", "TextEditGraphXmlPath", "ButtonOpenGraphXmlPath", "ButtonOpenPreviewPath", "TextureRectPreviewImage")]
+visible = false
+top_level = true
+z_index = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_aaucf")
+LabelTittle = NodePath("Panel/Label")
+ButtonOpen3DModel = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel/ButtonOpen3DModel")
+TextEditModelName = NodePath("Panel/ScrollContainer/VBoxContainer/TextEditModelName")
+TextEditPath3DModel = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel/TextEditPath3DModel")
+OptionButtonGroupObject = NodePath("Panel/ScrollContainer/VBoxContainer/OptionButtonGroupObject")
+OptionButtonClassObject = NodePath("Panel/ScrollContainer/VBoxContainer/OptionButtonClassObject")
+TextEditSampleObject = NodePath("Panel/ScrollContainer/VBoxContainer/TextEditSampleObject")
+ButtonOpenPathSound = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPathSound/ButtonOpenPathSound")
+TextEditPathSound = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPathSound/TextEditPathSound")
+VBoxContainerSound = NodePath("Panel/ScrollContainer/VBoxContainer/VBoxContainerSound")
+ItemLibraryObjectPrefab = ExtResource("3_lkxva")
+ButtonOpenPathAnimation = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPathAnimation/ButtonOpenPathAnimation")
+TextEditPathAnimation = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPathAnimation/TextEditPathAnimation")
+VBoxContainerAnimation = NodePath("Panel/ScrollContainer/VBoxContainer/VBoxContainerAnimation")
+ButtonSaveEditModel = NodePath("Panel/ButtonSaveEditModel")
+ButtonRemoveModel = NodePath("Panel/ButtonRemoveModel")
+ButtonAddUserSource = NodePath("Panel/ButtonLoadModel")
+ButtonClose = NodePath("Panel/ButtonClose")
+TextEditGraphXmlPath = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXmlPath/TextEditGraphXmlPath")
+ButtonOpenGraphXmlPath = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXmlPath/ButtonOpenGraphXmlPath")
+ButtonOpenPreviewPath = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/ButtonOpenPreview")
+TextureRectPreviewImage = NodePath("Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/TextureRectPreview")
+
+[node name="bg" type="Panel" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -194.0
+offset_top = 45.0
+offset_right = 196.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_6416e")
+
+[node name="Panel" type="Panel" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 2.0
+offset_top = 29.0
+offset_bottom = 33.0
+grow_horizontal = 2
+theme_override_styles/panel = ExtResource("5_k0o5n")
+
+[node name="Label" type="Label" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 1
+offset_left = 12.0
+offset_right = 189.0
+offset_bottom = 30.0
+text = "Загрузить объект"
+vertical_alignment = 1
+uppercase = true
+
+[node name="ButtonClose" type="Button" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -32.0
+offset_top = 1.0
+offset_bottom = 33.0
+grow_horizontal = 0
+focus_mode = 1
+flat = true
+icon_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ButtonClose"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -25.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = 25.0
+grow_horizontal = 0
+texture = ExtResource("6_mm6t3")
+expand_mode = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 33.0
+offset_right = -8.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer"]
+custom_minimum_size = Vector2(360.685, 87.37)
+layout_mode = 2
+
+[node name="LabelNameModel" type="Label" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Название модели"
+
+[node name="TextEditModelName" type="TextEdit" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+focus_mode = 1
+theme_override_styles/normal = ExtResource("7_85tg5")
+placeholder_text = "Введите название латиницей"
+
+[node name="LabelNameIcon" type="Label" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Иконка"
+
+[node name="ReferenceRectPreviewImage" type="ReferenceRect" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextureRectPreview" type="TextureRect" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -30.0
+offset_right = 63.0
+offset_bottom = 30.0
+grow_vertical = 2
+expand_mode = 1
+
+[node name="ButtonOpenPreview" type="Button" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -16.0
+offset_bottom = 16.0
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 0
+theme_override_styles/pressed = ExtResource("8_g5135")
+theme_override_styles/normal = ExtResource("8_g5135")
+text = "Загрузить"
+icon = ExtResource("9_4k5qj")
+
+[node name="Label3DModel" type="Label" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "3D модель"
+
+[node name="ReferenceRectPath3DModel" type="ReferenceRect" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextEditPath3DModel" type="TextEdit" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -18.5
+offset_right = 246.0
+offset_bottom = 19.5
+grow_vertical = 2
+theme_override_styles/normal = ExtResource("7_85tg5")
+placeholder_text = "Путь к 3D файлу... (*.obj ; *.glb)"
+editable = false
+
+[node name="ButtonOpen3DModel" type="Button" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -16.0
+offset_bottom = 16.0
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 0
+theme_override_styles/pressed = ExtResource("8_g5135")
+theme_override_styles/normal = ExtResource("8_g5135")
+text = "Загрузить"
+icon = ExtResource("9_4k5qj")
+
+[node name="LabelGroupObject" type="Label" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Группа объекта:"
+
+[node name="OptionButtonGroupObject" type="OptionButton" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = ExtResource("7_85tg5")
+autowrap_mode = 3
+clip_text = true
+
+[node name="LabelSampleObject" type="Label" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Шаблон объекта:"
+
+[node name="TextEditSampleObject" type="TextEdit" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+focus_mode = 1
+theme_override_styles/normal = ExtResource("7_85tg5")
+
+[node name="LabelClassObject" type="Label" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Класс объекта:"
+
+[node name="OptionButtonClassObject" type="OptionButton" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = ExtResource("7_85tg5")
+autowrap_mode = 3
+clip_text = true
+selected = 0
+item_count = 3
+popup/item_0/text = "Статика"
+popup/item_1/text = "Динамика"
+popup/item_1/id = 1
+popup/item_2/text = "Платформа"
+popup/item_2/id = 2
+
+[node name="LabelGraphXmlPath" type="Label" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Граф XML"
+
+[node name="ReferenceRectGraphXmlPath" type="ReferenceRect" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextEditGraphXmlPath" type="TextEdit" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXmlPath"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -18.5
+offset_right = 246.0
+offset_bottom = 19.5
+grow_vertical = 2
+theme_override_styles/normal = ExtResource("7_85tg5")
+placeholder_text = "Путь к файлу графа... (*.graphml)"
+editable = false
+
+[node name="ButtonOpenGraphXmlPath" type="Button" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectGraphXmlPath"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -17.5
+offset_bottom = 17.5
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 0
+theme_override_styles/pressed = ExtResource("8_g5135")
+theme_override_styles/normal = ExtResource("8_g5135")
+text = "Загрузить"
+icon = ExtResource("9_4k5qj")
+
+[node name="LabelSound" type="Label" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Звук:"
+
+[node name="ReferenceRectPathSound" type="ReferenceRect" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextEditPathSound" type="TextEdit" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPathSound"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -17.5
+offset_right = 246.0
+offset_bottom = 18.5
+grow_vertical = 2
+theme_override_styles/normal = ExtResource("7_85tg5")
+placeholder_text = "Путь к звуку... (*.mp3, *.ogg, *.aac)"
+editable = false
+
+[node name="ButtonOpenPathSound" type="Button" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPathSound"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -17.5
+offset_bottom = 17.5
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 0
+theme_override_styles/pressed = ExtResource("8_g5135")
+theme_override_styles/normal = ExtResource("8_g5135")
+text = "Загрузить"
+icon = ExtResource("9_4k5qj")
+
+[node name="VBoxContainerSound" type="VBoxContainer" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 25)
+layout_mode = 2
+
+[node name="ItemLibraryObjectDataPrefab" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/VBoxContainerSound" instance=ExtResource("3_lkxva")]
+layout_mode = 2
+
+[node name="ScrollContainerSound" type="ScrollContainer" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="LabelAnimation" type="Label" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Анимация:"
+
+[node name="ReferenceRectPathAnimation" type="ReferenceRect" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextEditPathAnimation" type="TextEdit" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPathAnimation"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -17.5
+offset_right = 244.0
+offset_bottom = 18.5
+grow_vertical = 2
+theme_override_styles/normal = ExtResource("7_85tg5")
+placeholder_text = "Путь к анимации... (.glb)"
+editable = false
+
+[node name="ButtonOpenPathAnimation" type="Button" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/ReferenceRectPathAnimation"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -17.5
+offset_bottom = 17.5
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 0
+theme_override_styles/pressed = ExtResource("8_g5135")
+theme_override_styles/normal = ExtResource("8_g5135")
+text = "Загрузить"
+icon = ExtResource("9_4k5qj")
+
+[node name="VBoxContainerAnimation" type="VBoxContainer" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 25)
+layout_mode = 2
+
+[node name="ItemLibraryObjectDataPrefab" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer/VBoxContainerAnimation" instance=ExtResource("3_lkxva")]
+layout_mode = 2
+
+[node name="ScrollContainerAnimation" type="ScrollContainer" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Panel2" type="Panel" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -50.0
+offset_bottom = -46.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = ExtResource("5_k0o5n")
+
+[node name="ButtonLoadModel" type="Button" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -135.0
+offset_top = -44.0
+offset_right = 136.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+theme = ExtResource("10_x13mv")
+text = "Загрузить"
+icon_alignment = 1
+
+[node name="ButtonSaveEditModel" type="Button" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -507.0
+offset_top = 524.0
+offset_right = -236.0
+offset_bottom = 564.0
+grow_horizontal = 0
+focus_mode = 0
+theme = ExtResource("10_x13mv")
+text = "Сохранить"
+icon_alignment = 1
+
+[node name="ButtonRemoveModel" type="Button" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/Panel"]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -102.0
+offset_top = 504.0
+offset_right = -6.0
+offset_bottom = 558.0
+grow_horizontal = 0
+focus_mode = 0
+text = "Удалить
+обект"
+icon_alignment = 1
+
+[node name="FileDialog" type="FileDialog" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView"]
+auto_translate_mode = 1
+title = "Open a File"
+initial_position = 3
+size = Vector2i(563, 380)
+current_screen = 0
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="Control" type="Control" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/FileDialog"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -273.5
+offset_top = -182.0
+offset_right = 273.5
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AccessCheckButton" type="CheckButton" parent="GameObjectAddGameObjectAssetView/GameObjectAddGameObjectAssetUiView/FileDialog/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -264.0
+offset_top = 34.78
+offset_bottom = 65.78
+grow_horizontal = 0
+size_flags_vertical = 8
+button_pressed = true
+text = "Проект/Файловая система"
+alignment = 2
+
+[node name="GameObjectCurrentInfoManager" type="Node" parent="."]
+script = ExtResource("11_ieysk")
+
+[node name="GameObjectCurrentInfoController" type="Node" parent="GameObjectCurrentInfoManager" node_paths=PackedStringArray("GameObjectCurrentInfoView")]
+script = ExtResource("12_681k2")
+GameObjectCurrentInfoView = NodePath("../GameObjectCurrentInfoView")
+
+[node name="GameObjectCurrentInfoView" type="Control" parent="GameObjectCurrentInfoManager" node_paths=PackedStringArray("PanelContainerInfo", "TextEditModelName", "TextEditPath3DModel", "ButtonOpenPath3DModel", "OptionButtonGroupObject", "TextEditSampleObject", "ButtonCopySampleObject", "VBoxContainerGraphXmlPath", "TextureRectPreviewImage", "ButtonOpenPreviewImage", "ButtonOpenGraphXmlPath", "ButtonEditGraphXmlPath", "ButtonOpenAudioPath", "VBoxContainerAudios", "ButtonOpenAnimationPath", "VBoxContainerAnimation", "ButtonDeleteAsset", "ButtonShowInfo", "TextureRectShowInfoTrue", "TextureRectShowInfoFalse")]
+visible = false
+layout_mode = 3
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -229.0
+offset_top = 40.0
+offset_bottom = -39.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("13_ey2ml")
+PanelContainerInfo = NodePath("Panel/PanelContainer")
+ItemLibraryObjectPrefab = ExtResource("3_lkxva")
+TextEditModelName = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/TextEditName")
+TextEditPath3DModel = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel/TextEditPath3DModel")
+ButtonOpenPath3DModel = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel/ButtonOpenPath3DModel")
+OptionButtonGroupObject = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/OptionButtonGroupObject")
+TextEditSampleObject = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/TextEditSampleObject")
+ButtonCopySampleObject = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/LabelSampleObject/ButtonCopySampleObject")
+VBoxContainerGraphXmlPath = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectGraphXml/VBoxContainerGraphXml")
+TextureRectPreviewImage = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/TextureRectPreview")
+ButtonOpenPreviewImage = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage/ButtonOpenPreviewImage")
+ButtonOpenGraphXmlPath = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectGraphXml/ButtonOpenGraphXml")
+ButtonEditGraphXmlPath = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/ButtonEditGraph")
+ButtonOpenAudioPath = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/LebelAudios/ButtonOpenAudioPath")
+VBoxContainerAudios = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/VBoxContainerAudios")
+ButtonOpenAnimationPath = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/LebelAnimation/ButtonOpenAnimationPath")
+VBoxContainerAnimation = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/VBoxContainerAnimations")
+ButtonDeleteAsset = NodePath("Panel/PanelContainer/ScrollContainer/VBoxContainer/ButtonDeleteAsset")
+ButtonShowInfo = NodePath("Panel/ButtonShowInfo")
+TextureRectShowInfoTrue = NodePath("Panel/ButtonShowInfo/ArrowUp")
+TextureRectShowInfoFalse = NodePath("Panel/ButtonShowInfo/ArrowDown")
+
+[node name="Panel" type="Control" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelUp" type="Panel" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 27.0
+grow_horizontal = 2
+theme_override_styles/panel = ExtResource("4_6416e")
+
+[node name="PanelContainer" type="Panel" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_6416e")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 28.0
+offset_right = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer"]
+custom_minimum_size = Vector2(214.105, 87.37)
+layout_mode = 2
+
+[node name="LabelNameModel" type="Label" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Название модели"
+
+[node name="TextEditName" type="TextEdit" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+focus_mode = 1
+theme_override_styles/normal = ExtResource("7_85tg5")
+
+[node name="LabelPreviewImage" type="Label" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Иконка"
+
+[node name="ReferenceRectPreviewImage" type="ReferenceRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextureRectPreview" type="TextureRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -30.0
+offset_right = 63.0
+offset_bottom = 30.0
+grow_vertical = 2
+expand_mode = 1
+
+[node name="ButtonOpenPreviewImage" type="Button" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectPreviewImage"]
+custom_minimum_size = Vector2(70, 30)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -83.0
+offset_top = -17.0
+offset_right = 2.0
+offset_bottom = 17.0
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("16_t6u2g")
+theme_override_styles/normal = ExtResource("8_g5135")
+text = "Загрузить"
+icon = ExtResource("9_4k5qj")
+
+[node name="LabelPath3DModel" type="Label" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "3D модель:"
+
+[node name="ReferenceRectPath3DModel" type="ReferenceRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextEditPath3DModel" type="TextEdit" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 128.0
+grow_vertical = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = ExtResource("7_85tg5")
+text = "model.fbx"
+editable = false
+
+[node name="ButtonOpenPath3DModel" type="Button" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectPath3DModel"]
+custom_minimum_size = Vector2(70, 30)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -84.0
+offset_top = -17.5
+offset_right = 1.0
+offset_bottom = 17.5
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("16_t6u2g")
+theme_override_styles/normal = ExtResource("8_g5135")
+text = "Загрузить"
+icon = ExtResource("9_4k5qj")
+
+[node name="LabelGroupObject" type="Label" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Группа объекта:"
+
+[node name="OptionButtonGroupObject" type="OptionButton" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = ExtResource("7_85tg5")
+autowrap_mode = 3
+clip_text = true
+
+[node name="LabelSampleObject" type="Label" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Шаблон объекта:"
+
+[node name="ButtonCopySampleObject" type="Button" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/LabelSampleObject"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -8.0
+offset_right = 1.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 0
+icon = ExtResource("17_78xvn")
+icon_alignment = 1
+expand_icon = true
+
+[node name="TextEditSampleObject" type="TextEdit" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+focus_mode = 1
+theme_override_styles/normal = ExtResource("7_85tg5")
+
+[node name="LebelGraphXml" type="ReferenceRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextureRectPreview" type="TextureRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/LebelGraphXml"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 14.0
+offset_bottom = 7.0
+grow_vertical = 2
+texture = ExtResource("18_jpbh3")
+expand_mode = 1
+
+[node name="LabelGraph" type="Label" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/LebelGraphXml"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -6.5
+offset_right = 176.0
+offset_bottom = 7.5
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "Алгоритмы:"
+
+[node name="ReferenceRectGraphXml" type="ReferenceRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+border_width = 0.0
+
+[node name="ButtonOpenGraphXml" type="Button" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectGraphXml"]
+custom_minimum_size = Vector2(70, 30)
+layout_mode = 2
+offset_right = 216.0
+offset_bottom = 30.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("16_t6u2g")
+theme_override_styles/normal = ExtResource("8_g5135")
+text = "Загрузить алгоритм"
+icon = ExtResource("9_4k5qj")
+
+[node name="VBoxContainerGraphXml" type="VBoxContainer" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectGraphXml"]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 215.0
+offset_bottom = 56.0
+
+[node name="ItemLibraryObjectDataPrefab" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/ReferenceRectGraphXml/VBoxContainerGraphXml" instance=ExtResource("3_lkxva")]
+layout_mode = 2
+
+[node name="ButtonEditGraph" type="Button" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+focus_mode = 0
+text = "Редактировать граф"
+icon = ExtResource("9_4k5qj")
+
+[node name="LebelAudios" type="ReferenceRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextureRectPreview" type="TextureRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/LebelAudios"]
+visible = false
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 14.0
+offset_bottom = 7.0
+grow_vertical = 2
+texture = ExtResource("18_jpbh3")
+expand_mode = 1
+
+[node name="LabelGraph" type="Label" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/LebelAudios"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 127.0
+offset_bottom = 7.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "Аудио:"
+
+[node name="ButtonOpenAudioPath" type="Button" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/LebelAudios"]
+custom_minimum_size = Vector2(70, 30)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -83.0
+offset_top = -15.0
+offset_right = 2.0
+offset_bottom = 15.0
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("16_t6u2g")
+theme_override_styles/normal = ExtResource("8_g5135")
+text = "Загрузить"
+icon = ExtResource("9_4k5qj")
+
+[node name="VBoxContainerAudios" type="VBoxContainer" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemLibraryObjectDataPrefab" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/VBoxContainerAudios" instance=ExtResource("3_lkxva")]
+layout_mode = 2
+
+[node name="LebelAnimation" type="ReferenceRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+border_width = 0.0
+
+[node name="TextureRectPreview" type="TextureRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/LebelAnimation"]
+visible = false
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 14.0
+offset_bottom = 7.0
+grow_vertical = 2
+texture = ExtResource("18_jpbh3")
+expand_mode = 1
+
+[node name="LabelGraph" type="Label" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/LebelAnimation"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -7.0
+offset_right = 127.0
+offset_bottom = 7.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "Анимация:"
+
+[node name="ButtonOpenAnimationPath" type="Button" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/LebelAnimation"]
+visible = false
+custom_minimum_size = Vector2(70, 20)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -83.0
+offset_top = -15.0
+offset_right = 2.0
+offset_bottom = 15.0
+grow_horizontal = 0
+grow_vertical = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("16_t6u2g")
+theme_override_styles/normal = ExtResource("8_g5135")
+text = "Загрузить"
+icon = ExtResource("9_4k5qj")
+
+[node name="VBoxContainerAnimations" type="VBoxContainer" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemLibraryObjectDataPrefab" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer/VBoxContainerAnimations" instance=ExtResource("3_lkxva")]
+layout_mode = 2
+
+[node name="PanelDelimiter" type="Panel" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ButtonDeleteAsset" type="Button" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/PanelContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/pressed = ExtResource("8_g5135")
+theme_override_styles/normal = ExtResource("8_g5135")
+text = "Удалить объект из библиотеки"
+
+[node name="LabelHeader" type="Label" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel"]
+layout_mode = 2
+offset_right = 187.0
+offset_bottom = 23.0
+text = "Настройки объекта"
+horizontal_alignment = 2
+
+[node name="TextureRect1" type="TextureRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/LabelHeader"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = -8.5
+offset_right = 22.0
+offset_bottom = 11.5
+grow_vertical = 2
+texture = ExtResource("14_8bx1w")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/LabelHeader/TextureRect1"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_c0sdo")
+expand_mode = 1
+
+[node name="ButtonShowInfo" type="Button" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel"]
+layout_mode = 0
+offset_left = 205.0
+offset_top = 3.0
+offset_right = 228.0
+offset_bottom = 25.0
+focus_mode = 0
+
+[node name="ArrowUp" type="TextureRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ButtonShowInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_o5i0r")
+expand_mode = 1
+
+[node name="ArrowDown" type="TextureRect" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/Panel/ButtonShowInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+offset_right = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+texture = ExtResource("19_o5i0r")
+expand_mode = 1
+
+[node name="FileDialog" type="FileDialog" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView"]
+auto_translate_mode = 1
+title = "Open a File"
+initial_position = 3
+size = Vector2i(563, 380)
+current_screen = 0
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="Control" type="Control" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/FileDialog"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -273.5
+offset_top = -182.0
+offset_right = 273.5
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AccessCheckButton" type="CheckButton" parent="GameObjectCurrentInfoManager/GameObjectCurrentInfoView/FileDialog/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -264.0
+offset_top = 34.78
+offset_bottom = 65.78
+grow_horizontal = 0
+size_flags_vertical = 8
+button_pressed = true
+text = "Проект/Файловая система"
+alignment = 2

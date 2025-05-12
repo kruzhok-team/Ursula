@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bquyl1vcg0rfq"
+uid="uid://b4ih8t6nkhgqf"
 path.s3tc="res://.godot/imported/cow_photo_2024-11-29_20-25-19.jpg-bb32747814fc8f4252463d3a43a6ffba.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "950e304abe4d688b11803e1ced663836"
 }
 
 [deps]

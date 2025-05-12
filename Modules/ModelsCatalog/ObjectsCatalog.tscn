@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://d4krypfxpyycs"]
+[gd_scene load_steps=5 format=3 uid="uid://d4krypfxpyycs"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Modules/ModelsCatalog/ObjectsCatalog.cs" id="1_bi263"]
-[ext_resource type="Texture2D" uid="uid://eo45vsj5rtgg" path="res://addons/Ursula/Assets/Textures/UI/Close.png" id="2_ked3h"]
+[ext_resource type="Texture2D" uid="uid://dytlgx2rjdgt" path="res://addons/Ursula/Assets/Textures/UI/Close.png" id="2_ked3h"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/ModelsCatalog/ObjectsCatalogLoadObject.cs" id="2_wro5l"]
+[ext_resource type="PackedScene" uid="uid://dpwcf74rci8i6" path="res://addons/Ursula/Prefabs/GameObjects/ItemLibraryObjectDataPrefab.tscn" id="4_nclfh"]
 
-[node name="ObjectsCatalog" type="Control" node_paths=PackedStringArray("panelLoadObject")]
+[node name="ObjectsLibrary" type="Control" node_paths=PackedStringArray("panelLoadObject")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,30 +15,51 @@ grow_vertical = 2
 script = ExtResource("1_bi263")
 panelLoadObject = NodePath("ControlLoadObject")
 
-[node name="ControlLoadObject" type="Control" parent="."]
+[node name="ControlLoadObject" type="Control" parent="." node_paths=PackedStringArray("LabelTittle", "TextEditModelName", "TextEditPath3DModel", "OptionButtonTypeObject", "TextEditPathSound", "VBoxContainerSound", "TextEditPathAnimation", "VBoxContainerAnimation", "ButtonLoadModel", "ButtonSaveEditModel", "ButtonRemoveModel")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("2_wro5l")
+LabelTittle = NodePath("Panel/Label")
+TextEditModelName = NodePath("Panel/TextEditModelName")
+TextEditPath3DModel = NodePath("Panel/TextEditPath3DModel")
+OptionButtonTypeObject = NodePath("Panel/OptionButtonTypeObject")
+TextEditPathSound = NodePath("Panel/TextEditPathSound")
+VBoxContainerSound = NodePath("Panel/ScrollContainerSound/VBoxContainerSound")
+ItemLibraryObjectPrefab = ExtResource("4_nclfh")
+TextEditPathAnimation = NodePath("Panel/TextEditPathAnimation")
+VBoxContainerAnimation = NodePath("Panel/ScrollContainerAnimation/VBoxContainerAnimation")
+ButtonLoadModel = NodePath("Panel/ButtonLoadModel")
+ButtonSaveEditModel = NodePath("Panel/ButtonSaveEditModel")
+ButtonRemoveModel = NodePath("Panel/ButtonRemoveModel")
 
 [node name="Panel" type="Panel" parent="ControlLoadObject"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -244.5
-offset_right = 244.5
-offset_bottom = 644.0
+offset_left = -244.0
+offset_top = 44.0
+offset_right = 245.0
+offset_bottom = 608.0
 grow_horizontal = 2
 
 [node name="Label" type="Label" parent="ControlLoadObject/Panel"]
-layout_mode = 0
-offset_left = 27.0
-offset_right = 275.0
-offset_bottom = 33.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -124.0
+offset_right = 124.0
+offset_bottom = 26.0
+grow_horizontal = 2
 text = "Загрузить объект"
+horizontal_alignment = 1
+uppercase = true
 
 [node name="ButtonClose" type="Button" parent="ControlLoadObject/Panel"]
 clip_contents = true
@@ -71,33 +94,34 @@ expand_mode = 1
 
 [node name="LabelNameModel" type="Label" parent="ControlLoadObject/Panel"]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 43.0
-offset_right = 278.0
-offset_bottom = 70.0
+offset_left = 31.0
+offset_top = 20.0
+offset_right = 279.0
+offset_bottom = 47.0
 text = "Название модели"
 
-[node name="TextEdit" type="TextEdit" parent="ControlLoadObject/Panel"]
+[node name="TextEditModelName" type="TextEdit" parent="ControlLoadObject/Panel"]
 layout_mode = 0
-offset_left = 16.0
-offset_top = 68.0
-offset_right = 472.0
-offset_bottom = 97.0
+offset_left = 17.0
+offset_top = 45.0
+offset_right = 473.0
+offset_bottom = 78.0
+placeholder_text = "Введите название латиницей"
 
 [node name="Label3DModel" type="Label" parent="ControlLoadObject/Panel"]
 layout_mode = 0
-offset_left = 28.5
-offset_top = 102.0
-offset_right = 276.5
-offset_bottom = 129.0
+offset_left = 29.5
+offset_top = 79.0
+offset_right = 277.5
+offset_bottom = 106.0
 text = "3D модель"
 
 [node name="TextEditPath3DModel" type="TextEdit" parent="ControlLoadObject/Panel"]
 layout_mode = 0
-offset_left = 17.0
-offset_top = 128.0
-offset_right = 360.0
-offset_bottom = 157.0
+offset_left = 19.0
+offset_top = 100.0
+offset_right = 362.0
+offset_bottom = 138.0
 placeholder_text = "Путь к 3D файлу... (.glb)"
 editable = false
 
@@ -107,10 +131,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -124.0
-offset_top = 126.0
-offset_right = -18.0
-offset_bottom = 158.0
+offset_left = -121.0
+offset_top = 103.0
+offset_right = -15.0
+offset_bottom = 135.0
 grow_horizontal = 0
 focus_mode = 1
 text = "Обзор"
@@ -118,11 +142,263 @@ icon_alignment = 1
 
 [node name="LabelTypeObject" type="Label" parent="ControlLoadObject/Panel"]
 layout_mode = 0
-offset_left = 29.5
-offset_top = 171.0
-offset_right = 277.5
-offset_bottom = 198.0
+offset_left = 30.5
+offset_top = 136.0
+offset_right = 278.5
+offset_bottom = 163.0
 text = "Тип объекта:"
 
+[node name="OptionButtonTypeObject" type="OptionButton" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 20.5
+offset_top = 159.0
+offset_right = 361.5
+offset_bottom = 190.0
+focus_mode = 1
+autowrap_mode = 3
+clip_text = true
+
+[node name="ItemList" type="ItemList" parent="ControlLoadObject/Panel"]
+visible = false
+layout_mode = 0
+offset_left = 21.0
+offset_top = 202.0
+offset_right = 359.0
+offset_bottom = 242.0
+item_count = 7
+item_0/text = "Деревья"
+item_1/text = "Трава"
+item_2/text = "Камни"
+item_3/text = "Строения"
+item_4/text = "Животные"
+item_5/text = "Предметы"
+item_6/text = "Освещение"
+
+[node name="LabelSound" type="Label" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 199.0
+offset_right = 279.0
+offset_bottom = 226.0
+text = "Звук:"
+
+[node name="TextEditPathSound" type="TextEdit" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 224.0
+offset_right = 362.0
+offset_bottom = 260.0
+placeholder_text = "Путь к звуку... (*.mp3, *.ogg, *.aac)"
+editable = false
+
+[node name="ScrollContainerSound" type="ScrollContainer" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 263.0
+offset_right = 482.0
+offset_bottom = 351.0
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainerSound" type="VBoxContainer" parent="ControlLoadObject/Panel/ScrollContainerSound"]
+custom_minimum_size = Vector2(454.71, 87.37)
+layout_mode = 2
+
+[node name="ItemLibraryObjectDataPrefab" parent="ControlLoadObject/Panel/ScrollContainerSound/VBoxContainerSound" instance=ExtResource("4_nclfh")]
+layout_mode = 2
+
+[node name="ButtonOpenPathSound" type="Button" parent="ControlLoadObject/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -121.0
+offset_top = 225.0
+offset_right = -15.0
+offset_bottom = 257.0
+grow_horizontal = 0
+focus_mode = 1
+text = "Обзор"
+icon_alignment = 1
+
+[node name="ButtonAddSound" type="Button" parent="ControlLoadObject/Panel"]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -381.0
+offset_top = 318.0
+offset_right = -110.0
+offset_bottom = 350.0
+grow_horizontal = 0
+focus_mode = 1
+text = "Добавить ещё"
+icon_alignment = 1
+
+[node name="LabelAnimation" type="Label" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 348.0
+offset_right = 279.0
+offset_bottom = 375.0
+text = "Анимация:"
+
+[node name="TextEditPathAnimation" type="TextEdit" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 374.0
+offset_right = 362.0
+offset_bottom = 410.0
+placeholder_text = "Путь к анимации... (.glb)"
+editable = false
+
+[node name="ButtonOpenPathAnimation" type="Button" parent="ControlLoadObject/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -121.0
+offset_top = 376.0
+offset_right = -15.0
+offset_bottom = 408.0
+grow_horizontal = 0
+focus_mode = 1
+text = "Обзор"
+icon_alignment = 1
+
+[node name="ScrollContainerAnimation" type="ScrollContainer" parent="ControlLoadObject/Panel"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 411.0
+offset_right = 482.0
+offset_bottom = 499.0
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainerAnimation" type="VBoxContainer" parent="ControlLoadObject/Panel/ScrollContainerAnimation"]
+custom_minimum_size = Vector2(454.71, 87.37)
+layout_mode = 2
+
+[node name="ItemLibraryObjectDataPrefab" parent="ControlLoadObject/Panel/ScrollContainerAnimation/VBoxContainerAnimation" instance=ExtResource("4_nclfh")]
+layout_mode = 2
+
+[node name="LabelPathAnimation" type="Label" parent="ControlLoadObject/Panel"]
+visible = false
+layout_mode = 0
+offset_left = 21.0
+offset_top = 406.0
+offset_right = 470.0
+offset_bottom = 436.0
+text = "Animation.glb"
+
+[node name="ButtonAddAnimation" type="Button" parent="ControlLoadObject/Panel"]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -381.0
+offset_top = 479.0
+offset_right = -110.0
+offset_bottom = 511.0
+grow_horizontal = 0
+focus_mode = 1
+text = "Добавить ещё"
+icon_alignment = 1
+
+[node name="ButtonLoadModel" type="Button" parent="ControlLoadObject/Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -381.0
+offset_top = 521.0
+offset_right = -110.0
+offset_bottom = 553.0
+grow_horizontal = 0
+focus_mode = 1
+text = "Загрузить"
+icon_alignment = 1
+
+[node name="ButtonSaveEditModel" type="Button" parent="ControlLoadObject/Panel"]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -381.0
+offset_top = 521.0
+offset_right = -110.0
+offset_bottom = 553.0
+grow_horizontal = 0
+focus_mode = 1
+text = "Сохранить"
+icon_alignment = 1
+
+[node name="ButtonRemoveModel" type="Button" parent="ControlLoadObject/Panel"]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -102.0
+offset_top = 504.0
+offset_right = -6.0
+offset_bottom = 558.0
+grow_horizontal = 0
+focus_mode = 1
+text = "Удалить
+обект"
+icon_alignment = 1
+
+[node name="FileDialog" type="FileDialog" parent="ControlLoadObject"]
+auto_translate_mode = 1
+title = "Open a File"
+initial_position = 3
+size = Vector2i(563, 380)
+current_screen = 0
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="Control" type="Control" parent="ControlLoadObject/FileDialog"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -273.5
+offset_top = -182.0
+offset_right = 273.5
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AccessCheckButton" type="CheckButton" parent="ControlLoadObject/FileDialog/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -264.0
+offset_top = 34.78
+offset_bottom = 65.78
+grow_horizontal = 0
+size_flags_vertical = 8
+button_pressed = true
+text = "Проект/Файловая система"
+alignment = 2
+
 [connection signal="button_down" from="ControlLoadObject/Panel/ButtonClose" to="." method="OnClosePanelLoadObject"]
-[connection signal="button_down" from="ControlLoadObject/Panel/ButtonOpen3DModel" to="." method="OnClosePanelLoadObject"]
+[connection signal="button_down" from="ControlLoadObject/Panel/ButtonOpen3DModel" to="ControlLoadObject" method="OnOpenModel"]
+[connection signal="button_down" from="ControlLoadObject/Panel/ButtonOpenPathSound" to="ControlLoadObject" method="OnOpenSound"]
+[connection signal="button_down" from="ControlLoadObject/Panel/ButtonAddSound" to="." method="OnClosePanelLoadObject"]
+[connection signal="button_down" from="ControlLoadObject/Panel/ButtonOpenPathAnimation" to="ControlLoadObject" method="OnOpenAnimation"]
+[connection signal="button_down" from="ControlLoadObject/Panel/ButtonAddAnimation" to="ControlLoadObject" method="OnLoadModel"]

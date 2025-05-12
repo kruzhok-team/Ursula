@@ -1,0 +1,22 @@
+{
+    "name": "org.kruzhok.talent.grapheditor.core",
+    "rootNamespace": "Talent.GraphEditor.Core",
+    "references": [
+        "GUID:7cd565da61ce6c7429e15c8dc320759e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "",
+            "define": "UNITY"
+        }
+    ],
+    "noEngineReferences": false
+}

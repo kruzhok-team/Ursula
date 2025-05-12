@@ -27,9 +27,9 @@ public partial class CustomObject : Node
 		}
 	}
 
-	public async void InitModel()
+	public void InitModel()
 	{
-		await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+		//await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
 		if (modelInstance != null)
 			modelInstance.QueueFree();
@@ -57,7 +57,7 @@ public partial class CustomObject : Node
 		}
 		else
 		{
-			modelInstance = ModelLoader.LoadModelByPath(objPath);
+            modelInstance = ModelLoader.LoadModelByPath(objPath);
 			this.AddChild(modelInstance);
 		}
 	}

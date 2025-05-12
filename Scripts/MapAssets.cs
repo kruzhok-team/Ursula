@@ -1,11 +1,15 @@
 ﻿using Godot;
+using System;
+using Ursula.GameObjects.Model;
 
 namespace VoxLibExample
 {
     [Tool]
     public partial class MapAssets : Resource
 	{
-		[Export]
+        public const string GameObjectGroups = "Деревья,Трава,Камни,Строения,Животные,Предметы,Освещение,Другое";
+
+        [Export]
 		public Texture[] terrainTex { get; set; }
 
         [Export]
@@ -19,6 +23,9 @@ namespace VoxLibExample
 
         [Export]
 		public Texture[] inventarItemTex { get; set; }
+
+        [Export(PropertyHint.Enum, GameObjectGroups)]
+        public string[] inventarGameObjectGroups { get; set; } = Array.Empty<string>();
 
         [Export]
         public ShaderMaterial TerrainMat { get; set; }
@@ -45,5 +52,22 @@ namespace VoxLibExample
 
         [Export]
         public PackedScene customItemPrefab;
+
+        [Export]
+        public PackedScene customObjectPrefab;
+
+        [Export]
+        public PackedScene customPlatformPrefab;
+
+        [Export]
+        public PackedScene InteractiveObjectDetectorPrefab;
+        [Export]
+        public PackedScene InteractiveObjectAudioPrefab;
+        [Export]
+        public PackedScene InteractiveObjectMovePrefab;
+        [Export]
+        public PackedScene InteractiveObjectTimerPrefab;
+        [Export]
+        public PackedScene InteractiveObjectCounterPrefab;
     }
 }

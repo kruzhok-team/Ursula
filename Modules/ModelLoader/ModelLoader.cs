@@ -103,16 +103,23 @@ public partial class ModelLoader : Node
     {
         objPath = ProjectSettings.GlobalizePath(objPath);
         string destObjPath = ProjectSettings.GlobalizePath(destPath + Path.GetFileName(objPath));
-        
+
+        if (objPath == destObjPath) return;
+
         File.Copy(objPath, destObjPath, true);
 
         if (!objPath.Contains(".glb"))
         {
-
             string mtlPath = ProjectSettings.GlobalizePath(GetMtlFilePath(objPath));
             string destMtlPath = ProjectSettings.GlobalizePath(destPath + Path.GetFileName(mtlPath));
 
-            File.Copy(mtlPath, destMtlPath, true);
+            if (File.Exists(mtlPath))
+                File.Copy(mtlPath, destMtlPath, true);
+            else
+            {
+                GD.PrintErr("Нет файла *.mtl");
+                VoxLib.ShowMessage("Нет файла *.mtl");
+            }
 
             var filePaths = ObjParser._GetMtlTexPaths(mtlPath);
             foreach (var k in filePaths)
@@ -134,8 +141,6 @@ public partial class ModelLoader : Node
                 File.Copy(texFilepath, destTexFilepath, true);
             }
         }
-
-        VoxLib.mapManager.LoadCustomItems();
 
         GD.Print($"Скопирована модель {objPath} в {destObjPath}");
     }

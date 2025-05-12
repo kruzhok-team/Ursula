@@ -1,10 +1,13 @@
-﻿using Godot;
+﻿using Fractural.Tasks;
+using Godot;
 using System;
 using System.Drawing;
+using Ursula.Core.DI;
+using Ursula.GameObjects.View;
 using static Godot.TextServer;
 
 
-public partial class PlayerScript : CharacterBody3D
+public partial class PlayerScript : CharacterBody3D, IInjectable
 {
     public static PlayerScript instance;
 
@@ -20,7 +23,7 @@ public partial class PlayerScript : CharacterBody3D
     [Export]
     public int FallAcceleration { get; set; } = 75;
 
-    private float sensitivity{ get { return VoxLib.Sensitivity(); } }
+    private float sensitivity{ get { return VoxLib.Sensitivity; } }
 
     private Vector3 _targetVelocity = Vector3.Zero;
 
@@ -34,6 +37,13 @@ public partial class PlayerScript : CharacterBody3D
 
     private float timer = 0f;
     private const float INTERVAL = 10.2f;
+
+    [Inject]
+    private ISingletonProvider<HUDViewModel> _hudManager;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
 
     public override void _Ready()
     {
@@ -75,6 +85,12 @@ public partial class PlayerScript : CharacterBody3D
 
     public override void _Input(InputEvent @event)
     {
+        if (Input.IsKeyPressed(Key.Ctrl) && Input.IsKeyPressed(Key.X) && @event.IsPressed())
+        {
+            VoxLib.mapManager.playMode = PlayMode.testMode;
+            VoxLib.mapManager.PlayTest();
+        }
+
         if (Input.IsKeyPressed(Key.Escape) && @event.IsPressed())
         {
             //if (CameraController.instance == this)
@@ -162,6 +178,12 @@ public partial class PlayerScript : CharacterBody3D
         }
     }
 
+    private async GDTask SetHudInfo(string info)
+    {
+        var model = _hudManager != null ? await _hudManager.GetAsync() : null;
+        model?.SetInfo(info);
+    }
+
     float waterLevel = -1;
     VoxDrawTypes TypeSurface = VoxDrawTypes.solid;
     public override void _PhysicsProcess(double delta)
@@ -233,12 +255,14 @@ public partial class PlayerScript : CharacterBody3D
         }
 
         // Moving the character
-        if (!LogScript.isLogEntered && !VoxLib.mapManager.isDialogsOpen && !VoxLib.log.isDialogOpen)
+        if (Raycaster.HoverUI(_camera))
         {
-            Velocity = _targetVelocity;
-            MoveAndSlide();
-
+            _targetVelocity.X = 0;
+            _targetVelocity.Z = 0;
         }
+
+        Velocity = _targetVelocity;
+        MoveAndSlide();
     }
 
 }

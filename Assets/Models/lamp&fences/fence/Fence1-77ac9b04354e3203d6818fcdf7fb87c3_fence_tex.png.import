@@ -2,30 +2,26 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjs1bggn3mi7u"
-path.s3tc="res://.godot/imported/Fence1-77ac9b04354e3203d6818fcdf7fb87c3_fence_tex.png-68c172b201fcd948a45afea61958ccff.s3tc.ctex"
+uid="uid://wptkw57nodpf"
+path="res://.godot/imported/Fence1-77ac9b04354e3203d6818fcdf7fb87c3_fence_tex.png-68c172b201fcd948a45afea61958ccff.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
-}
-generator_parameters={
-"md5": "9d27514363f6a73abe3adef35e9ed8bd"
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://addons/Ursula/Assets/Models/lamp&fences/fence/Fence1-77ac9b04354e3203d6818fcdf7fb87c3_fence_tex.png"
-dest_files=["res://.godot/imported/Fence1-77ac9b04354e3203d6818fcdf7fb87c3_fence_tex.png-68c172b201fcd948a45afea61958ccff.s3tc.ctex"]
+dest_files=["res://.godot/imported/Fence1-77ac9b04354e3203d6818fcdf7fb87c3_fence_tex.png-68c172b201fcd948a45afea61958ccff.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -35,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

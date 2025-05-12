@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://sh4cs5qv1h3i"]
+
+[ext_resource type="PackedScene" uid="uid://das4po2d0b7wq" path="res://addons/Ursula/Modules/ModelLoader/custom_object_script.tscn" id="1_wbd8g"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/ModelLoader/CustomItem.cs" id="2_ti20e"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_ci068"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="4_murmk"]
+[ext_resource type="Material" uid="uid://dvaxv16e4y8ll" path="res://addons/Ursula/Assets/Prefabs/CustomObject/CustomObject_mat.tres" id="5_th57w"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xprp2"]
+size = Vector3(5.03526, 0.63545, 5.11864)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ksavi"]
+size = Vector3(1.31097, 1.62933, 1.53798)
+
+[node name="CustomItem" type="Node3D"]
+
+[node name="CustomItemScript" parent="." instance=ExtResource("1_wbd8g")]
+script = ExtResource("2_ti20e")
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("3_ci068")
+
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("4_murmk")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.638129, 0)
+visible = false
+height = 2.0994
+material = ExtResource("5_th57w")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000645638, 0.295219, 0.00566864)
+shape = SubResource("BoxShape3D_xprp2")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="StaticBody3D"]
+size = Vector3(5, 1, 5)
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925097, 0)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0101013, 0.0205984, 0.0450207)
+shape = SubResource("BoxShape3D_ksavi")

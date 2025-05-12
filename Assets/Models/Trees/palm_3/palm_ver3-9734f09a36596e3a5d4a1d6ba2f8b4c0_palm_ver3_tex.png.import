@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4bysbjbpbri7"
+uid="uid://bdfh5ulx3hjnt"
 path.s3tc="res://.godot/imported/palm_ver3-9734f09a36596e3a5d4a1d6ba2f8b4c0_palm_ver3_tex.png-47f61ca0b1e29a9a2b6a28e82fb41080.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "91ff609f0dc86f6c57b24a23fe46cd6c"
 }
 
 [deps]

@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3mdf0q8tigaq"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_awdum"]
+[ext_resource type="PackedScene" uid="uid://c8231j1op03es" path="res://addons/Ursula/Assets/Models/Grass/Grass_3/Grass 3_base.tscn" id="3_ay6k8"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_nx06t"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_qwexa"]
+height = 0.750382
+
+[node name="Node3D" type="Node3D"]
+
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("2_awdum")
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("3_nx06t")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 524288
+collision_mask = 524288
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.374952, 0)
+shape = SubResource("CylinderShape3D_qwexa")
+
+[node name="plant_3" parent="." instance=ExtResource("3_ay6k8")]

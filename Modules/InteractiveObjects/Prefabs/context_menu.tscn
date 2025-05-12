@@ -11,6 +11,7 @@ font_color = Color(0, 0, 0, 1)
 process_priority = -100
 process_physics_priority = -100
 auto_translate_mode = 2
+visible = false
 z_index = -1
 z_as_relative = false
 layout_mode = 3
@@ -30,10 +31,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -105.5
+offset_left = -105.0
 offset_top = -37.0
-offset_right = 105.5
-offset_bottom = 37.0
+offset_right = 106.0
+offset_bottom = 39.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -61,17 +62,51 @@ offset_bottom = 69.0
 grow_horizontal = 2
 text = "Перезапуск алгоритма"
 
+[node name="Panel" type="Panel" parent="GMLActions"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -543.5
+offset_top = 2.0
+offset_right = 540.5
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="GMLActionsLabel" type="Label" parent="GMLActions"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -541.5
+offset_top = 4.0
+offset_right = 538.5
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+clip_text = true
+
 [node name="ModelActions" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -105.5
-offset_top = 41.14
-offset_right = 105.5
-offset_bottom = 82.14
+offset_left = -105.0
+offset_top = 107.0
+offset_right = 106.0
+offset_bottom = 148.0
 grow_horizontal = 2
 grow_vertical = 2
 

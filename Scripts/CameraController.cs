@@ -6,7 +6,7 @@ public partial class CameraController : Camera3D
     public static CameraController instance;
 
     [Export] private Camera3D _camera;
-    private float sensitivity { get { return VoxLib.Sensitivity(); } }
+    private float sensitivity { get { return VoxLib.Sensitivity; } }
     private Vector2 _rotation = Vector2.Zero;
     private float MoveSpeed = 40f;
     private bool isRun;
@@ -98,7 +98,7 @@ public partial class CameraController : Camera3D
     private const float DelayBetweenClicks = 0.25f;
     double lastClickTime = 0;
 
-    public override void _Process(double delta)
+    public override async void _Process(double delta)
     {
         lastClickTime -= delta;
 
@@ -147,7 +147,7 @@ public partial class CameraController : Camera3D
             if (Position.Y < 0 && direction.Y < 0) direction.Y = 0;
             if (Position.Y > VoxLib.mapManager.sizeY && direction.Y > 0) direction.Y = 0;
 
-            if (!LogScript.isLogEntered && !VoxLib.mapManager.isDialogsOpen && !VoxLib.log.isDialogOpen)
+            if (!Raycaster.HoverUI(_camera))
                 Position += direction * speed * (float)delta; // Перемещаем камеру
         }
 
@@ -165,11 +165,18 @@ public partial class CameraController : Camera3D
             {
                 if (isRotate)
                 {
-                    ips.rotation++;
+                    //ips.rotation++;
 
-                    if (ips.rotation > 3) ips.rotation = 0;
+                    //if (ips.rotation > 3) ips.rotation = 0;
 
-                    VoxLib.mapManager.tempRotation = ips.rotation;
+                    //VoxLib.mapManager.tempRotation = ips.rotation;
+
+                    VoxLib.mapManager.tempRotation++;
+
+                    if (VoxLib.mapManager.tempRotation > 3)
+                        VoxLib.mapManager.tempRotation = 0;
+
+                     ips.rotation = VoxLib.mapManager.tempRotation;
 
                     (parent as Node3D).Quaternion = VoxLib.mapManager.GetRotation(ips.rotation);
                 }

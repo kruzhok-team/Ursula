@@ -2,30 +2,26 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbosv3m3i0w62"
-path.s3tc="res://.godot/imported/plant_1-7ddbdc1bf307b32a6c7c422fbfb5cd80_plant_1_texture.png-b63004eebb5deb631e8b12f994b491f9.s3tc.ctex"
+uid="uid://bdg3q3ttt4vp1"
+path="res://.godot/imported/plant_1-7ddbdc1bf307b32a6c7c422fbfb5cd80_plant_1_texture.png-b63004eebb5deb631e8b12f994b491f9.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
-}
-generator_parameters={
-"md5": "a8cbeafb5be7c1503623cdfd2a78cd14"
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://addons/Ursula/Assets/Models/Grass/Grass_1/plant_1-7ddbdc1bf307b32a6c7c422fbfb5cd80_plant_1_texture.png"
-dest_files=["res://.godot/imported/plant_1-7ddbdc1bf307b32a6c7c422fbfb5cd80_plant_1_texture.png-b63004eebb5deb631e8b12f994b491f9.s3tc.ctex"]
+dest_files=["res://.godot/imported/plant_1-7ddbdc1bf307b32a6c7c422fbfb5cd80_plant_1_texture.png-b63004eebb5deb631e8b12f994b491f9.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -35,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

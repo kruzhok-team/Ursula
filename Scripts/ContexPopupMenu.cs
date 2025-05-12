@@ -5,7 +5,7 @@ public partial class ContexPopupMenu : Button
 {
     bool state = false;
 
-    [Export] Panel PanelMenu;
+    [Export] Control PanelMenu;
     [Export] TextureRect arrow1;
     [Export] TextureRect arrow2;
 
@@ -20,8 +20,8 @@ public partial class ContexPopupMenu : Button
     public void SetState()
     {
         if (PanelMenu != null) PanelMenu.Visible = state;
-        arrow1.Visible = state;
-        arrow2.Visible = !state;
+        if (arrow1 != null) arrow1.Visible = state;
+        if (arrow2 != null) arrow2.Visible = !state;
     }
 
     public void Show()

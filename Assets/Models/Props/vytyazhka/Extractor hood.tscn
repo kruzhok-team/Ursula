@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://cavdgvh1goyss"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_subst"]
+[ext_resource type="PackedScene" uid="uid://by1p0a0o17q18" path="res://addons/Ursula/Assets/Models/Props/vytyazhka/Extractor_hood_base.tscn" id="3_emoma"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_nvovx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8ii23"]
+size = Vector3(1, 1, 2.35834)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("2_subst")
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("3_nvovx")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.00741577)
+shape = SubResource("BoxShape3D_8ii23")
+
+[node name="vytyazhka" parent="." instance=ExtResource("3_emoma")]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://uu0lfgdeox06"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/CameraController.cs" id="1_gri1u"]
-[ext_resource type="Script" path="res://addons/Ursula/Scripts/CreateItems.cs" id="2_xia70"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/Controller/GameObjectCreateItemsController.cs" id="2_1oahr"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_17uma"]
 height = 1.11758
@@ -15,7 +15,7 @@ _camera = NodePath(".")
 
 [node name="RayCast3D" type="RayCast3D" parent="." node_paths=PackedStringArray("_camera")]
 target_position = Vector3(0, 0, -10)
-script = ExtResource("2_xia70")
+script = ExtResource("2_1oahr")
 _camera = NodePath("..")
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]

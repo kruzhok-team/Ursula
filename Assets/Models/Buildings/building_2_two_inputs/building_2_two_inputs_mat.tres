@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bqf5vnc6ihhub"]
 
-[ext_resource type="Texture2D" uid="uid://betmpm5j8dwym" path="res://addons/Ursula/Assets/Models/Buildings/building_2_two_inputs/building_2_two_inputs_tex.png" id="1_6vqyl"]
+[ext_resource type="Texture2D" uid="uid://q2ugy5xx25e" path="res://addons/Ursula/Assets/Models/Buildings/building_2_two_inputs/building_2_two_inputs_tex.png" id="1_6vqyl"]
 
 [resource]
 albedo_texture = ExtResource("1_6vqyl")

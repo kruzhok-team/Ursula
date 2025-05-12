@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://c1y47k01wo4w7"]
+[gd_scene load_steps=11 format=3 uid="uid://c1y47k01wo4w7"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/DayNightCycle.cs" id="1_ut2wg"]
-[ext_resource type="Texture2D" uid="uid://b2h3g1waqkvdp" path="res://addons/Ursula/Assets/Textures/Skybox/skybox_night_sky_2.png" id="2_okbeu"]
+[ext_resource type="Texture2D" uid="uid://b3pxw48j6h1s0" path="res://addons/Ursula/Assets/Textures/Skybox/skybox_night_sky_2.png" id="2_okbeu"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/Environment/Lighting/ShadowSetter.cs" id="3_h1bib"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_37jg0"]
 sky_cover = ExtResource("2_okbeu")
@@ -42,6 +43,8 @@ density = 0.0588
 emission = Color(0.299547, 0.299547, 0.299547, 1)
 height_falloff = 1e-05
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_w1rjw"]
+
 [node name="Environment" type="Node3D" node_paths=PackedStringArray("Sun", "World")]
 script = ExtResource("1_ut2wg")
 Sun = NodePath("DirectionalLight3D")
@@ -50,6 +53,9 @@ proceduralSkyMaterial = SubResource("ProceduralSkyMaterial_37jg0")
 proceduralColorDay = Color(0.196078, 0.196078, 0.196078, 1)
 proceduralColorNyght = Color(1, 1, 1, 1)
 NightPanorama = SubResource("PanoramaSkyMaterial_44i48")
+
+[node name="ShadowSetter" type="Node" parent="."]
+script = ExtResource("3_h1bib")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_v6kl2")
@@ -76,3 +82,65 @@ material = SubResource("FogMaterial_dy77f")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 496.669, -17.5531, 128)
 size = Vector3(512, 128, 512)
 material = SubResource("FogMaterial_dy77f")
+
+[node name="Bounds" type="Node" parent="."]
+
+[node name="Bound1" type="StaticBody3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, 0, -5)
+collision_layer = 2156396545
+collision_mask = 2156396544
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds/Bound1"]
+transform = Transform3D(256, 0, 0, 0, 256, 0, 0, 0, 10, 0, 0, 0)
+shape = SubResource("BoxShape3D_w1rjw")
+
+[node name="Bound2" type="StaticBody3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 128)
+collision_layer = 2156396545
+collision_mask = 2156396544
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds/Bound2"]
+transform = Transform3D(10, 0, 0, 0, 256, 0, 0, 0, 256, 0, 0, 0)
+shape = SubResource("BoxShape3D_w1rjw")
+
+[node name="Bound3" type="StaticBody3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 261, 0, 128)
+collision_layer = 2156396545
+collision_mask = 2156396544
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds/Bound3"]
+transform = Transform3D(10, 0, 0, 0, 256, 0, 0, 0, 256, 0, 0, 0)
+shape = SubResource("BoxShape3D_w1rjw")
+
+[node name="Bound4" type="StaticBody3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, 0, 261)
+collision_layer = 2156396545
+collision_mask = 2156396544
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds/Bound4"]
+transform = Transform3D(256, 0, 0, 0, 256, 0, 0, 0, 10, 0, 0, 0)
+shape = SubResource("BoxShape3D_w1rjw")
+
+[node name="BoundTop" type="StaticBody3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, 128, 128)
+collision_layer = 2156396545
+collision_mask = 2156396544
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds/BoundTop"]
+transform = Transform3D(261, 0, 0, 0, 10, 0, 0, 0, 261, 0, 0, 0)
+shape = SubResource("BoxShape3D_w1rjw")
+
+[node name="BoundDown" type="StaticBody3D" parent="Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128, -128, 128)
+collision_layer = 2156396545
+collision_mask = 2156396544
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds/BoundDown"]
+transform = Transform3D(261, 0, 0, 0, 10, 0, 0, 0, 261, 0, 0, 0)
+shape = SubResource("BoxShape3D_w1rjw")

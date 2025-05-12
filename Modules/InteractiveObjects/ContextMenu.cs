@@ -1,12 +1,17 @@
 ﻿using Godot;
 using System;
+using System.IO;
 using System.Threading.Tasks;
+using Ursula.Core.DI;
+using Ursula.Environment.Settings;
 
-public partial class ContextMenu : Control
+public partial class ContextMenu : Control, IInjectable
 {
     Panel contextPanel;
     Panel modelActionsPanel;
     Button setModelButton;
+    Panel GMLActionsPanel;
+    Label GMLActionsLabel;
 
     Button button1;
     Button button2;
@@ -23,6 +28,16 @@ public partial class ContextMenu : Control
 
     FileDialogTool dialogTool;
 
+    private string lastDirectory = "";
+    private string settingsPath = "user://settings.cfg";
+
+    [Inject]
+    private ISingletonProvider<EnvironmentSettingsModel> _settingsModelProvider;
+
+    void IInjectable.OnDependenciesInjected()
+    {
+    }
+
     private void Init()
     {
         instance = this;
@@ -35,6 +50,8 @@ public partial class ContextMenu : Control
 
         button1 = GetNode("GMLActions/Load") as Button;
         button2 = GetNode("GMLActions/Reload") as Button;
+        GMLActionsPanel = GetNode("GMLActions/Panel") as Panel;
+        GMLActionsLabel = GetNode("GMLActions/GMLActionsLabel") as Label;
 
         fileDialog = GetNode("FileDialog") as FileDialog;
         messageLabel = GetNode("MessageLabel") as Label;
@@ -43,20 +60,19 @@ public partial class ContextMenu : Control
         modelActionsPanel.Visible = false;
         messageLabel.Visible = false;
         messageLabel.Text = "";
+        GMLActionsLabel.Text = "";
     }
 
     public static void ShowMessageS(string message)
     {
-        //instance.ShowMessage(message);
-
         var print = $"[{DateTime.Now.ToString("HH:mm:ss.fff")}] > " + message;
-        VoxLib.log.ShowMessage(print);
-        GD.Print(print);
+        VoxLib.Log(print);
+        //GD.Print(print);
     }
 
     public async void ShowMessage(string message)
     {
-        VoxLib.log.ShowMessage(message);
+        VoxLib.Log(message);
         await Task.Delay(0);
     }
 
@@ -67,7 +83,6 @@ public partial class ContextMenu : Control
 
     public void OpenPanel(InteractiveObject target)
     {
-        //interactiveObject = _target?.FindChild("InteractiveObject") as InteractiveObject;
         interactiveObject = target;
 
         contextPanel.Visible = true;
@@ -75,12 +90,14 @@ public partial class ContextMenu : Control
         VoxLib.mapManager.SetCameraCursorShow(true);
 
         isOpened = true;
+
+        GMLActionsLabel.Text = interactiveObject.xmlPath;
+        GMLActionsPanel.Visible = GMLActionsLabel.Text.Length > 0;
     }
 
     public override void _Ready()
     {
         Init();
-
         Close();
     }
 
@@ -122,7 +139,7 @@ public partial class ContextMenu : Control
     {
         fileDialog.Filters = new string[] { "*.graphml ; Graphml" };
 
-        lastDirectory = LoadLastDirectory();
+        lastDirectory = LoadLastDirectory;
 
         if (!string.IsNullOrEmpty(lastDirectory))
         {
@@ -137,12 +154,10 @@ public partial class ContextMenu : Control
         fileDialog.Show();
     }
 
-    private string lastDirectory = "";
-    private string settingsPath = "user://settings.cfg";
     public void FileProcess(string path)
     {
         interactiveObject.LoadAlgorithm(path);
-        ShowMessage("Алгоритм успешно загружен");
+        HSMLogger.Print(interactiveObject, $"Алгоритм {Path.GetFileName(path)} успешно загружен");
         Close();
 
         lastDirectory = fileDialog.CurrentDir;
@@ -154,22 +169,19 @@ public partial class ContextMenu : Control
     // Сохранение пути в файл конфигурации
     private void SaveLastDirectory(string path)
     {
-        ConfigFile config = new ConfigFile();
-        config.Load(settingsPath);
-        config.SetValue("FileDialog", "last_directory", path);
-        config.Save(settingsPath);
+        if (TryGetSettingsModel(out var settingsModel))
+            settingsModel.SetLastDirectory(path).Save();
     }
 
     // Загрузка пути из файла конфигурации
-    private string LoadLastDirectory()
+    private string LoadLastDirectory
     {
-        ConfigFile config = new ConfigFile();
-        Error err = config.Load(settingsPath);
-        if (err == Error.Ok)
+        get
         {
-            return (string)config.GetValue("FileDialog", "last_directory", "");
+            if (!TryGetSettingsModel(out var settingsModel))
+                return "";
+            return settingsModel.LastDirectory;
         }
-        return "";
     }
 
 
@@ -221,9 +233,15 @@ public partial class ContextMenu : Control
         //}
     }
 
-    public void LoadSound()
+    private bool TryGetSettingsModel(out EnvironmentSettingsModel model, bool errorIfNotExist = false)
     {
-        //Close();
-        //customObject?.LoadNewModel();
+        model = null;
+
+        if (!(_settingsModelProvider?.TryGet(out model) ?? false))
+        {
+            if (errorIfNotExist)
+                GD.PrintErr($"{typeof(ContextMenu).Name}: {typeof(EnvironmentSettingsModel).Name} is not instantiated!");
+        }
+        return model != null;
     }
 }

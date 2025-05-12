@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using System.Xml.Linq;
+using Modules.HSM;
 
 public partial class InteractiveObjectMove : Node3D
 {
@@ -12,10 +13,10 @@ public partial class InteractiveObjectMove : Node3D
     public VariableHolder<float> surfaceType = new(0.0f);
     public VariableHolder<float> timesOfDay = new(0.0f);
 
-    public GMLActionHolder moveDistanceStart = new();
-    public GMLActionHolder moveDistanceCompleted = new();
-    public GMLActionHolder animationCompleted = new();
-    public GMLActionHolder animationCycleCompleted = new();
+    public Action moveDistanceStart;
+    public Action moveDistanceCompleted;
+    public Action animationCompleted;
+    public Action animationCycleCompleted;
 
     public Vector3 movePosition;
 
@@ -204,14 +205,21 @@ public partial class InteractiveObjectMove : Node3D
             return null;
 
         string nameAnim = id;
-        if (!animationPlayer.HasAnimation(nameAnim)) nameAnim = BaseAnimation.LIBRARY + "/" + nameAnim;
+        if (!animationPlayer.HasAnimation(nameAnim)) 
+            nameAnim = BaseAnimation.LIBRARY + "/" + nameAnim;
+
+        if (!animationPlayer.HasAnimation(nameAnim))
+        {
+            HSMLogger.Print(interactiveObject, $"Ошибка: анимация с именем '{nameAnim}' не найдена");
+            return null;
+        }
 
         animationPlayer.Play(nameAnim);
         OnAnimationFinishedWithCallBack(animationPlayer.CurrentAnimationLength, () =>
         {
             animationPlayer.Stop();
 
-            animationCompleted.Invoke();
+            animationCompleted?.Invoke();
 
             cyclesCount--;
 
@@ -221,7 +229,7 @@ public partial class InteractiveObjectMove : Node3D
             }
             else
             {
-                animationCycleCompleted.Invoke();
+                animationCycleCompleted?.Invoke();
             }
 
         });
@@ -231,6 +239,32 @@ public partial class InteractiveObjectMove : Node3D
             await ToSignal(GetTree().CreateTimer(delay), "timeout");
             callback?.Invoke();
         }
+
+        return null;
+    }
+
+    public object PlayCycleAnimation(string id)
+    {
+        InitAnimator();
+
+        if (animationPlayer == null)
+            return null;
+
+        string nameAnim = id;
+        if (!animationPlayer.HasAnimation(nameAnim))
+            nameAnim = BaseAnimation.LIBRARY + "/" + nameAnim;
+
+        var animation = animationPlayer.GetAnimation(nameAnim);
+        if (animation != null) animation.LoopMode = Animation.LoopModeEnum.Linear;
+
+        if (animation == null)
+        {
+            HSMLogger.Print(interactiveObject, $"Ошибка: анимация с именем '{nameAnim}' не найдена");
+            return null;
+        }
+
+        animation.LoopMode = Animation.LoopModeEnum.Linear;
+        animationPlayer.Play(nameAnim);
 
         return null;
     }

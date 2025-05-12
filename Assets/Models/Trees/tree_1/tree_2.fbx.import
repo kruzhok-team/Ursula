@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b0a8nkcbe6rix"
+uid="uid://dnyj8mbwdahru"
 path="res://.godot/imported/tree_2.fbx-eed7c098022e651ea884ae5a661fd57a.scn"
 
 [deps]
@@ -34,4 +34,4 @@ import_script/path=""
 _subresources={}
 fbx/importer=0
 fbx/allow_geometry_helper_nodes=false
-fbx/embedded_image_handling=0
+fbx/embedded_image_handling=1

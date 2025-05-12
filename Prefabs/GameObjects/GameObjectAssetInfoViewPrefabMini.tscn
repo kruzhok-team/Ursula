@@ -1,0 +1,103 @@
+[gd_scene load_steps=6 format=3 uid="uid://k0lv1i4q4csk"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/GameObjects/View/GameObjectAssetInfoView.cs" id="1_p8t22"]
+[ext_resource type="Texture2D" uid="uid://cnndy2mvq2m8o" path="res://addons/Ursula/Assets/Themes/AssetBG.png" id="2_nfmyl"]
+[ext_resource type="StyleBox" uid="uid://dqqcv0g4ml2fl" path="res://addons/Ursula/Assets/Themes/TextEdit.tres" id="3_kwvev"]
+[ext_resource type="Texture2D" uid="uid://5u8tii1fiwbc" path="res://addons/Ursula/Assets/Textures/UI/NewGame.png" id="4_m65lv"]
+[ext_resource type="Texture2D" uid="uid://j8rbceeugwoc" path="res://addons/Ursula/Assets/Themes/Load.png" id="5_hlo4r"]
+
+[node name="GameObjectAssetInfoViewPrefab" type="Control" node_paths=PackedStringArray("LabelNameAsset", "ButtonClickAsset", "PreviewImageRect", "LoadObjectImageRect")]
+custom_minimum_size = Vector2(70, 90)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_p8t22")
+LabelNameAsset = NodePath("Label")
+ButtonClickAsset = NodePath("Button")
+PreviewImageRect = NodePath("Icon")
+LoadObjectImageRect = NodePath("Load")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_nfmyl")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = ExtResource("3_kwvev")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 10
+text = "Загрузить"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -12.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_m65lv")
+expand_mode = 1
+
+[node name="Load" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 45.0
+offset_top = 25.0
+offset_right = -49.0
+offset_bottom = -81.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_hlo4r")
+expand_mode = 1
+
+[node name="Label2" type="Label" parent="Load"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -27.0
+offset_top = 3.0
+offset_right = 30.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 10
+text = "Загрузить
+объект"
+horizontal_alignment = 1
+clip_text = true

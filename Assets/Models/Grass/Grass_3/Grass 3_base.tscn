@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8231j1op03es"]
+
+[ext_resource type="PackedScene" uid="uid://dpiiblxver4rn" path="res://addons/Ursula/Assets/Models/Grass/Grass_3/plant_3.fbx" id="1_shti3"]
+[ext_resource type="Material" uid="uid://iysh34aweuy6" path="res://addons/Ursula/Assets/Models/Grass/Grass_3/plant_3_mat.tres" id="2_w13nb"]
+
+[node name="plant_3" instance=ExtResource("1_shti3")]
+
+[node name="plant_3" parent="." index="0"]
+material_override = ExtResource("2_w13nb")

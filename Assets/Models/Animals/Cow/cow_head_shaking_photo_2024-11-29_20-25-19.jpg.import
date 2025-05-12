@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1dmeqepegq0o"
+uid="uid://w8h42fuh6fqh"
 path.s3tc="res://.godot/imported/cow_head_shaking_photo_2024-11-29_20-25-19.jpg-9e5b7b192d6b02cf7bf888396f8dfc0e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "950e304abe4d688b11803e1ced663836"
 }
 
 [deps]

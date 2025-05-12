@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://cmh31ni1ubrj7"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="1_037pt"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="2_tx0en"]
+[ext_resource type="PackedScene" uid="uid://c1ijqk6xjwe8a" path="res://addons/Ursula/Assets/Models/Npc/Bear/bear_boy_welder_base.tscn" id="3_ahu5e"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4wmw8"]
+size = Vector3(2.41162, 4.92352, 2.03763)
+
+[node name="bear_boy_welder" type="Node3D"]
+
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("1_037pt")
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("2_tx0en")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.053131, 2.4622, 0.686783)
+shape = SubResource("BoxShape3D_4wmw8")
+
+[node name="Bear_boy_Welder_Fix" parent="." instance=ExtResource("3_ahu5e")]

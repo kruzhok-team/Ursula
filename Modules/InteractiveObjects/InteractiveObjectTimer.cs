@@ -1,5 +1,6 @@
 ﻿using Godot;
 using System;
+using Modules.HSM;
 
 public partial class InteractiveObjectTimer : Node
 {
@@ -7,7 +8,7 @@ public partial class InteractiveObjectTimer : Node
 
     private Timer _timer;
 
-    public GMLActionHolder TimerCompleted = new();
+    public Action TimerCompleted;
     //public GMLActionHolder Tick = new();
     //public GMLActionHolder TickOneSecond = new();
 

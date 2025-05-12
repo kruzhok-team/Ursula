@@ -2,30 +2,26 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpv6a104sb5dh"
-path.s3tc="res://.godot/imported/FENCES_GATES-86afb31319a3946441a72cdbd99e838e_FENCES_GATES_tex.png-848182d7a7fa94b44697e118c6686a84.s3tc.ctex"
+uid="uid://cf36lyp1jylhg"
+path="res://.godot/imported/FENCES_GATES-86afb31319a3946441a72cdbd99e838e_FENCES_GATES_tex.png-848182d7a7fa94b44697e118c6686a84.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
-}
-generator_parameters={
-"md5": "56d52dcd04a81778209f208bba1fb87e"
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://addons/Ursula/Assets/Models/lamp&fences/FENCES_GATES/FENCES_GATES-86afb31319a3946441a72cdbd99e838e_FENCES_GATES_tex.png"
-dest_files=["res://.godot/imported/FENCES_GATES-86afb31319a3946441a72cdbd99e838e_FENCES_GATES_tex.png-848182d7a7fa94b44697e118c6686a84.s3tc.ctex"]
+dest_files=["res://.godot/imported/FENCES_GATES-86afb31319a3946441a72cdbd99e838e_FENCES_GATES_tex.png-848182d7a7fa94b44697e118c6686a84.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -35,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

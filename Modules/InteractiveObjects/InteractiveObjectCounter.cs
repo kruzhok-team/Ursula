@@ -1,17 +1,17 @@
 using Godot;
 using System;
-using static GMLAlgorithm;
+using Modules.HSM;
 
 public partial class InteractiveObjectCounter : Node
 {
     public VariableHolder<float> variable = new(0);
 
-    public GMLActionHolder onValueChanged = new();
+    public Action onValueChanged;
 
     public object AddValue(int val)
     {
         variable.Value += val;
-        onValueChanged.Invoke();
+        onValueChanged?.Invoke();
         GD.Print($"InteractiveObjectCounter: {variable.Value}");
         return null;
     }
@@ -19,7 +19,7 @@ public partial class InteractiveObjectCounter : Node
     public object SubValue(int val)
     {
         variable.Value -= val;
-        onValueChanged.Invoke();
+        onValueChanged?.Invoke();
         GD.Print($"InteractiveObjectCounter: {variable.Value}");
         return null;
     }
@@ -27,7 +27,7 @@ public partial class InteractiveObjectCounter : Node
     public object ResetValue()
     {
         variable.Value = 0;
-        onValueChanged.Invoke();
+        onValueChanged?.Invoke();
         GD.Print($"InteractiveObjectCounter: {variable.Value}");
         return null;
     }

@@ -1,0 +1,6 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://ct30m5nvsg0gu"]
+
+[ext_resource type="Texture2D" uid="uid://u42m385fq6b1" path="res://addons/Ursula/Assets/Themes/ButtonDottedLine.png" id="1_pq1we"]
+
+[resource]
+texture = ExtResource("1_pq1we")

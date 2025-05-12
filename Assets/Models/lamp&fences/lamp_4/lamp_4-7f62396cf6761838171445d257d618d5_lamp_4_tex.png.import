@@ -2,30 +2,26 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://x4jufltklfnw"
-path.s3tc="res://.godot/imported/lamp_4-7f62396cf6761838171445d257d618d5_lamp_4_tex.png-a72db42690d46f4868030c0a8329c16a.s3tc.ctex"
+uid="uid://b4u4prcswv12l"
+path="res://.godot/imported/lamp_4-7f62396cf6761838171445d257d618d5_lamp_4_tex.png-a72db42690d46f4868030c0a8329c16a.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
-}
-generator_parameters={
-"md5": "d11a706d60bac76aff59138a32571a29"
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://addons/Ursula/Assets/Models/lamp&fences/lamp_4/lamp_4-7f62396cf6761838171445d257d618d5_lamp_4_tex.png"
-dest_files=["res://.godot/imported/lamp_4-7f62396cf6761838171445d257d618d5_lamp_4_tex.png-a72db42690d46f4868030c0a8329c16a.s3tc.ctex"]
+dest_files=["res://.godot/imported/lamp_4-7f62396cf6761838171445d257d618d5_lamp_4_tex.png-a72db42690d46f4868030c0a8329c16a.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -35,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

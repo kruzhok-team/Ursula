@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bseb5mawm7l0j"]
+
+[ext_resource type="PackedScene" uid="uid://c5ntlwa3f0j6e" path="res://addons/Ursula/Assets/Models/Grass/fern_2/fern_2.fbx" id="1_iqp5a"]
+[ext_resource type="Material" uid="uid://t3lm2fi7hu0a" path="res://addons/Ursula/Assets/Models/Grass/fern_2/fern_2_mat.tres" id="2_xnhhr"]
+
+[node name="fern_2" instance=ExtResource("1_iqp5a")]
+
+[node name="fern_2" parent="." index="0"]
+material_override = ExtResource("2_xnhhr")
