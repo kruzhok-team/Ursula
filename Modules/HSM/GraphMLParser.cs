@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
 using System.Xml;
+
 using Godot;
 
 namespace Modules.HSM
@@ -143,4 +141,5 @@ namespace Modules.HSM
         public string Target { get; set; }
         public Dictionary<string, string> Data { get; set; } = new Dictionary<string, string>();
     }
+
 }
