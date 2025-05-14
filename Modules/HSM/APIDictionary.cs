@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Godot;
 
 using Modules.HSM;
 
@@ -9,7 +8,7 @@ public class APIDictionary
     public InteractiveObject _interactiveObject { get; private set; }
 
     private Dictionary<string, Dictionary<string, Func<string, string, object>>> MethodDictionary;
-    public Dictionary<string, Dictionary<string, GMLActionHolder>> SignalDictionary;
+    public Dictionary<string, Dictionary<string, ActionHolder>> SignalDictionary;
     public Dictionary<string, Dictionary<string, VariableHolder<float>>> VariableDictionary;
 
     public bool HasVar(string moduleName, string name)
@@ -27,11 +26,13 @@ public class APIDictionary
 
     public bool HasSignal(string moduleName, string signalName)
     {
-        if (signalName == "entry" || signalName == "exit") return false;
+        if (signalName == "entry" || signalName == "exit")
+            return false;
 
         if (SignalDictionary.ContainsKey(moduleName))
         {
-            if (SignalDictionary[moduleName].ContainsKey(signalName)) {
+            if (SignalDictionary[moduleName].ContainsKey(signalName))
+            {
                 return true;
             }
             ContextMenu.ShowMessageS($"Сигнал {moduleName}.{signalName} не зарегистрирован");
@@ -55,7 +56,7 @@ public class APIDictionary
 
         ContextMenu.ShowMessageS($"Модуль {moduleName} не зарегистрирован для методов");
 
-        return (_,__) => { return _; };
+        return (_, __) => { return _; };
     }
 
     public APIDictionary(InteractiveObject interactiveObject)
@@ -65,7 +66,7 @@ public class APIDictionary
         //SignalDictionary = new()
         //{
         //    {"МодульОбнаружения", new() {
-        //        { "ИгрокОбнаружен", _interactiveObject.detector.onPlayerDetected },
+        //        { "ИгрокОбнаружен",  _interactiveObject.detector.onPlayerDetected },
         //        { "ОбъектОбнаружен", _interactiveObject.detector.onObjectDetected },
         //        { "ЗвукОбнаружен", _interactiveObject.detector.onSoundDetected },
         //        { "ЦельПотеряна", _interactiveObject.move.moveScript?.onTargetLost },
@@ -183,13 +184,13 @@ public class APIDictionary
 
     public void ClearActionHolders()
     {
-        foreach(var module in SignalDictionary)
+        foreach (var module in SignalDictionary)
         {
             foreach (var action in module.Value)
             {
                 action.Value?.ClearSubscriptions();
             }
-                
+
         }
     }
 

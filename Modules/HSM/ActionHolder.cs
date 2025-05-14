@@ -1,27 +1,27 @@
-using Godot;
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
+
 namespace Modules.HSM
 {
-    public class GMLActionHolder
+    public class ActionHolder
     {
         public string guid { get; private set; }
         public List<string> ConstructorStackTrace { get; private set; } = new();
-        public string CallerVariableName { get; private set; } = "null (для отладки укажите название переменной при создании класса nameof())";
+        public string CallerVariableName { get; private set; } = "null (РґР»СЏ РѕС‚Р»Р°РґРєРё СѓРєР°Р¶РёС‚Рµ РЅР°Р·РІР°РЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№ РїСЂРё СЃРѕР·РґР°РЅРёРё РєР»Р°СЃСЃР° nameof())";
 
-        public GMLActionHolder()
+        public ActionHolder()
         {
             Init();
         }
 
         /// <summary>
-        /// Метод предназначенный для отладки ссылок
+        /// РњРµС‚РѕРґ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅРЅС‹Р№ РґР»СЏ РѕС‚Р»Р°РґРєРё СЃСЃС‹Р»РѕРє
         /// </summary>
         /// <param name="thisVariableName"></param>
-        public GMLActionHolder(string thisVariableName)
+        public ActionHolder(string thisVariableName)
         {
             CallerVariableName = thisVariableName;
             Init();
@@ -44,12 +44,12 @@ namespace Modules.HSM
                 string methodName = method.Name;
                 int lineNumber = frame.GetFileLineNumber();
 
-                // Добавляем информацию в CallerMethodNames
+                // Р”РѕР±Р°РІР»СЏРµРј РёРЅС„РѕСЂРјР°С†РёСЋ РІ CallerMethodNames
                 ConstructorStackTrace.Add($"Line {lineNumber}: {className}.{methodName}");
             }
         }
 
-        public Dictionary<GMLAlgorithm.Signal, Action> registeredMethods { get; } = new();
+        public Dictionary<Event, Action> registeredMethods { get; } = new();
 
         public void Invoke()
         {
@@ -83,12 +83,12 @@ namespace Modules.HSM
             }
         }
 
-        public void Subscribe(GMLAlgorithm.Signal signal, Action action)
+        public void Subscribe(Event ev, Action action)
         {
-            if (!registeredMethods.ContainsKey(signal))
-                registeredMethods.Add(signal, action);
+            if (!registeredMethods.ContainsKey(ev))
+                registeredMethods.Add(ev, action);
             else
-                registeredMethods[signal] += action;
+                registeredMethods[ev] += action;
         }
 
         public void ClearSubscriptions()
