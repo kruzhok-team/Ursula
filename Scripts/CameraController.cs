@@ -35,15 +35,20 @@ public partial class CameraController : Camera3D
 
     public static bool isLock
     {
-        get { return Input.MouseMode != Input.MouseModeEnum.Captured; }
+        get { return DisplayServer.MouseGetMode() == DisplayServer.MouseMode.Hidden; } // { return Input.MouseMode != Input.MouseModeEnum.Captured; }
     }
 
     public void CursorShow(bool state)
     {
         if (state)
-            Input.MouseMode = Input.MouseModeEnum.Visible;
+        {
+            DisplayServer.MouseSetMode(DisplayServer.MouseMode.Visible);
+        }
         else
-            Input.MouseMode = Input.MouseModeEnum.Captured;
+        {
+            DisplayServer.MouseSetMode(DisplayServer.MouseMode.Confined);
+            DisplayServer.MouseSetMode(DisplayServer.MouseMode.Hidden);
+        }
     }
 
 
@@ -51,23 +56,20 @@ public partial class CameraController : Camera3D
     {
         if (Input.IsKeyPressed(Key.Escape) && @event.IsPressed())
         {
-            //if (CameraController.instance == this)
-            {
-                if (Input.MouseMode == Input.MouseModeEnum.Captured)
-                    CursorShow(true);
-                else
-                    CursorShow(false);
-            }
+            if (DisplayServer.MouseGetMode() == DisplayServer.MouseMode.Hidden)
+                CursorShow(true);
+            else
+                CursorShow(false);
         }
 
-        if (!isLock)
+        if (isLock)
         {
             if (@event is InputEventMouseMotion mouseMotion)
             {
                 Vector2 mouseMovement = mouseMotion.Relative;
 
-                _rotation[0] -= mouseMovement[1] * sensitivity; // Вертикальное вращение
-                _rotation[1] -= mouseMovement[0] * sensitivity; // Горизонтальное вращение
+                _rotation[0] -= mouseMovement[1] * sensitivity;
+                _rotation[1] -= mouseMovement[0] * sensitivity;
 
                 _rotation[0] = Mathf.Clamp(_rotation[0], -90f, 90f);
 

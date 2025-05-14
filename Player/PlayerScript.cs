@@ -38,6 +38,8 @@ public partial class PlayerScript : CharacterBody3D, IInjectable
     private float timer = 0f;
     private const float INTERVAL = 10.2f;
 
+    private Vector2 _lastMousePosition;
+
     [Inject]
     private ISingletonProvider<HUDViewModel> _hudManager;
 
@@ -54,13 +56,13 @@ public partial class PlayerScript : CharacterBody3D, IInjectable
         _rotation[0] = RotationDegrees.X;
         _rotation[1] = RotationDegrees.Y;
 
-        CursorShow(false);
-
         waterLevel = VoxLib.mapManager.WaterLevel;
 
         characterBody3D = this as CharacterBody3D;
 
         instance.Name = "Player";
+
+        CursorShow(false);
     }
 
     private bool _isEscapePressed = false;
@@ -68,15 +70,20 @@ public partial class PlayerScript : CharacterBody3D, IInjectable
 
     public static bool isLock
     {
-        get { return Input.MouseMode != Input.MouseModeEnum.Captured; }
+        get  { return DisplayServer.MouseGetMode() == DisplayServer.MouseMode.Hidden; } // { return Input.MouseMode != Input.MouseModeEnum.Captured; }
     }
 
     public void CursorShow(bool state)
     {
         if (state)
-            Input.MouseMode = Input.MouseModeEnum.Visible;
+        {
+            DisplayServer.MouseSetMode(DisplayServer.MouseMode.Visible);
+        }
         else
-            Input.MouseMode = Input.MouseModeEnum.Captured;
+        {
+            DisplayServer.MouseSetMode(DisplayServer.MouseMode.Confined);
+            DisplayServer.MouseSetMode(DisplayServer.MouseMode.Hidden);
+        }
     }
 
     bool isVivibleInfo = false;
@@ -93,16 +100,13 @@ public partial class PlayerScript : CharacterBody3D, IInjectable
 
         if (Input.IsKeyPressed(Key.Escape) && @event.IsPressed())
         {
-            //if (CameraController.instance == this)
-            {
-                if (Input.MouseMode == Input.MouseModeEnum.Captured)
-                    CursorShow(true);
-                else
-                    CursorShow(false);
-            }
+            if (DisplayServer.MouseGetMode() == DisplayServer.MouseMode.Hidden)
+                CursorShow(true);
+            else
+                CursorShow(false);
         }
 
-        if (!isLock)
+        if (isLock)
         {
             if (@event is InputEventMouseMotion mouseMotion)
             {
@@ -176,6 +180,23 @@ public partial class PlayerScript : CharacterBody3D, IInjectable
                 VoxLib.hud._labelCoordinates.Visible = false;
             }
         }
+
+        //Vector2 currentMousePos = GetViewport().GetMousePosition();
+        //Vector2 deltaMouse = currentMousePos - _lastMousePosition;
+
+        //if (!isLock)
+        //{
+        //    _rotation[0] -= -deltaMouse.X * sensitivity;
+        //    _rotation[1] -= deltaMouse.Y * sensitivity;
+
+        //    _rotation[0] = Mathf.Clamp(_rotation[0], -90f, 90f);
+
+        //    RotationDegrees = new Vector3(_rotation[0], _rotation[1], 0);
+
+        //    _lastMousePosition = currentMousePos;
+        //}
+
+
     }
 
     private async GDTask SetHudInfo(string info)
