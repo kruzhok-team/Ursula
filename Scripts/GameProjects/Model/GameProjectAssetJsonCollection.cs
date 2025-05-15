@@ -201,7 +201,13 @@ namespace Ursula.GameProjects.Model
             string json = JsonSerializer.Serialize(info, options);
 
             string jsonFilePath = $"{_folderPath}{info.Template.Folder}/{ProjectJson}";
-            File.WriteAllText(ProjectSettings.GlobalizePath(jsonFilePath), json);
+            //File.WriteAllText(ProjectSettings.GlobalizePath(jsonFilePath), json);
+
+            using var file = Godot.FileAccess.Open(ProjectSettings.GlobalizePath(jsonFilePath), Godot.FileAccess.ModeFlags.Write);
+            if (file != null)
+            {
+                file.StoreString(json);
+            }
 
             return true;
         }

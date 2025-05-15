@@ -3,9 +3,11 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
@@ -953,15 +955,24 @@ public partial class MapManager : Node, IInjectable
         string savePath = file;
         if (savePath.Contains("user://Project")) savePath = ProjectSettings.GlobalizePath(savePath);
 
-        //string mapData = SaveWorld();
         Dictionary<string, string> mapData = SaveWorld();
+        var utf8WithoutBom = new UTF8Encoding(false);
 
-        using (StreamWriter writer = new StreamWriter(savePath))
-		{
-            //writer.Write(mapData);
+        //using (StreamWriter writer = new StreamWriter(savePath, false, utf8WithoutBom))
+        //{
+        //    //writer.Write(mapData);
+        //    foreach (var line in mapData)
+        //    {
+        //        writer.WriteLine(line);
+        //    }
+        //}
+
+        using var file1 = Godot.FileAccess.Open(savePath, Godot.FileAccess.ModeFlags.Write);
+        if (file1 != null)
+        {
             foreach (var line in mapData)
             {
-                writer.WriteLine(line);
+                file1.StoreLine(line.ToString());
             }
         }
 
@@ -1168,13 +1179,20 @@ public partial class MapManager : Node, IInjectable
         {
             pathMap = loadPath;
 
-            using (StreamReader reader = new StreamReader(loadPath))
+            //using (StreamReader reader = new StreamReader(loadPath))
+            //{
+            //    string line;
+            //    while ((line = reader.ReadLine()) != null)
+            //    {
+            //        AddStringToDictionary(mapData, line);
+            //    }
+            //}
+
+            using var file = Godot.FileAccess.Open(loadPath, Godot.FileAccess.ModeFlags.Read);
+            while (!file.EofReached())
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    AddStringToDictionary(mapData, line);
-                }
+                string line = file.GetLine();
+                AddStringToDictionary(mapData, line);
             }
         }
         else
@@ -1199,11 +1217,17 @@ public partial class MapManager : Node, IInjectable
         _terrainModel.SetSize(sizeTerrain);
 
         float power = 30f;
-        if (mapData.ContainsKey("power")) power = float.Parse(mapData["power"]);
+        if (mapData.ContainsKey("power"))
+        {
+            TryParseFloat(mapData["power"], out power);
+        }
         _terrainModel.SetPower(power);
 
         float scale = 50f;
-        if (mapData.ContainsKey("scale")) scale = float.Parse(mapData["scale"]);
+        if (mapData.ContainsKey("scale"))
+        {
+            TryParseFloat(mapData["scale"], out scale);
+        }
         _terrainModel.SetScale(scale);
       
         int platoSize = 30;
@@ -1234,7 +1258,7 @@ public partial class MapManager : Node, IInjectable
 
                 for (int x = 0; x < VoxLib.terrainManager.size; x++)
                 {
-                    mapHeight[y, x] = float.Parse(_mapHeight[i]);
+                    TryParseFloat(_mapHeight[i], out mapHeight[y, x]);
                     i++;
                 }
             }
@@ -1247,7 +1271,10 @@ public partial class MapManager : Node, IInjectable
             await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         }
 
-        if (mapData.ContainsKey("waterOffset")) waterOffset = float.Parse(mapData["waterOffset"]);
+        if (mapData.ContainsKey("waterOffset"))
+        {
+            TryParseFloat(mapData["waterOffset"], out waterOffset);
+        }
         _waterModel.SetWaterOffset(waterOffset);
 
         if (mapData.ContainsKey("TypeWater")) TypeWater = (VoxDrawTypes)int.Parse(mapData["TypeWater"]);
@@ -1257,9 +1284,10 @@ public partial class MapManager : Node, IInjectable
         if (mapData.ContainsKey("StaticWater")) isStatic = (bool)bool.Parse(mapData["StaticWater"]);
         _waterModel.SetStaticWater(isStatic);
 
+        float fullDayLength = 480f;
         if (mapData.ContainsKey("FullDayLength"))
         {
-            float fullDayLength = float.Parse(mapData["FullDayLength"]);
+            TryParseFloat(mapData["FullDayLength"], out fullDayLength);
             DayNightCycle.instance.SetFullDayLength(fullDayLength);
             _terrainModel.SetFullDayLength(fullDayLength);
         }
@@ -1292,12 +1320,16 @@ public partial class MapManager : Node, IInjectable
                     int y = int.Parse(itemData["y"]);
                     int z = int.Parse(itemData["z"]);
 
-                    float scaleItem = itemData.ContainsKey("scale") ? float.Parse(itemData["scale"]) : 1f;
+                    float scaleItem = 1f;
+                    if (itemData.ContainsKey("scale"))
+                    {
+                        TryParseFloat(itemData["scale"], out scaleItem);
+                    }
 
                     float positionY = y;
                     if (itemData.ContainsKey("positionY"))
                     {
-                        positionY = float.Parse(itemData["positionY"]);
+                        TryParseFloat(itemData["positionY"], out positionY);
                     }
 
                     int id = x + z * 256 + y * 256 * 256;
@@ -1765,5 +1797,15 @@ public partial class MapManager : Node, IInjectable
         OpenInExplorer(pathImport);
     }
 
+    private bool TryParseFloat(string input, out float value)
+    {
+        input = input.Replace(' ', '\0').Replace(" ", "");
 
+        return float.TryParse(
+            input.Replace(',', '.'),
+            NumberStyles.Any,
+            CultureInfo.InvariantCulture,
+            out value
+        );
+    }
 }
