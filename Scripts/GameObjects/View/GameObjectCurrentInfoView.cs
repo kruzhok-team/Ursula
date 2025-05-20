@@ -385,6 +385,8 @@ namespace Ursula.GameObjects.View
                     _gameObjectAddGameObjectAssetModel?.SetModelPath(path);
                     _gameObjectAddGameObjectAssetModel?.SetCurrentAssetToCollection();
 
+                    _gameObjectCollectionModel?.SetGameObjectAssetSelected(_gameObjectLibraryManager.GetItemInfo(_gameObjectCollectionModel.AssetSelected.Id));
+
                     RepaintSelectedAsset();
                 }
                 else
@@ -405,6 +407,8 @@ namespace Ursula.GameObjects.View
                     _gameObjectAddGameObjectAssetModel?.SetGraphXmlPath(path);
                     _gameObjectAddGameObjectAssetModel?.SetCurrentAssetToCollection();
 
+                    _gameObjectCollectionModel?.SetGameObjectAssetSelected(_gameObjectLibraryManager.GetItemInfo(_gameObjectCollectionModel.AssetSelected.Id));
+
                     RepaintSelectedAsset();
                 }
                 else
@@ -422,6 +426,8 @@ namespace Ursula.GameObjects.View
                     _gameObjectAddGameObjectAssetModel?.AddSoundResources(path);
                     _gameObjectAddGameObjectAssetModel?.SetCurrentAssetToCollection();
 
+                    _gameObjectCollectionModel?.SetGameObjectAssetSelected(_gameObjectLibraryManager.GetItemInfo(_gameObjectCollectionModel.AssetSelected.Id));
+
                     RepaintSelectedAsset();
                 }
                 else
@@ -438,6 +444,8 @@ namespace Ursula.GameObjects.View
                 {
                     _gameObjectAddGameObjectAssetModel?.AddAnimationResources(path);
                     _gameObjectAddGameObjectAssetModel?.SetCurrentAssetToCollection();
+
+                    _gameObjectCollectionModel?.SetGameObjectAssetSelected(_gameObjectLibraryManager.GetItemInfo(_gameObjectCollectionModel.AssetSelected.Id));
 
                     RepaintSelectedAsset();
                 }

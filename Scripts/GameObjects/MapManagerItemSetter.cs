@@ -170,6 +170,7 @@ namespace Ursula.MapManagers.Setters
                 var io = obj as InteractiveObject;
                 if (io != null && !string.IsNullOrEmpty(assetInfo.Template.GraphXmlPath))
                 {
+                    io.id = assetInfo.Id;
                     io.xmlPath = assetInfo.Template.GraphXmlPath;
                     if (string.IsNullOrEmpty(AssetFoderPath))
                     {

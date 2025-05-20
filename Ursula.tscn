@@ -362,6 +362,7 @@ text = "Экспорт"
 alignment = 0
 
 [node name="ButtonAboutProgram" type="Button" parent="Controls/ControlBuild/Panel/ControlPopupMenu/HBoxContainer/ButtonFile/PanelMenuFile/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 focus_mode = 0

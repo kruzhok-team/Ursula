@@ -21,6 +21,9 @@ public partial class InteractiveObject : Node
     public InteractiveObjectCounter counter2;
 
     [Export]
+    public string id;
+
+    [Export]
     public string xmlPath;
 
     [Export]
@@ -108,15 +111,19 @@ public partial class InteractiveObject : Node
         }
     }
 
-    public void StartAlgorithm()
+    public async GDTask StartAlgorithm()
     {
         if (hsmLogic != null)
         {
-            //if (gml.currentState != null)
-            //{
+            string _path = VoxLib.mapManager._GameObjectLibraryManager.GetGraphXmlPath(id);
+
+            if (_path != xmlPath)
+            {
+                LoadAlgorithm(_path);
+                await GDTask.Delay(1000);
+            }
+
             hsmLogic.Start();
-            //return;
-            //}
         }
 
         //GD.PrintErr("GML cannot be started, it is not loaded");       

@@ -192,6 +192,14 @@ public partial class MapManager : Node, IInjectable
         }
     }
 
+    public GameObjectLibraryManager _GameObjectLibraryManager
+    {
+        get
+        {
+            return _gameObjectLibraryManager;
+        }
+    }
+
     private MapManagerModel _mapManagerModel { get; set; }
     private GameObjectLibraryManager _gameObjectLibraryManager { get; set; }
     private GameObjectCreateItemsModel _gameObjectCreateItemsModel { get; set; }
