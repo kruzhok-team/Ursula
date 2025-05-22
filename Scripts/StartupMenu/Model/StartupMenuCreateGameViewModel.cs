@@ -239,6 +239,7 @@ namespace Ursula.StartupMenu.Model
         public StartupMenuCreateGameViewModel SetFullDayLength(float value)
         {
             _CreateGameSourceData.SetFullDayLength(value);
+            DayNightCycle.instance.SetFullDayLength(value);
             return this;
         }
 

@@ -138,8 +138,6 @@ public partial class MoveScript : CharacterBody3D
     void NextPositionInPositionMove()
     {
         
-
-
         Vector3 currentAgentPosition = GlobalTransform.Origin;
         float distanceToTarget = currentAgentPosition.DistanceTo(MovementPosition);
         if (distanceToTarget >= _navigationAgent.TargetDesiredDistance && navPath != null)
@@ -149,7 +147,7 @@ public partial class MoveScript : CharacterBody3D
                 Vector3 currentPathPos = navPath[currentPath];
                 //currentPathPos.Y = currentAgentPosition.Y;
 
-                currentPathPos.Y = GetTerrainHeight((int)currentPathPos.X, (int)currentPathPos.Z);
+                currentPathPos.Y = GlobalPosition.Y; // GetTerrainHeight((int)currentPathPos.X, (int)currentPathPos.Z);
 
                 _targetVelocity = GlobalPosition.DirectionTo(currentPathPos) * _movementSpeed;
                 if (currentAgentPosition.DistanceTo(currentPathPos) < _navigationAgent.TargetDesiredDistance)
@@ -602,7 +600,7 @@ public partial class MoveScript : CharacterBody3D
         _targetVelocity.Y = 0;
         if (!isOnFloor)
         {
-            _targetVelocity.Y -= (float)9.8 * (float)delta * 20;
+            _targetVelocity.Y -= (float)9.8 * (float)delta;
         }
 
         Velocity = _targetVelocity;
