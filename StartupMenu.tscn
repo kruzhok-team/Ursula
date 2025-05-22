@@ -1194,7 +1194,7 @@ offset_right = -35.0
 offset_bottom = 145.0
 grow_horizontal = 2
 theme_override_styles/normal = ExtResource("8_f0lq4")
-text = "Загрузить директорию с проектом"
+text = "Загрузить архив с проектом"
 
 [node name="TextureRect" type="TextureRect" parent="RightPanel/GameProjectCollectionView/ButtonLoadFolderProject"]
 layout_mode = 1

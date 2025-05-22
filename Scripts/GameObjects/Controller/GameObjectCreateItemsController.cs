@@ -38,25 +38,44 @@ public partial class GameObjectCreateItemsController : Node3D, IInjectable
 	{
 		if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.Pressed)
 		{
-            if (Raycaster.Hit(_camera, eventMouseButton.Position, out Node collider, out Vector3 pos, true))
-			{
-				string name = collider.Name;
-                if (name.Contains("Bound")) return;
-
-                if (eventMouseButton.ButtonIndex == MouseButton.Left)
+            if (DisplayServer.MouseGetMode() == DisplayServer.MouseMode.Hidden)
+            {
+                if (Raycaster.HitFromCenterOfScreen(_camera, out Node collider2, out Vector3 pos2, false))
                 {
-                    //VoxLib.mapManager.tempScale = 1f;
-                    //VoxLib.mapManager.Building(collider, pos);
+                    string name = collider2.Name;
+                    if (name.Contains("Bound")) return;
 
-                    _gameObjectCreateItemsModel.SetGameObjectCreateItem(pos, 1f, 0);
+                    if (eventMouseButton.ButtonIndex == MouseButton.Left)
+                    {
+                        _gameObjectCreateItemsModel.SetGameObjectCreateItem(pos2, 1f, 0);
 
-                }
-                else if (eventMouseButton.ButtonIndex == MouseButton.Right)
-                {
-                    //VoxLib.mapManager.DeleteItem(collider);
-                    _gameObjectCreateItemsModel.SetGameObjectDeleteItem(collider);
+                    }
+                    else if (eventMouseButton.ButtonIndex == MouseButton.Right)
+                    {
+                        _gameObjectCreateItemsModel.SetGameObjectDeleteItem(collider2);
+                    }
                 }
             }
+            else
+            {
+                if (Raycaster.Hit(_camera, eventMouseButton.Position, out Node collider, out Vector3 pos, true))
+                {
+                    string name = collider.Name;
+                    if (name.Contains("Bound")) return;
+
+                    if (eventMouseButton.ButtonIndex == MouseButton.Left)
+                    {
+                        _gameObjectCreateItemsModel.SetGameObjectCreateItem(pos, 1f, 0);
+
+                    }
+                    else if (eventMouseButton.ButtonIndex == MouseButton.Right)
+                    {
+                        _gameObjectCreateItemsModel.SetGameObjectDeleteItem(collider);
+                    }
+                }
+            }
+
+
         }
     }
 

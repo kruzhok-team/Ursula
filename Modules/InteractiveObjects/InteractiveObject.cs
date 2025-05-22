@@ -115,7 +115,7 @@ public partial class InteractiveObject : Node
     {
         if (hsmLogic != null)
         {
-            string _path = VoxLib.mapManager._GameObjectLibraryManager.GetGraphXmlPath(id);
+            string _path = VoxLib.mapManager._GameObjectLibraryManager?.GetGraphXmlPath(id);
 
             if (_path != xmlPath)
             {
