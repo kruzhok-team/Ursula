@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dp5lkal7gpql8"
-path="res://.godot/imported/logo-white.png-c7bfb4a1f458dff3812438cda647c9b9.ctex"
+uid="uid://bjvd18dlora17"
+path="res://.godot/imported/Icon.png-876a48ef6632004d30d9deecb4d0fd9f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Ursula/Assets/Textures/Logo/logo-white.png"
-dest_files=["res://.godot/imported/logo-white.png-c7bfb4a1f458dff3812438cda647c9b9.ctex"]
+source_file="res://addons/Ursula/Assets/Textures/Logo/Icon.png"
+dest_files=["res://.godot/imported/Icon.png-876a48ef6632004d30d9deecb4d0fd9f.ctex"]
 
 [params]
 
