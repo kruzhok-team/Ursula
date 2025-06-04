@@ -153,7 +153,8 @@ public partial class LogScript : LogModel, IInjectable
             popupMenu.SetItemChecked(i, isChecked);
         }
 
-        _= SetFilterText();
+        isUpdatedLog = true;
+        _ = SetFilterText();
     }
 
     public async GDTask SetFilterText()
