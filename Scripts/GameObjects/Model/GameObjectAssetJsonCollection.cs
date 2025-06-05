@@ -50,7 +50,10 @@ namespace Ursula.GameObjects.Model
 
         public GameObjectAssetInfo GetItemInfo(string id)
         {
-            return _infoMap[id];
+            if (_infoMap.ContainsKey(id))
+                return _infoMap[id];
+
+            return null;
         }
 
         public IReadOnlyCollection<IGameObjectAsset> GetAll()

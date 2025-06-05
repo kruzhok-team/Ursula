@@ -171,7 +171,7 @@ namespace Ursula.GameObjects.View
             ButtonRemoveModel.Visible = isEditMode;
         }
 
-        private void ClearData()
+        private async void ClearData()
         {
             //modelCurrent = null;
 
@@ -190,6 +190,10 @@ namespace Ursula.GameObjects.View
 
             VoxLib.RemoveAllChildren(VBoxContainerSound);
             VoxLib.RemoveAllChildren(VBoxContainerAnimation);
+
+            var model = _addGameObjectAssetProvider != null ? await _addGameObjectAssetProvider.GetAsync() : null;
+            model?.ClearAnimations();
+            model?.ClearAudios();
         }
 
         async void AddGameObjectAssetButton_DownEventHandler()

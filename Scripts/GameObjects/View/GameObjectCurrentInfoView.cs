@@ -356,8 +356,46 @@ namespace Ursula.GameObjects.View
 
         private void ButtonDeleteAsset_DownEventHandler()
         {
+            string path = _gameObjectCollectionModel.AssetSelected.GetAssetPath();
+
             _gameObjectLibraryManager.RemoveItem(_gameObjectCollectionModel.AssetSelected.Id);
             _= _gameObjectLibraryManager.Save();
+            //_gameObjectCollectionModel.SetGameObjectAssetSelected(null);
+
+            ClearData();
+
+            DeleteAssetFiles(path);
+        }
+
+        private void DeleteAssetFiles(string dirPath)
+        {
+            if (Directory.Exists(dirPath))
+            {
+                try
+                {
+                    Directory.Delete(dirPath, true);
+                }
+                catch (Exception e)
+                {
+                    GD.PrintErr($"Ошибка при удалении папки ассета: {e.Message}");
+                }
+            }
+            else
+            {
+                GD.Print($"Папка {dirPath} не существует.");
+            }
+        }
+
+        private void ClearData()
+        {
+            TextEditModelName.Text = "";
+            TextEditPath3DModel.Text = "";
+            TextureRectPreviewImage.Texture = null;
+            TextEditSampleObject.Text = "";
+
+            VoxLib.RemoveAllChildren(VBoxContainerGraphXmlPath);
+            VoxLib.RemoveAllChildren(VBoxContainerAudios);
+            VoxLib.RemoveAllChildren(VBoxContainerAnimation);
         }
 
         private void ChangeAccessElements(bool isEditable)

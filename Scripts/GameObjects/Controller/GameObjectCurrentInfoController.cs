@@ -57,6 +57,8 @@ namespace Ursula.GameObjects.Controller
 
         private void GameObjectCollectionModel_GameObjectAssetSelected_EventHandler(object sender, EventArgs e)
         {
+            if (_gameObjectCollectionModel.AssetSelected == null) return;
+
             _addGameObjectAssetModel.ProviderId = _gameObjectCollectionModel.AssetSelected.ProviderId;
             _gameObjectCurrentInfoModel.SetAssetInfoView(_gameObjectCollectionModel.AssetSelected, true);
             GameObjectCurrentInfoView.SetAssetInfoView(_gameObjectCollectionModel.AssetSelected);
