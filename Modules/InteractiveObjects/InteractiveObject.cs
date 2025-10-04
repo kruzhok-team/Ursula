@@ -38,6 +38,7 @@ public partial class InteractiveObject : Node
     public HSMCounterOneModule hsmCounterOneModule;
     public HSMCounterTwoModule hsmCounterTwoModule;
     public HSMWorldInteractingModule hsmWorldInteractingModule;
+    public HSMInteractiveObjectModule interactiveObjectModule;
 
     HSMLogger _logger;
 
@@ -74,6 +75,7 @@ public partial class InteractiveObject : Node
         hsmCounterOneModule = new HSMCounterOneModule(hsmLogic, this);
         hsmCounterTwoModule = new HSMCounterTwoModule(hsmLogic, this);
         hsmWorldInteractingModule = new HSMWorldInteractingModule(hsmLogic, this);
+        interactiveObjectModule = new HSMInteractiveObjectModule(hsmLogic, this);
     }
 
     public void ReloadAlgorithm()
@@ -110,6 +112,7 @@ public partial class InteractiveObject : Node
 
     public void StartAlgorithm()
     {
+        GD.Print("ALGO START");
         if (hsmLogic != null)
         {
             //if (gml.currentState != null)

@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using System;
 using System.Collections.Generic;
 
@@ -70,4 +70,18 @@ public partial class InteractiveObjectsManager : Node
         }
     }
 
+    public void RemoveObject(InteractiveObject obj)
+    {
+        if(objects.Contains(obj))
+        {
+            objects.Remove(obj);
+        }
+    }
+
+    public void DuplicateObject(InteractiveObject obj)
+    {
+        var parent = obj.GetParent();
+        Node duplicatedObject = parent.Duplicate();
+        GetTree().CurrentScene.AddChild(duplicatedObject);
+    }
 }
