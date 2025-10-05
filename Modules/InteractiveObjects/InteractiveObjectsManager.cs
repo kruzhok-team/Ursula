@@ -74,6 +74,8 @@ public partial class InteractiveObjectsManager : Node
     {
         if(objects.Contains(obj))
         {
+            var parent = obj.GetParent();
+            parent.QueueFree();
             objects.Remove(obj);
         }
     }
