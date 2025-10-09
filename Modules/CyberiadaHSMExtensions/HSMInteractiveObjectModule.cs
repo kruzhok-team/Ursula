@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Godot;
 
 public class HSMInteractiveObjectModule
 {
@@ -23,15 +24,15 @@ public class HSMInteractiveObjectModule
 
     bool DuplicateObject(List<Tuple<string, string>> value)
     {
+        GD.Print("DuplicateObject");
         InteractiveObjectsManager.Instance.DuplicateObject(_object);
-
         return true;
     }
 
     bool RemoveObject(List<Tuple<string, string>> value)
     {
+        GD.Print("RemoveObject");
         InteractiveObjectsManager.Instance.RemoveObject(_object);
-
         return true;
     }
 }
