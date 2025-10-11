@@ -24,14 +24,12 @@ public class HSMInteractiveObjectModule
 
     bool DuplicateObject(List<Tuple<string, string>> value)
     {
-        GD.Print("DuplicateObject");
         InteractiveObjectsManager.Instance.DuplicateObject(_object);
         return true;
     }
 
     bool RemoveObject(List<Tuple<string, string>> value)
     {
-        GD.Print("RemoveObject");
         InteractiveObjectsManager.Instance.RemoveObject(_object);
         return true;
     }
