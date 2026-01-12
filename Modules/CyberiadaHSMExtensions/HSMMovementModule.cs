@@ -20,6 +20,8 @@ public class HSMMovementModule
     //const string MoveRandomCommandKey = $"{ModuleName}.�����������������";
     const string MoveToTargetCommandKey = $"{ModuleName}.ДвигатьсяКОбъекту";
     const string MoveFromTargetCommandKey = $"{ModuleName}.ДвигатьсяОтОбъекта";
+    const string MoveToTarget2CommandKey = $"{ModuleName}.ДвигатьсяКОбъекту2";
+    const string MoveFromTarget2CommandKey = $"{ModuleName}.ДвигатьсяОтОбъекта2";
     const string MoveToPositionCommandKey = $"{ModuleName}.ДвигатьсяПоКоординатам";
     const string SetPositionCommandKey = $"{ModuleName}.ЗадатьКоординаты";
     const string SetPositionUpCommandKey = $"{ModuleName}.ЗадатьКоординатуВверх";
@@ -31,9 +33,12 @@ public class HSMMovementModule
     const string StopMovingCommandKey = $"{ModuleName}.Стоп";
     const string SetObjectNameCommandKey = $"{ModuleName}.ЗадатьИмяОбъекта";
     const string SetMoveDistanceCommandKey = $"{ModuleName}.ЗадатьПройденноеРасстояние";
+    const string BuildPathCommandKey = $"{ModuleName}.ПостроитьМаршрутДоСлучайнойТочки";
+    const string GetNextPathPointCommandKey = $"{ModuleName}.ПолучитьКоординатыТочкиМаршрута";
 
     // Variable keys
     const string DistanceVariableKey = $"{ModuleName}.ПройденноеРасстояние";
+    const string PathPointsCountVariableKey = $"{ModuleName}.КоличествоТочекВМаршруте";
 
     public HSMMovementModule(CyberiadaLogic logic, InteractiveObject interactiveObject)
     {
@@ -56,6 +61,8 @@ public class HSMMovementModule
         //logic.localBus.AddCommandListener(MoveRandomCommandKey, MoveToRandom);
         logic.localBus.AddCommandListener(MoveToTargetCommandKey, MoveToTarget);
         logic.localBus.AddCommandListener(MoveFromTargetCommandKey, MoveFromTarget);
+        logic.localBus.AddCommandListener(MoveToTarget2CommandKey, MoveToTarget2);
+        logic.localBus.AddCommandListener(MoveFromTarget2CommandKey, MoveFromTarget2);
         logic.localBus.AddCommandListener(MoveToPositionCommandKey, MoveToPosition);
         logic.localBus.AddCommandListener(SetPositionCommandKey, SetPosition);
         logic.localBus.AddCommandListener(SetPositionUpCommandKey, SetPositionUp);
@@ -67,9 +74,12 @@ public class HSMMovementModule
         logic.localBus.AddCommandListener(StopMovingCommandKey, StopMoving);
         logic.localBus.AddCommandListener(SetObjectNameCommandKey, SetObjectName);
         logic.localBus.AddCommandListener(SetMoveDistanceCommandKey, SetMoveDistance);
+        logic.localBus.AddCommandListener(BuildPathCommandKey, BuildRandomPath);
+        logic.localBus.AddCommandListener(GetNextPathPointCommandKey, GetNextPathPoint);
 
         // Variables
         logic.localBus.AddVariableGetter(DistanceVariableKey, () => _object.move.moveDistance.Value);
+        logic.localBus.AddVariableGetter(PathPointsCountVariableKey, () => _object.move.movePath.Count);
     }
 
 
@@ -94,6 +104,20 @@ public class HSMMovementModule
         return true;
     }
 
+    bool MoveToTarget2(List<Tuple<string, string>> value)
+    {
+        _object.move.MoveToTarget2();
+
+        return true;
+    }
+
+    bool MoveFromTarget2(List<Tuple<string, string>> value)
+    {
+        _object.move.MoveFromTarget2();
+
+        return true;
+    }
+    
     bool MoveToPosition(List<Tuple<string, string>> value)
     {
         //Profiler.EndSample("MoveToPosition");
@@ -174,6 +198,20 @@ public class HSMMovementModule
     {
         _object.move.SetMoveDistance(
             HSMUtils.GetValue<float>(value[0]));
+
+        return true;
+    }
+
+    bool BuildRandomPath(List<Tuple<string, string>> value)
+    {
+        _object.move.BuildRandomPath();
+
+        return true;
+    }
+
+    bool GetNextPathPoint(List<Tuple<string, string>> value)
+    {
+        _object.move.GetNextPathPoint();
 
         return true;
     }

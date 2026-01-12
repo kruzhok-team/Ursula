@@ -166,7 +166,7 @@ public class APIDictionary
             {"ВзаимодействиеСМиром", new() {
                 { "ВремяСуток", _interactiveObject.move.timesOfDay },
                 { "ТипПоверхности", _interactiveObject.move.surfaceType },
-                { "ВысотаНадПоверхностью", _interactiveObject.move.heightWorld },
+                //{ "ВысотаНадПоверхностью", _interactiveObject.move.heightWorld },
             }},
             {"Таймер", new() {
                 { "ТекущееЗначениеТаймера", _interactiveObject.timer.CurrentTimerValue },

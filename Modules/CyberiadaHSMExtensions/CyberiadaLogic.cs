@@ -17,6 +17,8 @@ public class CyberiadaLogic
 
     HSMLogger _logger;
 
+    public State RootaState => _rootState;
+
     public static CyberiadaLogic Load(string graphMLPath)
     {
         var element = XElement.Load(ProjectSettings.GlobalizePath(graphMLPath));

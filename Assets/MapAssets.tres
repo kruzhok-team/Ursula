@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=121 format=3 uid="uid://dl6jsq7htq75q"]
+[gd_resource type="Resource" load_steps=141 format=3 uid="uid://dl6jsq7htq75q"]
 
 [ext_resource type="Material" uid="uid://cwhi82msh22nm" path="res://addons/Ursula/Shaders/IceMat.tres" id="1_28w3s"]
 [ext_resource type="Material" uid="uid://dkyhs6sd6eroy" path="res://addons/Ursula/Shaders/LavaMat.tres" id="2_s2j7q"]
@@ -7,14 +7,19 @@
 [ext_resource type="PackedScene" uid="uid://c1huqsvq5ebhh" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/interactive_object_counter.tscn" id="3_oy3hf"]
 [ext_resource type="Material" uid="uid://blb8huupptm0h" path="res://addons/Ursula/Shaders/LavaMatPlane.tres" id="3_wymj1"]
 [ext_resource type="Material" uid="uid://n5amgnjxr8ti" path="res://addons/Ursula/Shaders/TerrainBlend.tres" id="4_nkl5f"]
-[ext_resource type="PackedScene" uid="uid://clxifoou28avs" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/interactive_object_detector.tscn" id="4_yghhw"]
+[ext_resource type="PackedScene" uid="uid://cbcrx4y7l6hik" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/interactive_object_detector.tscn" id="4_yghhw"]
 [ext_resource type="PackedScene" uid="uid://duxo3xtm5io1k" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/interactive_object_move.tscn" id="5_f2opi"]
+[ext_resource type="PackedScene" uid="uid://cj77bvbsc8xxr" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/interactive_object_epidemic.tscn" id="5_jq0dn"]
 [ext_resource type="Material" uid="uid://bxar533o5uie6" path="res://addons/Ursula/Shaders/TerrainMaterial3D.tres" id="5_oha17"]
 [ext_resource type="Material" uid="uid://fu7wl56n0ecn" path="res://addons/Ursula/Shaders/TestMaterial.tres" id="6_8fq4u"]
 [ext_resource type="PackedScene" uid="uid://b2usj12artbdf" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/interactive_object_timer.tscn" id="6_ikhl2"]
+[ext_resource type="PackedScene" uid="uid://dydkecmuhs1if" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/interactive_object_initialization.tscn" id="6_okw75"]
 [ext_resource type="Material" uid="uid://dfp20ris1piv8" path="res://addons/Ursula/Shaders/WaterMat.tres" id="7_5ec2a"]
+[ext_resource type="PackedScene" uid="uid://cl67elv5asy2t" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/interactive_object_models.tscn" id="7_u0k31"]
 [ext_resource type="PackedScene" uid="uid://bx22jh3q31hks" path="res://addons/Ursula/Assets/Prefabs/CustomItem/CustomItem.tscn" id="8_012dk"]
 [ext_resource type="Material" uid="uid://dur4cdkwtsjl6" path="res://addons/Ursula/Shaders/WaterMatPlane.tres" id="9_c68dq"]
+[ext_resource type="PackedScene" uid="uid://dxk048njxb3fw" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/interactive_object_randomness.tscn" id="9_o33vw"]
+[ext_resource type="PackedScene" uid="uid://d27gtf8j375ou" path="res://addons/Ursula/Modules/InteractiveObjects/Prefabs/interactive_object_time.tscn" id="10_6vw7y"]
 [ext_resource type="PackedScene" uid="uid://lb7n46lr378y" path="res://addons/Ursula/Assets/Models/Trees/palm_1/Palm 1.tscn" id="16_skoeo"]
 [ext_resource type="PackedScene" uid="uid://sh4cs5qv1h3i" path="res://addons/Ursula/Assets/Prefabs/CustomItem/CustomPlatform.tscn" id="17_d1f66"]
 [ext_resource type="PackedScene" uid="uid://mt8efaq6wfgv" path="res://addons/Ursula/Assets/Models/Trees/palm_2/Palm 2.tscn" id="17_rufk6"]
@@ -79,20 +84,31 @@
 [ext_resource type="Texture2D" uid="uid://hkuat1ci38sm" path="res://addons/Ursula/Assets/Models/Grass/Grass_1/plant_1_ico.png" id="63_xjv5q"]
 [ext_resource type="Texture2D" uid="uid://dvk2rc0250age" path="res://addons/Ursula/Assets/Models/Grass/Grass_2/plant_2_ico.png" id="64_vvvpa"]
 [ext_resource type="Texture2D" uid="uid://b8i7e5tl54bmd" path="res://addons/Ursula/Assets/Models/Grass/Grass_3/plant_3_ico.png" id="65_icgkl"]
+[ext_resource type="PackedScene" uid="uid://ccj4llfe63v8o" path="res://addons/Ursula/Assets/Models/Buildings/road_cross/road_cross.tscn" id="66_pq602"]
 [ext_resource type="Texture2D" uid="uid://d0m7w6njbqqrc" path="res://addons/Ursula/Assets/Models/Grass/Grass_4/plant_4_ico.png" id="66_wlaq7"]
+[ext_resource type="PackedScene" uid="uid://clfcd4skof1aa" path="res://addons/Ursula/Assets/Models/Animals/Cow/Cow_black.tscn" id="67_4sbeq"]
 [ext_resource type="Texture2D" uid="uid://c5mvxgh81s3i7" path="res://addons/Ursula/Assets/Models/Grass/Grass_5/plant_5_ico.png" id="67_td58x"]
 [ext_resource type="Texture2D" uid="uid://om1u5r04wryr" path="res://addons/Ursula/Assets/Models/Animals/Cow/Cow_icon.png" id="67_vs3ml"]
+[ext_resource type="PackedScene" uid="uid://dxxjh2ugunutr" path="res://addons/Ursula/Assets/Models/Buildings/road_straight/road_straight.tscn" id="67_y0ajd"]
+[ext_resource type="PackedScene" uid="uid://beysfcms7skkr" path="res://addons/Ursula/Assets/Models/Buildings/road_t/road_t.tscn" id="68_8iidc"]
+[ext_resource type="PackedScene" uid="uid://cjhxv3ddfqfpr" path="res://addons/Ursula/Assets/Models/Animals/Cow/Cow_red.tscn" id="68_60jjj"]
 [ext_resource type="Texture2D" uid="uid://bwlihcvgylj0t" path="res://addons/Ursula/Assets/Models/Grass/Grass_6/plant_6_ico.png" id="68_pvsuy"]
 [ext_resource type="Texture2D" uid="uid://0pqfev8q3xtq" path="res://addons/Ursula/Assets/Models/lamp&fences/fence/fence_ico.png" id="68_rqoiy"]
+[ext_resource type="PackedScene" uid="uid://g5ei43203bnc" path="res://addons/Ursula/Assets/Models/Animals/Cow/Cow_dark_red.tscn" id="69_2ouhs"]
 [ext_resource type="Texture2D" uid="uid://c2md0jewa533v" path="res://addons/Ursula/Assets/Models/lamp&fences/fence_corner/fence_corner_ico.png" id="69_2srjx"]
+[ext_resource type="PackedScene" uid="uid://csdttsa1gaf80" path="res://addons/Ursula/Assets/Models/Buildings/road_turn/road_turn.tscn" id="69_os4u4"]
+[ext_resource type="PackedScene" uid="uid://18qlqfss4kyl" path="res://addons/Ursula/Assets/Models/Buildings/traffic_light_green/traffic_light_green.tscn" id="70_jee45"]
 [ext_resource type="Texture2D" uid="uid://1xcurei3xitf" path="res://addons/Ursula/Assets/Prefabs/CheckPoint/Checkpoint_ico.png" id="70_ne2e2"]
+[ext_resource type="PackedScene" uid="uid://dih8uh8natoof" path="res://addons/Ursula/Assets/Models/Buildings/traffic_light_red/traffic_light_red.tscn" id="71_a1u1n"]
 [ext_resource type="Texture2D" uid="uid://beonnerqf1fyr" path="res://addons/Ursula/Assets/Prefabs/CustomObject/CustomObject_ico.png" id="71_xc76t"]
 [ext_resource type="Texture2D" uid="uid://f4sp1pkyyh4n" path="res://addons/Ursula/Assets/Models/lamp&fences/lamp_5/lamp_5_ico.png" id="72_spx71"]
 [ext_resource type="Texture2D" uid="uid://casvojmk8gj7j" path="res://addons/Ursula/Assets/Models/Buildings/Build2/build_2_ico.png" id="73_yhnwe"]
 [ext_resource type="Texture2D" uid="uid://e3nxc78draqx" path="res://addons/Ursula/Assets/Models/Buildings/Build1/build_1_ico.png" id="74_r6uat"]
 [ext_resource type="Texture2D" uid="uid://dahr6i5jj0eti" path="res://addons/Ursula/Assets/Models/Buildings/angar_laboratory/angar_laboratory_ico.png" id="75_rrdqb"]
 [ext_resource type="Texture2D" uid="uid://rygl5fyt7i8x" path="res://addons/Ursula/Assets/Models/Buildings/building_2_two_inputs/building_2_two_inputs_ico.png" id="76_nf7s0"]
+[ext_resource type="PackedScene" uid="uid://bb303fwe7ovne" path="res://addons/Ursula/Assets/Models/Buildings/wall/wall.tscn" id="77_o07ap"]
 [ext_resource type="Texture2D" uid="uid://cd2dy8ch0dihn" path="res://addons/Ursula/Assets/Models/Buildings/Build3/build_3_ico.png" id="77_xwhp2"]
+[ext_resource type="PackedScene" uid="uid://86rwpjihnsq0" path="res://addons/Ursula/Assets/Models/Buildings/wall/wall_rotated.tscn" id="78_44ikg"]
 [ext_resource type="Texture2D" uid="uid://cnpi0wyg4q5yx" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_connect/tunnel_connect_ico.png" id="78_n6jle"]
 [ext_resource type="Texture2D" uid="uid://tljshjd0lnpq" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_connect_cross/tunnel_connect_cross_ico.png" id="79_f8560"]
 [ext_resource type="Texture2D" uid="uid://bgyt0lsswggqg" path="res://addons/Ursula/Assets/Models/Buildings/tunnel_povorot/tunnel_povorot_ico.png" id="80_pg48n"]
@@ -120,15 +136,21 @@
 [ext_resource type="Texture2D" uid="uid://dwc7ho0d70ai" path="res://addons/Ursula/Assets/Models/Npc/Bear/Bear_boy_Welder_ico.png" id="108_2vkm0"]
 [ext_resource type="Texture2D" uid="uid://8bupmmoqbnky" path="res://addons/Ursula/Assets/Textures/Terrain/Grass6.png" id="108_72eca"]
 [ext_resource type="Texture2D" uid="uid://duhv820meskm2" path="res://addons/Ursula/Assets/Textures/Terrain/Earth2.png" id="110_uftr2"]
+[ext_resource type="Texture2D" uid="uid://dgavq1ivgnduf" path="res://addons/Ursula/Assets/Models/Buildings/road_cross/road_cross_preview.ico.png" id="118_suej0"]
+[ext_resource type="Texture2D" uid="uid://cpv02rh45qs2i" path="res://addons/Ursula/Assets/Models/Buildings/road_straight/road_straight_preview.ico.png" id="119_n2ery"]
+[ext_resource type="Texture2D" uid="uid://hjpcw1pxrucm" path="res://addons/Ursula/Assets/Models/Buildings/road_t/road_t_preview.ico.png" id="120_23pia"]
+[ext_resource type="Texture2D" uid="uid://dn1ktc7scbw3a" path="res://addons/Ursula/Assets/Models/Buildings/road_turn/road_turn_preview.ico.png" id="121_ba542"]
+[ext_resource type="Texture2D" uid="uid://syc770t7bhhd" path="res://addons/Ursula/Assets/Models/Buildings/traffic_light_green/traffic_light_green_preview.png" id="122_fehr6"]
+[ext_resource type="Texture2D" uid="uid://cqk8245okr078" path="res://addons/Ursula/Assets/Models/Buildings/traffic_light_red/traffic_light_red_preview.png" id="123_8yhed"]
 
 [resource]
 script = ExtResource("87_w7hn5")
 terrainTex = [ExtResource("88_e64yf"), ExtResource("89_jqkm2"), ExtResource("90_eniyf"), ExtResource("91_thu3u"), ExtResource("92_3jkhb"), ExtResource("93_d6v63")]
 terrainTexDefault = [ExtResource("88_e64yf"), ExtResource("89_jqkm2"), ExtResource("90_eniyf"), ExtResource("91_thu3u"), ExtResource("92_3jkhb"), ExtResource("93_d6v63")]
 terrainTexReplace = [ExtResource("51_t8a8h"), ExtResource("97_ur2ve"), ExtResource("108_72eca"), ExtResource("92_3jkhb"), ExtResource("89_jqkm2"), ExtResource("98_a6n3e"), ExtResource("110_uftr2")]
-gameItemsGO = [ExtResource("16_skoeo"), ExtResource("17_rufk6"), ExtResource("18_o63si"), ExtResource("19_x0etp"), ExtResource("20_xfu82"), ExtResource("21_jest4"), ExtResource("22_156hl"), ExtResource("23_7ije8"), ExtResource("24_u7oid"), ExtResource("25_akykn"), ExtResource("26_61eoa"), ExtResource("27_t5dsi"), ExtResource("28_2wchl"), ExtResource("29_c5tl3"), ExtResource("30_sjt7i"), ExtResource("31_geahy"), ExtResource("32_vinqp"), ExtResource("33_603yr"), ExtResource("34_vvwm5"), ExtResource("28_abt4b"), ExtResource("36_58gsa"), ExtResource("37_fjngh"), ExtResource("38_rbwqp"), ExtResource("32_pqmb4"), ExtResource("33_pql1f"), ExtResource("41_e3fu5"), ExtResource("43_ji627"), ExtResource("43_allq1"), ExtResource("44_l8u86"), ExtResource("45_xwn4e"), ExtResource("46_idp5v"), ExtResource("47_vam5l"), ExtResource("48_ddpxq"), ExtResource("49_etmi5"), ExtResource("50_18aua"), ExtResource("51_2t65m"), ExtResource("52_lbcoc"), ExtResource("53_jxj66"), ExtResource("54_cfglv"), ExtResource("55_5vep7"), ExtResource("56_nwyjr"), ExtResource("57_cmg5l"), ExtResource("58_5et6s"), ExtResource("59_sjpoo"), ExtResource("61_mesc4"), ExtResource("62_1cpbl")]
-inventarItemTex = [ExtResource("48_265qs"), ExtResource("49_srn1f"), ExtResource("50_ed0dk"), ExtResource("53_oy5vi"), ExtResource("52_0t8pr"), ExtResource("53_smso1"), ExtResource("54_0qgsk"), ExtResource("55_2jqdm"), ExtResource("56_qluq8"), ExtResource("57_en5op"), ExtResource("60_gfqjk"), ExtResource("61_135tt"), ExtResource("62_2sgl5"), ExtResource("63_xjv5q"), ExtResource("64_vvvpa"), ExtResource("65_icgkl"), ExtResource("66_wlaq7"), ExtResource("67_td58x"), ExtResource("68_pvsuy"), ExtResource("67_vs3ml"), ExtResource("68_rqoiy"), ExtResource("69_2srjx"), ExtResource("70_ne2e2"), ExtResource("71_xc76t"), ExtResource("72_spx71"), ExtResource("73_yhnwe"), ExtResource("74_r6uat"), ExtResource("75_rrdqb"), ExtResource("76_nf7s0"), ExtResource("77_xwhp2"), ExtResource("78_n6jle"), ExtResource("79_f8560"), ExtResource("80_pg48n"), ExtResource("81_je8uk"), ExtResource("82_3xp3t"), ExtResource("83_vya1h"), ExtResource("84_3tawi"), ExtResource("85_65b5u"), ExtResource("86_oeao4"), ExtResource("94_fuy7o"), ExtResource("95_u78q4"), ExtResource("96_1y7mm"), ExtResource("97_sj1fj"), ExtResource("98_xsb7p"), ExtResource("106_4osyn"), ExtResource("108_2vkm0")]
-inventarGameObjectGroups = PackedStringArray("Деревья", "Деревья", "Деревья", "Деревья", "Деревья", "Деревья", "Деревья", "Деревья", "Деревья", "Деревья", "Трава", "Трава", "Трава", "Трава", "Трава", "Трава", "Трава", "Трава", "Трава", "Животные", "Предметы", "Предметы", "Другое", "Другое", "Освещение", "Строения", "Строения", "Строения", "Строения", "Строения", "Строения", "Строения", "Строения", "Предметы", "Предметы", "Предметы", "Предметы", "Предметы", "Предметы", "Трава", "Трава", "Трава", "Трава", "Трава", "Другое", "Другое")
+gameItemsGO = [ExtResource("16_skoeo"), ExtResource("17_rufk6"), ExtResource("18_o63si"), ExtResource("19_x0etp"), ExtResource("20_xfu82"), ExtResource("21_jest4"), ExtResource("22_156hl"), ExtResource("23_7ije8"), ExtResource("24_u7oid"), ExtResource("25_akykn"), ExtResource("26_61eoa"), ExtResource("27_t5dsi"), ExtResource("28_2wchl"), ExtResource("29_c5tl3"), ExtResource("30_sjt7i"), ExtResource("31_geahy"), ExtResource("32_vinqp"), ExtResource("33_603yr"), ExtResource("34_vvwm5"), ExtResource("28_abt4b"), ExtResource("36_58gsa"), ExtResource("37_fjngh"), ExtResource("38_rbwqp"), ExtResource("32_pqmb4"), ExtResource("33_pql1f"), ExtResource("41_e3fu5"), ExtResource("43_ji627"), ExtResource("43_allq1"), ExtResource("44_l8u86"), ExtResource("45_xwn4e"), ExtResource("46_idp5v"), ExtResource("47_vam5l"), ExtResource("48_ddpxq"), ExtResource("49_etmi5"), ExtResource("50_18aua"), ExtResource("51_2t65m"), ExtResource("52_lbcoc"), ExtResource("53_jxj66"), ExtResource("54_cfglv"), ExtResource("55_5vep7"), ExtResource("56_nwyjr"), ExtResource("57_cmg5l"), ExtResource("58_5et6s"), ExtResource("59_sjpoo"), ExtResource("61_mesc4"), ExtResource("62_1cpbl"), ExtResource("67_4sbeq"), ExtResource("68_60jjj"), ExtResource("69_2ouhs"), ExtResource("66_pq602"), ExtResource("67_y0ajd"), ExtResource("68_8iidc"), ExtResource("69_os4u4"), ExtResource("70_jee45"), ExtResource("71_a1u1n"), ExtResource("77_o07ap"), ExtResource("78_44ikg")]
+inventarItemTex = [ExtResource("48_265qs"), ExtResource("49_srn1f"), ExtResource("50_ed0dk"), ExtResource("53_oy5vi"), ExtResource("52_0t8pr"), ExtResource("53_smso1"), ExtResource("54_0qgsk"), ExtResource("55_2jqdm"), ExtResource("56_qluq8"), ExtResource("57_en5op"), ExtResource("60_gfqjk"), ExtResource("61_135tt"), ExtResource("62_2sgl5"), ExtResource("63_xjv5q"), ExtResource("64_vvvpa"), ExtResource("65_icgkl"), ExtResource("66_wlaq7"), ExtResource("67_td58x"), ExtResource("68_pvsuy"), ExtResource("67_vs3ml"), ExtResource("68_rqoiy"), ExtResource("69_2srjx"), ExtResource("70_ne2e2"), ExtResource("71_xc76t"), ExtResource("72_spx71"), ExtResource("73_yhnwe"), ExtResource("74_r6uat"), ExtResource("75_rrdqb"), ExtResource("76_nf7s0"), ExtResource("77_xwhp2"), ExtResource("78_n6jle"), ExtResource("79_f8560"), ExtResource("80_pg48n"), ExtResource("81_je8uk"), ExtResource("82_3xp3t"), ExtResource("83_vya1h"), ExtResource("84_3tawi"), ExtResource("85_65b5u"), ExtResource("86_oeao4"), ExtResource("94_fuy7o"), ExtResource("95_u78q4"), ExtResource("96_1y7mm"), ExtResource("97_sj1fj"), ExtResource("98_xsb7p"), ExtResource("106_4osyn"), ExtResource("108_2vkm0"), ExtResource("67_vs3ml"), ExtResource("67_vs3ml"), ExtResource("67_vs3ml"), ExtResource("118_suej0"), ExtResource("119_n2ery"), ExtResource("120_23pia"), ExtResource("121_ba542"), ExtResource("122_fehr6"), ExtResource("123_8yhed"), null, null]
+inventarGameObjectGroups = PackedStringArray("Деревья", "Деревья", "Деревья", "Деревья", "Деревья", "Деревья", "Деревья", "Деревья", "Деревья", "Деревья", "Трава", "Трава", "Трава", "Трава", "Трава", "Трава", "Трава", "Трава", "Трава", "Животные", "Предметы", "Предметы", "Другое", "Другое", "Освещение", "Строения", "Строения", "Строения", "Строения", "Строения", "Строения", "Строения", "Строения", "Предметы", "Предметы", "Предметы", "Предметы", "Предметы", "Предметы", "Трава", "Трава", "Трава", "Трава", "Трава", "Другое", "Другое", "Животные", "Животные", "Животные", "Строения", "Строения", "Строения", "Строения", "Строения", "Строения", "Строения", "Строения")
 TerrainMat = ExtResource("4_nkl5f")
 TerrainMat3D = ExtResource("5_oha17")
 TriplanarMat = ExtResource("6_8fq4u")
@@ -145,4 +167,9 @@ InteractiveObjectDetectorPrefab = ExtResource("4_yghhw")
 InteractiveObjectAudioPrefab = ExtResource("2_vjjcw")
 InteractiveObjectMovePrefab = ExtResource("5_f2opi")
 InteractiveObjectTimerPrefab = ExtResource("6_ikhl2")
+InteractiveObjectTimePrefab = ExtResource("10_6vw7y")
 InteractiveObjectCounterPrefab = ExtResource("3_oy3hf")
+InteractiveObjectModelsPrefab = ExtResource("7_u0k31")
+InteractiveObjectInitializationPrefab = ExtResource("6_okw75")
+InteractiveObjectRandomnessPrefab = ExtResource("9_o33vw")
+InteractiveObjectEpidemicPrefab = ExtResource("5_jq0dn")

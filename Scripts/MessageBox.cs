@@ -11,6 +11,7 @@ public partial class MessageBox : Control
     public override void _Ready()
     {
         instance = this;
+        CSharpBridgeRegistry.Process += CSProcess;
     }
 
     public void ShowMessage(string message)
@@ -33,7 +34,7 @@ public partial class MessageBox : Control
         }
     }
 
-    public override void _Process(double delta)
+    public void CSProcess(double delta)
     {
         if (timer > 0 && this.Visible == true)
             timer -= delta;
@@ -53,5 +54,10 @@ public partial class MessageBox : Control
     private void HideMessage()
     {
         this.Visible = false;
+    }
+
+    public override void _ExitTree()
+    {
+        CSharpBridgeRegistry.Process -= CSProcess;
     }
 }

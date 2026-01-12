@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://d352ft6is6tej"]
+[gd_scene load_steps=3 format=3 uid="uid://d352ft6is6tej"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/Bootstrapper.cs" id="1_2eghi"]
+[ext_resource type="Script" path="res://addons/Ursula/Core/CSharpBridge.cs" id="2_r7m3y"]
 
 [node name="Bootstrapper" type="Node"]
 script = ExtResource("1_2eghi")
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("2_r7m3y")

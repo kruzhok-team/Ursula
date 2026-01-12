@@ -1,0 +1,35 @@
+[gd_scene load_steps=9 format=3 uid="uid://ccj4llfe63v8o"]
+
+[ext_resource type="ArrayMesh" uid="uid://3hbeh0ywgwwa" path="res://addons/Ursula/Assets/Models/Buildings/road_cross/Cube_012.res" id="1_r4tx3"]
+[ext_resource type="Material" uid="uid://1u6ujbecs64b" path="res://addons/Ursula/Assets/Models/Buildings/road_cross/Material.005.tres" id="2_30kcr"]
+[ext_resource type="Material" uid="uid://biy1dfyopyutj" path="res://addons/Ursula/Assets/Models/Buildings/road_cross/Material.006.tres" id="3_mqxvs"]
+[ext_resource type="Material" uid="uid://clo4odneh8e8x" path="res://addons/Ursula/Assets/Models/Buildings/road_cross/Material.007.tres" id="4_kwkjp"]
+[ext_resource type="Material" uid="uid://cc8t1y751v780" path="res://addons/Ursula/Assets/Models/Buildings/road_cross/Material.008.tres" id="5_bsu1r"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="6_33oxm"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="7_qsckj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4u6es"]
+size = Vector3(1, 0.02, 1)
+
+[node name="RoadCross" type="Node3D"]
+
+[node name="Cube012" type="MeshInstance3D" parent="."]
+transform = Transform3D(25, 0, 0, 0, -1.09278e-06, 0.417, 0, -25, -1.82276e-08, 0, 0, 0)
+mesh = ExtResource("1_r4tx3")
+surface_material_override/0 = ExtResource("2_30kcr")
+surface_material_override/1 = ExtResource("3_mqxvs")
+surface_material_override/2 = ExtResource("4_kwkjp")
+surface_material_override/3 = ExtResource("5_bsu1r")
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("6_33oxm")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+visible = false
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_4u6es")
+
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("7_qsckj")

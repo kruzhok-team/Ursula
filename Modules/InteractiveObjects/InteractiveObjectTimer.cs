@@ -87,6 +87,28 @@ public partial class InteractiveObjectTimer : Node
         return null;
     }
 
+    public object PauseTimer()
+    {
+        if (_timer == null) 
+            return null;
+        
+        _timer.Paused = true;
+        _isTimerActive = false;
+
+        return null;
+    }
+    
+    public object UnPauseTimer()
+    {
+        if (_timer == null) 
+            return null;
+        
+        _timer.Paused = true;
+        _isTimerActive = false;
+
+        return null;
+    }
+    
     private void OnTick()
     {
         if (!_isTimerActive)

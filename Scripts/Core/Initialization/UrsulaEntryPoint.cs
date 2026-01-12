@@ -18,6 +18,12 @@ using Ursula.Settings.Model;
 using Ursula.Log.Model;
 using Ursula.EmbeddedGames.Manager;
 using Ursula.EmbeddedGames.Model;
+using ursula.addons.Ursula.Scripts.GameObjects.Controller;
+using ursula.addons.Ursula.Scripts.GameObjects.View;
+using ursula.addons.Ursula.Modules.CyberiadaHSMExtensions;
+using bearloga.addons.Ursula.Scripts.NavigationGraph.Controller;
+using bearloga.addons.Ursula.Scripts.NavigationGraph.Controller.ModelPlacement;
+using ursula.addons.Ursula.Scripts.DebugSettings.Model;
 
 
 namespace Ursula.Core.Initialization
@@ -42,6 +48,8 @@ namespace Ursula.Core.Initialization
             if (sceneTree != null)
                 sceneTree.NodeAdded += SceneTree_NodeAddedEventHandler;
 
+            HSMLogger.CompressionEnabled = true;
+
         }
 
         public override void _Ready()
@@ -55,6 +63,7 @@ namespace Ursula.Core.Initialization
             InstallSingleton<ControlSettingsViewModel>(services);            
 
             InstallSingleton<MapManager>(services);
+            InstallSingleton<MapManagerItemSetter>(services);
             InstallSingleton<MapManagerController>(services);
             InstallSingleton<MapManagerModel>(services);
 
@@ -89,6 +98,9 @@ namespace Ursula.Core.Initialization
 
             InstallSingleton<GameProjectCollectionViewModel>(services);
 
+            InstallSingleton<NavGraphModelPlacer>(services);
+            InstallSingleton<NavGraphManager>(services);
+
             InstallSingleton<TerrainManager>(services);
             InstallSingleton<TerrainModel>(services);
 
@@ -105,7 +117,13 @@ namespace Ursula.Core.Initialization
 
             InstallSingleton<ControlEmbeddedGamesProjectViewModel>(services);
             InstallSingleton<ControlEmbeddedGamesProjectManager>(services);
-            
+
+            InstallSingleton<SimulationGeneratorView>(services);
+            InstallSingleton<SimulationGeneratorController>(services);
+
+            InstallSingleton<HSMEpidemicModule>(services);
+
+            InstallSingleton<DebugViewModel>(services);
         }
 
         private void InstallSingleton<T>(ServiceCollection services) where T : class 

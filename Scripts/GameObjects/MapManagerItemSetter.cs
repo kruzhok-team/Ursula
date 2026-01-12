@@ -1,8 +1,10 @@
-﻿using Fractural.Tasks;
+﻿using bearloga.addons.Ursula.Modules.LogicInjector;
+using Fractural.Tasks;
 using Godot;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Ursula.Core.DI;
 using Ursula.GameObjects.Model;
 using Ursula.MapManagers.Model;
@@ -35,6 +37,8 @@ namespace Ursula.MapManagers.Setters
         private GameObjectCreateItemsModel _gameObjectCreateItemsModel;
         private GameObjectCollectionModel _gameObjectCollectionModel;
 
+        ManualResetEventSlim resetEvent = new ManualResetEventSlim();
+
         void IInjectable.OnDependenciesInjected()
         {
 
@@ -59,6 +63,8 @@ namespace Ursula.MapManagers.Setters
 
             _gameObjectCreateItemsModel.GameObjectCreateItem_EventHandler += GameObjectCreateItems_CreateItemEventHandler;
             _gameObjectCreateItemsModel.GameObjectDeleteItem_EventHandler += GameObjectCreateItems_DeleteItemEventHandler;
+
+            resetEvent.Set();
         }
 
         private void GameObjectCreateItems_CreateItemEventHandler(object sender, EventArgs e)
@@ -89,9 +95,9 @@ namespace Ursula.MapManagers.Setters
 
             int id = _x + _y * 256 + _z * 256 * 256;
 
-            rotationNode = VoxLib.mapManager.tempRotation;
+            //rotationNode = VoxLib.mapManager.tempRotation;
 
-            Node item = CreateGameItem(asset, rotationNode, scaleNode, _x, positionNode.Y, _z, 0, id, false);
+            Node item = CreateGameItem(asset, rotationNode, scaleNode, positionNode.X, positionNode.Y, positionNode.Z, 0, id, false);
             Node3D node3D = item as Node3D;
             //if (_mapManager.itemsGO == null) _mapManager.itemsGO = new Node3D();
             //_mapManager.itemsGO.AddChild(node3D);
@@ -110,15 +116,18 @@ namespace Ursula.MapManagers.Setters
             GameObjectAssetInfo assetInfo,
             byte rotation,
             float scale,
-            float x, 
-            float y, 
+            float x,
+            float y,
             float z,
             int state,
             int id,
             bool isSnapGrid = false,
-            string AssetFoderPath = ""
+            string AssetFoderPath = "",
+            Injector injector = null
             )
         {
+            resetEvent.Wait();
+
             IGameObjectAsset asset;
             bool isTryGetItem = _gameObjectLibraryManager.TryGetItem(assetInfo.Id, out asset);
             if (!isTryGetItem) return null;
@@ -136,7 +145,7 @@ namespace Ursula.MapManagers.Setters
             int _y = Mathf.RoundToInt(y);
             int _z = Mathf.RoundToInt(z);
 
-            Vector3 newPos = new Vector3(_x, y, _z);
+            Vector3 newPos = new Vector3(x, y, z);
             if (isSnapGrid) newPos = new Vector3(_x, _y, _z);
             Quaternion rot = GetRotation(rotation);
 
@@ -159,6 +168,7 @@ namespace Ursula.MapManagers.Setters
                 ips.state = state;
                 ips.scale = scale;
                 ips.GetParent().Name = $"{assetInfo.Name}_{_x}{_y}{_z}";
+                ips.LogicInjector = injector;
             }
 
             if (isTryGetItem)
@@ -171,6 +181,7 @@ namespace Ursula.MapManagers.Setters
                 if (io != null && !string.IsNullOrEmpty(assetInfo.Template.GraphXmlPath))
                 {
                     io.xmlPath = assetInfo.Template.GraphXmlPath;
+                    io.injector = injector;
                     if (string.IsNullOrEmpty(AssetFoderPath))
                     {
                         io.xmlPath = $"{assetInfo.GetAssetPath()}/{io.xmlPath}";
@@ -204,12 +215,18 @@ namespace Ursula.MapManagers.Setters
         {
             return rotation switch
             {
-                (byte)GameItemRotation.forward => LookRotation(Vector3.Forward),
-                (byte)GameItemRotation.backward => LookRotation(-Vector3.Forward),
-                (byte)GameItemRotation.right => LookRotation(Vector3.Right),
-                (byte)GameItemRotation.left => LookRotation(-Vector3.Right),
-                (byte)GameItemRotation.up => LookRotation(Vector3.Up),
-                (byte)GameItemRotation.down => LookRotation(-Vector3.Up),
+                (byte)GameItemRotation.forward => 
+                LookRotation(Vector3.Forward),
+                (byte)GameItemRotation.backward => 
+                LookRotation(-Vector3.Forward),
+                (byte)GameItemRotation.right => 
+                LookRotation(Vector3.Right),
+                (byte)GameItemRotation.left => 
+                LookRotation(-Vector3.Right),
+                (byte)GameItemRotation.up => 
+                LookRotation(Vector3.Up),
+                (byte)GameItemRotation.down => 
+                LookRotation(-Vector3.Up),
                 _ => Quaternion.Identity,
             };
         }

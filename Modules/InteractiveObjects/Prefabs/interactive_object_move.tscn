@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObjectMove.cs" id="1_rccif"]
 
-[node name="InteractiveObjectMove" type="Node3D"]
+[node name="InteractiveObjectMove" type="Node"]
 script = ExtResource("1_rccif")

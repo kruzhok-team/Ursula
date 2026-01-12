@@ -23,12 +23,13 @@ namespace Ursula.GameObjects.Model
         {
         }
 
-        public GameObjectCreateItemsModel SetGameObjectCreateItem(Vector3 positionNode, float scaleNode, byte rotationNode)
+        public GameObjectCreateItemsModel SetGameObjectCreateItem(Vector3 positionNode, float scaleNode, byte rotationNode, bool invoke = true)
         {
             this.positionNode = positionNode;
             this.scaleNode = scaleNode;
             this.rotationNode = rotationNode;
-            InvokeGameObjectCreateItemEvent();
+            if (invoke)
+                InvokeGameObjectCreateItemEvent();
             return this;
         }
 

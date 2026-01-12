@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cj77bvbsc8xxr"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObjectEpidemic.cs" id="1_nu1m7"]
+
+[node name="InteractiveObjectEpidemic" type="Node"]
+script = ExtResource("1_nu1m7")

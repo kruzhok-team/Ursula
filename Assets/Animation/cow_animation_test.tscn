@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bxfkmgkd68lyf"]
 
-[ext_resource type="PackedScene" uid="uid://dis42p6uqtpey" path="res://addons/Ursula/Assets/Animation/cow_animation_test.fbx" id="1_3bx63"]
+[ext_resource type="PackedScene" uid="uid://cp316ioaf5u34" path="res://addons/Ursula/Assets/Animation/cow_animation_test.fbx" id="1_3bx63"]
 
 [node name="cow_animation_test" instance=ExtResource("1_3bx63")]
 

@@ -3,15 +3,19 @@ using System;
 using System.Reflection;
 using System.Xml.Linq;
 using Modules.HSM;
+using bearloga.addons.Ursula.Scripts.NavigationGraph.Controller;
+using System.Collections.Generic;
+using bearloga.addons.Ursula.Scripts.NavigationGraph.Controller.Visualization;
 
-public partial class InteractiveObjectMove : Node3D
+public partial class InteractiveObjectMove : Node
 {
     private InteractiveObject _interactiveObject;
 
     public VariableHolder<float> moveDistance = new(0.0f);
-    public VariableHolder<float> heightWorld = new(0.0f);
+    public VariableHolderLazy<float> heightWorld;
     public VariableHolder<float> surfaceType = new(0.0f);
     public VariableHolder<float> timesOfDay = new(0.0f);
+    public VariableHolder<bool> isDay = new(false);
 
     public Action moveDistanceStart;
     public Action moveDistanceCompleted;
@@ -19,14 +23,22 @@ public partial class InteractiveObjectMove : Node3D
     public Action animationCycleCompleted;
 
     public Vector3 movePosition;
+    private MoveScript moveScriptCache;
+    public Queue<Vector3> movePath;
+
+    private NavGraphVisualization visualization = new NavGraphVisualization();
 
     public MoveScript moveScript 
     { 
         get
         {
-            var moveScript = GetParent() as MoveScript;
-            if (moveScript != null) moveScript.interactiveObjectMove = this;
-            return moveScript;
+            if (moveScriptCache == null)
+            {
+                var moveScript = GetParent() as MoveScript;
+                if (moveScript != null) moveScript.interactiveObjectMove = this;
+                moveScriptCache = moveScript;
+            }
+            return moveScriptCache;
         } 
     }
 
@@ -39,6 +51,21 @@ public partial class InteractiveObjectMove : Node3D
 
             return _interactiveObject;
         }
+    }
+
+    public override void _Ready()
+    {
+        CSharpBridgeRegistry.Process += CSProcess;
+        if (moveScript != null)
+            heightWorld = new VariableHolderLazy<float>(moveScript.GetHeightWorld);
+        else
+            heightWorld = new VariableHolderLazy<float>(() =>
+            {
+                Node3D parent = GetParent() as Node3D;
+                if (parent == null)
+                    return 0;
+                return parent.GlobalPosition.Y;
+            });
     }
 
     public object MoveToTarget()
@@ -57,6 +84,22 @@ public partial class InteractiveObjectMove : Node3D
         return null;
     }
 
+    public object MoveToTarget2()
+    {
+        var movementTarget = interactiveObject.GetCurrentTargetObject2();
+        moveScript?.MoveToTargetSetup(movementTarget);
+
+        return null;
+    }
+
+    public object MoveFromTarget2()
+    {
+        var movementTarget = interactiveObject.GetCurrentTargetObject2();
+        moveScript?.MoveFromTargetSetup(movementTarget);
+
+        return null;
+    }
+    
     public object MoveToRandom()
     {
         moveScript?.MoveToRandomSetup();
@@ -84,7 +127,7 @@ public partial class InteractiveObjectMove : Node3D
         }
 
         // Установка позиции с учетом только X и Z координат
-        movePosition = GlobalTransform.Origin + new Vector3(x, 0, z);
+        movePosition = moveScript.GlobalTransform.Origin + new Vector3(x, 0, z);
         return null;
     }
 
@@ -121,17 +164,49 @@ public partial class InteractiveObjectMove : Node3D
         return null;
     }
 
-    public override void _Process(double delta)
+    public object BuildRandomPath()
+    {
+        NavGraphManager navGraph = NavGraphManager.Instance;
+        if (navGraph == null)
+            return null;
+
+        Vector3 nextPoint = navGraph.GetRandomPoint();
+        Vector3? position = moveScript?.Position;
+        if (!position.HasValue)
+            return null;
+
+        movePath = NavGraphManager.Instance.BuildPath(position.Value, nextPoint);
+
+        //visualization.Clear();
+        //visualization.DrawPath(movePath, NavGraphManager.Instance, 0.03f);
+
+        return null;
+    }
+
+    public object GetNextPathPoint()
+    {
+        if (movePath == null || movePath.Count == 0)
+            return null;
+
+        movePosition = movePath.Dequeue();
+        return null;
+    }
+
+    public void CSProcess(double delta)
     {
         if (moveScript != null)
         {
             moveDistance.Value = moveScript.GetMoveDistance();
-            heightWorld.Value = moveScript.GetHeightWorld();
             surfaceType.Value = moveScript.GetSurfaceType();
 
             //if (moveScript.GetMoveDistance() > moveDistance.Value) moveScript.onMovingDistanceFinished.Invoke();
         }
-        if (DayNightCycle.instance != null) timesOfDay.Value = DayNightCycle.instance.TimesOfDay();
+
+        if (DayNightCycle.instance != null)
+        {
+            timesOfDay.Value = DayNightCycle.instance.TimesOfDay();
+            isDay.Value = DayNightCycle.instance.IsDay;
+        }
     }
 
     public object SetMoveDistance(float distance)
@@ -272,5 +347,10 @@ public partial class InteractiveObjectMove : Node3D
     public object StopAnimation()
     {
         return null;
+    }
+
+    public override void _ExitTree()
+    {
+        CSharpBridgeRegistry.Process -= CSProcess;
     }
 }

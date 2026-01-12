@@ -10,7 +10,7 @@ namespace Ursula.GameObjects.Model
         public readonly string Folder;
         public readonly string GameObjectGroup;
         public readonly int GameObjectClass;
-        public readonly string GameObjectSample;
+        public string GameObjectSample;
         public readonly GameObjectAssetSources Sources;
         public readonly string GraphXmlPath;
         public readonly string PreviewImageFilePath;

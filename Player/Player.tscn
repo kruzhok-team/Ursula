@@ -7,6 +7,8 @@ radius = 0.355855
 height = 1.53976
 
 [node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("rayCast", "_camera")]
+collision_layer = 3
+collision_mask = 3
 slide_on_ceiling = false
 wall_min_slide_angle = 1.39626
 floor_constant_speed = true

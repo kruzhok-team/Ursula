@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dydkecmuhs1if"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObjectInitialization.cs" id="1_luoae"]
+
+[node name="InteractiveObjectInitialization" type="Node"]
+script = ExtResource("1_luoae")

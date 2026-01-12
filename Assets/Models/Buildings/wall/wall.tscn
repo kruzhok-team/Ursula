@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bb303fwe7ovne"]
+
+[ext_resource type="ArrayMesh" uid="uid://b74dsejjk0et5" path="res://addons/Ursula/Assets/Models/Buildings/wall/Cube.res" id="1_or0py"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="2_asddw"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="3_k1w8j"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yuq34"]
+size = Vector3(14, 12, 2)
+
+[node name="Wall" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(7, 0, 0, 0, 6, 0, 0, 0, 1, 0, 6, 0)
+mesh = ExtResource("1_or0py")
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("2_asddw")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+shape = SubResource("BoxShape3D_yuq34")
+
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("3_k1w8j")

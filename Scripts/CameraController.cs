@@ -28,6 +28,7 @@ public partial class CameraController : Camera3D
         Input.MouseMode = Input.MouseModeEnum.Visible;
 
         CursorShow(true);
+        CSharpBridgeRegistry.Process += CSProcess;
     }
 
     private bool _isEscapePressed = false;
@@ -85,10 +86,10 @@ public partial class CameraController : Camera3D
 
     public override void _ExitTree()
     {
-
+        CSharpBridgeRegistry.Process -= CSProcess;
     }
 
-    
+
     private void ApplyIpsScale(ItemPropsScript ips, Node parent)
     {
         VoxLib.mapManager.tempScale = ips.scale;
@@ -98,7 +99,7 @@ public partial class CameraController : Camera3D
     private const float DelayBetweenClicks = 0.25f;
     double lastClickTime = 0;
 
-    public override async void _Process(double delta)
+    public async void CSProcess(double delta)
     {
         lastClickTime -= delta;
 

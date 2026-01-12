@@ -1,0 +1,42 @@
+[gd_scene load_steps=12 format=3 uid="uid://18qlqfss4kyl"]
+
+[ext_resource type="ArrayMesh" uid="uid://csr7gxblabtl" path="res://addons/Ursula/Assets/Models/Buildings/traffic_light_green/Circle.res" id="1_8omwe"]
+[ext_resource type="Material" uid="uid://dyd6q5jajaj3l" path="res://addons/Ursula/Assets/Models/Buildings/traffic_light_green/Traffic Light.tres" id="2_4fbe0"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="2_trskg"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="3_3nkyn"]
+[ext_resource type="Material" uid="uid://cp1dchow202xm" path="res://addons/Ursula/Assets/Models/Buildings/traffic_light_green/Traffic Light Box.tres" id="3_wa50g"]
+[ext_resource type="Material" uid="uid://dv2twvl5ayeh3" path="res://addons/Ursula/Assets/Models/Buildings/traffic_light_green/Traffic Lights Shell.tres" id="4_pq7f8"]
+[ext_resource type="Material" uid="uid://bv43nv2lbvtms" path="res://addons/Ursula/Assets/Models/Buildings/traffic_light_green/Trafflic Light Box Boarder.tres" id="5_l87br"]
+[ext_resource type="Material" uid="uid://1rawqvv6fjjm" path="res://addons/Ursula/Assets/Models/Buildings/traffic_light_green/Green Light.tres" id="6_nql80"]
+[ext_resource type="Material" uid="uid://bq6w40povtn7y" path="res://addons/Ursula/Assets/Models/Buildings/traffic_light_green/Yellow Light.tres" id="7_mu1n4"]
+[ext_resource type="Material" uid="uid://gbkpcg1crqs2" path="res://addons/Ursula/Assets/Models/Buildings/traffic_light_green/Red Light.tres" id="8_v3320"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7o1jn"]
+height = 1.5
+radius = 0.157664
+
+[node name="TrafficLightGreen" type="Node3D"]
+
+[node name="Circle" type="MeshInstance3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, -8.74228e-07, 20, 0, -20, -8.74228e-07, 0, 0, 0)
+mesh = ExtResource("1_8omwe")
+surface_material_override/0 = ExtResource("2_4fbe0")
+surface_material_override/1 = ExtResource("3_wa50g")
+surface_material_override/2 = ExtResource("4_pq7f8")
+surface_material_override/3 = ExtResource("5_l87br")
+surface_material_override/4 = ExtResource("6_nql80")
+surface_material_override/5 = ExtResource("7_mu1n4")
+surface_material_override/6 = ExtResource("8_v3320")
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("2_trskg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("CylinderShape3D_7o1jn")
+
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("3_3nkyn")

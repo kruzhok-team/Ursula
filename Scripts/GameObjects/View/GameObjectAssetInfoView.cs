@@ -1,4 +1,4 @@
-﻿using Fractural.Tasks;
+using Fractural.Tasks;
 using Godot;
 using System;
 using System.IO;
@@ -25,7 +25,11 @@ namespace Ursula.GameObjects.View
 
         GameObjectAssetInfo _gameObjectAssetInfo;
 
-        //
+        public GameObjectAssetInfo GameObjectAssetInfo
+        {
+            get { return _gameObjectAssetInfo; }
+        }
+
         public override void _Ready()
         {
             ButtonClickAsset.ButtonDown += OnItemClickEvent;

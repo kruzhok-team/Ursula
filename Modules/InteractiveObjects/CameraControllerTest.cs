@@ -13,6 +13,7 @@ public partial class CameraControllerTest : Camera3D
 	{
         instance ??= this;
         Input.MouseMode = Input.MouseModeEnum.Captured;
+        CSharpBridgeRegistry.Process += CSProcess;
     }
 
     private bool _isEscapePressed = false;
@@ -60,10 +61,10 @@ public partial class CameraControllerTest : Camera3D
 
 	public override void _ExitTree()
 	{
-
+        CSharpBridgeRegistry.Process -= CSProcess;
 	}
 	
-	public override void _Process(double delta)
+	public void CSProcess(double delta)
 	{
         // Движение камеры
         {

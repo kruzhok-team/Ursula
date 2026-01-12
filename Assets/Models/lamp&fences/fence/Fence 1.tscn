@@ -4,12 +4,11 @@
 [ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_qbq3d"]
 [ext_resource type="Material" uid="uid://bamgyg2vgbnni" path="res://addons/Ursula/Assets/Models/lamp&fences/fence/fence1_mat.tres" id="3_7x3uu"]
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_8bvn5"]
-[ext_resource type="Texture2D" uid="uid://dryfy45tmxx3f" path="res://addons/Ursula/Assets/Models/lamp&fences/fence/fence_tex.png" id="4_5key1"]
+[ext_resource type="Texture2D" uid="uid://blpt20i4upxa6" path="res://addons/Ursula/Assets/Models/lamp&fences/fence/fence_tex.png" id="4_5key1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ei5a1"]
 resource_name = "fence"
 vertex_color_use_as_albedo = true
-albedo_color = Color(1, 1, 1, 1)
 albedo_texture = ExtResource("4_5key1")
 emission_enabled = true
 emission_energy_multiplier = 0.0

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dmp8dpqqgagi6"
+path="res://.godot/imported/road_straight.obj-e0ecef29369951a5406c9621b592b7db.mesh"
+
+[deps]
+
+files=["res://.godot/imported/road_straight.obj-e0ecef29369951a5406c9621b592b7db.mesh"]
+
+source_file="res://addons/Ursula/Assets/Models/Buildings/road_straight/road_straight.obj"
+dest_files=["res://.godot/imported/road_straight.obj-e0ecef29369951a5406c9621b592b7db.mesh", "res://.godot/imported/road_straight.obj-e0ecef29369951a5406c9621b592b7db.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

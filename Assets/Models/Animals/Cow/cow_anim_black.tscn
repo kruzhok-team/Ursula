@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://ckvd5654oy63q"]
+
+[ext_resource type="PackedScene" uid="uid://b5w0ekwqusef8" path="res://addons/Ursula/Assets/Models/Animals/Cow/cow.glb" id="1_a2ibi"]
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/Animation/CowAnim.cs" id="2_rhtl5"]
+[ext_resource type="Animation" uid="uid://dxw1vlt12joxl" path="res://addons/Ursula/Assets/Models/Animals/Cow/CowHeadSpinAnim.res" id="3_v17hq"]
+[ext_resource type="Material" uid="uid://twf0gngx7vjs" path="res://addons/Ursula/Assets/Models/Animals/Cow/Cow_black_mat.tres" id="4_uu738"]
+
+[node name="cow_anim" instance=ExtResource("1_a2ibi")]
+script = ExtResource("2_rhtl5")
+HeadSpinAnimationOverride = ExtResource("3_v17hq")
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/position = Vector3(-3.80118e-24, -0.0171622, 0.45)
+bones/0/rotation = Quaternion(-0.707105, 1.02226e-16, -1.02225e-16, 0.707108)
+bones/1/position = Vector3(-0.00541558, 1.24919, 1.18231)
+bones/1/rotation = Quaternion(0.998916, 0.00123211, -0.00122906, 0.0465218)
+bones/2/rotation = Quaternion(0.000460299, 0.452727, 0.891647, -0.00167787)
+bones/3/rotation = Quaternion(-0.00062648, 0.89378, 0.448503, -0.00162346)
+bones/4/position = Vector3(-3.42927e-08, 1.60782, 4.5958e-08)
+bones/4/rotation = Quaternion(0.0465188, 0.00122971, 0.00123219, 0.998916)
+bones/5/rotation = Quaternion(-0.00121438, 0.305804, 0.95208, -0.00511326)
+bones/6/rotation = Quaternion(-0.000518246, 0.999995, 0.00299906, 2.22487e-05)
+bones/7/rotation = Quaternion(-0.000456517, 0.843146, 0.537682, -0.00167863)
+bones/8/rotation = Quaternion(0.000462912, 0.45132, 0.89236, -0.00167719)
+
+[node name="cow" parent="Armature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("4_uu738")

@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bb5inikhqmq4w"]
+
+[resource]
+resource_name = "Red Light"
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.906392, 0.147783, 0.125869, 1)
+emission_enabled = true
+emission = Color(0.905882, 0.14902, 0.12549, 1)

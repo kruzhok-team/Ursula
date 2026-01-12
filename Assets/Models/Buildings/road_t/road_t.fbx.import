@@ -1,0 +1,67 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://cyl167t4aw10t"
+path="res://.godot/imported/road_t.fbx-8cd38deed84c72f3d16801d0e1207547.scn"
+
+[deps]
+
+source_file="res://addons/Ursula/Assets/Models/Buildings/road_t/road_t.fbx"
+dest_files=["res://.godot/imported/road_t.fbx-8cd38deed84c72f3d16801d0e1207547.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=true
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+_subresources={
+"materials": {
+"Material.013": {
+"use_external/enabled": true,
+"use_external/path": "res://addons/Ursula/Assets/Models/Buildings/road_t/Material.013.tres"
+},
+"Material.014": {
+"use_external/enabled": true,
+"use_external/path": "res://addons/Ursula/Assets/Models/Buildings/road_t/Material.014.tres"
+},
+"Material.015": {
+"use_external/enabled": true,
+"use_external/path": "res://addons/Ursula/Assets/Models/Buildings/road_t/Material.015.tres"
+},
+"Material.016": {
+"use_external/enabled": true,
+"use_external/path": "res://addons/Ursula/Assets/Models/Buildings/road_t/Material.016.tres"
+}
+},
+"meshes": {
+"Cube_017": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 60.0,
+"lods/normal_split_angle": 25.0,
+"save_to_file/enabled": true,
+"save_to_file/path": "res://addons/Ursula/Assets/Models/Buildings/road_t/Cube_017.res"
+}
+}
+}
+fbx/importer=0
+fbx/allow_geometry_helper_nodes=false
+fbx/embedded_image_handling=1

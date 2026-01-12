@@ -21,6 +21,8 @@ namespace Talent.Logic.HSM
         /// </summary>
         public string Label { get; private set; } = "";
 
+        public State Parent => _parent;
+
         /// <summary>
         /// Дочерние состояния
         /// </summary>

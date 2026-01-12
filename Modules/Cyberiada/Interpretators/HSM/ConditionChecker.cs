@@ -102,7 +102,7 @@ namespace Talent.Logic.HSM
         {
             switch (_parameters[1])
             {
-                case "==":
+                case "==" or "=":
                     return Math.Abs(leftValue - rightValue) < float.Epsilon;
                 case "<":
                     return leftValue < rightValue;

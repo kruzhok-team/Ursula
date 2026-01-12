@@ -1,12 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://clxifoou28avs"]
+[gd_scene load_steps=2 format=3 uid="uid://cbcrx4y7l6hik"]
 
 [ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObjectDetector.cs" id="1_h3olx"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_g56an"]
-radius = 5.67471
-
-[node name="InteractiveObjectDetector" type="Area3D"]
+[node name="InteractiveObjectDetector" type="Node"]
 script = ExtResource("1_h3olx")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_g56an")

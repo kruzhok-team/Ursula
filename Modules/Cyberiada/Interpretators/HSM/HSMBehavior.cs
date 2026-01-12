@@ -1,4 +1,4 @@
-﻿using Talent.Logic.Bus;
+using Talent.Logic.Bus;
 
 namespace Talent.Logic.HSM
 {
@@ -45,6 +45,7 @@ namespace Talent.Logic.HSM
         /// </summary>
         public void Stop()
         {
+            _state.Exit();
         }
 
         public HierarchicalStateMachine GetHSM()

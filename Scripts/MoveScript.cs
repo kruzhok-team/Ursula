@@ -1,15 +1,97 @@
-﻿using Godot;
-using System.Reflection;
-using static Godot.TextServer;
-using static MoveScript;
-using Modules.HSM;
-using System;
 using Fractural.Tasks;
-using System.Diagnostics;
-using static Godot.TileSet;
+using Godot;
+using System;
+using System.Linq;
 
 public partial class MoveScript : CharacterBody3D
 {
+    public static bool IsPhysicsOn = false;
+
+    #region cache
+    private Vector3 globalPositionCache;
+    private Vector3 velocityCache;
+    private Vector3 rotationCache;
+
+    private bool globalPositionCacheUpdated;
+    private bool velocityCacheUpdated;
+    private bool rotationCacheUpdated;
+
+    public new Vector3 GlobalPosition
+    {
+        get
+        {
+            if (!globalPositionCacheUpdated)
+            {
+                globalPositionCache = base.GlobalPosition;
+                globalPositionCacheUpdated = true;
+            }
+            return globalPositionCache;
+        }
+        set
+        {
+            globalPositionCache = value;
+        }
+    }
+
+    public new Vector3 Velocity
+    {
+        get
+        {
+            if (!velocityCacheUpdated)
+            {
+                velocityCache = new Vector3(0, 0, 0);
+                velocityCacheUpdated = true;
+            }
+            return velocityCache;
+        }
+        set
+        {
+            if (velocityCache != value)
+            {
+                base.Velocity = value;
+                velocityCache = value;
+            }
+        }
+    }
+
+    public new Quaternion Quaternion { get; private set; }
+    public new Transform3D Transform { get; private set; }
+
+    public new Vector3 Rotation
+    {
+        get
+        {
+            if (!rotationCacheUpdated)
+            {
+                rotationCache = base.Rotation;
+                rotationCacheUpdated = true;
+            }
+            return rotationCache;
+        }
+        set
+        {
+            rotationCache = value;
+        }
+    }
+
+    private Vector3 oldGlobalPosition = Vector3.Zero;
+    private Vector3 oldRotation = Vector3.Zero;
+
+    private ItemPropsScript itemPropsScriptCache = null;
+    private ItemPropsScript ItemPropsScript
+    {
+        get
+        {
+            if (itemPropsScriptCache == null)
+            {
+                ItemPropsScript value = FindChild("ItemPropsScript") as ItemPropsScript;
+                itemPropsScriptCache = value;
+            }
+            return itemPropsScriptCache;
+        }
+    }
+
+    #endregion
 
     #region PublicFields
 
@@ -58,16 +140,9 @@ public partial class MoveScript : CharacterBody3D
 
     #region PrivateFields
 
-    private const int IgnoredLayers = 2; // Игнорируемые слои для коллизий
-
-    [Export]
-    private RayCast3D raycastForward;
-
-    private AnimationTree _animationTree;
     private NavigationAgent3D _navigationAgent;
 
     private float _movementSpeed = 2.0f;
-    private Vector3 _TargetPosition;
     private float radiusSearh;
 
 
@@ -76,19 +151,18 @@ public partial class MoveScript : CharacterBody3D
     float waterLevel = -1;
 
     private Random random = new Random();
-
-
     Vector3 oldPathPosition = Vector3.Zero;
     Vector3 oldTargetPosition = Vector3.Zero;
     private float moveDistanceOld;
     private float moveDistance;
     private float checkMoveDistance = 0;
     private double timeStuckMoving;
+    private CollisionShape3D collisionShape;
 
     Vector3 oldPosition = Vector3.Zero;
     VoxDrawTypes TypeSurface = VoxDrawTypes.solid;
 
-    bool isBlocked = false;
+    bool isBlocked => GlobalPosition.X < 0 || GlobalPosition.Z < 0 || GlobalPosition.X > VoxLib.mapManager.sizeX || GlobalPosition.Z > VoxLib.mapManager.sizeZ;
 
     private Vector3 _targetVelocity = Vector3.Zero;
 
@@ -100,46 +174,43 @@ public partial class MoveScript : CharacterBody3D
         base._Ready();
         stateMashine = StateMashine.idle;
 
-        //SetCollisionLayerValue(IgnoredLayers, false);
-        //SetCollisionMaskValue(IgnoredLayers, false);
-
-        _animationTree = GetNodeOrNull<AnimationTree>("AnimationTree");
         _navigationAgent = GetNodeOrNull<NavigationAgent3D>("NavigationAgent3D");
 
         // These values need to be adjusted for the actor's speed
         // and the navigation layout.
-        _navigationAgent.PathDesiredDistance = 1.5f;
-        _navigationAgent.TargetDesiredDistance = 0.5f;
+        _navigationAgent.PathDesiredDistance = 3.0f;
+        _navigationAgent.TargetDesiredDistance = 3.0f;
 
-        // Make sure to not await during _Ready.
-        //Callable.From(MoveToRandomSetup).CallDeferred();
         waterLevel = VoxLib.mapManager.WaterLevel;
+
+        var children = GetChildren();
+        collisionShape = children.First(x => x is CollisionShape3D) as CollisionShape3D;
+        collisionShape.Disabled = true;
+
+        CSharpBridgeRegistry.Process += CSProcess;
+        CSharpBridgeRegistry.PhysicsProcess += CSPhysicsProcess;
     }
 
     #endregion
 
     #region NextPosition
 
-    void NextPositionRandomMove()
+    Vector3 NextPositionRandomMove()
     {
         Vector3 currentAgentPosition = GlobalTransform.Origin;
+        float distanceToPathPosition = currentAgentPosition.DistanceTo(oldPathPosition);
+        if (oldPathPosition == Vector3.Zero || distanceToPathPosition < _navigationAgent.TargetDesiredDistance)
         {
-            float distanceToPathPosition = currentAgentPosition.DistanceTo(oldPathPosition);
-            if (oldPathPosition == Vector3.Zero || distanceToPathPosition < _navigationAgent.TargetDesiredDistance)
-            {
-                Vector3 nextPathPosition = _navigationAgent.GetNextPathPosition();
-                oldPathPosition = nextPathPosition;
-            }
-
-            _targetVelocity = currentAgentPosition.DirectionTo(oldPathPosition) * _movementSpeed;
+            Vector3 nextPathPosition = _navigationAgent.GetNextPathPosition();
+            oldPathPosition = nextPathPosition;
         }
+
+        _targetVelocity = currentAgentPosition.DirectionTo(oldPathPosition) * _movementSpeed;
+        return _targetVelocity;
     }
 
-    void NextPositionInPositionMove()
+    Vector3 NextPositionInPositionMove()
     {
-        
-
-
         Vector3 currentAgentPosition = GlobalTransform.Origin;
         float distanceToTarget = currentAgentPosition.DistanceTo(MovementPosition);
         if (distanceToTarget >= _navigationAgent.TargetDesiredDistance && navPath != null)
@@ -150,12 +221,13 @@ public partial class MoveScript : CharacterBody3D
                 //currentPathPos.Y = currentAgentPosition.Y;
 
                 currentPathPos.Y = GetTerrainHeight((int)currentPathPos.X, (int)currentPathPos.Z);
-
-                _targetVelocity = GlobalPosition.DirectionTo(currentPathPos) * _movementSpeed;
                 if (currentAgentPosition.DistanceTo(currentPathPos) < _navigationAgent.TargetDesiredDistance)
                 {
                     currentPath++;
                 }
+
+                _targetVelocity = GlobalPosition.DirectionTo(currentPathPos) * _movementSpeed;
+                return _targetVelocity;
             }
             else
             {
@@ -166,16 +238,17 @@ public partial class MoveScript : CharacterBody3D
         {
             MovementFinished();
         }
+        return Vector3.Zero;
     }
 
-    void NextPositionToTargetMove()
+    Vector3 NextPositionToTargetMove()
     {
         if (MovementTarget == null || !IsInstanceValid(MovementTarget))
         {
             stateMashine = StateMashine.idle;
             PlayIdleAnimation();
             onTargetLost.Invoke();
-            return;
+            return Vector3.Zero;
         }
 
         Vector3 currentAgentPosition = GlobalTransform.Origin;
@@ -195,32 +268,35 @@ public partial class MoveScript : CharacterBody3D
             }
 
             _targetVelocity = currentAgentPosition.DirectionTo(oldPathPosition) * _movementSpeed;
+            return _targetVelocity;
         }
         else
         {
-            //GD.Print("Moved to point");
-            onMovementFinished.Invoke();
-            //stateMashine = StateMashine.idle;
+            GD.Print("Moved to point");
+            onMovementFinished?.Invoke();
+            stateMashine = StateMashine.idle;
             _targetVelocity = Vector3.Zero;
             oldPathPosition = Vector3.Zero;
+            return Vector3.Zero;
         }
     }
 
-    void FromTargetMoveState()
+    Vector3 FromTargetMoveState()
     {
         if (MovementTarget == null || !IsInstanceValid(MovementTarget))
         {
             stateMashine = StateMashine.idle;
             PlayIdleAnimation();
             onTargetLost.Invoke();
-            return;
+            return Vector3.Zero;
         }
 
         Vector3 currentAgentPosition = GlobalTransform.Origin;
         float distanceToTarget = currentAgentPosition.DistanceTo(MovementTarget.GlobalPosition);
 
-        Vector3 direction = (currentAgentPosition - MovementTarget.Position).Normalized();
+        Vector3 direction = (currentAgentPosition - MovementTarget.GlobalPosition).Normalized();
         _targetVelocity = direction * _movementSpeed;
+        return _targetVelocity;
     }
 
     void FindTargetState()
@@ -260,15 +336,10 @@ public partial class MoveScript : CharacterBody3D
     {
         stateMashine = StateMashine.idle;
         PlayIdleAnimation();
-
-
-        //Profiler.BeginSample("onMovementFinished?.Invoke()");
-        onMovementFinished?.Invoke();  // ! 5 - 40 ms
-        //Profiler.EndLastSample();
-
+        onMovementFinished?.Invoke();
 
         Vector3 targetPosition = MovementPosition;
-        float distanceToTarget = GlobalTransform.Origin.DistanceTo(targetPosition);
+        float distanceToTarget = GlobalPosition.DistanceTo(targetPosition);
         if (distanceToTarget > _navigationAgent.TargetDesiredDistance * 2)
         {
             onStuckMoving?.Invoke();
@@ -276,8 +347,6 @@ public partial class MoveScript : CharacterBody3D
 
         if (MovementPosition.X < 0 || MovementPosition.Z < 0 || MovementPosition.X > VoxLib.mapManager.sizeX || MovementPosition.Z > VoxLib.mapManager.sizeZ)
         {
-            //onMovementFinished = null;
-            isBlocked = true;
             ContextMenu.ShowMessageS($"{/*onMovementFinished.guid*/""} Достигнут предел карты: перемещение остановлено.");
         }
 
@@ -305,10 +374,6 @@ public partial class MoveScript : CharacterBody3D
 
     void SetFlags()
     {
-        isOnFloor = IsOnFloor();
-        isOnFloorOnly = IsOnFloorOnly();
-        isOnCeiling = IsOnCeiling();
-        isOnWall = IsOnWall();
         isWater = GlobalTransform.Origin.Y < waterLevel;
 
         isMoving = (stateMashine == StateMashine.moveToRandom || stateMashine == StateMashine.moveToTarget
@@ -333,10 +398,9 @@ public partial class MoveScript : CharacterBody3D
 
     private float transformProcessTimer = 0f;
 
-    public override void _Process(double delta)
+    public void CSProcess(double delta)
     {
         base._Process(delta);
-
         transformProcessTimer += (float)delta;
 
         if (transformProcessTimer >= 1f)
@@ -346,12 +410,10 @@ public partial class MoveScript : CharacterBody3D
             // PhysicsLod
 
             inFrustum = Frustum.In(this);
-
             var distance = Frustum.GetDistance(this);
+            float targetDistance = inFrustum ? 200 : 50;
 
-            //GD.Print(distance);
-
-            if (distance < 200 && inFrustum)
+            if (distance < targetDistance)
             {
                 SetPhysicsLod0();
             }
@@ -360,30 +422,48 @@ public partial class MoveScript : CharacterBody3D
                 SetPhysicsLod1();
             }
         }
+
+        if (oldGlobalPosition != Vector3.Zero)
+        {
+            float interpolationFactor = (float)Engine.GetPhysicsInterpolationFraction();
+            Vector3 globalPos = oldGlobalPosition.Lerp(GlobalPosition, interpolationFactor);
+            base.GlobalPosition = globalPos;
+            base.Rotation = oldRotation.Lerp(Rotation, interpolationFactor);
+            Quaternion = base.Quaternion;
+            Transform = base.Transform;
+            VoxLib.mapManager.spatialGrid.Update(ItemPropsScript, globalPos);
+        }
+        else
+        {
+            base.GlobalPosition = GlobalPosition;
+            base.Rotation = Rotation;
+            Quaternion = base.Quaternion;
+            Transform = base.Transform;
+            VoxLib.mapManager.spatialGrid.Update(ItemPropsScript, GlobalPosition);
+        }
     }
 
     private float navigationProcessTimer = 0f;
-    public override void _PhysicsProcess(double delta)
+
+    public void CSPhysicsProcess(double delta)
     {
-        if (isBlocked) return;
+        // Достигнута граница карты
+        if (isBlocked)
+            return;
 
-        //Profiler.BeginSample("_PhysicsProcess");
-
-
-        if (inFrustum)
-        {
-            base._PhysicsProcess(delta);
-        }
-
+        // Обновление NA при следовании за сущностью
         UpdateNavAgentTargetPosition(delta);
 
+        Vector3 position = GlobalPosition;
+        Vector3 velocity = Velocity;
+
+        oldGlobalPosition = position;
+        oldRotation = Rotation;
+
         navigationProcessTimer += (float)delta;
+
         if (navigationProcessTimer >= 0.3f)
         {
-
-            if (physicsLod == PhysicsLod.Lod0)
-                CheckAndFixFallen();
-
             navigationProcessTimer = 0f;
 
             SetFlags();
@@ -394,49 +474,39 @@ public partial class MoveScript : CharacterBody3D
 
             if (isNavigationFinished)
             {
-                if (stateMashine == StateMashine.moveToRandom)
-                {
-                    MoveToRandomSetup();
-                }
-
-
                 if (stateMashine == StateMashine.moveToTarget || stateMashine == StateMashine.moveFromTarget)
                 {
                     FinishTargetMoveState();
                 }
                 else if (stateMashine == StateMashine.moveToPosition)
                 {
-                    FinishPositionMoveState(); // ! 5 - 40 ms
+                    FinishPositionMoveState();
                 }
                 else
                 {
-                    //Profiler.EndLastSample(false);
                     return;
                 }
             }
 
             if (stateMashine == StateMashine.idle)
             {
-                //Profiler.EndLastSample(false);
-
-                //Profiler.EndLastSample(false);
-                return;
+                velocity = Vector3.Zero;
             }
             else if (stateMashine == StateMashine.moveToRandom)
             {
-                NextPositionRandomMove();
+                velocity = NextPositionRandomMove();
             }
             else if (stateMashine == StateMashine.moveToPosition)
             {
-                NextPositionInPositionMove();
+                velocity = NextPositionInPositionMove();
             }
             else if (stateMashine == StateMashine.moveToTarget)
             {
-                NextPositionToTargetMove();
+                velocity = NextPositionToTargetMove();
             }
             else if (stateMashine == StateMashine.moveFromTarget)
             {
-                FromTargetMoveState();
+                velocity = FromTargetMoveState();
             }
             else if (stateMashine == StateMashine.findTarget)
             {
@@ -445,43 +515,33 @@ public partial class MoveScript : CharacterBody3D
 
         }
 
-        if (signalMashine == SignalMashine.checkMoveDistance)
-        {
-            //moveDistance
-        }
-
         if (onStuckMoving != null || onMovingDistanceFinished != null)
         {
             MovingCheck(delta);
         }
 
-        //if (isCollisionDetected)
-        //{
-        //    for (int i = 0; i < GetSlideCollisionCount(); i++)
-        //    {
-        //        var collision = GetSlideCollision(i);
-        //        string namec = ((Node)collision.GetCollider()).Name;
+        velocity = SetVelocity(velocity, delta);
 
-        //        GD.Print("Collision detected: " + namec);
+        if (IsPhysicsOn)
+        {
+            Velocity = velocity;
 
-        //        //if (namec.Contains(nameCollisionDetected))
-        //        //{
-        //        //    onCollisionFinished?.Invoke();
-        //        //    isCollisionDetected = false;
-        //        //}
-        //    }
-        //}
+            MoveAndSlide();
+            globalPositionCacheUpdated = false;
+            rotationCacheUpdated = false;
 
-        SetRotation(delta);
+            Rotation = SetRotation(Rotation, velocity, delta);
+            GlobalPosition = CorrectPositionByTerrainHeight(GlobalPosition, 0.5f);
+        }
+        else
+        {
+            position += velocity * (float)delta;
+            position = CorrectPositionByTerrainHeight(position);
 
-        SetVelocity(delta);
-
-        if (physicsLod == PhysicsLod.Lod1)
-            CorrectPositionByTerrainHeight();
-
-        MoveAndSlide();
-
-        //Profiler.EndLastSample(false);
+            GlobalPosition = position;
+            Velocity = velocity;
+            Rotation = SetRotation(Rotation, velocity, delta);
+        }
     }
 
     #endregion
@@ -490,21 +550,37 @@ public partial class MoveScript : CharacterBody3D
 
     void SetPhysicsLod0()
     {
-        EnableTerrainCollision();
-
         physicsLod = PhysicsLod.Lod0;
+        if (IsInstanceValid(collisionShape))
+        {
+            collisionShape.Disabled = false;
+        }
+        else
+        {
+            var children = GetChildren();
+            collisionShape = children.First(x => x is CollisionShape3D) as CollisionShape3D;
+            collisionShape.Disabled = false;
+        }
     }
 
     void SetPhysicsLod1()
     {
-        DisableTerrainCollision();
-
         physicsLod = PhysicsLod.Lod1;
+        if (IsInstanceValid(collisionShape))
+        {
+            collisionShape.Disabled = false;
+        }
+        else
+        {
+            var children = GetChildren();
+            collisionShape = children.First(x => x is CollisionShape3D) as CollisionShape3D;
+            collisionShape.Disabled = false;
+        }
     }
 
     void MovingCheck(double delta)
     {
-        float moveDistDelta = oldPosition.DistanceTo(GlobalTransform.Origin);
+        float moveDistDelta = oldPosition.DistanceTo(GlobalPosition);
 
         if (oldPosition != Vector3.Zero && isMoving)
         {
@@ -512,19 +588,18 @@ public partial class MoveScript : CharacterBody3D
 
             if (moveDistDelta > 0.01f && vel.Length() > 0.01f)
             {
-                moveDistance += oldPosition.DistanceTo(GlobalTransform.Origin);
+                moveDistance += oldPosition.DistanceTo(GlobalPosition);
                 moveDistanceOld = moveDistance;
                 timeStuckMoving = 0;
             }
         }
-        oldPosition = GlobalTransform.Origin;
+        oldPosition = GlobalPosition;
 
         if (onStuckMoving != null && Math.Abs(moveDistanceOld - moveDistance) < 1 && isMoving || (moveDistDelta == 0 && isMoving))
         {
             if (timeStuckMoving > 0.5f)
             {
                 onStuckMoving?.Invoke();
-                //onStuckMoving = null;
                 timeStuckMoving = 0;
             }
             else
@@ -565,47 +640,58 @@ public partial class MoveScript : CharacterBody3D
     public float TurnSpeed = 5f; // радиан в секунду
     public float TurnSharpness = 10f;
 
-    void SetRotation(double delta)
+    Vector3 SetRotation(Vector3 rotation, Vector3 velocity, double delta)
     {
-        if (Velocity.Length() > 0)
+        if (velocity.Length() > 0)
         {
-            Vector3 dir = Velocity.Normalized();
+            Vector3 dir = velocity.Normalized();
             float targetAngle = Mathf.Atan2(dir.X, dir.Z);
-            float currentAngle = Rotation.Y;
+            float currentAngle = rotation.Y;
 
             // плавная интерполяция угла
             var t = 1f - Math.Exp(-TurnSharpness * delta);
             var newAngle = Mathf.LerpAngle(currentAngle, targetAngle, t);
 
-            Rotation = new Vector3(0, (float)newAngle, 0);
+            return new Vector3(0, (float)newAngle, 0);
         }
+        return rotation;
     }
 
-    void SetVelocity(double delta)
+    Vector3 SetVelocity(Vector3 velocity, double delta)
     {
         if (!isMoving)
-            _targetVelocity = Vector3.Zero;
+            velocity = Vector3.Zero;
 
         if (physicsLod == PhysicsLod.Lod0)
-            AddGravity(delta);
+            velocity = AddGravity(velocity, delta);
 
-        ////_targetVelocity.Y = 0;
-
-        //////_targetVelocity = _targetVelocity.Normalized();
-        //////_targetVelocity *= _movementSpeed;
-
-        Velocity = _targetVelocity;
+        return velocity;
     }
 
-    void AddGravity(double delta)
+    Vector3 AddGravity(Vector3 velocity, double delta)
     {
-        _targetVelocity.Y = 0;
-        if (!isOnFloor)
-        {
-            _targetVelocity.Y -= (float)9.8 * (float)delta * 20;
-        }
+        velocity.Y = 0;
+        //if (!isOnFloor)
+        //{
+        _targetVelocity.Y -= (float)9.8 * (float)delta * 20;
+        //}
 
-        Velocity = _targetVelocity;
+        return velocity;
+    }
+
+    public void SetPosition(float x, float z)
+    {
+        float y = VoxLib.terrainManager.GetTerrainHeight(x, z);
+        y = MathF.Max(waterLevel, y);
+        GlobalPosition = new Vector3(x, y, z);
+    }
+
+    public void SetRotationLookAt(float x, float z)
+    {
+        Vector3 targetPos = new Vector3(x, GlobalPosition.Y, z);
+        Vector3 dir = GlobalPosition.DirectionTo(targetPos);
+        float targetAngle = Mathf.Atan2(dir.X, dir.Z);
+        Rotation = new Vector3(0, targetAngle, 0);
     }
 
     #endregion
@@ -642,17 +728,13 @@ public partial class MoveScript : CharacterBody3D
         }
     }
 
-
-    bool isCollisionDetected = false;
-    string nameCollisionDetected;
-    private void CollisionDetectedSetup(string nameCollisionDetected)
-    {
-        this.nameCollisionDetected = nameCollisionDetected;
-        isCollisionDetected = true;
-    }
-
     public async void MoveToRandomSetup()
     {
+        if (!IsInstanceValid(this))
+        {
+            return;
+        }
+
         // Wait for the first physics frame so the NavigationServer can sync.
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
@@ -663,7 +745,7 @@ public partial class MoveScript : CharacterBody3D
 
         int posX = _rng.RandiRange(0, VoxLib.mapManager.sizeX);
         int posZ = _rng.RandiRange(0, VoxLib.mapManager.sizeZ);
-        float posY = GetTerrainHeight(posX, posZ);
+        float posY = VoxLib.terrainManager.GetTerrainHeight(posX, posZ);
 
         // Now that the navigation map is no longer empty, set the movement target.
         MovementPosition = new Vector3(posX, posY, posZ);
@@ -673,8 +755,13 @@ public partial class MoveScript : CharacterBody3D
 
     public async void MoveToPositionSetup(Vector3 newPosition)
     {
-        ResetCoordinates();
+        if (!IsInstanceValid(this))
+        {
+            return;
+        }
 
+        ResetCoordinates();
+        // TODO: requst to change + optimistic movement.
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
         int X = Math.Clamp((int)newPosition.X, 0, VoxLib.mapManager.sizeX);
@@ -724,6 +811,11 @@ public partial class MoveScript : CharacterBody3D
 
     public async void MoveToTargetSetup(Node3D node)
     {
+        if (!IsInstanceValid(this))
+        {
+            return;
+        }
+
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
         stateMashine = StateMashine.moveToTarget;
@@ -736,6 +828,11 @@ public partial class MoveScript : CharacterBody3D
 
     public async void MoveFromTargetSetup(Node3D node)
     {
+        if (!IsInstanceValid(this))
+        {
+            return;
+        }
+
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
         stateMashine = StateMashine.moveFromTarget;
@@ -748,6 +845,11 @@ public partial class MoveScript : CharacterBody3D
 
     private async void FindToTargetSetup(Node3D node, float radiusSearh)
     {
+        if (!IsInstanceValid(this))
+        {
+            return;
+        }
+        
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
         stateMashine = StateMashine.findTarget;
@@ -768,10 +870,8 @@ public partial class MoveScript : CharacterBody3D
         PlayIdleAnimation();
     }
 
-    public async void ResetCoordinates()
+    public void ResetCoordinates()
     {
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-
         MovementPosition = Vector3.Zero;
         oldPathPosition = Vector3.Zero;
         _navigationAgent.TargetPosition = Vector3.Zero;
@@ -782,41 +882,12 @@ public partial class MoveScript : CharacterBody3D
 
     #endregion
 
-    #region Collision
-
-    const int TerrainLayerIndex = 0; // террейн — слой 1 -> бит 0
-    const int FenceLayerIndex = 1; // забор   — слой 2 -> бит 1
-    const int OtherLayerIndex = 2; // прочее  — слой 3 -> бит 2
-
-    public void DisableTerrainCollision()
-    {
-        CollisionMask &= ~(1u << TerrainLayerIndex);
-
-        CollisionMask |= (1u << FenceLayerIndex)
-                       | (1u << OtherLayerIndex);
-    }
-
-    public void EnableTerrainCollision()
-    {
-        CollisionMask |= (1u << TerrainLayerIndex);
-    }
-
-    #endregion
-
     #region Utils
 
-    void CheckAndFixFallen()
+    Vector3 CorrectPositionByTerrainHeight(Vector3 pos, float upOffset = 0.0f)
     {
-        var terrainHeight = GetTerrainHeightByCurrentPos();
-        if (Position.Y - terrainHeight < -0.3f)
-        {
-            Position = new Vector3(Position.X, terrainHeight + 0.1f, Position.Z);
-        }
-    }
-
-    void CorrectPositionByTerrainHeight(float upOffset = 0.0f)
-    {
-        Position = new Vector3(Position.X, GetTerrainHeightByCurrentPos() + upOffset, Position.Z);
+        //if (pos.Y < target_y)
+        return new Vector3(pos.X, GetTerrainHeightByCurrentPos(pos) + upOffset, pos.Z);
     }
 
     public void CheckMoveDistance(float distance)
@@ -846,42 +917,14 @@ public partial class MoveScript : CharacterBody3D
         return VoxLib.terrainManager.mapHeight[X, Z] + VoxLib.terrainManager.positionOffset.Y;
     }
 
-    public float GetTerrainHeightByCurrentPos()
+    public float GetTerrainHeightByCurrentPos(Vector3 pos)
     {
-        // the whole part of the coordinates
-        int x0 = Mathf.FloorToInt(GlobalPosition.X);
-        int z0 = Mathf.FloorToInt(GlobalPosition.Z);
-        // fractional part
-        float fx = GlobalPosition.X - x0;
-        float fz = GlobalPosition.Z - z0;
-
-        // array boundaries
-        int maxX = VoxLib.terrainManager.mapHeight.GetLength(0) - 1;
-        int maxZ = VoxLib.terrainManager.mapHeight.GetLength(1) - 1;
-
-        // if we go abroad, we return the offset
-        if (x0 < 0 || z0 < 0 || x0 >= maxX || z0 >= maxZ)
-            return VoxLib.terrainManager.positionOffset.Y;
-
-        // four adjacent values
-        float h00 = VoxLib.terrainManager.mapHeight[x0, z0];
-        float h10 = VoxLib.terrainManager.mapHeight[x0 + 1, z0];
-        float h01 = VoxLib.terrainManager.mapHeight[x0, z0 + 1];
-        float h11 = VoxLib.terrainManager.mapHeight[x0 + 1, z0 + 1];
-
-        // linear interpolation by X
-        float h0 = Mathf.Lerp(h00, h10, fx);
-        float h1 = Mathf.Lerp(h01, h11, fx);
-        // linear interpolation by Z
-        float h = Mathf.Lerp(h0, h1, fz);
-
-        // adding offset
-        return h + VoxLib.terrainManager.positionOffset.Y;
+        return VoxLib.terrainManager.GetTerrainHeight(pos.X, pos.Z);
     }
 
     public void ReloadAlgorithm()
     {
-        isBlocked = false;
+
     }
 
     #endregion
@@ -889,7 +932,7 @@ public partial class MoveScript : CharacterBody3D
     #region MoveAnimations
 
     BaseAnimation _baseAnimation;
-    private BaseAnimation baseAnimation 
+    private BaseAnimation baseAnimation
     {
         get
         {
@@ -939,5 +982,9 @@ public partial class MoveScript : CharacterBody3D
     }
 
     #endregion
-
+    public override void _ExitTree()
+    {
+        CSharpBridgeRegistry.Process -= CSProcess;
+        CSharpBridgeRegistry.PhysicsProcess -= CSPhysicsProcess;
+    }
 }

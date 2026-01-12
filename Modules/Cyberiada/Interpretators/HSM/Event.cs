@@ -60,5 +60,8 @@ namespace Talent.Logic.HSM
 
             return false;
         }
+
+        public IEnumerable<Command> GetCommand() => _commands;
+        public string GetName() => _eventName;
     }
 }

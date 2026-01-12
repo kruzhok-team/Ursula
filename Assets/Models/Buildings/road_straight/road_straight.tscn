@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://dxxjh2ugunutr"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Scripts/ItemPropsScript.cs" id="2_6a1xj"]
+[ext_resource type="ArrayMesh" uid="uid://dorvgwvdstxe3" path="res://addons/Ursula/Assets/Models/Buildings/road_straight/Cube_001.res" id="3_b4lg4"]
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObject.cs" id="3_ma0dq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ffy11"]
+size = Vector3(1, 0.02, 1)
+
+[node name="RoadStraight" type="Node3D"]
+
+[node name="InteractiveObject" type="Node" parent="."]
+script = ExtResource("3_ma0dq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+visible = false
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_ffy11")
+
+[node name="ItemPropsScript" type="Node3D" parent="."]
+script = ExtResource("2_6a1xj")
+
+[node name="Cube001" type="MeshInstance3D" parent="."]
+transform = Transform3D(25, 0, 0, 0, -1.09278e-06, 0.417, 0, -25, -1.82276e-08, 0, 0, 0.25)
+mesh = ExtResource("3_b4lg4")
+
+[node name="Cube002" type="MeshInstance3D" parent="."]
+transform = Transform3D(25, 0, 0, 0, -1.09278e-06, 0.417, 0, -25, -1.82276e-08, 0, 0, -0.25)
+mesh = ExtResource("3_b4lg4")

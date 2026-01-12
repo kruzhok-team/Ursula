@@ -12,7 +12,7 @@ public partial class InteractiveObjectCounter : Node
     {
         variable.Value += val;
         onValueChanged?.Invoke();
-        GD.Print($"InteractiveObjectCounter: {variable.Value}");
+        //GD.Print($"InteractiveObjectCounter: {variable.Value}");
         return null;
     }
 
@@ -20,7 +20,7 @@ public partial class InteractiveObjectCounter : Node
     {
         variable.Value -= val;
         onValueChanged?.Invoke();
-        GD.Print($"InteractiveObjectCounter: {variable.Value}");
+        //GD.Print($"InteractiveObjectCounter: {variable.Value}");
         return null;
     }
 
@@ -28,7 +28,7 @@ public partial class InteractiveObjectCounter : Node
     {
         variable.Value = 0;
         onValueChanged?.Invoke();
-        GD.Print($"InteractiveObjectCounter: {variable.Value}");
+        //GD.Print($"InteractiveObjectCounter: {variable.Value}");
         return null;
     }
 

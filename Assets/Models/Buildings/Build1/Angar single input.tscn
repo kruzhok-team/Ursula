@@ -283,12 +283,12 @@ material_override = ExtResource("2_bv7xm")
 mesh = SubResource("ArrayMesh_oairb")
 skeleton = NodePath("")
 
-[node name="building_2_single_input_003" parent="." index="6"]
-visible = false
-
 [node name="RootNode#building_2_single_input" type="MeshInstance3D" parent="." index="7"]
 transform = Transform3D(1.78814e-05, -1.19209e-05, 100, -100, -1.19209e-05, 2.08616e-05, 8.9407e-06, -100, -2.38419e-05, -5.89041, 0.0283624, -29.2589)
 visible = false
 material_override = ExtResource("2_bv7xm")
 mesh = SubResource("ArrayMesh_2eu4u")
 skeleton = NodePath("")
+
+[node name="building_2_single_input_003" parent="." index="9"]
+visible = false

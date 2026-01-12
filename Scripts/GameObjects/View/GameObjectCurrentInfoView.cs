@@ -149,6 +149,7 @@ namespace Ursula.GameObjects.View
             ContainerInfoVisible();
 
             _ = SubscribeEvent();
+            CSharpBridgeRegistry.Process += CSProcess;
         }
 
         private void AssetData_Changed()
@@ -156,7 +157,7 @@ namespace Ursula.GameObjects.View
             isAssetDataChanged = true;
         }
 
-        public override void _Process(double delta)
+        public void CSProcess(double delta)
         {
             //if (Input.MouseMode != Input.MouseModeEnum.Captured)
             //{
@@ -174,6 +175,7 @@ namespace Ursula.GameObjects.View
             ButtonEditGraphXmlPath.ButtonDown -= ButtonEditGraphXmlPath_DownEventHandler;
 
             _gameObjectCurrentInfoModel.VisibleCurrentAssetInfoEvent -= VisibleCurrentInfoView_ShowEventHandler;
+            CSharpBridgeRegistry.Process -= CSProcess;
         }
 
         private async GDTask SubscribeEvent()

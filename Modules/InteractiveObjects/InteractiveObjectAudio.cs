@@ -21,7 +21,7 @@ public partial class InteractiveObjectAudio : Node3D
     private AudioStreamPlayer audioStreamPlayer2D = null;
     private AudioStreamPlayer3D audioStreamPlayer3D = null;
 
-    private Dictionary<string, string> audios;
+    public Dictionary<string, string> audios;
     private List<AudioStream> soundStreams = new List<AudioStream>();
 
     private InteractiveObject _interactiveObject;
@@ -39,11 +39,6 @@ public partial class InteractiveObjectAudio : Node3D
     public override void _Ready()
     {
         CheckAudioStreamPlayer3D();
-    }
-
-    public override void _Process(double delta)
-    {
-
     }
 
     public void SetAudiosPathes(List<string> audioPathes)

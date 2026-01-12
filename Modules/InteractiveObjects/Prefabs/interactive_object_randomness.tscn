@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxk048njxb3fw"]
+
+[ext_resource type="Script" path="res://addons/Ursula/Modules/InteractiveObjects/InteractiveObjectRandomness.cs" id="1_v8q5w"]
+
+[node name="InteractiveObjectRandomness" type="Node"]
+script = ExtResource("1_v8q5w")
